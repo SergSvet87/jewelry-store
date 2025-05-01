@@ -1,13 +1,13 @@
 import { create } from 'zustand';
 
 interface CartItem {
-  id: string;
+  id: number;
   quantity: number;
 }
 
 interface CartState {
   items: CartItem[];
-  addToCart: (id: string) => void;
+  addToCart: (id: number) => void;
 }
 
 export const useCartStore = create<CartState>((set) => ({
