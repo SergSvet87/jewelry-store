@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+:root {
+  --accent: #a76f53;
+	--main: #f0ece9;
+	--brown-dark: #1d110a;
+	--grey: #727272;
+	--button: #5b242a;
+}
+
+@layer base {
+  body{
+    @apply bg-[var(--main)] text-[var(--brown-dark)];
+  }
+  h1 {
+    @apply text-4xl font-bold;
+  }
+  h2 {
+    @apply text-3xl font-bold;
+  }
+  h3 {
+    @apply text-2xl font-bold;
+  }
+}

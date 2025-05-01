@@ -1,0 +1,32 @@
+export const productsSale = [
+  {
+    id: 1,
+    name: "Підвіска",
+    description: '"Moon"',
+    originalPrice: "3 699 грн",
+    discountedPrice: "2 026 грн",
+    imageClass: "w-[315px] h-[400px] bg-[100%_100%]",
+    position: "top-32 left-[60px]",
+    width: "w-[315px]",
+  },
+  {
+    id: 2,
+    name: "Каблучка",
+    description: '"Moon"',
+    originalPrice: "6 799 грн",
+    discountedPrice: "5 959 грн",
+    imageClass: "w-[315px] h-[400px] bg-cover bg-[50%_50%]",
+    position: "top-32 left-[395px]",
+    width: "w-[315px]",
+  },
+  {
+    id: 3,
+    name: "Сережки",
+    description: '"Moon"',
+    originalPrice: "9 799 грн",
+    discountedPrice: "8 559 грн",
+    imageClass: "w-[650px] h-[760px] bg-cover bg-[50%_50%]",
+    position: "top-32 left-[746px]",
+    width: "w-[650px]",
+  },
+];
