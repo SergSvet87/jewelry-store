@@ -1,3 +1,5 @@
+import { SaleLarge, SaleMoon, SaleRing } from "../assets";
+
 export const productsSale = [
   {
     id: 1,
@@ -6,6 +8,7 @@ export const productsSale = [
     originalPrice: "3 699 грн",
     discountedPrice: "2 026 грн",
     imageClass: "w-[315px] h-[400px] bg-[100%_100%]",
+    image: SaleMoon,
     position: "top-32 left-[60px]",
     width: "w-[315px]",
   },
@@ -16,6 +19,7 @@ export const productsSale = [
     originalPrice: "6 799 грн",
     discountedPrice: "5 959 грн",
     imageClass: "w-[315px] h-[400px] bg-cover bg-[50%_50%]",
+    image: SaleRing,
     position: "top-32 left-[395px]",
     width: "w-[315px]",
   },
@@ -26,6 +30,7 @@ export const productsSale = [
     originalPrice: "9 799 грн",
     discountedPrice: "8 559 грн",
     imageClass: "w-[650px] h-[760px] bg-cover bg-[50%_50%]",
+    image: SaleLarge,
     position: "top-32 left-[746px]",
     width: "w-[650px]",
   },

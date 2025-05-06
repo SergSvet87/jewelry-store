@@ -1,14 +1,6 @@
 import { create } from 'zustand';
 
-interface CartItem {
-  id: number;
-  quantity: number;
-}
-
-interface CartState {
-  items: CartItem[];
-  addToCart: (id: number) => void;
-}
+import { CartState } from '../../types';
 
 export const useCartStore = create<CartState>((set) => ({
   items: [],

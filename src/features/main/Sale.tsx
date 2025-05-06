@@ -1,12 +1,14 @@
 import { Card, CardContent } from '../../components/Card'
 import { HeartIcon, ShoppingBagIcon } from "lucide-react";
 import { productsSale } from "../../mock";
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../enums';
 
 export const Sale = () => {
   return (
-    <section className="relative w-full py-16">
-      <div className="container mx-auto">
-        <h2 className="font-heading-3 text-brown-dark text-[length:var(--heading-3-font-size)] tracking-[var(--heading-3-letter-spacing)] leading-[var(--heading-3-line-height)] [font-style:var(--heading-3-font-style)] mb-12">
+    <section className="relative w-full mb-[var(--section-indent)]">
+      <div className="container mx-auto relative">
+        <h2 className="text-center mb-[61px]">
           Розпродаж минулої колекції
         </h2>
 
@@ -19,16 +21,19 @@ export const Sale = () => {
               <Card className="border-0 rounded-none">
                 <CardContent
                   className={`p-0 relative ${product.imageClass} bg-main`}
-                >
+                >                  
+              <img className="absolute w-full h-full object-cover" src={product.image} alt={product.name} />
                   <div className="absolute w-[68px] h-6 top-5 right-5 flex gap-4">
                     <HeartIcon className="w-6 h-6" />
                     <ShoppingBagIcon className="w-6 h-6" />
                   </div>
 
                   <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2">
-                    <button className="px-[50px] py-2.5 bg-[color:var(--button)] text-main font-button font-[number:var(--button-font-weight)] text-[length:var(--button-font-size)] tracking-[var(--button-letter-spacing)] leading-[var(--button-line-height)] [font-style:var(--button-font-style)] rounded-none">
+                  <Link to={AppRoute.PRODUCTS} className="absolute bottom-5">
+                    <button className="btn-buy">
                       Купити
                     </button>
+                  </Link>
                   </div>
                 </CardContent>
               </Card>
@@ -56,7 +61,7 @@ export const Sale = () => {
           ))}
         </div>
 
-        <p className="mt-16 font-body-small font-[number:var(--body-small-font-weight)] text-brown-dark text-[length:var(--body-small-font-size)] tracking-[var(--body-small-letter-spacing)] leading-[var(--body-small-line-height)] [font-style:var(--body-small-font-style)]">
+        <p className="absolute bottom-[50px] left-[60px] w-[600px]">
           Кращий момент для оновлення
           <br />
           образу - знижки на розкішну колекцію!

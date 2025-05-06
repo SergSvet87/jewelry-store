@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import { AppRoute } from '../enums';
 import { Layout } from '../layouts';
-import { HomePage } from '../pages';
+import { Auth, Cart, Favorite, HomePage, Products, Scale } from '../pages';
 
 export const routes = createBrowserRouter(
   [
@@ -11,14 +11,17 @@ export const routes = createBrowserRouter(
       element: <Layout />,
       children: [
         { path: AppRoute.ROOT, element: <HomePage /> },
-        // {
-        //   path: AppRoute.SIGN_IN,
-        //   element: <SignIn />,
-        // },
-        // {
-        //   path: AppRoute.CART,
-        //   element: <CartPage />,
-        // },
+        { path: AppRoute.PRODUCTS, element: <Products /> },
+        { path: AppRoute.FAVORITE, element: <Favorite /> },
+        { path: AppRoute.SCALE, element: <Scale /> },
+        {
+          path: AppRoute.SIGN_IN,
+          element: <Auth />,
+        },
+        {
+          path: AppRoute.CART,
+          element: <Cart />,
+        },
 
         // {
         //   path: AppRoute.ORDER,

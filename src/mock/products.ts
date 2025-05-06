@@ -1,27 +1,29 @@
+import { NewColHeart, NewColRing } from "../assets";
+
 export const products = [
   {
     id: 1,
     name: 'Gold Ring',
     price: 299.99,
     image: '/ring.jpg',
-    type: '"HeartIcon"',
+    type: '"Heart"',
     description: 'Elegant gold ring with diamonds.'
   },
   {
     id: 2,
     name: "Підвіска",
-    type: '"HeartIcon"',
+    type: '"Heart"',
     price: 4534,
-    image: '/ring.jpg',
+    image: NewColHeart,
     size: "small",
     description: 'Elegant gold ring with diamonds.'
   },
   {
     id: 3,
     name: "Каблучка",
-    type: '"HeartIcon"',
+    type: '"Heart"',
     price: 9646,
-    image: '/ring.jpg',
+    image: NewColRing,
     size: "small",
     description: 'Elegant gold ring with diamonds.'
   },

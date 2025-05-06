@@ -4,5 +4,17 @@ export interface Product {
   price: number;
   image: string;
   description: string;
-  type: string;
+  category: string;
+}
+
+export interface ISingleProduct extends Product {
+  collection: string;
+  rating: number;
+  material: string[];
+  color: string;
+  weight: number;
+  size: string;
+  code: string;
+  gemstoneUsed: boolean;
+  gemstone: string | null;
 }

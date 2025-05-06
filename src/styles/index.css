@@ -1,24 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Manrope:wght@200..800&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap');
+
 @import "tailwindcss";
 
 :root {
-  --accent: #a76f53;
-	--main: #f0ece9;
-	--brown-dark: #1d110a;
-	--grey: #727272;
-	--button: #5b242a;
+  --main             : #f0ece9;
+  --brown-dark       : #1d110a;
+  --accent           : #a76f53;
+  --button           : #5b242a;
+  --grey             : #727272;
+  --pagination-active: #e4e4e4;
+  --pagination       : #bfbfbf;
+  --heading1         : 60px;
+  --heading2         : 54px;
+  --heading3         : 24px;
+  --text-second      : 16px;
+  --text             : 20px;
+  --section-indent   : 140px;
+  --max-width        : 1440px;
+  --padding          : 60px;
+  --font-second      : 'Lato', sans-serif;
+  --font-main        : 'Manrope', sans-serif;
+  --font-third       : 'Merriweather', serif;
 }
 
 @layer base {
-  body{
-    @apply bg-[var(--main)] text-[var(--brown-dark)];
+  body {
+    @apply min-w-[320px] bg-[var(--main)] font-[family-name: var(--font-main)] text-[var(--brown-dark)] text-[length:var(--text-second)] tracking-[1.3] leading-[1.3];
   }
+
   h1 {
-    @apply text-4xl font-bold;
+    @apply text-[length: var(--heading1)] font-[family-name:var(--font-third)] font-normal leading-[1.2] m-0 p-0;
   }
+
   h2 {
-    @apply text-3xl font-bold;
+    @apply text-[length: var(--heading2)] font-[family-name:var(--font-third)] font-normal leading-[1.2];
   }
+
   h3 {
-    @apply text-2xl font-bold;
+    @apply text-[length: var(--heading3)] font-[family-name:var(--font-third)] font-medium leading-[1.3];
+  }
+
+  .container {
+    @apply mx-auto max-w-[var(--max-width)] px-[var(--padding)];
+  }
+
+  .section-indent {
+    @apply mb-[var(--section-indent)];
+  }
+
+  .btn {
+    @apply p-0 h-5 w-5 outline-none cursor-pointer transition-all duration-300;
+  }
+
+  .animation-marquee {
+    animation: marquee 20s linear infinite;
+  }
+}
+
+@layer components {
+  .btn-buy {
+    @apply w-[168px] h-[46px] bg-[var(--button)] inline-block text-[var(--main)] py-[10px] px-[50px] border border-solid border-transparent rounded-none outline-none cursor-pointer transition-all duration-300;
+  }
+
+  .btn-buy:hover,
+  .btn-buy:focus,
+  .btn-buy:focus-visible {
+    @apply bg-[var(--accent)];
+  }
+
+  .btn-buy:active {
+    @apply bg-[var(--accent)] border-[var(--grey)] scale-[0.98];
+  }
+
+  .btn-buy:disabled {
+    @apply bg-[var(--grey)] cursor-not-allowed;
+  }
+
+  /* --- Додати в кошик --- */
+  .btn-add {
+    @reference bg-main text-brown-dark border border-accent py-[8px] px-[32px] rounded-[6px] font-sans font-medium transition duration-300 hover: bg-accent hover:text-main active:scale-[0.98] disabled: bg-grey disabled:cursor-not-allowed;
+  }
+
+  /* --- Перейти до оплати --- */
+  .btn-checkout {
+    @reference bg-accent text-main py-[10px] px-[40px] rounded-[10px] font-sans font-semibold tracking-wide uppercase transition hover: brightness-110 active:scale-[0.97];
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
   }
 }
