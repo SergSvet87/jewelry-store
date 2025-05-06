@@ -1,14 +1,14 @@
 import { Outlet } from 'react-router-dom';
 
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 export const Layout = () => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen overflow-hidden">
       <Header />
 
-      <main className="flex-grow w-full h-full">
+      <main className="flex-grow w-full h-full mt-[100px]">
         <Outlet />
       </main>
 

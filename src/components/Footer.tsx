@@ -1,11 +1,21 @@
-import { categories, companyLinks, socialLinks } from "../mock"
+import { Link } from 'react-router-dom';
+
+import { AppRoute } from '@/enums';
+import { categories, footerLinks, socialLinks } from '@/mock';
 
 const Footer = () => {
+  const handleScrollClick = (e: React.MouseEvent<HTMLAnchorElement>, el: string) => {
+    e.preventDefault();
+
+    const elem = document.querySelector(el) as HTMLAnchorElement;
+    elem?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    <footer className="w-full bg-[var(--brown-dark)] py-16 text-[var(--main)]">
+    <footer id="footer" className="w-full bg-[var(--brown-dark)] py-16 text-[var(--main)]">
       <div className="container mx-auto flex flex-wrap justify-between">
-        <div className="w-full md:w-1/4 mb-8 md:mb-0">
-          <div className="text-[var(--accent)] text-5xl [font-family:'Aboreto',Helvetica] font-normal">
+        <div className="w-full flex justify-start items-center md:w-1/4 mb-8 md:mb-0 cursor-pointer" onClick={() => AppRoute.ROOT}>
+          <div className="text-[var(--accent)] text-[54px] [font-family:'Aboreto'] font-normal">
             JEMMA
           </div>
         </div>
@@ -14,12 +24,12 @@ const Footer = () => {
           <ul className="flex flex-col gap-4">
             {categories.map((category) => (
               <li key={`product-${category.id}`}>
-                <a
-                  href="#"
+                <Link
+                  to="#"
                   className="font-body-small font-[number:var(--body-small-font-weight)] text-main text-[length:var(--body-small-font-size)] tracking-[var(--body-small-letter-spacing)] leading-[var(--body-small-line-height)] [font-style:var(--body-small-font-style)]"
                 >
                   {category.title}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -27,20 +37,20 @@ const Footer = () => {
 
         <div className="w-full md:w-1/4 mb-8 md:mb-0">
           <ul className="flex flex-col gap-4">
-            {companyLinks.map((link, index) => (
-              <li key={`company-${index}`}>
-                <a
-                  href="#"
+            {footerLinks.map((item, index) => (
+              <li key={`link-${index}`}>
+                <Link
+                  to={item.href}
                   className="font-body-small font-[number:var(--body-small-font-weight)] text-main text-[length:var(--body-small-font-size)] tracking-[var(--body-small-letter-spacing)] leading-[var(--body-small-line-height)] [font-style:var(--body-small-font-style)]"
+                  onClick={(e) => handleScrollClick(e, item.href)}
                 >
-                  {link}
-                </a>
+                  {item.label}
+                </Link>
               </li>
             ))}
           </ul>
         </div>
 
-        {/* Social Links */}
         <div className="w-full md:w-1/4">
           <ul className="flex flex-col gap-4">
             {socialLinks.map((link, index) => (
@@ -57,7 +67,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

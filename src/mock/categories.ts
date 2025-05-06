@@ -2,26 +2,26 @@ export const categories = [
   {
     id: '1',
     title: 'Каблучки',
-    link: ''
+    link: '',
   },
   {
     id: '2',
     title: 'Сережки',
-    link: ''
+    link: '',
   },
   {
     id: '3',
     title: 'Підвіски',
-    link: ''
+    link: '',
   },
   {
     id: '4',
     title: 'Ланцюжки',
-    link: ''
+    link: '',
   },
   {
     id: '5',
     title: 'Браслети',
-    link: ''
+    link: '',
   },
 ];

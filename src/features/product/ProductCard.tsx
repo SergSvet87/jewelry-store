@@ -1,8 +1,8 @@
-import { Product } from '../../types';
-import { useCartStore } from '../../store/cart/useCart';
+import { Product } from '@/types/';
+import { useCartStore } from '@/store/cart/useCart';
 
 const ProductCard = ({ product }: { product: Product }) => {
-  const addToCart = useCartStore(state => state.addToCart);
+  const addToCart = useCartStore((state) => state.addToCart);
 
   return (
     <div className="border p-4 rounded-xl shadow">
@@ -18,6 +18,6 @@ const ProductCard = ({ product }: { product: Product }) => {
       </button>
     </div>
   );
-}
+};
 
-export default ProductCard
+export default ProductCard;

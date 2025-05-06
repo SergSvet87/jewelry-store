@@ -1,85 +1,83 @@
-// import { Link } from "react-router-dom";
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import cn from 'classnames';
 
-import { navItems } from "../mock";
-import { FavoriteIcon, Logo, ScalesIcon, SearchIcon, ShoppingBagIcon, UserIcon, MessageSquareIcon } from "../assets";
+import { AppRoute } from '@/enums';
+import { navItems } from '@/mock';
+import { headerButtons } from '@/mock/headerButtons';
+import { Logo, MessageSquareIcon, MessageQuestionIcon } from '@/assets';
 
 const Header = () => {
+  const [isHovering, setIsHovering] = useState(false);
+
   const promoMessage = "Безкоштовна доставка кур'єром Нової Пошти!";
 
+  const handleScrollClick = (e: React.MouseEvent<HTMLAnchorElement>, el: string) => {
+    e.preventDefault();
+
+    const elem = document.querySelector(el) as HTMLAnchorElement;
+    elem?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    <>
-   {/* Top promotional banner */}
-   <div className="w-full h-[50px] bg-main overflow-hidden">
-        <div className="flex items-center gap-[248px] relative top-3 animate-marquee">
-          {[...Array(4)].map((_, index) => (
-            <div
-              key={index}
-              className="relative w-[443px] font-body font-[number:var(--body-font-weight)] text-brown-dark text-[length:var(--body-font-size)] text-center tracking-[var(--body-letter-spacing)] leading-[var(--body-line-height)] whitespace-nowrap [font-style:var(--body-font-style)]"
-            >
-              {promoMessage}
-            </div>
-          ))}
-        </div>
+    <header className="w-full fixed z-999">
+      <div className="w-[5000px] h-[50px] bg-[var(--main)] flex items-center gap-[248px] animation-marquee whitespace-nowrap overflow-hidden">
+        {[...Array(10)].map((_, index) => (
+          <div
+            key={index}
+            className="w-[443px] font-body font-[number:var(--body-font-weight)] text-[length:var(--body-font-size)] text-center tracking-[var(--body-letter-spacing)] leading-[var(--body-line-height)] [font-style:var(--body-font-style)]"
+          >
+            {promoMessage}
+          </div>
+        ))}
       </div>
 
-      <header className="w-full top-0 left-0 z-50 bg-[var(--brown-dark)] text-[var(--main)]">
+      <div className="w-full h-[50px] bg-[var(--brown-dark)] backdrop-blur-lg text-[var(--main)]">
+        <div className="container flex items-center justify-between h-full">
+          <Link id="header-logo" to={AppRoute.ROOT} className="w-[105px] h-[30px] cursor-pointer">
+            <Logo width={'105'} height={'30'} fill="var(--accent)" />
+          </Link>
 
-        <div className="w-full h-[50px] bg-brown-dark backdrop-blur-lg">
-          <div className="flex items-center justify-between max-w-[1320px] mx-auto h-full px-[60px]">
+          <div className="flex items-center gap-[196px] h-full">
+            <nav className="flex gap-10 items-center">
+              {navItems.map((item, index) => (
+                <Link
+                  key={index}
+                  to={item.href}
+                  className="flex w-[88px] justify-center px-0 pb-[5px] py-2 border border-solid border-transparent items-center hover:border-b-[var(--main)] active:text-[var(--accent)]"
+                  onClick={(e) => handleScrollClick(e, item.href)}
+                >
+                  <span className="whitespace-nowrap">{item.label}</span>
+                </Link>
+              ))}
+            </nav>
 
-            <Logo width={"105"} height={"30"} fill="var(--accent)"/>
-
-            <div className="flex items-center gap-[196px]">
-              <nav className="flex gap-10 items-center">
-                {navItems.map((item, index) => (
-                  <a
-                    key={index}
-                    href={item.href}
-                    className="flex w-[88px] justify-center px-0 py-2 items-center"
-                  >
-                    <span className="font-body-small font-[number:var(--body-small-font-weight)] text-main text-[length:var(--body-small-font-size)] tracking-[var(--body-small-letter-spacing)] leading-[var(--body-small-line-height)] whitespace-nowrap [font-style:var(--body-small-font-style)]">
-                      {item.label}
-                    </span>
-                  </a>
-                ))}
-              </nav>
-
-              <div className="flex items-center gap-8">
-                <button className="p-0 h-5 w-5">
-                  <SearchIcon fill="var(--main)" />
-                </button>
-
-                <button className="p-0 h-5 w-5">
-                  <UserIcon fill="var(--main)" />
-                </button>
-
-                <button className="p-0 h-5 w-5">
-                  <FavoriteIcon fill="var(--main)" />
-                </button>
-
-                <button className="p-0 h-5 w-5">
-                  <ScalesIcon fill="var(--main)" />
-                </button>
-
-                <button className="p-0 h-5 w-5">
-                  <ShoppingBagIcon stroke="var(--main)" />
-                </button>
-              </div>
+            <div className="flex items-center gap-8">
+              {headerButtons.map((item) => (
+                <Link to={item.href} key={item.title} className="btn">
+                  {item.type === 'fill'
+                    ? item.icon({ fill: 'var(--main)' })
+                    : item.icon({ stroke: 'var(--main)' })}
+                </Link>
+              ))}
             </div>
           </div>
         </div>
+      </div>
 
-        <div className="fixed bottom-4 right-4 z-50">
-          <button
-            className="bg-[color:var(--button)] rounded-[20px] p-2"
-          >
-            <MessageSquareIcon stroke="var(--main)" />
-          </button>
-        </div>
-      </header>
-    </>
-    
-  )
-}
+      <div className="fixed bottom-15 right-15 z-100 flex align-center gap-1">
+        <MessageQuestionIcon classname={cn(isHovering ? 'block' : 'hidden')} />
 
-export default Header
+        <button
+          className="bg-[color:var(--button)] rounded-[20px] w-[36px] h-[36px] cursor-pointer flex items-center justify-center"
+          onMouseEnter={() => setIsHovering(true)}
+          onMouseLeave={() => setIsHovering(false)}
+        >
+          <MessageSquareIcon stroke="var(--main)" />
+        </button>
+      </div>
+    </header>
+  );
+};
+
+export default Header;

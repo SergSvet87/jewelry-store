@@ -1,43 +1,52 @@
-import { Card, CardContent } from '../../components/Card'
-import { HeartIcon, ShoppingBagIcon } from "lucide-react";
-import { productsSale } from "../../mock";
+import { Link } from 'react-router-dom';
+
+import { productsSale } from '@/mock';
+import { AppRoute } from '@/enums';
+import { Card, CardContent } from '@/components/Card';
+import { FavoriteIcon, ShoppingBagIcon } from '@/assets';
 
 export const Sale = () => {
   return (
-    <section className="relative w-full py-16">
-      <div className="container mx-auto">
-        <h2 className="font-heading-3 text-brown-dark text-[length:var(--heading-3-font-size)] tracking-[var(--heading-3-letter-spacing)] leading-[var(--heading-3-line-height)] [font-style:var(--heading-3-font-style)] mb-12">
-          Розпродаж минулої колекції
-        </h2>
+    <section className="relative w-full mb-[var(--section-indent)]">
+      <div className="container mx-auto relative">
+        <h2 className="text-center mb-[61px]">Розпродаж минулої колекції</h2>
 
         <div className="flex flex-wrap gap-5">
           {productsSale.map((product) => (
-            <div
-              key={product.id}
-              className={`flex flex-col ${product.width} gap-3`}
-            >
+            <div key={product.id} className={`flex flex-col ${product.width} gap-3 group`}>
               <Card className="border-0 rounded-none">
                 <CardContent
-                  className={`p-0 relative ${product.imageClass} bg-main`}
+                  className={`p-0 relative ${product.imageClass} bg-main overflow-hidden`}
                 >
-                  <div className="absolute w-[68px] h-6 top-5 right-5 flex gap-4">
-                    <HeartIcon className="w-6 h-6" />
-                    <ShoppingBagIcon className="w-6 h-6" />
+                  <img
+                    className="absolute w-full h-full object-cover scale-100 group-hover:scale-107 transition-all duration-300"
+                    src={product.image}
+                    alt={product.name}
+                  />
+
+                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
+
+                  <div className="absolute w-[68px] h-6 top-5 right-5 flex gap-4 z-20 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                    <button className="btn">
+                      <FavoriteIcon fill="var(--brown-dark)" />
+                    </button>
+
+                    <button className="btn">
+                      <ShoppingBagIcon stroke="var(--brown-dark)" />
+                    </button>
                   </div>
 
-                  <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2">
-                    <button className="px-[50px] py-2.5 bg-[color:var(--button)] text-main font-button font-[number:var(--button-font-weight)] text-[length:var(--button-font-size)] tracking-[var(--button-letter-spacing)] leading-[var(--button-line-height)] [font-style:var(--button-font-style)] rounded-none">
-                      Купити
-                    </button>
+                  <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 z-20 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                    <Link to={AppRoute.PRODUCTS}>
+                      <button className="btn-buy">Купити</button>
+                    </Link>
                   </div>
                 </CardContent>
               </Card>
 
               <div className="flex items-start justify-between w-full">
                 <div className="[font-family:'Manrope',Helvetica] text-brown-dark text-xl">
-                  <span className="font-medium text-[#1d110a] leading-[26px]">
-                    {product.name}{" "}
-                  </span>
+                  <span className="font-medium text-[#1d110a] leading-[26px]">{product.name} </span>
                   <span className="font-[number:var(--body-font-weight)] text-[#717171] leading-[var(--body-line-height)] font-body [font-style:var(--body-font-style)] tracking-[var(--body-letter-spacing)] text-[length:var(--body-font-size)]">
                     {product.description}
                   </span>
@@ -56,12 +65,12 @@ export const Sale = () => {
           ))}
         </div>
 
-        <p className="mt-16 font-body-small font-[number:var(--body-small-font-weight)] text-brown-dark text-[length:var(--body-small-font-size)] tracking-[var(--body-small-letter-spacing)] leading-[var(--body-small-line-height)] [font-style:var(--body-small-font-style)]">
+        <p className="absolute bottom-[50px] left-[60px] w-[600px]">
           Кращий момент для оновлення
           <br />
           образу - знижки на розкішну колекцію!
         </p>
       </div>
     </section>
-  )
-}
+  );
+};
