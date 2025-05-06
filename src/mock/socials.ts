@@ -1,1 +1,1 @@
-export const socialLinks = ["Facebook", "Instagram", "Threads", "Telegram"];
+export const socialLinks = ['Facebook', 'Instagram', 'Threads', 'Telegram'];

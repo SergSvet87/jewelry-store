@@ -1,18 +1,18 @@
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom';
 
-import { AppRoute } from "../enums"
-import { categories, footerLinks, socialLinks } from "../mock"
+import { AppRoute } from '../enums';
+import { categories, footerLinks, socialLinks } from '../mock';
 
 const Footer = () => {
   const handleScrollClick = (e: React.MouseEvent<HTMLAnchorElement>, el: string) => {
     e.preventDefault();
 
     const elem = document.querySelector(el) as HTMLAnchorElement;
-    elem?.scrollIntoView({ behavior: 'smooth' })
+    elem?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <footer id='footer' className="w-full bg-[var(--brown-dark)] py-16 text-[var(--main)]">
+    <footer id="footer" className="w-full bg-[var(--brown-dark)] py-16 text-[var(--main)]">
       <div className="container mx-auto flex flex-wrap justify-between">
         <div className="w-full md:w-1/4 mb-8 md:mb-0" onClick={() => AppRoute.ROOT}>
           <div className="text-[var(--accent)] text-5xl [font-family:'Aboreto'] font-normal">
@@ -67,7 +67,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

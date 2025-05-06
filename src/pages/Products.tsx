@@ -1,10 +1,8 @@
-import { PageLayout } from "../layouts"
-import { useProductStore } from "../store/products/useProductsStore"
+import { PageLayout } from '@/layouts';
+import { useProductStore } from '@/store/products/useProductsStore';
 
 export const Products = () => {
-  const products = useProductStore((state) => state.products)
+  const products = useProductStore((state) => state.products);
 
-  return (
-   <PageLayout products={products} />
-  )
-}
+  return <PageLayout products={products} />;
+};

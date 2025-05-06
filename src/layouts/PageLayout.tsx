@@ -1,24 +1,22 @@
-import { FC } from 'react'
+import { FC } from 'react';
 
-import { Product } from '../types'
-import { Catalog } from '../components/Catalog'
+import { Product } from '@/types/';
+import { Catalog } from '@/components/Catalog';
 
 interface PageLayoutProps {
-  products: Product[]
+  products: Product[];
 }
 
-export const PageLayout: FC<PageLayoutProps> = ({ products}) => {
+export const PageLayout: FC<PageLayoutProps> = ({ products }) => {
   return (
-    <div className='container mx-auto'>
+    <div className="container mx-auto">
       {products.length > 0 ? (
-            <Catalog
-              data={products}
-              // totalPages={totalPages}
-              // categoryId={categoryId}
-            />
-          ) : (
-            <div>Products not found</div>
-          )}
+        <Catalog
+          data={products}
+        />
+      ) : (
+        <div>Products not found</div>
+      )}
     </div>
-  )
-}
+  );
+};

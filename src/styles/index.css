@@ -1,26 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Manrope:wght@200..800&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap');
 
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
-  --main             : #f0ece9;
-  --brown-dark       : #1d110a;
-  --accent           : #a76f53;
-  --button           : #5b242a;
-  --grey             : #727272;
+  --main: #f0ece9;
+  --brown-dark: #1d110a;
+  --accent: #a76f53;
+  --button: #5b242a;
+  --grey: #727272;
   --pagination-active: #e4e4e4;
-  --pagination       : #bfbfbf;
-  --heading1         : 60px;
-  --heading2         : 54px;
-  --heading3         : 24px;
-  --text-second      : 16px;
-  --text             : 20px;
-  --section-indent   : 140px;
-  --max-width        : 1440px;
-  --padding          : 60px;
-  --font-second      : 'Lato', sans-serif;
-  --font-main        : 'Manrope', sans-serif;
-  --font-third       : 'Merriweather', serif;
+  --pagination: #bfbfbf;
+  --heading1: 60px;
+  --heading2: 54px;
+  --heading3: 24px;
+  --text-second: 16px;
+  --text: 20px;
+  --section-indent: 140px;
+  --max-width: 1440px;
+  --padding: 60px;
+  --font-second: 'Lato', sans-serif;
+  --font-main: 'Manrope', sans-serif;
+  --font-third: 'Merriweather', serif;
 }
 
 @layer base {

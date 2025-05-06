@@ -1,4 +1,4 @@
-import { ISingleProduct } from "../types/product";
+import { ISingleProduct } from '../types/product';
 
 const categories = ['Кільце', 'Підвіска', 'Сережки', 'Браслет'];
 const collections = ['Heart', 'Infinity', 'Nature', 'Royal', 'Eclipse'];
@@ -34,7 +34,9 @@ export const mockProducts: ISingleProduct[] = Array.from({ length: 50 }, (_, i) 
     collection,
     description: `Елегантна прикраса з колекції "${collection}"${gemstone ? `, інкрустована ${gemstone.toLowerCase()}` : ''}.`,
     rating: getRandomFloat(3.5, 5.0, 1),
-    material: [getRandom(materials), Math.random() < 0.3 ? getRandom(materials) : undefined].filter(Boolean) as string[],
+    material: [getRandom(materials), Math.random() < 0.3 ? getRandom(materials) : undefined].filter(
+      Boolean,
+    ) as string[],
     color: getRandom(colors),
     weight: getRandomFloat(1.5, 10.0),
     size: category === 'Кільце' ? `${getRandomFloat(15, 20)} мм` : `${getRandomFloat(35, 50)} см`,

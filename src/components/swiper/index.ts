@@ -1,2 +1,2 @@
-export {CustomNavigation} from './CustomNavigation';
-export {CustomPagination} from './CustomPagination';
+export { CustomNavigation } from './CustomNavigation';
+export { CustomPagination } from './CustomPagination';

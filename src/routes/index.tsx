@@ -1,41 +1,39 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import { AppRoute } from '../enums';
-import { Layout } from '../layouts';
-import { Auth, Cart, Favorite, HomePage, Products, Scale } from '../pages';
+import { AppRoute } from '@/enums';
+import { Layout } from '@/layouts';
+import { Auth, Cart, Favorite, HomePage, Products, Scale } from '@/pages';
 
-export const routes = createBrowserRouter(
-  [
-    {
-      path: AppRoute.ROOT,
-      element: <Layout />,
-      children: [
-        { path: AppRoute.ROOT, element: <HomePage /> },
-        { path: AppRoute.PRODUCTS, element: <Products /> },
-        { path: AppRoute.FAVORITE, element: <Favorite /> },
-        { path: AppRoute.SCALE, element: <Scale /> },
-        {
-          path: AppRoute.SIGN_IN,
-          element: <Auth />,
-        },
-        {
-          path: AppRoute.CART,
-          element: <Cart />,
-        },
+export const routes = createBrowserRouter([
+  {
+    path: AppRoute.ROOT,
+    element: <Layout />,
+    children: [
+      { path: AppRoute.ROOT, element: <HomePage /> },
+      { path: AppRoute.PRODUCTS, element: <Products /> },
+      { path: AppRoute.FAVORITE, element: <Favorite /> },
+      { path: AppRoute.SCALE, element: <Scale /> },
+      {
+        path: AppRoute.SIGN_IN,
+        element: <Auth />,
+      },
+      {
+        path: AppRoute.CART,
+        element: <Cart />,
+      },
 
-        // {
-        //   path: AppRoute.ORDER,
-        //   element: <Order />,
-        // },
-        // {
-        //   path: AppRoute.ADMIN,
-        //   element: <AdminPage />,
-        // },
-        // {
-        //   path: '*',
-        //   element: <NotFound />,
-        // },
-      ],
-    },
-  ],
-);
+      // {
+      //   path: AppRoute.ORDER,
+      //   element: <Order />,
+      // },
+      // {
+      //   path: AppRoute.ADMIN,
+      //   element: <AdminPage />,
+      // },
+      // {
+      //   path: '*',
+      //   element: <NotFound />,
+      // },
+    ],
+  },
+]);

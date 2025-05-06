@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
-import { AppRoute } from '../../enums'
-import { DiscountImage } from '../../assets'
-import { Card, CardContent } from '../../components/Card'
+import { AppRoute } from '@/enums';
+import { DiscountImage } from '@/assets';
+import { Card, CardContent } from '@/components/Card';
 
 export const Discount = () => {
   return (
@@ -10,7 +10,6 @@ export const Discount = () => {
       <img className="absolute w-full h-full object-cover" src={DiscountImage} alt="Hero Image" />
 
       <Card className="bg-transparent border-0 shadow-none z-50 text-[var(--main)] w-[550px]">
-
         <CardContent className="flex flex-col items-center justify-center gap-10 p-0">
           <h2 className="text-center">
             Знижка на перше замовлення
@@ -18,12 +17,10 @@ export const Discount = () => {
           </h2>
 
           <Link to={AppRoute.PRODUCTS}>
-            <button className="btn-buy">
-              Купити
-            </button>
+            <button className="btn-buy">Купити</button>
           </Link>
         </CardContent>
       </Card>
     </section>
-  )
-}
+  );
+};

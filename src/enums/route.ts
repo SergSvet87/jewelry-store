@@ -8,7 +8,6 @@ const AppRoute = {
   NEW: '/products-new',
   SCALE: '/scale',
   FAVORITE: '/favorite',
-  
 } as const;
 
 export type RoutePath = (typeof AppRoute)[keyof typeof AppRoute];

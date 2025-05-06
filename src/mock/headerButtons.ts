@@ -1,5 +1,5 @@
-import { FavoriteIcon, ScalesIcon, SearchIcon, ShoppingBagIcon, UserIcon } from "../assets";
-import { AppRoute } from "../enums";
+import { FavoriteIcon, ScalesIcon, SearchIcon, ShoppingBagIcon, UserIcon } from '../assets';
+import { AppRoute } from '../enums';
 
 export const headerButtons = [
   {
@@ -28,8 +28,8 @@ export const headerButtons = [
   },
   {
     title: 'ShoppingBag',
-    icon: ShoppingBagIcon,  
-    href: AppRoute.CART,  
+    icon: ShoppingBagIcon,
+    href: AppRoute.CART,
     type: 'stroke',
-  }
-]
+  },
+];

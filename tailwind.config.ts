@@ -1,10 +1,7 @@
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
-  content: [
-    './index.html',
-    './src/**/*.{ts,tsx}',
-  ],
+  content: ['./index.html', './src/**/*.{ts,tsx}'],
   theme: {
     extend: {
       colors: {
@@ -23,7 +20,7 @@ const config: Config = {
         heading2: '36px',
         heading3: '24px',
         text: '20px',
-        'section-indent': '140px'
+        'section-indent': '140px',
       },
       container: {
         center: true,
