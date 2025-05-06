@@ -11,15 +11,19 @@ export const NewCollection = () => {
       <h2 className="text-center mb-[61px]">Колекція весна 2025</h2>
 
       <div className="container mx-auto flex flex-col md:flex-row gap-4 justify-center">
-        <Card className="w-full md:w-1/2 lg:w-[650px]">
-          <CardContent className="relative mb-3">
-            <div className="flex flex-col h-[790px] items-center justify-end gap-2.5 relative w-full bg-cover bg-[50%_50%] bg-[url('../../assets/images/spring-girl.jpg')]">
+        <Card className="w-full md:w-1/2 lg:w-[650px] group">
+          <CardContent className="relative mb-3 overflow-hidden">
+            <div className="flex flex-col h-[790px] items-center justify-end gap-2.5 relative w-full bg-cover bg-center">
+
+              <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
+
               <img
-                className="absolute w-full h-full object-cover"
+                className="absolute w-full h-full object-cover scale-100 group-hover:scale-107 transition-all duration-300"
                 src={NewColLarge}
                 alt="Hew Collection Large Image"
               />
-              <div className="absolute top-5 right-5 flex gap-2">
+
+              <div className="absolute top-5 right-5 flex gap-2 z-20 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
                 <button className="btn">
                   <FavoriteIcon fill="var(--brown-dark)" />
                 </button>
@@ -27,7 +31,8 @@ export const NewCollection = () => {
                   <ShoppingBagIcon stroke="var(--brown-dark)" />
                 </button>
               </div>
-              <Link to={AppRoute.PRODUCTS} className="absolute bottom-5">
+
+              <Link to={AppRoute.PRODUCTS} className="absolute bottom-5 z-20 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
                 <button className="btn-buy">Купити</button>
               </Link>
             </div>
@@ -49,16 +54,18 @@ export const NewCollection = () => {
         <div className="flex flex-col gap-4 w-full md:w-1/2 lg:w-[650px]">
           <div className="flex flex-col md:flex-row gap-4">
             {products.slice(1, 3).map((product) => (
-              <Card key={product.id} className=" w-full md:w-1/2 lg:w-[315px]">
-                <CardContent className="relative mb-3">
+              <Card key={product.id} className=" w-full md:w-1/2 lg:w-[315px] group">
+                <CardContent className="relative mb-3 overflow-hidden">
                   <div className="flex flex-col h-[400px] items-center justify-end gap-2.5 relative w-full bg-cover bg-[50%_50%]">
+                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
+
                     <img
-                      className="absolute w-full h-full object-cover"
+                      className="absolute w-full h-full object-cover scale-100 group-hover:scale-107 transition-all duration-300"
                       src={product?.image}
-                      alt="Hew Collection Large Image"
+                      alt={product.name}
                     />
 
-                    <div className="absolute top-5 right-5 flex gap-2">
+                    <div className="absolute top-5 right-5 flex gap-2 z-20 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
                       <button className="btn">
                         <FavoriteIcon fill="var(--brown-dark)" />
                       </button>
@@ -67,7 +74,7 @@ export const NewCollection = () => {
                       </button>
                     </div>
 
-                    <Link to={AppRoute.PRODUCTS} className="absolute bottom-5">
+                    <Link to={AppRoute.PRODUCTS} className="absolute bottom-5 z-20 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
                       <button className="btn-buy">Купити</button>
                     </Link>
                   </div>

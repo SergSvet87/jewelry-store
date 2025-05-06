@@ -1,4 +1,4 @@
-import { ColGlow, ColMoon, ColOcean, ColSpark } from '../assets';
+import { ColGlow, ColMoon, ColOcean, ColSpark } from '@/assets';
 
 export const collections = [
   {

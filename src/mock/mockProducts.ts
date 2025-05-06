@@ -1,4 +1,4 @@
-import { ISingleProduct } from '../types/product';
+import { ISingleProduct } from '@/types/product';
 
 const categories = ['Кільце', 'Підвіска', 'Сережки', 'Браслет'];
 const collections = ['Heart', 'Infinity', 'Nature', 'Royal', 'Eclipse'];

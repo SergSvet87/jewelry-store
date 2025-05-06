@@ -1,5 +1,5 @@
-import { FavoriteIcon, ScalesIcon, SearchIcon, ShoppingBagIcon, UserIcon } from '../assets';
-import { AppRoute } from '../enums';
+import { AppRoute } from '@/enums';
+import { FavoriteIcon, ScalesIcon, SearchIcon, ShoppingBagIcon, UserIcon } from '@/assets';
 
 export const headerButtons = [
   {

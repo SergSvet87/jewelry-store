@@ -1,4 +1,4 @@
-import { AppRoute } from '../enums';
+import { AppRoute } from '@/enums';
 
 export const navItems = [
   { label: 'Каталог', href: AppRoute.PRODUCTS },

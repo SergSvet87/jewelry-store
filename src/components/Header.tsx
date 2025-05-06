@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import cn from 'classnames';
 
-import { AppRoute } from '../enums';
-import { navItems } from '../mock';
-import { headerButtons } from '../mock/headerButtons';
-import { Logo, MessageSquareIcon, MessageQuestionIcon } from '../assets';
+import { AppRoute } from '@/enums';
+import { navItems } from '@/mock';
+import { headerButtons } from '@/mock/headerButtons';
+import { Logo, MessageSquareIcon, MessageQuestionIcon } from '@/assets';
 
 const Header = () => {
   const [isHovering, setIsHovering] = useState(false);

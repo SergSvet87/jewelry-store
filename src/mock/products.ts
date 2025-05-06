@@ -1,4 +1,4 @@
-import { NewColHeart, NewColRing } from '../assets';
+import { NewColHeart, NewColRing } from '@/assets';
 
 export const products = [
   {

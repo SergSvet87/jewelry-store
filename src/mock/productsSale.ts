@@ -1,4 +1,4 @@
-import { SaleLarge, SaleMoon, SaleRing } from '../assets';
+import { SaleLarge, SaleMoon, SaleRing } from '@/assets';
 
 export const productsSale = [
   {

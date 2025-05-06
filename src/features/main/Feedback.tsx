@@ -1,22 +1,12 @@
-import { Card, CardContent } from '../../components/Card';
-import { StarIcon } from 'lucide-react';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '../../components/Carousel';
-import { reviews } from '../../mock/reviews';
 
 export const Feedback = () => {
   return (
     <section className="w-full py-16 relative">
-      <h2 className="text-center font-heading-3 text-brown-dark text-[length:var(--heading-3-font-size)] tracking-[var(--heading-3-letter-spacing)] leading-[var(--heading-3-line-height)] mb-16">
+      <h2 className="text-center">
         Відгуки наших клієнтів
       </h2>
 
-      <div className="max-w-[1168px] mx-auto relative">
+      {/* <div className="max-w-[1168px] mx-auto relative">
         <Carousel className="w-full">
           <CarouselContent className="py-8">
             {reviews.map((review, index) => (
@@ -76,7 +66,7 @@ export const Feedback = () => {
           <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 bg-transparent border-none hover:bg-transparent" />
           <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 bg-transparent border-none hover:bg-transparent" />
         </Carousel>
-      </div>
+      </div> */}
     </section>
   );
 };

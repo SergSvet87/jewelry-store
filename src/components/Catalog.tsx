@@ -1,6 +1,7 @@
 import { FC } from 'react';
-import ProductCard from '../features/product/ProductCard';
-import { Product } from '../types';
+
+import { Product } from '@/types/';
+import ProductCard from '@/features/product/ProductCard';
 
 interface ICatalogProps {
   data: Product[];

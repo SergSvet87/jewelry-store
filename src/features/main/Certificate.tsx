@@ -1,4 +1,7 @@
+import { Link } from 'react-router-dom';
+
 import { Cert } from '@/assets';
+import { AppRoute } from '@/enums';
 
 export const Certificate = () => {
   return (
@@ -10,7 +13,9 @@ export const Certificate = () => {
       <div className="w-full h-full flex flex-col items-center justify-between gap-16 py-[80px] relative">
         <h2 className="text-center text-[var(--main)]">Подарункові сертифікати</h2>
 
-        <button className="btn-buy">Купити</button>
+        <Link to={AppRoute.PRODUCTS} className="inline-block">
+          <button className="btn-buy">Купити</button>
+        </Link>
       </div>
     </section>
   );

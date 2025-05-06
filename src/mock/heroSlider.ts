@@ -1,4 +1,4 @@
-import { HeroImage1, HeroImage2, HeroImage3 } from '../assets';
+import { HeroImage1, HeroImage2, HeroImage3 } from '@/assets';
 
 export const heroSlides = [
   {
