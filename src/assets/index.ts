@@ -1,4 +1,6 @@
 import MenuIcon from './icons/menu.svg';
+import ArrowLeft from './icons/arrow-left.svg';
+import FilterIcon from './icons/filter.svg';
 
 import { Logo } from './icons/Logo';
 import { SearchIcon } from './icons/SearchIcon';
@@ -26,9 +28,16 @@ import NewColRing from './images/spring-ring.jpg';
 import SaleLarge from './images/past-col-girl.jpg';
 import SaleMoon from './images/past-col-moon.jpg';
 import SaleRing from './images/past-col-ring.jpg';
+import ReviewImg from './images/review.jpg';
+import Review1 from './images/review-1.png';
+import Review2 from './images/review-2.png';
+import Review3 from './images/review-3.png';
+import BannerImg from './images/Banner.png';
 
 export {
   MenuIcon,
+  ArrowLeft,
+  FilterIcon,
   Logo,
   SearchIcon,
   UserIcon,
@@ -54,4 +63,9 @@ export {
   SaleLarge,
   SaleMoon,
   SaleRing,
+  ReviewImg,
+  Review1,
+  Review2,
+  Review3,
+  BannerImg
 };

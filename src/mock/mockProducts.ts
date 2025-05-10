@@ -43,5 +43,6 @@ export const mockProducts: ISingleProduct[] = Array.from({ length: 50 }, (_, i) 
     code: generateCode(),
     gemstoneUsed,
     gemstone,
+    isLarge: Math.random() < 0.25,
   };
 });

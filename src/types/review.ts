@@ -1,4 +1,5 @@
 export interface Review {
+  id: number,
   rating: number;
   date: string;
   text: string;
@@ -6,4 +7,5 @@ export interface Review {
   location: string;
   image?: string;
   hasProductImage?: boolean;
+  avatar?: string;
 }
