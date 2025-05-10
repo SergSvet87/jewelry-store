@@ -9,6 +9,7 @@ import 'swiper/css';
 import { SliderProps } from '@/types/';
 import { CustomNavigation } from '@/components/swiper';
 import { Card, CardContent } from '@/components/Card';
+import { SlideDataReview } from '@/types/mainSlider';
 
 export const ReviewSlider: FC<SliderProps> = ({ slides, classname, pagination, space, loop }) => {
   const [, setActiveIndex] = useState(0);
@@ -40,8 +41,8 @@ export const ReviewSlider: FC<SliderProps> = ({ slides, classname, pagination, s
         loop={loop}
       >
         {slides &&
-          slides.map((slide) => (
-            <SwiperSlide key={slide.id} className="flex justify-center transition-all duration-500">
+          slides.map((slide: SlideDataReview) => (
+            <SwiperSlide key={slide?.id} className="flex justify-center transition-all duration-500">
               {({ isActive }) => (
                 <Card
                   className={`transition-all duration-500 ease-in-out bg-transparent shadow-lg mx-auto

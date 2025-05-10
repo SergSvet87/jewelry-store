@@ -4,7 +4,7 @@ interface SlideData {
   subtitle?: string;
 }
 
-interface SlideDataReview extends SlideData {
+export interface SlideDataReview extends SlideData {
   id?: number;
   rating?: number | null;
   date?: string;
