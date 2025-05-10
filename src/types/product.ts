@@ -5,10 +5,11 @@ export interface Product {
   image: string;
   description: string;
   category: string;
+  isLarge: boolean;
+  collection: string;
 }
 
 export interface ISingleProduct extends Product {
-  collection: string;
   rating: number;
   material: string[];
   color: string;

@@ -3,24 +3,24 @@
 @import 'tailwindcss';
 
 :root {
-  --main: #f0ece9;
-  --brown-dark: #1d110a;
-  --accent: #a76f53;
-  --button: #5b242a;
-  --grey: #727272;
+  --main             : #f0ece9;
+  --brown-dark       : #1d110a;
+  --accent           : #a76f53;
+  --button           : #5b242a;
+  --grey             : #727272;
   --pagination-active: #e4e4e4;
-  --pagination: #bfbfbf;
-  --heading1: 60px;
-  --heading2: 54px;
-  --heading3: 24px;
-  --text-second: 16px;
-  --text: 20px;
-  --section-indent: 140px;
-  --max-width: 1440px;
-  --padding: 60px;
-  --font-second: 'Lato', sans-serif;
-  --font-main: 'Manrope', sans-serif;
-  --font-third: 'Merriweather', serif;
+  --pagination       : #bfbfbf;
+  --heading1         : 60px;
+  --heading2         : 54px;
+  --heading3         : 24px;
+  --text-second      : 16px;
+  --text             : 20px;
+  --section-indent   : 140px;
+  --max-width        : 1440px;
+  --padding          : 60px;
+  --font-second      : 'Lato', sans-serif;
+  --font-main        : 'Manrope', sans-serif;
+  --font-third       : 'Merriweather', serif;
 }
 
 @layer base {
@@ -55,6 +55,10 @@
   .animation-marquee {
     animation: marquee 20s linear infinite;
   }
+
+  .swiper-wrapper {
+    @apply items-center;
+  }
 }
 
 @layer components {
@@ -85,6 +89,24 @@
   .btn-checkout {
     @reference bg-accent text-main py-[10px] px-[40px] rounded-[10px] font-sans font-semibold tracking-wide uppercase transition hover: brightness-110 active:scale-[0.97];
   }
+}
+
+.catalog-masonry-grid {
+  display    : flex;
+  margin-left: -1rem;
+  /* gutter size offset */
+  width      : auto;
+}
+
+.catalog-masonry-grid_column {
+  padding-left   : 1rem;
+  /* gutter size */
+  background-clip: padding-box;
+}
+
+/* Розділення між картками */
+.catalog-masonry-grid_column>div {
+  margin-bottom: 1.5rem;
 }
 
 @keyframes marquee {

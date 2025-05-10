@@ -6,10 +6,10 @@ import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';
 
 import { AppRoute } from '@/enums';
+import { SliderProps } from '@/types/mainSlider';
 import { CustomPagination } from '@/components/swiper';
-import { HeroSliderProps } from '@/types/heroSlider';
 
-export const HeroSlider: FC<HeroSliderProps> = ({ slides, classname, loop, autoplay }) => {
+export const HeroSlider: FC<SliderProps> = ({ slides, classname, loop, autoplay }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
