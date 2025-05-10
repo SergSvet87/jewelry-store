@@ -5,6 +5,7 @@ interface SlideData {
 }
 
 interface SlideDataReview extends SlideData {
+  id?: number;
   rating?: number | null;
   date?: string;
   text?: string;

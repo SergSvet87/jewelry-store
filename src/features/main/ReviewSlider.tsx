@@ -6,7 +6,7 @@ import { StarIcon } from 'lucide-react';
 
 import 'swiper/css';
 
-import { Review, SliderProps } from '@/types/';
+import { SliderProps } from '@/types/';
 import { CustomNavigation } from '@/components/swiper';
 import { Card, CardContent } from '@/components/Card';
 
@@ -40,7 +40,7 @@ export const ReviewSlider: FC<SliderProps> = ({ slides, classname, pagination, s
         loop={loop}
       >
         {slides &&
-          slides.map((slide: Review) => (
+          slides.map((slide) => (
             <SwiperSlide key={slide.id} className="flex justify-center transition-all duration-500">
               {({ isActive }) => (
                 <Card
