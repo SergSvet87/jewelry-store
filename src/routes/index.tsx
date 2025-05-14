@@ -3,6 +3,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import { AppRoute } from '@/enums';
 import { Layout } from '@/layouts';
 import { Auth, Cart, Favorite, HomePage, Products, Scale } from '@/pages';
+import { SingleProduct } from '@/pages/SingleProduct';
 
 export const routes = createBrowserRouter([
   {
@@ -11,6 +12,7 @@ export const routes = createBrowserRouter([
     children: [
       { path: AppRoute.ROOT, element: <HomePage /> },
       { path: AppRoute.PRODUCTS, element: <Products /> },
+      { path: AppRoute.PRODUCT, element: <SingleProduct /> },
       { path: AppRoute.FAVORITE, element: <Favorite /> },
       { path: AppRoute.SCALE, element: <Scale /> },
       {

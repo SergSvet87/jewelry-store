@@ -3,17 +3,26 @@ import ArrowLeft from './icons/arrow-left.svg';
 import FilterIcon from './icons/filter.svg';
 
 import { Logo } from './icons/Logo';
+import { ArrowUp } from './icons/ArrowUp';
+import { SortIcon } from './icons/SortIcon';
+import { ChevronRight } from './icons/ChevronRight';
+import { SendIcon } from './icons/SendIcon';
+import { SupportIcon } from './icons/SupportIcon';
 import { SearchIcon } from './icons/SearchIcon';
+import { X } from './icons/X';
 import { UserIcon } from './icons/UserIcon';
 import { FavoriteIcon } from './icons/FavoriteIcon';
+import { FavoriteFilledIcon } from './icons/FavoriteFilledIcon';
 import { ScalesIcon } from './icons/ScalesIcon';
 import { ShoppingBagIcon } from './icons/ShoppingBagIcon';
+import { ShoppingBagFilledIcon } from './icons/ShoppingBagFilledIcon';
 import { MessageSquareIcon } from './icons/MessageSquareIcon';
 import { MessageQuestionIcon } from './icons/MessageQuestionIcon';
 
 import HeroImage1 from './images/Hero-1.jpg';
 import HeroImage2 from './images/Hero-2.jpg';
 import HeroImage3 from './images/Hero-3.jpg';
+import HeroImage4 from './images/Hero-4.jpg';
 import ColHeart from './images/collection-heart.jpg';
 import ColMoon from './images/collection-moon.jpg';
 import ColGlow from './images/collection-glow.jpg';
@@ -33,22 +42,34 @@ import Review1 from './images/review-1.png';
 import Review2 from './images/review-2.png';
 import Review3 from './images/review-3.png';
 import BannerImg from './images/Banner.png';
+import SPLarge from './images/single-product-large.png';
+import SP1 from './images/single-product-1.jpg';
+import SP2 from './images/single-product-2.jpg';
 
 export {
   MenuIcon,
   ArrowLeft,
   FilterIcon,
+  ChevronRight,
+  SendIcon,
+  SupportIcon,
+  ArrowUp,
+  X,
+  SortIcon,
   Logo,
   SearchIcon,
   UserIcon,
   FavoriteIcon,
+  FavoriteFilledIcon,
   ScalesIcon,
   ShoppingBagIcon,
+  ShoppingBagFilledIcon,
   MessageSquareIcon,
   MessageQuestionIcon,
   HeroImage1,
   HeroImage2,
   HeroImage3,
+  HeroImage4,
   ColGlow,
   ColHeart,
   ColMoon,
@@ -67,5 +88,8 @@ export {
   Review1,
   Review2,
   Review3,
-  BannerImg
+  BannerImg,
+  SPLarge,
+  SP1,
+  SP2,
 };

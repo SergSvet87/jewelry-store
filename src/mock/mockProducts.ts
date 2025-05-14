@@ -1,9 +1,10 @@
+import { Cert } from '@/assets';
 import { ISingleProduct } from '@/types/product';
 
-const categories = ['Кільце', 'Підвіска', 'Сережки', 'Браслет'];
-const collections = ['Heart', 'Infinity', 'Nature', 'Royal', 'Eclipse'];
+export const categories = ['Каблучки', 'Підвіски', 'Сережки', 'Браслети', 'Ланцюжки'];
+export const collections = ['Heart', 'Infinity', 'Nature', 'Royal', 'Eclipse', 'Moon', 'Glow', 'Ocean', 'Spark'];
 const gemstones = ['Діамант', 'Сапфір', 'Рубін', 'Смарагд', 'Аметист'];
-const materials = ['Золото', 'Срібло', 'Платина'];
+export const materials = ['Біле золото', 'Жовте золото', 'Срібло', 'Платина'];
 const colors = ['Золотий', 'Срібний', 'Рожеве золото'];
 
 function getRandom<T>(arr: T[]): T {
@@ -19,6 +20,7 @@ function generateCode(): string {
 }
 
 export const mockProducts: ISingleProduct[] = Array.from({ length: 50 }, (_, i) => {
+  const id = i + 1;
   const category = getRandom(categories);
   const collection = getRandom(collections);
   const gemstoneUsed = Math.random() < 0.8;
@@ -26,11 +28,11 @@ export const mockProducts: ISingleProduct[] = Array.from({ length: 50 }, (_, i) 
   const name = `${category} з колекції "${collection}"${gemstone ? ` з ${gemstone.toLowerCase()}` : ''}`;
 
   return {
-    id: i + 1,
+    id,
     category,
     name,
     price: getRandomFloat(250, 1000),
-    image: `/img/product-${i + 1}.jpg`,
+    image: Cert,
     collection,
     description: `Елегантна прикраса з колекції "${collection}"${gemstone ? `, інкрустована ${gemstone.toLowerCase()}` : ''}.`,
     rating: getRandomFloat(3.5, 5.0, 1),
@@ -43,6 +45,6 @@ export const mockProducts: ISingleProduct[] = Array.from({ length: 50 }, (_, i) 
     code: generateCode(),
     gemstoneUsed,
     gemstone,
-    isLarge: Math.random() < 0.25,
+    isLarge: id === 1 || id === 16,
   };
 });

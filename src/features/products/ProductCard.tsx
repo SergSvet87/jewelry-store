@@ -1,6 +1,8 @@
+import { Link } from 'react-router-dom';
 import cn from 'classnames';
 
 import { Product } from '@/types/';
+import { AppRoute } from '@/enums';
 import { useCartStore } from '@/store/cart/useCart';
 import { FavoriteIcon, ShoppingBagIcon } from '@/assets';
 import { Card, CardContent, CardFooter } from '@/components/Card';
@@ -9,10 +11,15 @@ const ProductCard = ({ product }: { product: Product }) => {
   const addToCart = useCartStore((state) => state.addToCart);
 
   return (
-    <Card className={cn("group", product.isLarge ? 'w-[540px] h-[614px]' : 'w-[259px] h-[297px]')}>
-      <CardContent className="relative overflow-hidden">
-        <div className="w-full h-[276px] relative bg-cover bg-center">
-          <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
+    <Card className={cn('min-w-[259px] min-h-[297px] group rounded-none')}>
+      <CardContent
+        className={cn(
+          'relative w-full overflow-hidden',
+          product.isLarge ? 'h-[617px]' : 'h-[276px]',
+        )}
+      >
+        <div className="w-full h-full relative bg-cover bg-center">
+          <div className="absolute w-full h-auto  inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
 
           <img
             src={product.image}
@@ -31,6 +38,13 @@ const ProductCard = ({ product }: { product: Product }) => {
               <ShoppingBagIcon stroke="var(--brown-dark)" />
             </button>
           </div>
+
+          <Link
+            to={AppRoute.PRODUCT.replace(':category', product.category).replace(':collection', product.collection).replace(':title', `${product.category} ${product.collection}`).toLowerCase()}
+            className="absolute bottom-5 left-1/2 transform -translate-x-1/2 z-20 opacity-0 group-hover:opacity-100 transition-all duration-300"
+          >
+            <button className="btn-buy">Купити</button>
+          </Link>
         </div>
       </CardContent>
 

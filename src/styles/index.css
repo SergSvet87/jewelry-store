@@ -41,7 +41,7 @@
   }
 
   .container {
-    @apply mx-auto max-w-[var(--max-width)] px-[var(--padding)];
+    @apply mx-auto !max-w-[var(--max-width)] !px-[var(--padding)];
   }
 
   .section-indent {
@@ -80,9 +80,27 @@
     @apply bg-[var(--grey)] cursor-not-allowed;
   }
 
+  .btn-send {
+    @apply w-[60px] h-[30px] bg-[var(--button)] flex items-center justify-center text-[var(--main)] py-[7px] px-[6px] border border-solid border-transparent rounded-none outline-none cursor-pointer transition-all duration-300;
+  }
+
+  .btn-send:hover,
+  .btn-send:focus,
+  .btn-send:focus-visible {
+    @apply bg-[var(--accent)];
+  }
+
+  .btn-send:active {
+    @apply bg-[var(--accent)] border-[var(--grey)] scale-[0.98];
+  }
+
+  .btn-send:disabled {
+    @apply bg-[var(--grey)] cursor-not-allowed;
+  }
+
   /* --- Додати в кошик --- */
   .btn-add {
-    @reference bg-main text-brown-dark border border-accent py-[8px] px-[32px] rounded-[6px] font-sans font-medium transition duration-300 hover: bg-accent hover:text-main active:scale-[0.98] disabled: bg-grey disabled:cursor-not-allowed;
+    @apply w-[259px] h-[46px] bg-transparent flex items-center justify-center text-[var(--brown-dark)] py-[10px] px-[24px] border-1 border-solid border-[var(--brown-dark)] rounded-none outline-none cursor-pointer transition-all duration-300;
   }
 
   /* --- Перейти до оплати --- */
@@ -91,22 +109,8 @@
   }
 }
 
-.catalog-masonry-grid {
-  display    : flex;
-  margin-left: -1rem;
-  /* gutter size offset */
-  width      : auto;
-}
-
-.catalog-masonry-grid_column {
-  padding-left   : 1rem;
-  /* gutter size */
-  background-clip: padding-box;
-}
-
-/* Розділення між картками */
-.catalog-masonry-grid_column>div {
-  margin-bottom: 1.5rem;
+[data-vaul-drawer][data-vaul-drawer-direction=right]::after {
+  display: none;
 }
 
 @keyframes marquee {

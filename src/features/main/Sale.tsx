@@ -11,7 +11,7 @@ export const Sale = () => {
       <div className="container mx-auto relative">
         <h2 className="text-center mb-[61px]">Розпродаж минулої колекції</h2>
 
-        <div className="flex flex-wrap gap-5">
+        <div className="flex gap-5">
           {productsSale.map((product) => (
             <div key={product.id} className={`flex flex-col ${product.width} gap-3 group`}>
               <Card className="border-0 rounded-none">
