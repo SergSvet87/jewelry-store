@@ -1,6 +1,9 @@
+import { Link } from 'react-router-dom';
+
+import { AppRoute } from '@/enums';
 import { ColHeart } from '@/assets';
-import { Card, CardContent } from '@/components/Card';
 import { collections } from '@/mock/collections';
+import { Card, CardContent } from '@/components/Card';
 
 export const Collections = () => {
   return (
@@ -12,7 +15,9 @@ export const Collections = () => {
           <img className="w-full h-full object-cover" src={ColHeart} alt="Heart Image" />
 
           <CardContent className="w-full min-h-[60px] absolute bottom-[22px] left-0 ">
-            <h1 className="text-[var(--main)] text-center">HEART</h1>
+            <Link to={`${AppRoute.PRODUCTS}/collections/heart`}>
+              <h1 className="text-[var(--main)] text-center">HEART</h1>
+            </Link>
           </CardContent>
         </Card>
 
@@ -20,7 +25,7 @@ export const Collections = () => {
           const id = collection.id;
           return (
             <Card
-              key={collection.id}
+              key={id}
               className="absolute w-[315px] h-[385px] bg-cover bg-[50%_50%] rounded-none overflow-hidden"
               style={{
                 top: collection?.position.top,
@@ -34,23 +39,25 @@ export const Collections = () => {
               />
 
               <CardContent className="w-full min-h-[60px] absolute bottom-[22px] left-0">
-                <h1
-                  className="text-[var(--main)] text-center"
-                  style={{
-                    left:
-                      id === 'glow'
-                        ? '74px'
-                        : id === 'moon'
-                          ? '70px'
-                          : id === 'spark'
-                            ? '67px'
-                            : id === 'ocean'
-                              ? '63px'
-                              : '67px',
-                  }}
-                >
-                  {collection?.name}
-                </h1>
+                <Link to={`${AppRoute.PRODUCTS}/collections/${id}`}>
+                  <h1
+                    className="text-[var(--main)] text-center"
+                    style={{
+                      left:
+                        id === 'glow'
+                          ? '74px'
+                          : id === 'moon'
+                            ? '70px'
+                            : id === 'spark'
+                              ? '67px'
+                              : id === 'ocean'
+                                ? '63px'
+                                : '67px',
+                    }}
+                  >
+                    {collection?.name}
+                  </h1>
+                </Link>
               </CardContent>
             </Card>
           );

@@ -5,6 +5,7 @@ const AppRoute = {
   ADMIN: '/admin',
   CART: '/cart',
   PRODUCTS: '/products',
+  PRODUCT: '/products/:category/:collection/:title',
   NEW: '/products-new',
   SCALE: '/scale',
   FAVORITE: '/favorite',

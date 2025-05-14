@@ -4,7 +4,7 @@ import cn from 'classnames';
 
 const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn('rounded-xl', className)} {...props} />
+    <div ref={ref} className={cn('rounded-none', className)} {...props} />
   ),
 );
 Card.displayName = 'Card';

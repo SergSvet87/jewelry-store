@@ -5,3 +5,4 @@ export { socialLinks } from './socials';
 export { navItems } from './nav';
 export { productsSale } from './productsSale';
 export { heroSlides } from './heroSlider';
+export { sortOptions } from './sortOptions'

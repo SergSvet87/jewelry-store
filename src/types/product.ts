@@ -7,10 +7,10 @@ export interface Product {
   category: string;
   isLarge: boolean;
   collection: string;
+  rating: number;
 }
 
 export interface ISingleProduct extends Product {
-  rating: number;
   material: string[];
   color: string;
   weight: number;

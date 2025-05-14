@@ -1,4 +1,4 @@
-import { HeroImage1, HeroImage2, HeroImage3 } from '@/assets';
+import { HeroImage1, HeroImage3, HeroImage4 } from '@/assets';
 
 export const heroSlides = [
   {
@@ -7,7 +7,7 @@ export const heroSlides = [
     subtitle: 'Обирайте ідеальні ювелірні вироби для особливих моментів і кожного дня.',
   },
   {
-    background: HeroImage2,
+    background: HeroImage4,
     title: 'ТВІЙ СТИЛЬ - НАШІ ПРИКРАСИ',
     subtitle: 'Відкрийте для себе наші нові дизайни.',
   },

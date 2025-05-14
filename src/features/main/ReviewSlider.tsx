@@ -1,43 +1,26 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import { FC, useRef, useState } from 'react';
+import { FC, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
 import { StarIcon } from 'lucide-react';
 
 import 'swiper/css';
 
 import { SliderProps } from '@/types/';
-import { CustomNavigation } from '@/components/swiper';
 import { Card, CardContent } from '@/components/Card';
 import { SlideDataReview } from '@/types/mainSlider';
 
 export const ReviewSlider: FC<SliderProps> = ({ slides, classname, pagination, space, loop }) => {
   const [, setActiveIndex] = useState(0);
-  const prevRef = useRef<HTMLDivElement>(null);
-  const nextRef = useRef<HTMLDivElement>(null);
 
   return (
     <>
       <Swiper
-        modules={[Navigation]}
+        modules={[]}
         onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
         className={classname}
         pagination={pagination}
         centeredSlides={true}
         slidesPerView={3}
         spaceBetween={space}
-        onBeforeInit={(swiper) => {
-          if (typeof swiper.params.navigation !== 'boolean') {
-            // @ts-ignore
-            swiper.params.navigation.prevEl = prevRef.current;
-            // @ts-ignore
-            swiper.params.navigation.nextEl = nextRef.current;
-          }
-        }}
-        navigation={{
-          prevEl: prevRef.current!,
-          nextEl: nextRef.current!,
-        }}
         loop={loop}
       >
         {slides &&
@@ -100,8 +83,6 @@ export const ReviewSlider: FC<SliderProps> = ({ slides, classname, pagination, s
             </SwiperSlide>
           ))}
       </Swiper>
-
-      <CustomNavigation prevRef={prevRef} nextRef={nextRef} />
     </>
   );
 };
