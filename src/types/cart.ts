@@ -1,9 +1,9 @@
 interface CartItem {
-  id: number;
+  id: string;
   quantity: number;
 }
 
 export interface CartState {
   items: CartItem[];
-  addToCart: (id: number) => void;
+  addToCart: (id: string) => void;
 }

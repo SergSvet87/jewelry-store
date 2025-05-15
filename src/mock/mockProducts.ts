@@ -20,7 +20,7 @@ function generateCode(): string {
 }
 
 export const mockProducts: ISingleProduct[] = Array.from({ length: 50 }, (_, i) => {
-  const id = i + 1;
+  const id = (i + 1).toString();
   const category = getRandom(categories);
   const collection = getRandom(collections);
   const gemstoneUsed = Math.random() < 0.8;
@@ -45,6 +45,6 @@ export const mockProducts: ISingleProduct[] = Array.from({ length: 50 }, (_, i) 
     code: generateCode(),
     gemstoneUsed,
     gemstone,
-    isLarge: id === 1 || id === 16,
+    isLarge: id === '1' || id === '16',
   };
 });

@@ -7,12 +7,16 @@ import { navItems } from '@/mock';
 import { headerButtons } from '@/mock/headerButtons';
 import { SearchDropdown, SupportDrawer } from './ui';
 import { Logo } from '@/assets';
+import { useCartStore } from '@/store/cart/useCart';
+import { useProductStore } from '@/store/products/useProductsStore';
 
 const Header = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeButton, setActiveButton] = useState<string | null>(null);
   const location = useLocation();
+  const cartCount = useCartStore((state) => state.items.length);
+  const favoriteCount = useProductStore((state) => state.favorites.length);
 
   const toggleActiveButton = (title: string) => {
     if (activeButton === title) {
@@ -141,9 +145,27 @@ const Header = () => {
                     key={item.title}
                     to={item.href}
                     onClick={() => setActiveButton(item.title)}
-                    className={cn('btn', isActive && 'text-[var(--accent)]')}
+                    className={cn('btn relative', isActive && 'text-[var(--accent)]')}
                   >
                     {item.type === 'fill' ? <Icon fill={iconColor} /> : <Icon stroke={iconColor} />}
+
+                    {item.title === 'favorite' && favoriteCount > 0 && (
+                      <span className="absolute -top-1 -right-1 text-medium text-[10px] bg-[var(--accent)] text-[var(--main)] rounded-full w-3 h-3 flex items-center justify-center">
+                        {favoriteCount}
+                      </span>
+                    )}
+
+                    {item.title === 'shoppingBag' && cartCount > 0 && (
+                      <span className="absolute -top-1 -right-1 text-medium text-[10px] bg-[var(--accent)] text-[var(--main)] rounded-full w-3 h-3 flex items-center justify-center">
+                        {cartCount}
+                      </span>
+                    )}
+
+                    {/* {item.title === 'scale' && cartCount > 0 && (
+                      <span className="absolute -top-1 -right-1 text-medium text-[10px] bg-[var(--accent)] text-[var(--main)] rounded-full w-3 h-3 flex items-center justify-center">
+                        {cartCount}
+                      </span>
+                    )} */}
                   </Link>
                 );
               })}

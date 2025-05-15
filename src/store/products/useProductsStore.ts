@@ -5,14 +5,14 @@ import { mockProducts } from '@/mock/mockProducts';
 
 interface ProductState {
   products: ISingleProduct[];
-  favorites: number[];
+  favorites: string[];
   page: number;
   totalPages: number;
   setProducts: (products: ISingleProduct[]) => void;
-  getProductById: (id: number) => ISingleProduct | undefined;
+  getProductById: (id: string) => ISingleProduct | undefined;
   filterByCategory: (category: string) => ISingleProduct[];
-  toggleFavorite: (id: number) => void;
-  isFavorite: (id: number) => boolean;
+  toggleFavorite: (id: string) => void;
+  isFavorite: (id: string) => boolean;
   setPage: (page: number) => void;
   setTotalPages: (total: number) => void;
 }

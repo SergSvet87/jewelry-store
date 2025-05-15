@@ -4,8 +4,13 @@ import { products } from '@/mock';
 import { AppRoute } from '@/enums';
 import { Card, CardContent, CardFooter } from '@/components/Card';
 import { FavoriteIcon, NewColLarge, ShoppingBagIcon } from '@/assets';
+import { useProductStore } from '@/store/products/useProductsStore';
+import { useCartStore } from '@/store/cart/useCart';
 
 export const NewCollection = () => {
+  const toggleFavorite = useProductStore((state) => state.toggleFavorite);
+  const addToCart = useCartStore((state) => state.addToCart);
+  
   return (
     <section className="relative w-full mb-[var(--section-indent)]">
       <h2 className="text-center mb-[61px]">Колекція весна 2025</h2>
@@ -66,10 +71,10 @@ export const NewCollection = () => {
                     />
 
                     <div className="absolute top-5 right-5 flex gap-2 z-20 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-                      <button className="btn">
+                      <button className="btn" onClick={() => toggleFavorite(product.id)}>
                         <FavoriteIcon fill="var(--brown-dark)" />
                       </button>
-                      <button className="btn">
+                      <button className="btn" onClick={() => addToCart(product.id)}>
                         <ShoppingBagIcon stroke="var(--brown-dark)" />
                       </button>
                     </div>

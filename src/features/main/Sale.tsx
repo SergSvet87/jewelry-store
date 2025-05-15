@@ -4,8 +4,13 @@ import { productsSale } from '@/mock';
 import { AppRoute } from '@/enums';
 import { Card, CardContent } from '@/components/Card';
 import { FavoriteIcon, ShoppingBagIcon } from '@/assets';
+import { useProductStore } from '@/store/products/useProductsStore';
+import { useCartStore } from '@/store/cart/useCart';
 
 export const Sale = () => {
+  const toggleFavorite = useProductStore((state) => state.toggleFavorite);
+  const addToCart = useCartStore((state) => state.addToCart);
+
   return (
     <section className="relative w-full mb-[var(--section-indent)]">
       <div className="container mx-auto relative">
@@ -27,11 +32,11 @@ export const Sale = () => {
                   <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
 
                   <div className="absolute w-[68px] h-6 top-5 right-5 flex gap-4 z-20 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-                    <button className="btn">
+                    <button className="btn" onClick={() => toggleFavorite(product.id)}>
                       <FavoriteIcon fill="var(--brown-dark)" />
                     </button>
 
-                    <button className="btn">
+                    <button className="btn" onClick={() => addToCart(product.id)}>
                       <ShoppingBagIcon stroke="var(--brown-dark)" />
                     </button>
                   </div>
