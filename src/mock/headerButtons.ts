@@ -27,7 +27,7 @@ export const headerButtons = [
     type: 'fill',
   },
   {
-    title: 'ShoppingBag',
+    title: 'shoppingBag',
     icon: ShoppingBagIcon,
     href: AppRoute.CART,
     type: 'stroke',

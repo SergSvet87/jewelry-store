@@ -7,8 +7,13 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { FavoriteIcon, ScalesIcon } from '@/assets';
+import { useCartStore } from '@/store/cart/useCart';
+import { useProductStore } from '@/store/products/useProductsStore';
 
-export const Info = () => {
+export const Info = ({ id }: { id: string | undefined }) => {
+  const addToCart = useCartStore((state) => state.addToCart);
+  const toggleFavorite = useProductStore((state) => state.toggleFavorite);
+  
   const productDetails = {
     name: 'Підвіска "Glow"',
     articleNumber: '0025150',
@@ -35,11 +40,11 @@ export const Info = () => {
             <h3 className="">{productDetails.name}</h3>
 
             <div className="flex items-center gap-4">
-              <button type="button" className="btn">
+              <button type="button" className="btn" onClick={() => {}}>
                 <ScalesIcon fill="var(--brown-dark)" />
               </button>
 
-              <button type="button" className="btn">
+              <button type="button" className="btn" onClick={() => id && toggleFavorite(id)}>
                 <FavoriteIcon fill="var(--brown-dark)" />
               </button>
             </div>
@@ -58,7 +63,7 @@ export const Info = () => {
           <div className="flex items-center justify-between gap-5 relative self-stretch w-full">
             <button className="btn-buy w-[249px]">Купити</button>
 
-            <button className="btn-add ">Додати в кошик</button>
+            <button className="btn-add " onClick={() => id && addToCart(id)}>Додати в кошик</button>
           </div>
         </div>
       </div>

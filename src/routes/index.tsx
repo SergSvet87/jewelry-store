@@ -2,8 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import { AppRoute } from '@/enums';
 import { Layout } from '@/layouts';
-import { Auth, Cart, Favorite, HomePage, Products, Scale } from '@/pages';
-import { SingleProduct } from '@/pages/SingleProduct';
+import { Auth, Cart, Favorite, HomePage, Products, Scale, PublicAgreement, SingleProduct, PrivacyPolicy } from '@/pages';
 
 export const routes = createBrowserRouter([
   {
@@ -15,6 +14,8 @@ export const routes = createBrowserRouter([
       { path: AppRoute.PRODUCT, element: <SingleProduct /> },
       { path: AppRoute.FAVORITE, element: <Favorite /> },
       { path: AppRoute.SCALE, element: <Scale /> },
+      { path: AppRoute.PUBLIC, element: <PublicAgreement /> },
+      { path: AppRoute.PRIVACY, element: <PrivacyPolicy /> },
       {
         path: AppRoute.SIGN_IN,
         element: <Auth />,

@@ -5,3 +5,5 @@ export { Auth } from './Auth';
 export { Favorite } from './Favorite';
 export { Scale } from './Scale';
 export { SingleProduct } from './SingleProduct';
+export { PublicAgreement } from './PublicAgreement';
+export { PrivacyPolicy } from './PrivacyPolicy'

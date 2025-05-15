@@ -5,10 +5,12 @@ const AppRoute = {
   ADMIN: '/admin',
   CART: '/cart',
   PRODUCTS: '/products',
-  PRODUCT: '/products/:category/:collection/:title',
+  PRODUCT: '/products/:id/:category/:collection/:title',
   NEW: '/products-new',
   SCALE: '/scale',
   FAVORITE: '/favorite',
+  PUBLIC: '/public-agreement',
+  PRIVACY: '/privacy-policy',
 } as const;
 
 export type RoutePath = (typeof AppRoute)[keyof typeof AppRoute];

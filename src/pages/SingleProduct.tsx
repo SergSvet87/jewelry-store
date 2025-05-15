@@ -44,7 +44,7 @@ export const SingleProduct = () => {
       </div>
 
       <div className="container mx-auto pb-[var(--section-indent)]">
-        <div className="flex gap-20 mb-20 w-full justify-between" key={id}>
+        <div className="flex gap-20 mb-20 w-full justify-between">
           <div className="flex flex-col w-full md:w-[650px] items-start gap-5">
             <img
               className={productImages[0].className}
@@ -65,7 +65,7 @@ export const SingleProduct = () => {
             </div>
           </div>
 
-          <Info />
+          <Info id={id} />
         </div>
 
         <AlsoBuy />
