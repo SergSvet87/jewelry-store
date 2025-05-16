@@ -2,10 +2,10 @@ import { Link } from 'react-router-dom';
 
 import { products } from '@/mock';
 import { AppRoute } from '@/enums';
-import { Card, CardContent, CardFooter } from '@/components/Card';
+import { Card, CardContent, CardFooter } from '@/components/ui';
 import { FavoriteIcon, NewColLarge, ShoppingBagIcon } from '@/assets';
 import { useProductStore } from '@/store/products/useProductsStore';
-import { useCartStore } from '@/store/cart/useCart';
+import { useCartStore } from '@/store/cart/useCartStore';
 
 export const NewCollection = () => {
   const toggleFavorite = useProductStore((state) => state.toggleFavorite);

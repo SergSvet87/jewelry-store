@@ -5,7 +5,7 @@ import { StarIcon } from 'lucide-react';
 import 'swiper/css';
 
 import { SliderProps } from '@/types/';
-import { Card, CardContent } from '@/components/Card';
+import { Card, CardContent } from '@/components/ui';
 import { SlideDataReview } from '@/types/mainSlider';
 
 export const ReviewSlider: FC<SliderProps> = ({ slides, classname, pagination, space, loop }) => {

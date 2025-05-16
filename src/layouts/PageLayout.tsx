@@ -52,10 +52,10 @@ export const PageLayout: FC<PageLayoutProps> = ({ products }) => {
         <BreadCrumbs items={[{ label: 'Головна', href: AppRoute.ROOT }, { label: 'Каталог' }]} />
       </div>
 
-      <div className="container mx-auto flex gap-5">
+      <div className="container mx-auto flex gap-5 pb-[var(--section-indent)]">
         <Filters />
 
-        <div className="flex flex-col grow gap-7">
+        <div className="flex flex-col grow gap-7 ">
           <Sort sort={sort} setSort={setSort} />
 
           {products.length > 0 ? (

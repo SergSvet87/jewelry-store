@@ -12,7 +12,6 @@ interface ProductState {
   getProductById: (id: string) => ISingleProduct | undefined;
   filterByCategory: (category: string) => ISingleProduct[];
   toggleFavorite: (id: string) => void;
-  isFavorite: (id: string) => boolean;
   setPage: (page: number) => void;
   setTotalPages: (total: number) => void;
 }
@@ -33,7 +32,6 @@ export const useProductStore = create<ProductState>((set, get) => ({
         : [...favorites, id],
     });
   },
-  isFavorite: (id) => get().favorites.includes(id),
   setPage: (page) => set({ page }),
   setTotalPages: (totalPages) => set({ totalPages }),
 }));

@@ -3,14 +3,19 @@ import cn from 'classnames';
 
 import { Product } from '@/types/';
 import { AppRoute } from '@/enums';
-import { useCartStore } from '@/store/cart/useCart';
-import { FavoriteIcon, ShoppingBagIcon } from '@/assets';
-import { Card, CardContent, CardFooter } from '@/components/Card';
+import { useCartStore } from '@/store/cart/useCartStore';
 import { useProductStore } from '@/store/products/useProductsStore';
+import { Card, CardContent, CardFooter } from '@/components/ui';
+import { FavoriteIcon, ShoppingBagIcon, FavoriteFilledIcon, ShoppingBagFilledIcon } from '@/assets';
 
 const ProductCard = ({ product }: { product: Product }) => {
   const addToCart = useCartStore((state) => state.addToCart);
   const toggleFavorite = useProductStore((state) => state.toggleFavorite);
+  const favorites = useProductStore((state) => state.favorites);
+  const items = useCartStore((state) => state.items);
+
+  const isInCart = items.some((item) => item.id === product.id);
+  const isInFavorite = favorites.includes(product.id);
 
   return (
     <Card className={cn('min-w-[259px] min-h-[297px] group rounded-none')}>
@@ -33,16 +38,28 @@ const ProductCard = ({ product }: { product: Product }) => {
 
           <div className="absolute top-5 right-5 flex gap-2 z-20 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
             <button className="btn" onClick={() => toggleFavorite(product.id)}>
-              <FavoriteIcon fill="var(--brown-dark)" />
+              {isInFavorite ? (
+                <FavoriteFilledIcon classname="w-5 h-5" />
+              ) : (
+                <FavoriteIcon fill="var(--brown-dark)" />
+              )}
             </button>
 
             <button className="btn" onClick={() => addToCart(product.id)}>
-              <ShoppingBagIcon stroke="var(--brown-dark)" />
+              {isInCart ? (
+                <ShoppingBagFilledIcon classname="w-5 h-5" />
+              ) : (
+                <ShoppingBagIcon stroke="var(--brown-dark)" />
+              )}
             </button>
           </div>
 
           <Link
-            to={AppRoute.PRODUCT.replace(':id', String(product.id)).replace(':category', product.category).replace(':collection', product.collection).replace(':title', `${product.category} ${product.collection}`).toLowerCase()}
+            to={AppRoute.PRODUCT.replace(':id', String(product.id))
+              .replace(':category', product.category)
+              .replace(':collection', product.collection)
+              .replace(':title', `${product.category} ${product.collection}`)
+              .toLowerCase()}
             className="absolute bottom-5 left-1/2 transform -translate-x-1/2 z-20 opacity-0 group-hover:opacity-100 transition-all duration-300"
           >
             <button className="btn-buy">Купити</button>

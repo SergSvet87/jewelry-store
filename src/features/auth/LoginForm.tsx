@@ -1,9 +1,28 @@
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { SmartphoneIcon } from 'lucide-react';
 
+import { useLogin } from './hooks/useLogin';
+import { loginSchema } from '@/schemas/authSchema';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent } from '@/components/Card';
+import { Card, CardContent } from '@/components/ui';
 
 export const LoginForm = () => {
+  const { login } = useLogin();
+
+  const { handleSubmit } = useForm({
+    resolver: zodResolver(loginSchema),
+  });
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onSubmit = async (data: any) => {
+    try {
+      const res = await login(data);
+      console.log('Login success:', res);
+    } catch (error) {
+      console.error('Login error:', error);
+    }
+  };
   return (
       <Card className="w-[448px] bg-main relative">
         <CardContent className="p-8 flex flex-col items-center gap-12">
@@ -12,7 +31,7 @@ export const LoginForm = () => {
               Увійти в акаунт
             </h2>
 
-            <div className="flex flex-col items-center gap-7 w-full">
+            <form className="flex flex-col items-center gap-7 w-full" onSubmit={handleSubmit(onSubmit)}>
               <div className="relative w-full">
                 <div className="absolute left-3 top-2.5 flex items-center gap-2">
                   <SmartphoneIcon className="w-5 h-5 text-grey" />
@@ -31,7 +50,7 @@ export const LoginForm = () => {
                   Увійти
                 </span>
               </button>
-            </div>
+            </form>
 
             <div className="flex flex-col items-center gap-5 w-full">
               <p className="text-[var(--grey)]">

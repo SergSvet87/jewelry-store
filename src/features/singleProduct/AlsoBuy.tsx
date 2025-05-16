@@ -1,5 +1,5 @@
 import { NewColHeart, NewColRing, SaleMoon, SaleRing } from "@/assets";
-import { Card, CardContent } from "@/components/Card";
+import { Card, CardContent } from "@/components/ui";
 
 
 export const AlsoBuy = () => {

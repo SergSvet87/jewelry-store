@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { AppRoute } from '@/enums';
 import { ColHeart } from '@/assets';
 import { collections } from '@/mock/collections';
-import { Card, CardContent } from '@/components/Card';
+import { Card, CardContent } from '@/components/ui';
 
 export const Collections = () => {
   return (

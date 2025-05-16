@@ -6,4 +6,6 @@ export { Favorite } from './Favorite';
 export { Scale } from './Scale';
 export { SingleProduct } from './SingleProduct';
 export { PublicAgreement } from './PublicAgreement';
-export { PrivacyPolicy } from './PrivacyPolicy'
+export { PrivacyPolicy } from './PrivacyPolicy';
+export { UserAccount } from './UserAccount';
+export { Checkout } from './Checkout';

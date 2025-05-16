@@ -7,7 +7,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { FavoriteIcon, ScalesIcon } from '@/assets';
-import { useCartStore } from '@/store/cart/useCart';
+import { useCartStore } from '@/store/cart/useCartStore';
 import { useProductStore } from '@/store/products/useProductsStore';
 
 export const Info = ({ id }: { id: string | undefined }) => {
