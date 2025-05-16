@@ -18,6 +18,10 @@ import { ShoppingBagIcon } from './icons/ShoppingBagIcon';
 import { ShoppingBagFilledIcon } from './icons/ShoppingBagFilledIcon';
 import { MessageSquareIcon } from './icons/MessageSquareIcon';
 import { MessageQuestionIcon } from './icons/MessageQuestionIcon';
+import { CheckCircleIcon } from './icons/CheckCircleIcon';
+import { LoyaltyIcon } from './icons/LoyaltyIcon';
+import { HistoryIcon } from './icons/HistoryIcon';
+import { MessageIcon } from './icons/MessageIcon';
 
 import HeroImage1 from './images/Hero-1.jpg';
 import HeroImage2 from './images/Hero-2.jpg';
@@ -66,6 +70,10 @@ export {
   ShoppingBagFilledIcon,
   MessageSquareIcon,
   MessageQuestionIcon,
+  CheckCircleIcon,
+  LoyaltyIcon,
+  HistoryIcon,
+  MessageIcon,
   HeroImage1,
   HeroImage2,
   HeroImage3,

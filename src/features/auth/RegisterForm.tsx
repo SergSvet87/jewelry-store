@@ -1,9 +1,29 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { SmartphoneIcon } from 'lucide-react';
 
 import { Input } from '@/components/ui/input';
-import { Card, CardContent } from '@/components/Card';
+import { Card, CardContent } from '@/components/ui';
+import { registerSchema } from '@/schemas/authSchema';
+import { useRegister } from './hooks/useRegister';
 
 export const RegisterForm = () => {
+  const { handleSubmit } = useForm({
+    resolver: zodResolver(registerSchema),
+  });
+
+  const { register: registerUser } = useRegister();
+
+  const onSubmit = async (data: any) => {
+    try {
+      const res = await registerUser(data);
+      console.log('User registered:', res);
+    } catch (e) {
+      console.error('Registration error:', e);
+    }
+  };
   return (
     <Card className="w-[448px] bg-main relative">
       {/* <button
@@ -21,7 +41,7 @@ export const RegisterForm = () => {
             Реєстрація
           </h2>
 
-          <div className="flex flex-col items-center gap-7 w-full">
+          <form className="flex flex-col items-center gap-7 w-full" onSubmit={handleSubmit(onSubmit)}>
             <div className="relative w-full">
               <div className="absolute left-3 top-2.5 flex items-center gap-2">
                 <SmartphoneIcon className="w-5 h-5 text-grey" />
@@ -53,7 +73,7 @@ export const RegisterForm = () => {
                 Зареєструватися
               </span>
             </button>
-          </div>
+          </form>
 
           <div className="flex flex-col items-center gap-5 w-full">
             <p className="text-[var(--grey)]">

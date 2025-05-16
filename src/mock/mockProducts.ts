@@ -1,4 +1,4 @@
-import { Cert } from '@/assets';
+import { ColGlow } from '@/assets';
 import { ISingleProduct } from '@/types/product';
 
 export const categories = ['Каблучки', 'Підвіски', 'Сережки', 'Браслети', 'Ланцюжки'];
@@ -32,7 +32,7 @@ export const mockProducts: ISingleProduct[] = Array.from({ length: 50 }, (_, i) 
     category,
     name,
     price: getRandomFloat(250, 1000),
-    image: Cert,
+    image: ColGlow,
     collection,
     description: `Елегантна прикраса з колекції "${collection}"${gemstone ? `, інкрустована ${gemstone.toLowerCase()}` : ''}.`,
     rating: getRandomFloat(3.5, 5.0, 1),

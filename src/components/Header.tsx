@@ -7,7 +7,7 @@ import { navItems } from '@/mock';
 import { headerButtons } from '@/mock/headerButtons';
 import { SearchDropdown, SupportDrawer } from './ui';
 import { Logo } from '@/assets';
-import { useCartStore } from '@/store/cart/useCart';
+import { useCartStore } from '@/store/cart/useCartStore';
 import { useProductStore } from '@/store/products/useProductsStore';
 
 const Header = () => {
