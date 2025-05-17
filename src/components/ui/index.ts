@@ -29,4 +29,7 @@ export {
   SelectTrigger,
   SelectValue,
 } from './select';
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from './card'
+export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from './card';
+export { Slider } from './slider';
+export { Checkbox } from './checkbox';
+export { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from './accordion'
