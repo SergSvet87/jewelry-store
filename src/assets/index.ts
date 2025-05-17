@@ -22,6 +22,8 @@ import { CheckCircleIcon } from './icons/CheckCircleIcon';
 import { LoyaltyIcon } from './icons/LoyaltyIcon';
 import { HistoryIcon } from './icons/HistoryIcon';
 import { MessageIcon } from './icons/MessageIcon';
+import {ArrowDownIcon} from './icons/ArrowDownIcon';
+import {CheckboxCheckedIcon} from './icons/CheckboxCheckedIcon'
 
 import HeroImage1 from './images/Hero-1.jpg';
 import HeroImage2 from './images/Hero-2.jpg';
@@ -55,6 +57,8 @@ export {
   ArrowLeft,
   FilterIcon,
   ChevronRight,
+  CheckboxCheckedIcon,
+  ArrowDownIcon,
   SendIcon,
   SupportIcon,
   ArrowUp,

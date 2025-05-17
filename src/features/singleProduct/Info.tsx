@@ -13,7 +13,7 @@ import { useProductStore } from '@/store/products/useProductsStore';
 export const Info = ({ id }: { id: string | undefined }) => {
   const addToCart = useCartStore((state) => state.addToCart);
   const toggleFavorite = useProductStore((state) => state.toggleFavorite);
-  
+
   const productDetails = {
     name: 'Підвіска "Glow"',
     articleNumber: '0025150',
@@ -63,13 +63,19 @@ export const Info = ({ id }: { id: string | undefined }) => {
           <div className="flex items-center justify-between gap-5 relative self-stretch w-full">
             <button className="btn-buy w-[249px]">Купити</button>
 
-            <button className="btn-add " onClick={() => id && addToCart(id)}>Додати в кошик</button>
+            <button className="btn-add " onClick={() => id && addToCart(id)}>
+              Додати в кошик
+            </button>
           </div>
         </div>
       </div>
 
       <div className="flex flex-col items-start gap-5 w-full">
-        <Accordion type="single" collapsible className="w-full">
+        <Accordion
+          type="multiple"
+          className="w-full"
+          defaultValue={['characteristics', 'delivery', 'returns']}
+        >
           <AccordionItem value="characteristics" className="border-none">
             <AccordionTrigger className="py-3 px-0 hover:no-underline">
               <span className="font-medium text-brown-dark text-xl">Характеристики</span>

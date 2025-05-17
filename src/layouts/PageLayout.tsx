@@ -14,7 +14,7 @@ interface PageLayoutProps {
 }
 
 export const PageLayout: FC<PageLayoutProps> = ({ products }) => {
-  const [sort, setSort] = useState('');
+  const [sort, setSort] = useState('popular');
   const page = useProductStore((state) => state.page);
   const setTotalPages = useProductStore((state) => state.setTotalPages);
 
