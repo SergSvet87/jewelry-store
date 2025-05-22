@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import cn from 'classnames';
 
 import { ApiEndpoint, AppRoute } from '@/enums';
-import { LoginRequest } from '@/types/auth';
+import { LoginRequest } from '@/types/';
 import { loginSchema } from '@/schemas/authSchema';
 import { AppleIcon, GoogleIcon, PhoneIcon } from '@/assets';
 import { Button, Card, CardContent, Input } from '@/components/ui';

@@ -1,12 +1,12 @@
 import { FC } from 'react';
 
-import { Product } from '@/types/';
+import { ISingleProduct } from '@/types/';
 import { ProductCard } from '@/features/products/ProductCard';
 import { Pagination } from '@/features/products/Pagination';
 import { useCatalogStore } from '@/store/catalog/useCatalogStore';
 
 interface ICatalogProps {
-  data: Product[];
+  data: ISingleProduct[];
   totalPages: number;
   page: number;
 }

@@ -2,7 +2,7 @@ export { Label } from './label';
 export { Input } from './input';
 export { Slider } from './slider';
 export { Checkbox } from './checkbox';
-export { Button, buttonVariants } from './button';
+export { Button, buttonVariants } from './Button';
 export { RadioGroup, RadioGroupItem } from './radio-group';
 export { Popover, PopoverTrigger, PopoverContent, PopoverAnchor } from './popover';
 export { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from './accordion';

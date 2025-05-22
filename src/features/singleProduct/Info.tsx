@@ -7,14 +7,14 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { FavoriteIcon, ScalesIcon } from '@/assets';
-import { useCartStore } from '@/store/cart/useCartStore';
-import { useProductStore } from '@/store/products/useProductsStore';
+// import { useCartStore } from '@/store/cart/useCartStore';
+// import { useProductStore } from '@/store/products/useProductsStore';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '@/enums';
 
-export const Info = ({ id }: { id: string | undefined }) => {
-  const addToCart = useCartStore((state) => state.addToCart);
-  const toggleFavorite = useProductStore((state) => state.toggleFavorite);
+export const Info = () => {
+  // const addToCart = useCartStore((state) => state.addToCart);
+  // const toggleFavorite = useProductStore((state) => state.toggleFavorite);
 
   const productDetails = {
     name: 'Підвіска "Glow"',
@@ -46,7 +46,7 @@ export const Info = ({ id }: { id: string | undefined }) => {
                 <ScalesIcon fill="var(--brown-dark)" />
               </button>
 
-              <button type="button" className="btn" onClick={() => id && toggleFavorite(id)}>
+              <button type="button" className="btn" onClick={() => {}}>
                 <FavoriteIcon fill="var(--brown-dark)" />
               </button>
             </div>
@@ -67,7 +67,7 @@ export const Info = ({ id }: { id: string | undefined }) => {
               <button className="btn-buy">Купити</button>
             </Link>
 
-            <button className="btn-add " onClick={() => id && addToCart(id)}>
+            <button className="btn-add " onClick={() => {}}>
               Додати в кошик
             </button>
           </div>

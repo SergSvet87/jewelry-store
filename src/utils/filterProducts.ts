@@ -7,11 +7,11 @@ export const filterProducts = (products: ISingleProduct[], filters: any) => {
   const { selectedCategories, selectedCollections, selectedMaterials, priceRange } = filters;
 
   if (selectedCategories.length) {
-    filtered = filtered.filter((p) => selectedCategories.includes(p.category));
+    filtered = filtered.filter((p) => selectedCategories.includes(p.categoryName));
   }
 
   if (selectedCollections.length) {
-    filtered = filtered.filter((p) => selectedCollections.includes(p.collection));
+    filtered = filtered.filter((p) => selectedCollections.includes(p.collectionName));
   }
 
   if (selectedMaterials.length) {

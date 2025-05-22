@@ -3,7 +3,7 @@ import { UserIcon } from '@/assets';
 export const UserContacts = () => {
   return (
     <div className="flex items-center gap-5 pl-2 w-full mb-5">
-      <UserIcon fill="var(--brown-dark)" />
+      <UserIcon classname="text-[var(--brown-dark)]" />
 
       <div className="flex flex-col items-start justify-center gap-3">
         <div className="text-[var(--button)] text-[length:var(--text)] font-[500] ">
