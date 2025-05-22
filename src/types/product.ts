@@ -4,13 +4,14 @@ export interface Product {
   price: number;
   image: string;
   description: string;
-  category: string;
+  categoryName: string;
   isLarge: boolean;
-  collection: string;
+  collectionName: string;
+  rating: number;
+  quantity: number
 }
 
 export interface ISingleProduct extends Product {
-  rating: number;
   material: string[];
   color: string;
   weight: number;

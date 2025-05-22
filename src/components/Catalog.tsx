@@ -1,34 +1,33 @@
 import { FC } from 'react';
-// import Masonry from 'react-masonry-css';
 
-import { Product } from '@/types/';
-import ProductCard from '@/features/products/ProductCard';
+import { ISingleProduct } from '@/types/';
+import { ProductCard } from '@/features/products/ProductCard';
+import { Pagination } from '@/features/products/Pagination';
+import { useCatalogStore } from '@/store/catalog/useCatalogStore';
 
 interface ICatalogProps {
-  data: Product[];
-  totalPages?: number;
-  categoryId?: number;
+  data: ISingleProduct[];
+  totalPages: number;
+  page: number;
 }
 
-// const breakpointColumnsObj = {
-//   default: 4, // 4 колонки на великих екранах
-//   1280: 3, // 3 колонки на >=1280px
-//   1024: 2, // 2 колонки на >=1024px
-//   640: 1, // 1 колонка на мобілках
-// };
+export const Catalog: FC<ICatalogProps> = ({ data, totalPages, page }) => {
+  const setPage = useCatalogStore((state) => state.setPage);
 
-export const Catalog: FC<ICatalogProps> = ({ data }) => {
   return (
-    // <Masonry
-    //   breakpointCols={breakpointColumnsObj}
-    //   className="catalog-masonry-grid"
-    //   columnClassName="catalog-masonry-grid_column"
-    // >
-    <div className="grid grid-cols-4 gap-5">
-      {data.map((product) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
-    </div>
-    // </Masonry>
+    <>
+      <div className="grid  grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 auto-rows-[320px] gap-5 mb-12">
+        {data.map((product) => (
+          <div
+            key={product.id}
+            className={product.isLarge ? 'col-span-2 row-span-2' : 'col-span-1 row-span-1'}
+          >
+            <ProductCard product={product} />
+          </div>
+        ))}
+      </div>
+
+      <Pagination page={page} totalPages={totalPages} setPage={setPage} />
+    </>
   );
 };

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import { AppRoute } from '@/enums';
 import { DiscountImage } from '@/assets';
-import { Card, CardContent } from '@/components/Card';
+import { Card, CardContent } from '@/components/ui';
 
 export const Discount = () => {
   return (

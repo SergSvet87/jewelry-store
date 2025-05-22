@@ -1,9 +1,10 @@
+import { ColGlow } from '@/assets';
 import { ISingleProduct } from '@/types/product';
 
-const categories = ['Кільце', 'Підвіска', 'Сережки', 'Браслет'];
-const collections = ['Heart', 'Infinity', 'Nature', 'Royal', 'Eclipse'];
+export const categories = ['Каблучки', 'Підвіски', 'Сережки', 'Браслети', 'Ланцюжки'];
+export const collections = ['Heart', 'Infinity', 'Nature', 'Royal', 'Eclipse', 'Moon', 'Glow', 'Ocean', 'Spark'];
 const gemstones = ['Діамант', 'Сапфір', 'Рубін', 'Смарагд', 'Аметист'];
-const materials = ['Золото', 'Срібло', 'Платина'];
+export const materials = ['Біле золото', 'Жовте золото', 'Срібло', 'Платина'];
 const colors = ['Золотий', 'Срібний', 'Рожеве золото'];
 
 function getRandom<T>(arr: T[]): T {
@@ -19,30 +20,32 @@ function generateCode(): string {
 }
 
 export const mockProducts: ISingleProduct[] = Array.from({ length: 50 }, (_, i) => {
-  const category = getRandom(categories);
-  const collection = getRandom(collections);
+  const id = (i + 1);
+  const categoryName = getRandom(categories);
+  const collectionName = getRandom(collections);
   const gemstoneUsed = Math.random() < 0.8;
   const gemstone = gemstoneUsed ? getRandom(gemstones) : null;
-  const name = `${category} з колекції "${collection}"${gemstone ? ` з ${gemstone.toLowerCase()}` : ''}`;
+  const name = `${categoryName} з колекції "${collectionName}"${gemstone ? ` з ${gemstone.toLowerCase()}` : ''}`;
 
   return {
-    id: i + 1,
-    category,
+    id,
+    categoryName,
     name,
     price: getRandomFloat(250, 1000),
-    image: `/img/product-${i + 1}.jpg`,
-    collection,
-    description: `Елегантна прикраса з колекції "${collection}"${gemstone ? `, інкрустована ${gemstone.toLowerCase()}` : ''}.`,
+    image: ColGlow,
+    collectionName,
+    description: `Елегантна прикраса з колекції "${collectionName}"${gemstone ? `, інкрустована ${gemstone.toLowerCase()}` : ''}.`,
     rating: getRandomFloat(3.5, 5.0, 1),
     material: [getRandom(materials), Math.random() < 0.3 ? getRandom(materials) : undefined].filter(
       Boolean,
     ) as string[],
     color: getRandom(colors),
     weight: getRandomFloat(1.5, 10.0),
-    size: category === 'Кільце' ? `${getRandomFloat(15, 20)} мм` : `${getRandomFloat(35, 50)} см`,
+    size: categoryName === 'Кільце' ? `${getRandomFloat(15, 20)} мм` : `${getRandomFloat(35, 50)} см`,
     code: generateCode(),
     gemstoneUsed,
     gemstone,
-    isLarge: Math.random() < 0.25,
+    quantity: 10,
+    isLarge: id === 1 || id === 16,
   };
 });

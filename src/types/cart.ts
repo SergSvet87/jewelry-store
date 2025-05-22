@@ -1,9 +1,13 @@
-interface CartItem {
-  id: number;
-  quantity: number;
-}
+import { ISingleProduct } from "./product";
 
-export interface CartState {
-  items: CartItem[];
-  addToCart: (id: number) => void;
+export interface ICartItem {
+  id: number,
+  userId: number,
+  items: {
+    id: number,
+    cartId: number,
+    product: ISingleProduct,
+    productName: string,
+    quantity: number,
+  }[],
 }

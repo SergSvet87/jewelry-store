@@ -2,7 +2,31 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import { AppRoute } from '@/enums';
 import { Layout } from '@/layouts';
-import { Auth, Cart, Favorite, HomePage, Products, Scale } from '@/pages';
+import {
+  Cart,
+  Favorite,
+  HomePage,
+  Catalog,
+  Scale,
+  PublicAgreement,
+  SingleProduct,
+  PrivacyPolicy,
+  UserAccount,
+  Checkout,
+  AuthRegister,
+  AuthLogin,
+  UserAgreement,
+} from '@/pages';
+import {
+  UserCart,
+  UserData,
+  UserFavorites,
+  UserLoyalty,
+  UserOrders,
+  UserReviews,
+  UserScales,
+} from '@/features/dashboard';
+import { SuccessfulRegister } from '@/pages/SuccessfulRegister';
 
 export const routes = createBrowserRouter([
   {
@@ -10,22 +34,64 @@ export const routes = createBrowserRouter([
     element: <Layout />,
     children: [
       { path: AppRoute.ROOT, element: <HomePage /> },
-      { path: AppRoute.PRODUCTS, element: <Products /> },
+      { path: AppRoute.PRODUCTS, element: <Catalog /> },
+      { path: AppRoute.PRODUCT, element: <SingleProduct /> },
       { path: AppRoute.FAVORITE, element: <Favorite /> },
       { path: AppRoute.SCALE, element: <Scale /> },
+      { path: AppRoute.PUBLIC, element: <PublicAgreement /> },
+      { path: AppRoute.PRIVACY, element: <PrivacyPolicy /> },
+      { path: AppRoute.USER_AGREEMENT, element: <UserAgreement /> },
+      { path: AppRoute.SUCCESS, element: <SuccessfulRegister /> },
       {
         path: AppRoute.SIGN_IN,
-        element: <Auth />,
+        element: <AuthLogin />,
+      },
+      {
+        path: AppRoute.SIGN_UP,
+        element: <AuthRegister />,
       },
       {
         path: AppRoute.CART,
         element: <Cart />,
       },
-
-      // {
-      //   path: AppRoute.ORDER,
-      //   element: <Order />,
-      // },
+      {
+        path: AppRoute.USER_DATA,
+        element: <UserAccount />,
+        children: [
+          {
+            path: AppRoute.USER_DATA,
+            element: <UserData />,
+          },
+          {
+            path: AppRoute.USER_CART,
+            element: <UserCart />,
+          },
+          {
+            path: AppRoute.USER_FAVORITES,
+            element: <UserFavorites />,
+          },
+          {
+            path: AppRoute.USER_ORDERS,
+            element: <UserOrders />,
+          },
+          {
+            path: AppRoute.USER_REVIEWS,
+            element: <UserReviews />,
+          },
+          {
+            path: AppRoute.USER_LOYALTY,
+            element: <UserLoyalty />,
+          },
+          {
+            path: AppRoute.USER_SCALES,
+            element: <UserScales />,
+          },
+        ],
+      },
+      {
+        path: AppRoute.CHECKOUT,
+        element: <Checkout />,
+      },
       // {
       //   path: AppRoute.ADMIN,
       //   element: <AdminPage />,

@@ -1,54 +1,92 @@
-# React + TypeScript + Vite
+# 💎 Jewelry Store
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Vite](https://img.shields.io/badge/Vite-6.3.1-646CFF?logo=vite\&logoColor=white)
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react\&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue?logo=typescript\&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-4.1.5-38B2AC?logo=tailwindcss\&logoColor=white)
+![Zustand](https://img.shields.io/badge/Zustand-5.0.3-FF9900?logo=react\&logoColor=white)
+![Zod](https://img.shields.io/badge/Zod-3.24.3-purple?logo=zod\&logoColor=white)
+![ShadCN UI](https://img.shields.io/badge/ShadCN_UI-based-black)
 
-Currently, two official plugins are available:
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Link-informational?style=flat\&logo=vercel)](https://jewelry-store-sigma.vercel.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+> 💡 Modern eCommerce web app for a jewelry store built with React, TypeScript, Zustand, Zod, ShadCN UI and TailwindCSS.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🔥 Features
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
+* 🛒 Full-featured jewelry eCommerce UI
+* 💎 Product catalog with filtering, sorting, pagination and masonry layout
+* 📱 Responsive design and modern animations
+* 📦 Basket, wishlist, order pages
+* 🔐 Authentication (login/register/logout)
+* 📄 Profile update with token refresh support
+* ⚙️ Global API handler with typed `request()` function
+* 🧩 Modular component architecture
+* 📚 Zod for form validation
+* 💨 TailwindCSS + custom animations
+* 🎯 Zustand for lightweight global state management
+* 🧪 ESlint + Prettier + Husky for clean code
+
+---
+
+## 🛠️ Stack
+
+| Technology            | Purpose                             |
+| --------------------- | ----------------------------------- |
+| **React 19**          | UI library                          |
+| **TypeScript**        | Static typing                       |
+| **Vite**              | Development bundler                 |
+| **Tailwind CSS**      | Styling & layout                    |
+| **Zustand**           | Global state (auth, wishlist, etc.) |
+| **Zod**               | Schema validation                   |
+| **ShadCN UI**         | UI components                       |
+| **React Router**      | Navigation                          |
+| **Axios**             | HTTP requests                       |
+| **Swiper**            | Carousels/sliders                   |
+| **react-masonry-css** | Product masonry layout              |
+
+---
+
+## 📁 Folder Structure (Key Parts)
+
+```
+src/
+├── api/               # Axios instance, request function
+├── components/        # Reusable UI components
+├── features/          # Feature folders (auth, products, etc)
+├── hooks/             # Custom hooks
+├── layouts/           # Page layouts
+├── pages/             # Route pages
+├── schemas/           # Zod form schemas
+├── store/             # Zustand stores
+├── styles/            # Global styles
+├── utils/             # Helpers (e.g. catchErrorCodes)
+└── main.tsx           # App entry point
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
+## 🚀 Getting Started
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-});
+```bash
+git clone https://github.com/SergSvet87/jewelry-store.git
+cd jewelry-store
+npm install
+npm run dev
 ```
+
+---
+
+## 👤 Author
+
+Created with ❤️ by [**Serhii Svitlychniy**](mailto:svitlychnyi.frontdev@gmail.com)
+
+> Feel free to reach out or contribute!
+
+---
+
+## 📜 License
+
+[MIT](LICENSE)

@@ -3,31 +3,31 @@ import { FavoriteIcon, ScalesIcon, SearchIcon, ShoppingBagIcon, UserIcon } from 
 
 export const headerButtons = [
   {
-    title: 'Search',
+    title: 'search',
     href: '#',
     icon: SearchIcon,
     type: 'fill',
   },
   {
-    title: 'User',
-    href: AppRoute.SIGN_IN,
+    title: 'user',
+    href: AppRoute.SIGN_UP,
     icon: UserIcon,
     type: 'fill',
   },
   {
-    title: 'Favorite',
+    title: 'favorite',
     icon: FavoriteIcon,
     href: AppRoute.FAVORITE,
     type: 'fill',
   },
   {
-    title: 'Scale',
+    title: 'scale',
     href: AppRoute.SCALE,
     icon: ScalesIcon,
     type: 'fill',
   },
   {
-    title: 'ShoppingBag',
+    title: 'shoppingBag',
     icon: ShoppingBagIcon,
     href: AppRoute.CART,
     type: 'stroke',

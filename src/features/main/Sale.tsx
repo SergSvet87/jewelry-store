@@ -2,16 +2,19 @@ import { Link } from 'react-router-dom';
 
 import { productsSale } from '@/mock';
 import { AppRoute } from '@/enums';
-import { Card, CardContent } from '@/components/Card';
+import { Card, CardContent } from '@/components/ui';
 import { FavoriteIcon, ShoppingBagIcon } from '@/assets';
+import { useProductStore } from '@/store/products/useProductsStore';
 
 export const Sale = () => {
+  const toggleFavorite = useProductStore((state) => state.toggleFavorite);
+
   return (
     <section className="relative w-full mb-[var(--section-indent)]">
       <div className="container mx-auto relative">
         <h2 className="text-center mb-[61px]">Розпродаж минулої колекції</h2>
 
-        <div className="flex flex-wrap gap-5">
+        <div className="flex gap-5">
           {productsSale.map((product) => (
             <div key={product.id} className={`flex flex-col ${product.width} gap-3 group`}>
               <Card className="border-0 rounded-none">
@@ -27,11 +30,11 @@ export const Sale = () => {
                   <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
 
                   <div className="absolute w-[68px] h-6 top-5 right-5 flex gap-4 z-20 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-                    <button className="btn">
+                    <button className="btn" onClick={() => toggleFavorite(product.id)}>
                       <FavoriteIcon fill="var(--brown-dark)" />
                     </button>
 
-                    <button className="btn">
+                    <button className="btn" onClick={() => {}}>
                       <ShoppingBagIcon stroke="var(--brown-dark)" />
                     </button>
                   </div>
