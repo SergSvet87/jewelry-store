@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import cn from 'classnames';
 
+import { Logo } from '@/assets';
 import { AppRoute } from '@/enums';
 import { navItems } from '@/mock';
 import { headerButtons } from '@/mock/headerButtons';
-import { SearchDropdown, SupportDrawer } from './ui';
-import { Logo } from '@/assets';
+import { SearchDropdown } from './SearchDropdown';
+import { SupportDrawer } from './SupportDrawer';
 import { useCartStore } from '@/store/cart/useCartStore';
 import { useProductStore } from '@/store/products/useProductsStore';
 
@@ -14,7 +15,7 @@ const Header = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeButton, setActiveButton] = useState<string | null>(null);
-  const location = useLocation();
+  const { pathname } = useLocation();
   const cartCount = useCartStore((state) => state.items.length);
   const favoriteCount = useProductStore((state) => state.favorites.length);
 
@@ -34,7 +35,7 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
-    const matched = headerButtons.find((btn) => btn.href === location.pathname);
+    const matched = headerButtons.find((btn) => btn.href === pathname);
 
     if (matched) {
       setActiveButton(matched.title);
@@ -43,16 +44,16 @@ const Header = () => {
       setActiveButton(null);
       localStorage.removeItem('activeButton');
     }
-  }, [location.pathname]);
+  }, [pathname]);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 120);
+      setScrolled(window.scrollY > 400);
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [pathname]);
 
   const promoMessage = "Безкоштовна доставка кур'єром Нової Пошти!";
 
@@ -81,47 +82,61 @@ const Header = () => {
       <div
         className={cn(
           'w-full h-[50px] text-[var(--main)] transition-colors duration-300',
-          scrolled ? 'bg-[var(--brown-dark)]' : 'bg-transparent',
+          pathname === AppRoute.ROOT || pathname === AppRoute.PRODUCTS
+            ? scrolled
+              ? 'bg-[var(--brown-dark)]'
+              : 'bg-transparent'
+            : 'bg-[var(--brown-dark)]',
         )}
       >
         <div className="container flex items-center justify-between h-full">
           <Link id="header-logo" to={AppRoute.ROOT} className="w-[105px] h-[30px] cursor-pointer">
-            <Logo width={'105'} height={'30'} fill="var(--accent)" />
+            <Logo width={'105'} height={'30'} classname="text-[var(--accent)]" />
           </Link>
 
           <div className="flex items-center gap-[196px] h-full">
             <nav className="flex gap-10 items-center">
-              {navItems.map((item, index) =>
-                item.href.startsWith('#') ? (
-                  <a
-                    key={index}
-                    href={item.href}
-                    onClick={(e) =>
-                      handleScrollClick(e as React.MouseEvent<HTMLAnchorElement>, item.href)
-                    }
-                    className={cn(
-                      'flex w-[88px] justify-center px-0 pb-[5px] py-2 border border-solid border-transparent items-center hover:border-b-[var(--main)] active:text-[var(--accent)]',
-                    )}
-                  >
-                    <span className="whitespace-nowrap">{item.label}</span>
-                  </a>
-                ) : (
-                  <Link
-                    key={index}
-                    to={item.href}
-                    className={cn(
-                      'flex w-[88px] justify-center px-0 pb-[5px] py-2 border border-solid border-transparent items-center hover:border-b-[var(--main)] active:text-[var(--accent)]',
-                    )}
-                  >
-                    <span className="whitespace-nowrap">{item.label}</span>
-                  </Link>
-                ),
-              )}
+              {navItems
+                .filter((item) => {
+                  if (
+                    item.href === '#about-us' &&
+                    pathname !== AppRoute.ROOT
+                  ) {
+                    return false;
+                  }
+                  return true;
+                })
+                .map((item, index) =>
+                  item.href.startsWith('#') ? (
+                    <a
+                      key={index}
+                      href={item.href}
+                      onClick={(e) =>
+                        handleScrollClick(e as React.MouseEvent<HTMLAnchorElement>, item.href)
+                      }
+                      className={cn(
+                        'flex w-[88px] justify-center px-0 pb-[5px] py-2 border border-solid border-transparent items-center hover:border-b-[var(--main)] active:text-[var(--accent)]',
+                      )}
+                    >
+                      <span className="whitespace-nowrap">{item.label}</span>
+                    </a>
+                  ) : (
+                    <Link
+                      key={index}
+                      to={item.href}
+                      className={cn(
+                        'flex w-[88px] justify-center px-0 pb-[5px] py-2 border border-solid border-transparent items-center hover:border-b-[var(--main)] active:text-[var(--accent)]',
+                      )}
+                    >
+                      <span className="whitespace-nowrap">{item.label}</span>
+                    </Link>
+                  ),
+                )}
             </nav>
 
             <div className="flex items-center gap-8">
               {headerButtons.map((item) => {
-                const isActive = activeButton === item.title || location.pathname === item.href;
+                const isActive = activeButton === item.title || pathname === item.href;
 
                 const iconColor = isActive ? 'var(--accent)' : 'var(--main)';
                 const Icon = item.icon;

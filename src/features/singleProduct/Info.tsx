@@ -9,6 +9,8 @@ import {
 import { FavoriteIcon, ScalesIcon } from '@/assets';
 import { useCartStore } from '@/store/cart/useCartStore';
 import { useProductStore } from '@/store/products/useProductsStore';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '@/enums';
 
 export const Info = ({ id }: { id: string | undefined }) => {
   const addToCart = useCartStore((state) => state.addToCart);
@@ -61,7 +63,9 @@ export const Info = ({ id }: { id: string | undefined }) => {
           </div>
 
           <div className="flex items-center justify-between gap-5 relative self-stretch w-full">
-            <button className="btn-buy w-[249px]">Купити</button>
+            <Link to={AppRoute.CHECKOUT} className=''>
+              <button className="btn-buy">Купити</button>
+            </Link>
 
             <button className="btn-add " onClick={() => id && addToCart(id)}>
               Додати в кошик

@@ -13,10 +13,18 @@ export const catchErrorCodes = (error: unknown): string => {
         return 'Сесія закінчилась. Увійдіть знову';
       case 403:
         return 'Недостатньо прав доступу';
+      case 422:
+        return 'Unprocessable entity';
       case 404:
         return 'Не знайдено';
       case 500:
         return 'Серверна помилка';
+      case 502:
+        return 'Bad Gateway';
+      case 503:
+        return 'Service Unavailable';
+      case 800:
+        return 'Network Timeout';
       default:
         return `Сталася помилка: ${code}`;
     }

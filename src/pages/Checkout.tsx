@@ -3,7 +3,7 @@ import { Summary } from "@/features/checkout/Summary";
 
 export const Checkout = () => {
   return (
-    <div>
+    <div className="container mx-auto flex flex-col items-start justify-between mt-[100px]">
       <h1 className="font-heading-2 text-brown-dark text-[length:var(--heading-2-font-size)] tracking-[var(--heading-2-letter-spacing)] leading-[var(--heading-2-line-height)] mb-8">
         Оформлення замовлення
       </h1>

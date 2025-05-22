@@ -1,24 +1,15 @@
-import { ZodSchema } from 'zod';
-import { request } from './requestService';
+import { request } from '../api/requestService';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-interface SubmitFormOptions<TData, _> {
+interface SubmitFormOptions<TData, _TResponse> {
   url: string;
   method: 'POST' | 'PUT' | 'DELETE';
   data: TData;
-  schema: ZodSchema<TData>;
 }
 
 export const submitForm = async <TData, TResponse>(
   options: SubmitFormOptions<TData, TResponse>
 ): Promise<TResponse> => {
-  const parseResult = options.schema.safeParse(options.data);
-
-  if (!parseResult.success) {
-    const errors = parseResult.error.format();
-    throw new Error(JSON.stringify(errors));
-  }
-
   return await request<TResponse, TData>({
     url: options.url,
     method: options.method,

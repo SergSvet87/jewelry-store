@@ -1,9 +1,16 @@
 import { create } from 'zustand';
 
-import { UserState } from '@/types/';
 import { userData } from '@/mock/userData';
+import { IUserItem } from '@/types/';
 
-export const useUserStore = create<UserState>((_, get) => ({
+export interface UserState {
+  users: IUserItem[];
+  currentUser: IUserItem | null;
+  setUser: (user: IUserItem) => void;
+}
+
+export const useUserStore = create<UserState>((set) => ({
   users: userData,
-  getUserById: (id) => get().users.find((user) => user.id === id),
+  currentUser: null,
+  setUser: (user) => set({ currentUser: user }),
 }));

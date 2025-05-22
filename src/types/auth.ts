@@ -1,23 +1,40 @@
-export interface RegisterRequest {
+interface RegisterRequest {
   name: string;
   phone: string;
 }
+interface RegisterResponse {
+  token: string;
+}
 
-export interface LoginRequest {
+interface VerifyRequest {
+  code: string;
+}
+
+interface VerifyResponse {
+  access_token: string;
+  refresh_token: string;
+}
+
+interface LoginRequest {
   phone: string;
 }
 
-export interface UpdateProfileRequest {
+interface LoginResponse {
+  access_token: string;
+  refresh_token: string;
+}
+
+interface UpdateProfileRequest {
   name: string;
   phone?: string;
 }
 
-export interface AuthResponse {
-  user: {
-    id: string;
-    name: string;
-    email: string;
-  };
-  accessToken: string;
-  refreshToken: string;
+export type {
+  RegisterRequest,
+  LoginRequest,
+  LoginResponse,
+  RegisterResponse,
+  VerifyResponse,
+  VerifyRequest,
+  UpdateProfileRequest,
 }

@@ -10,7 +10,7 @@ export const headerButtons = [
   },
   {
     title: 'user',
-    href: AppRoute.SIGN_IN,
+    href: AppRoute.SIGN_UP,
     icon: UserIcon,
     type: 'fill',
   },

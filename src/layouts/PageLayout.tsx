@@ -7,7 +7,7 @@ import { Catalog } from '@/components/Catalog';
 import { BreadCrumbs } from '@/components/BreadCrumbs';
 import { Filters } from '@/features/products/Filters';
 import { Sort } from '@/features/products/Sort';
-import { useProductStore } from '@/store/products/useProductsStore';
+import { useCatalogStore } from '@/store/catalog/useCatalogStore';
 
 interface PageLayoutProps {
   products: Product[];
@@ -15,8 +15,8 @@ interface PageLayoutProps {
 
 export const PageLayout: FC<PageLayoutProps> = ({ products }) => {
   const [sort, setSort] = useState('popular');
-  const page = useProductStore((state) => state.page);
-  const setTotalPages = useProductStore((state) => state.setTotalPages);
+  const page = useCatalogStore((state) => state.page);
+  const setTotalPages = useCatalogStore((state) => state.setTotalPages);
 
   const itemsPerPage = 22;
   const totalPages = Math.ceil(products.length / itemsPerPage);
