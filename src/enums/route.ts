@@ -1,6 +1,7 @@
 const AppRoute = {
   ROOT: '/',
-  SIGN_IN: '/sign-in',
+  SIGN_IN: '/auth/sign-in',
+  SIGN_UP: '/auth/sign-up',
   CHECKOUT: '/checkout',
   ADMIN: '/admin',
   USER_DATA: '/dashboard',
@@ -18,6 +19,8 @@ const AppRoute = {
   FAVORITE: '/favorite',
   PUBLIC: '/public-agreement',
   PRIVACY: '/privacy-policy',
+  USER_AGREEMENT: '/user-agreement',
+  SUCCESS: '/auth/success',
 } as const;
 
 export type RoutePath = (typeof AppRoute)[keyof typeof AppRoute];

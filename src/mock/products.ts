@@ -2,7 +2,7 @@ import { NewColHeart, NewColRing } from '@/assets';
 
 export const products = [
   {
-    id: '1',
+    id: 1,
     name: 'Gold Ring',
     price: 299.99,
     image: '/ring.jpg',
@@ -10,7 +10,7 @@ export const products = [
     description: 'Elegant gold ring with diamonds.',
   },
   {
-    id: '2',
+    id: 2,
     name: 'Підвіска',
     type: '"Heart"',
     price: 4534,
@@ -19,7 +19,7 @@ export const products = [
     description: 'Elegant gold ring with diamonds.',
   },
   {
-    id: '3',
+    id: 3,
     name: 'Каблучка',
     type: '"Heart"',
     price: 9646,

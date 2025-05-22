@@ -1,6 +1,7 @@
 import { FC, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { StarIcon } from 'lucide-react';
+import cn from 'classnames';
 
 import 'swiper/css';
 
@@ -25,12 +26,16 @@ export const ReviewSlider: FC<SliderProps> = ({ slides, classname, pagination, s
       >
         {slides &&
           slides.map((slide: SlideDataReview) => (
-            <SwiperSlide key={slide?.id} className="flex justify-center transition-all duration-500">
+            <SwiperSlide
+              key={slide?.id}
+              className="flex justify-center transition-all duration-500"
+            >
               {({ isActive }) => (
                 <Card
-                  className={`transition-all duration-500 ease-in-out bg-transparent shadow-lg mx-auto
-            ${isActive ? 'w-[400px] h-[550px] z-10' : 'w-[306px] h-[460px] opacity-70'}
-          `}
+                  className={cn(
+                    'transition-all duration-500 ease-in-out bg-transparent shadow-lg mx-auto cursor-pointer',
+                    isActive ? 'w-[400px] h-[550px] z-10' : 'w-[306px] h-[460px] opacity-70',
+                  )}
                 >
                   <CardContent className="p-6 flex flex-col h-full justify-between">
                     <div className="mb-8 flex items-center gap-4 justify-between">
@@ -58,7 +63,10 @@ export const ReviewSlider: FC<SliderProps> = ({ slides, classname, pagination, s
                         <img
                           src={slide.image}
                           alt="Product Image"
-                          className="w-full h-[248px] object-cover"
+                          className={cn(
+                            "w-full object-cover",
+                            isActive ? 'h-[248px]' : 'h-[169px]',
+                          )}
                         />
                       )}
                     </div>

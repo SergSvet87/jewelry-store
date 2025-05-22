@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom';
 
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { PopUpConfirmationPhone } from '@/features/auth/ConfirmationPhone';
 
 export const Layout = () => {
   return (
@@ -13,6 +14,8 @@ export const Layout = () => {
       </main>
 
       <Footer />
+      
+      <PopUpConfirmationPhone />
     </div>
   );
 };

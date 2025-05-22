@@ -8,8 +8,8 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from './drawer';
-import { Input } from './input';
+} from './ui/drawer';
+import { Input } from './ui/input';
 
 import { MessageSquareIcon, MessageQuestionIcon, X, SendIcon, SupportIcon } from '@/assets';
 

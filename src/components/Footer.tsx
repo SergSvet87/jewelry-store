@@ -1,9 +1,10 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { AppRoute } from '@/enums';
 import { categories, footerLinks, socialLinks } from '@/mock';
 
 const Footer = () => {
+  const { pathname } = useLocation();
   const handleScrollClick = (e: React.MouseEvent<HTMLAnchorElement>, el: string) => {
     e.preventDefault();
 
@@ -40,24 +41,31 @@ const Footer = () => {
 
         <div className="w-full md:w-1/4 mb-8 md:mb-0">
           <nav className="flex flex-col gap-4">
-            {footerLinks.map((item, index) =>
-              item.href.startsWith('#') ? (
-                <a
-                  key={`footer-${index}`}
-                  href={item.href}
-                  onClick={(e) =>
-                    handleScrollClick(e as React.MouseEvent<HTMLAnchorElement>, item.href)
-                  }
-                  className=""
-                >
-                  <span className="whitespace-nowrap">{item.label}</span>
-                </a>
-              ) : (
-                <Link to={item.href} className="" key={`footer-${index}`}>
-                  <span className="whitespace-nowrap">{item.label}</span>
-                </Link>
-              ),
-            )}
+            {footerLinks
+              .filter((item) => {
+                if ((item.href === '#about-us' || item.href === '#certificate') && pathname !== AppRoute.ROOT) {
+                  return false;
+                }
+                return true;
+              })
+              .map((item, index) =>
+                item.href.startsWith('#') ? (
+                  <a
+                    key={`footer-${index}`}
+                    href={item.href}
+                    onClick={(e) =>
+                      handleScrollClick(e as React.MouseEvent<HTMLAnchorElement>, item.href)
+                    }
+                    className=""
+                  >
+                    <span className="whitespace-nowrap">{item.label}</span>
+                  </a>
+                ) : (
+                  <Link to={item.href} className="" key={`footer-${index}`}>
+                    <span className="whitespace-nowrap">{item.label}</span>
+                  </Link>
+                ),
+              )}
           </nav>
         </div>
 

@@ -5,11 +5,9 @@ import { AppRoute } from '@/enums';
 import { Card, CardContent, CardFooter } from '@/components/ui';
 import { FavoriteIcon, NewColLarge, ShoppingBagIcon } from '@/assets';
 import { useProductStore } from '@/store/products/useProductsStore';
-import { useCartStore } from '@/store/cart/useCartStore';
 
 export const NewCollection = () => {
   const toggleFavorite = useProductStore((state) => state.toggleFavorite);
-  const addToCart = useCartStore((state) => state.addToCart);
   
   return (
     <section className="relative w-full mb-[var(--section-indent)]">
@@ -74,7 +72,7 @@ export const NewCollection = () => {
                       <button className="btn" onClick={() => toggleFavorite(product.id)}>
                         <FavoriteIcon fill="var(--brown-dark)" />
                       </button>
-                      <button className="btn" onClick={() => addToCart(product.id)}>
+                      <button className="btn" onClick={() => {}}>
                         <ShoppingBagIcon stroke="var(--brown-dark)" />
                       </button>
                     </div>

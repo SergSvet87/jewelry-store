@@ -7,8 +7,8 @@ import { AlsoBuy } from '@/features/singleProduct/AlsoBuy';
 import { SP1, SP2, SPLarge } from '@/assets';
 
 export const SingleProduct = () => {
-  const { id, category, collection, title } = useParams();
-  console.log('collection: ', collection);
+  const { id, category, title } = useParams();
+  console.log('id: ', id);
 
   const productImages = [
     {
@@ -65,7 +65,7 @@ export const SingleProduct = () => {
             </div>
           </div>
 
-          <Info id={id} />
+          <Info  />
         </div>
 
         <AlsoBuy />

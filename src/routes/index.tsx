@@ -3,17 +3,19 @@ import { createBrowserRouter } from 'react-router-dom';
 import { AppRoute } from '@/enums';
 import { Layout } from '@/layouts';
 import {
-  Auth,
   Cart,
   Favorite,
   HomePage,
-  Products,
+  Catalog,
   Scale,
   PublicAgreement,
   SingleProduct,
   PrivacyPolicy,
   UserAccount,
   Checkout,
+  AuthRegister,
+  AuthLogin,
+  UserAgreement,
 } from '@/pages';
 import {
   UserCart,
@@ -24,6 +26,7 @@ import {
   UserReviews,
   UserScales,
 } from '@/features/dashboard';
+import { SuccessfulRegister } from '@/pages/SuccessfulRegister';
 
 export const routes = createBrowserRouter([
   {
@@ -31,15 +34,21 @@ export const routes = createBrowserRouter([
     element: <Layout />,
     children: [
       { path: AppRoute.ROOT, element: <HomePage /> },
-      { path: AppRoute.PRODUCTS, element: <Products /> },
+      { path: AppRoute.PRODUCTS, element: <Catalog /> },
       { path: AppRoute.PRODUCT, element: <SingleProduct /> },
       { path: AppRoute.FAVORITE, element: <Favorite /> },
       { path: AppRoute.SCALE, element: <Scale /> },
       { path: AppRoute.PUBLIC, element: <PublicAgreement /> },
       { path: AppRoute.PRIVACY, element: <PrivacyPolicy /> },
+      { path: AppRoute.USER_AGREEMENT, element: <UserAgreement /> },
+      { path: AppRoute.SUCCESS, element: <SuccessfulRegister /> },
       {
         path: AppRoute.SIGN_IN,
-        element: <Auth />,
+        element: <AuthLogin />,
+      },
+      {
+        path: AppRoute.SIGN_UP,
+        element: <AuthRegister />,
       },
       {
         path: AppRoute.CART,

@@ -1,7 +1,7 @@
 import { ReviewImg, Review1, Review2, Review3 } from '@/assets';
-import { Review } from '@/types/';
+import { IReviewItem } from '@/types/';
 
-export const reviews: Review[] = [
+export const reviews: IReviewItem[] = [
   {
     id: 1,
     rating: 3,

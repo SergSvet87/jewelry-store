@@ -2,7 +2,7 @@ import { SaleLarge, SaleMoon, SaleRing } from '@/assets';
 
 export const productsSale = [
   {
-    id: '1',
+    id: 1,
     name: 'Підвіска',
     description: '"Moon"',
     originalPrice: '3 699 грн',
@@ -13,7 +13,7 @@ export const productsSale = [
     width: 'w-[315px]',
   },
   {
-    id: '2',
+    id: 2,
     name: 'Каблучка',
     description: '"Moon"',
     originalPrice: '6 799 грн',
@@ -24,7 +24,7 @@ export const productsSale = [
     width: 'w-[315px]',
   },
   {
-    id: '3',
+    id: 3,
     name: 'Сережки',
     description: '"Moon"',
     originalPrice: '9 799 грн',

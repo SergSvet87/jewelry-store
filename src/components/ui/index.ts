@@ -1,9 +1,12 @@
-export { SupportDrawer } from './SupportDrawer';
-export { SearchDropdown } from './SearchDropdown';
-export { Button } from './Button';
 export { Label } from './label';
-export { RadioGroup, RadioGroupItem } from './radio-group';
 export { Input } from './input';
+export { Slider } from './slider';
+export { Checkbox } from './checkbox';
+export { Button, buttonVariants } from './Button';
+export { RadioGroup, RadioGroupItem } from './radio-group';
+export { Popover, PopoverTrigger, PopoverContent, PopoverAnchor } from './popover';
+export { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from './accordion';
+export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from './card';
 export {
   Drawer,
   DrawerPortal,
@@ -16,7 +19,6 @@ export {
   DrawerTitle,
   DrawerDescription,
 } from './drawer';
-export { Popover, PopoverTrigger, PopoverContent, PopoverAnchor } from './popover';
 export {
   Select,
   SelectContent,
@@ -29,7 +31,15 @@ export {
   SelectTrigger,
   SelectValue,
 } from './select';
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from './card';
-export { Slider } from './slider';
-export { Checkbox } from './checkbox';
-export { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from './accordion'
+export {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
+} from './dialog';

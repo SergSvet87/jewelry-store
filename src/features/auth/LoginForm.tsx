@@ -1,107 +1,106 @@
+import { FC } from 'react';
+import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SmartphoneIcon } from 'lucide-react';
+import cn from 'classnames';
 
-import { useLogin } from './hooks/useLogin';
+import { ApiEndpoint, AppRoute } from '@/enums';
+import { LoginRequest } from '@/types/';
 import { loginSchema } from '@/schemas/authSchema';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent } from '@/components/ui';
+import { AppleIcon, GoogleIcon, PhoneIcon } from '@/assets';
+import { Button, Card, CardContent, Input } from '@/components/ui';
 
-export const LoginForm = () => {
-  const { login } = useLogin();
+interface LoginFormProps {
+  initialValues: LoginRequest;
+  onLogin: (data: LoginRequest) => void;
+  onChangeField: (value: LoginRequest) => void;
+}
 
-  const { handleSubmit } = useForm({
+export const LoginForm: FC<LoginFormProps> = ({ initialValues, onLogin, onChangeField }) => {
+  const {
+    handleSubmit,
+    register,
+    setValue,
+    formState: { errors },
+  } = useForm<LoginRequest>({
     resolver: zodResolver(loginSchema),
+    defaultValues: initialValues,
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = async (data: any) => {
-    try {
-      const res = await login(data);
-      console.log('Login success:', res);
-    } catch (error) {
-      console.error('Login error:', error);
-    }
-  };
   return (
-      <Card className="w-[448px] bg-main relative">
-        <CardContent className="p-8 flex flex-col items-center gap-12">
-          <div className="flex flex-col items-center gap-7 w-full">
-            <h2 className="text-[length:var(--text)]  font-[500] font-[family-name:var(--font-main)]">
-              Увійти в акаунт
-            </h2>
+    <Card className="w-[448px] bg-main relative">
+      <CardContent className="p-8 flex flex-col items-center gap-12">
+        <div className="flex flex-col items-center gap-7 w-full">
+          <h2 className="text-[length:var(--text)]  font-[500] font-[family-name:var(--font-main)]">
+            Увійти в акаунт
+          </h2>
 
-            <form className="flex flex-col items-center gap-7 w-full" onSubmit={handleSubmit(onSubmit)}>
-              <div className="relative w-full">
-                <div className="absolute left-3 top-2.5 flex items-center gap-2">
-                  <SmartphoneIcon className="w-5 h-5 text-grey" />
-                  <span className="text-[var(--grey)]">
-                    Ваш номер телефону
-                  </span>
-                </div>
+          <form
+            className="flex flex-col items-center gap-7 w-full"
+            onSubmit={handleSubmit(onLogin)}
+          >
+            <div className="w-full">
+              <div
+                className={cn(
+                  'flex items-center gap-2 border-0 border-b-2 bg-transparent rounded-none focus-within:border-[var(--brown-dark)] focus-within:text-[var(--brown-dark)]',
+                  errors.phone
+                    ? 'border-[var(--error)] text-[var(--error)]'
+                    : 'border-[var(--grey)] text-[var(--grey)]',
+                )}
+              >
+                <PhoneIcon classname="w-4 h-5 text-inherit" />
                 <Input
-                  className="h-10 bg-main border-0 border-b-2 border-[#717171] rounded-none pl-[60px] focus-visible:ring-0 focus-visible:border-brown-dark"
+                  {...register('phone')}
+                  name="phone"
+                  placeholder="Ваш номер телефону"
+                  className="w-full h-10 !bg-transparent border-none"
                   type="tel"
+                  onChange={(e) => {
+                    setValue('phone', e.target.value);
+                    onChangeField({ ...initialValues, phone: e.target.value });
+                  }}
                 />
               </div>
 
-              <button className="w-full h-[45px] btn-buy">
-                <span className="font-[500] text-[length:var(--text)]">
-                  Увійти
-                </span>
-              </button>
-            </form>
-
-            <div className="flex flex-col items-center gap-5 w-full">
-              <p className="text-[var(--grey)]">
-                або продовжити з
-              </p>
-
-              <div className="flex w-full items-center justify-between">
-                <button
-                  // variant="outline"
-                  className="w-[172px] h-11 bg-white border-none hover:bg-gray-100"
-                >
-                  <div className="w-6 h-6 mr-2">
-                    <img
-                      className="w-[23px] h-[23px]"
-                      alt="Google logo"
-                      src="/logo-googleg-48dp.png"
-                    />
-                  </div>
-                  <span className="font-[500] text-[length:var(--text)]">
-                    Google
-                  </span>
-                </button>
-
-                <button
-                  // variant="outline"
-                  className="w-[172px] h-11 bg-black-black text-text-white border-none hover:bg-gray-900"
-                >
-                  <img className="w-6 h-6 mr-2" alt="Apple logo" src="/apple-logo.svg" />
-                  <span className="font-[500] text-[length:var(--text)]">
-                    Apple
-                  </span>
-                </button>
-              </div>
+              {errors.phone && (
+                <p className="text-[var(--error)] text-xs text-center mt-1">
+                  {errors.phone.message}{' '}
+                </p>
+              )}
             </div>
-          </div>
 
-          <div className="flex flex-col w-full items-center gap-5">
-            <p className="text-[var(--grey)]">
-              Немає акаунта?
-            </p>
+            <Button className="w-full">Увійти</Button>
+          </form>
 
-            <button
-              // variant="outline"
-              className="w-full h-[45px] border-[#1d110a] hover:bg-gray-100"
-            >
-              <span className="font-[500] text-[length:var(--text)]">
-                Зареєструватися
-              </span>
-            </button>
+          <div className="flex flex-col items-center gap-5 w-full">
+            <p className="text-[var(--grey)]">або продовжити з</p>
+
+            <form className="flex w-full items-center justify-between">
+              <Button variant="secondary" asChild>
+                <Link to={ApiEndpoint.GOOGLE} className="text-[var(--black)]">
+                  <GoogleIcon />
+                  Google
+                </Link>
+              </Button>
+
+              <Button variant="secondary" className="bg-[var(--black)] text-[var(--white)]" asChild>
+                <Link to={ApiEndpoint.APPLE} className="text-[var(--black)]">
+                  <AppleIcon />
+                  Apple
+                </Link>
+              </Button>
+            </form>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+
+        <div className="flex flex-col w-full items-center gap-5">
+          <p className="text-[var(--grey)]">Немає акаунта?</p>
+
+          <Button asChild variant="outline" className="w-full">
+            <Link to={AppRoute.SIGN_UP}>Зареєструватися</Link>
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   );
 };

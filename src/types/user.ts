@@ -1,12 +1,16 @@
-interface UserItem {
-  id: string;
+import { ICartItem } from "./cart";
+import { IOrderItem } from "./order";
+
+export interface IUserItem {
+  id: number;
   email?: string;
   firstName: string;
   lastName: string;
   role?: string;
+  status?: string;
   gender?: string;
-  phoneNumber?: string;
-  secondaryPhoneNumber?: string;
+  phone?: string;
+  secondaryPhone?: string;
   birthdate?: string;
   address?: {
     city?: string;
@@ -17,9 +21,6 @@ interface UserItem {
     addressLine?: string;
   };
   password?: string;
-}
-
-export interface UserState {
-  users: UserItem[];
-  getUserById: (id: string) => void;
+  orders?: IOrderItem[];
+  cart?: ICartItem[];
 }

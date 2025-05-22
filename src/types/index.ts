@@ -1,12 +1,18 @@
 export type { Product } from './product';
-export type { Review } from './review';
-export type { CartState } from './cart';
+export type { IReviewItem } from './review';
+export type { ICartItem } from './cart';
 export type { SliderProps } from './mainSlider';
 export type { ISingleProduct } from './product';
-export type { UserState } from './user';
+export type { IUserItem } from './user';
+export type { IOrderItem } from './order';
+export type { ICategory } from './category';
+export type { ICollection } from './collection';
 export type {
   RegisterRequest,
   LoginRequest,
+  LoginResponse,
+  RegisterResponse,
+  VerifyResponse,
+  VerifyRequest,
   UpdateProfileRequest,
-  AuthResponse
 } from './auth'

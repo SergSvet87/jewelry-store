@@ -9,6 +9,8 @@ import { ChevronRight } from './icons/ChevronRight';
 import { SendIcon } from './icons/SendIcon';
 import { SupportIcon } from './icons/SupportIcon';
 import { SearchIcon } from './icons/SearchIcon';
+import { AppleIcon } from './icons/AppleIcon';
+import { GoogleIcon } from './icons/GoogleIcon';
 import { X } from './icons/X';
 import { UserIcon } from './icons/UserIcon';
 import { FavoriteIcon } from './icons/FavoriteIcon';
@@ -22,9 +24,11 @@ import { CheckCircleIcon } from './icons/CheckCircleIcon';
 import { LoyaltyIcon } from './icons/LoyaltyIcon';
 import { HistoryIcon } from './icons/HistoryIcon';
 import { MessageIcon } from './icons/MessageIcon';
-import {ArrowDownIcon} from './icons/ArrowDownIcon';
-import {CheckboxCheckedIcon} from './icons/CheckboxCheckedIcon'
+import { ArrowDownIcon } from './icons/ArrowDownIcon';
+import { PhoneIcon } from './icons/PhoneIcon';
+import { CheckboxCheckedIcon } from './icons/CheckboxCheckedIcon'
 
+import Confetti from './images/confetti.png';
 import HeroImage1 from './images/Hero-1.jpg';
 import HeroImage2 from './images/Hero-2.jpg';
 import HeroImage3 from './images/Hero-3.jpg';
@@ -56,10 +60,13 @@ export {
   MenuIcon,
   ArrowLeft,
   FilterIcon,
+  GoogleIcon,
+  AppleIcon,
   ChevronRight,
   CheckboxCheckedIcon,
   ArrowDownIcon,
   SendIcon,
+  PhoneIcon,
   SupportIcon,
   ArrowUp,
   X,
@@ -78,6 +85,7 @@ export {
   LoyaltyIcon,
   HistoryIcon,
   MessageIcon,
+  Confetti,
   HeroImage1,
   HeroImage2,
   HeroImage3,

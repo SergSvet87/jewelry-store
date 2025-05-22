@@ -1,13 +1,14 @@
 export interface Product {
-  id: string;
+  id: number;
   name: string;
   price: number;
   image: string;
   description: string;
-  category: string;
+  categoryName: string;
   isLarge: boolean;
-  collection: string;
+  collectionName: string;
   rating: number;
+  quantity: number
 }
 
 export interface ISingleProduct extends Product {

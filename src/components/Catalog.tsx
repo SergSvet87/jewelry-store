@@ -1,18 +1,18 @@
 import { FC } from 'react';
 
-import { Product } from '@/types/';
-import ProductCard from '@/features/products/ProductCard';
-import { useProductStore } from '@/store/products/useProductsStore';
+import { ISingleProduct } from '@/types/';
+import { ProductCard } from '@/features/products/ProductCard';
 import { Pagination } from '@/features/products/Pagination';
+import { useCatalogStore } from '@/store/catalog/useCatalogStore';
 
 interface ICatalogProps {
-  data: Product[];
+  data: ISingleProduct[];
   totalPages: number;
   page: number;
 }
 
 export const Catalog: FC<ICatalogProps> = ({ data, totalPages, page }) => {
-  const setPage = useProductStore((state) => state.setPage);
+  const setPage = useCatalogStore((state) => state.setPage);
 
   return (
     <>

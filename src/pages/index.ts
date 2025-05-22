@@ -1,11 +1,13 @@
 export { HomePage } from './HomePage';
-export { Products } from './Products';
+export { Catalog } from './Catalog';
 export { Cart } from './Cart';
-export { Auth } from './Auth';
+export { AuthLogin } from './AuthLogin';
+export { AuthRegister } from './AuthRegister';
 export { Favorite } from './Favorite';
 export { Scale } from './Scale';
 export { SingleProduct } from './SingleProduct';
 export { PublicAgreement } from './PublicAgreement';
 export { PrivacyPolicy } from './PrivacyPolicy';
 export { UserAccount } from './UserAccount';
+export { UserAgreement } from './UserAgreement';
 export { Checkout } from './Checkout';

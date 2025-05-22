@@ -10,7 +10,7 @@ export const Certificate = () => {
       className="relative w-full h-[1000px] bg-cover bg-center"
       style={{ backgroundImage: `url(${Cert})` }}
     >
-      <div className="w-full h-full flex flex-col items-center justify-between gap-16 py-[80px] relative">
+      <div className="w-full h-full flex flex-col items-center justify-between gap-16 py-[100px] relative">
         <h2 className="text-center text-[var(--main)]">Подарункові сертифікати</h2>
 
         <Link to={AppRoute.PRODUCTS} className="inline-block">

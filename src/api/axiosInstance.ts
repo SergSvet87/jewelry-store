@@ -4,7 +4,7 @@ import axios, {
   AxiosError,
 } from 'axios';
 
-import { LocalStorage } from '@/enums';
+import { ContentType, LocalStorage } from '@/enums';
 import { refreshAccessToken } from '@/services/authService';
 import { localStorageService } from '@/services/localStorageService';
 import { useAuthStore } from '@/store/auth/useAuthStore';
@@ -14,13 +14,14 @@ const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   timeout: 10000,
   headers: {
-    Accept: 'application/json',
+    Accept: ContentType.JSON,
   },
 });
 
 axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
     const token = localStorageService.getItem(LocalStorage.ACCESS_TOKEN_KEY);
+
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -32,6 +33,7 @@ axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => response,
   async (error: AxiosError) => {
     const { logout } = useAuthStore();
+    
     const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
     if (
       error.response?.status === 401 &&

@@ -5,33 +5,25 @@ import { mockProducts } from '@/mock/mockProducts';
 
 interface ProductState {
   products: ISingleProduct[];
-  favorites: string[];
-  page: number;
-  totalPages: number;
+  favorites: number[];
   setProducts: (products: ISingleProduct[]) => void;
-  getProductById: (id: string) => ISingleProduct | undefined;
+  getProductById: (id: number) => ISingleProduct | undefined;
   filterByCategory: (category: string) => ISingleProduct[];
-  toggleFavorite: (id: string) => void;
-  setPage: (page: number) => void;
-  setTotalPages: (total: number) => void;
+  toggleFavorite: (id: number) => void;
 }
 
 export const useProductStore = create<ProductState>((set, get) => ({
   products: mockProducts,
   favorites: [],
-  page: 1,
-  totalPages: 1,
   setProducts: (products) => set({ products }),
   getProductById: (id) => get().products.find((product) => product.id === id),
-  filterByCategory: (category) => get().products.filter((p) => p.category === category),
+  filterByCategory: (category) => get().products.filter((p) => p.categoryName === category),
   toggleFavorite: (id) => {
     const { favorites } = get();
     set({
-      favorites: favorites.includes(id)
+      favorites: favorites.some((id) => id === id)
         ? favorites.filter((favId) => favId !== id)
         : [...favorites, id],
     });
   },
-  setPage: (page) => set({ page }),
-  setTotalPages: (totalPages) => set({ totalPages }),
 }));
