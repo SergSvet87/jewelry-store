@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 
-import { Product } from '@/types/';
+import { ISingleProduct } from '@/types/';
 import { AppRoute } from '@/enums';
 import { Banner } from '@/components/Banner';
 import { Catalog } from '@/components/Catalog';
@@ -10,7 +10,7 @@ import { Sort } from '@/features/products/Sort';
 import { useCatalogStore } from '@/store/catalog/useCatalogStore';
 
 interface PageLayoutProps {
-  products: Product[];
+  products: ISingleProduct[];
 }
 
 export const PageLayout: FC<PageLayoutProps> = ({ products }) => {

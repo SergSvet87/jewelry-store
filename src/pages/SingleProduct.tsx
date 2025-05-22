@@ -8,6 +8,7 @@ import { SP1, SP2, SPLarge } from '@/assets';
 
 export const SingleProduct = () => {
   const { id, category, title } = useParams();
+  console.log('id: ', id);
 
   const productImages = [
     {
@@ -64,7 +65,7 @@ export const SingleProduct = () => {
             </div>
           </div>
 
-          <Info id={id} />
+          <Info  />
         </div>
 
         <AlsoBuy />
