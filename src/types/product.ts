@@ -7,7 +7,7 @@ export interface Product {
   categoryName?: string;
   isLarge?: boolean;
   collectionName?: string;
-  rating?: number;
+  rating: number;
   quantity: number
 }
 
