@@ -110,7 +110,6 @@ const useAuth = (): Return => {
   }
 
   const onVerifyPhoneCode = async (code: VerifyRequest) => {
-    console.log('code: ', code);
     const res = await verifyPhoneNumber(code);
 
     if (res) {
