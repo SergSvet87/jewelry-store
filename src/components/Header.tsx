@@ -10,13 +10,14 @@ import { SearchDropdown } from './SearchDropdown';
 import { SupportDrawer } from './SupportDrawer';
 import { useCartStore } from '@/store/cart/useCartStore';
 import { useProductStore } from '@/store/products/useProductsStore';
+import { useModalStore } from '@/store/modal/useModalStore';
 
 const Header = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeButton, setActiveButton] = useState<string | null>(null);
   const { pathname } = useLocation();
-  const cartCount = useCartStore((state) => state.items.length);
+  const cartCount = useCartStore((state) => state.cart?.items?.length);
   const favoriteCount = useProductStore((state) => state.favorites.length);
 
   const toggleActiveButton = (title: string) => {
@@ -98,10 +99,7 @@ const Header = () => {
             <nav className="flex gap-10 items-center">
               {navItems
                 .filter((item) => {
-                  if (
-                    item.href === '#about-us' &&
-                    pathname !== AppRoute.ROOT
-                  ) {
+                  if (item.href === '#about-us' && pathname !== AppRoute.ROOT) {
                     return false;
                   }
                   return true;
@@ -152,6 +150,25 @@ const Header = () => {
                       key={item.title}
                     >
                       <Icon fill={iconColor} />
+                    </button>
+                  );
+                }
+
+                if (item.title === 'shoppingBag') {
+                  return (
+                    <button
+                      key={item.title}
+                      className="btn relative"
+                      onClick={() => {
+                        useModalStore.getState().open('cart');
+                      }}
+                    >
+                      <Icon stroke={iconColor} />
+                      {cartCount > 0 && (
+                        <span className="absolute -top-1 -right-1 text-medium text-[10px] bg-[var(--accent)] text-[var(--main)] rounded-full w-3 h-3 flex items-center justify-center">
+                          {cartCount}
+                        </span>
+                      )}
                     </button>
                   );
                 }

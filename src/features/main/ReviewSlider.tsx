@@ -38,7 +38,12 @@ export const ReviewSlider: FC<SliderProps> = ({ slides, classname, pagination, s
                   )}
                 >
                   <CardContent className="p-6 flex flex-col h-full justify-between">
-                    <div className="mb-8 flex items-center gap-4 justify-between">
+                    <div
+                      className={cn(
+                        'flex items-center gap-4 justify-between',
+                        isActive ? 'mb-6' : 'mb-5',
+                      )}
+                    >
                       <div className="flex items-center gap-2">
                         {[...Array(5)].map(
                           (_, i) =>
@@ -56,16 +61,25 @@ export const ReviewSlider: FC<SliderProps> = ({ slides, classname, pagination, s
                       <p className="text-[var(--grey)]">{slide.date}</p>
                     </div>
 
-                    <div className="mb-6 flex flex-col flex-grow">
-                      <p className="mb-6">{slide.text}</p>
+                    <div className={cn('flex flex-col flex-grow', isActive ? 'mb-6' : 'mb-3')}>
+                      <p
+                        className={cn(
+                          'h-auto overflow-ellipsis overflow-hidden transition-all duration-500 ease-in-out',
+                          isActive ? 'max-h-[356px]' : 'max-h-[275px]',
+                          slide.hasProductImage && isActive && '!max-h-[125px]',
+                          slide.hasProductImage && !isActive && '!max-h-[109px]',
+                        )}
+                      >
+                        {slide.text}
+                      </p>
 
                       {slide.hasProductImage && (
                         <img
                           src={slide.image}
                           alt="Product Image"
                           className={cn(
-                            "w-full object-cover",
-                            isActive ? 'h-[248px]' : 'h-[169px]',
+                            'w-full object-cover',
+                            isActive ? 'h-[242px] pt-6' : 'h-[165px] pt-3',
                           )}
                         />
                       )}

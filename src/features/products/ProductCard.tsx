@@ -12,9 +12,8 @@ export const ProductCard = ({ product }: { product: ISingleProduct }) => {
   const addToCart = useCartStore((state) => state.addToCart);
   const toggleFavorite = useProductStore((state) => state.toggleFavorite);
   const favorites = useProductStore((state) => state.favorites);
-  const items = useCartStore((state) => state.items);
+  const isInCart = useCartStore((state) => state.isInCart(product.id));
 
-  const isInCart = items.some((item) => item.id === product.id);
   const isInFavorite = favorites.some((id) => id === (product.id));
 
   return (
@@ -56,8 +55,8 @@ export const ProductCard = ({ product }: { product: ISingleProduct }) => {
 
           <Link
             to={AppRoute.PRODUCT.replace(':id', String(product.id))
-              .replace(':category', product.categoryName)
-              .replace(':collection', product.collectionName)
+              // .replace(':category', product.categoryName)
+              // .replace(':collection', product.collectionName)
               .replace(':title', `${product.categoryName} ${product.collectionName}`)
               .toLowerCase()}
             className="absolute bottom-5 left-1/2 transform -translate-x-1/2 z-20 opacity-0 group-hover:opacity-100 transition-all duration-300"

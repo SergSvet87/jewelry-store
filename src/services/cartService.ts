@@ -1,66 +1,27 @@
-import { LocalStorage } from '@/enums';
 import { ICartItem, ISingleProduct } from '@/types/';
-import { localStorageService } from './localStorageService';
 
 export const addToCartService = (
   product: ISingleProduct,
-  currentItems: ICartItem[],
+  currentCart: ICartItem,
   userId: number,
-): ICartItem[] => {
- const existingItem = currentItems.find(item =>
-    item.items.some(i => i.product.id === product.id),
-  );
+): ICartItem => {
+  const cart = currentCart || {
+    userId,
+    items: [],
+  };
 
-  let updatedItems: ICartItem[];
+  const existingItem = cart?.items?.find((i) => i.productId === product.id);
 
   if (existingItem) {
-    updatedItems = currentItems.map(item => {
-      if (item.items.some(i => i.product.id === product.id)) {
-        return {
-          ...item,
-          items: item.items.map(i =>
-            i.product.id === product.id
-              ? { ...i, quantity: i.quantity + 1 }
-              : i,
-          ),
-        };
-      }
-      return item;
-    });
+    existingItem.quantity += 1;
   } else {
-    const newItem: ICartItem = {
-      id: Date.now(),
-      userId,
-      items: [
-        {
-          id: Date.now(),
-          cartId: 0,
-          product,
-          productName: product.name,
-          quantity: 1,
-        },
-      ],
-    };
-    updatedItems = [...currentItems, newItem];
+    cart?.items?.push({
+      productId: product.id,
+      quantity: 1,
+    });
   }
 
-  const totalQuantity = updatedItems.reduce(
-    (sum, cartItem) =>
-      sum + cartItem.items.reduce((s, i) => s + i.quantity, 0),
-    0,
-  );
-
-  const totalAmount = updatedItems.reduce(
-    (sum, cartItem) =>
-      sum +
-      cartItem.items.reduce((s, i) => s + i.quantity * i.product.price, 0),
-    0,
-  );
-
-  localStorageService.setItem(LocalStorage.CART_TOTAL_AMOUNT, totalAmount.toString());
-  localStorageService.setItem(LocalStorage.CART_QUANTITY, totalQuantity.toString());
-
-  return updatedItems;
+  return cart;
 };
 
 export const removeFromCartService = (
@@ -70,7 +31,7 @@ export const removeFromCartService = (
   const updatedItems = currentItems
     .map(cart => ({
       ...cart,
-      items: cart.items.filter(i => i.product.id !== productId),
+      items: cart.items.filter(i => i.productId !== productId),
     }))
     .filter(cart => cart.items.length > 0);
 
@@ -85,7 +46,7 @@ export const changeQuantityService = (
   return currentItems.map(cart => ({
     ...cart,
     items: cart.items.map(i =>
-      i.product.id === productId ? { ...i, quantity } : i,
+      i.productId === productId ? { ...i, quantity } : i,
     ),
   }));
 };
