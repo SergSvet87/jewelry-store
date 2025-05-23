@@ -41,6 +41,11 @@ function DialogContent({
   children,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content>) {
+  const [isHovering, setIsHovering] = React.useState(false);
+
+  const handleMouseEnter = () => setIsHovering(true);
+  const handleMouseLeave = () => setIsHovering(false);
+
   return (
     <DialogPortal data-slot="dialog-portal">
       <DialogOverlay />
@@ -53,8 +58,17 @@ function DialogContent({
         {...props}
       >
         {children}
-        <DialogPrimitive.Close className="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 stroke-[var(--grey)] hover:stroke-[var(--brown-dark)] cursor-pointer">
-          <X classname="stroke-current" />
+        <DialogPrimitive.Close
+          className="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 transition-opacity hover:opacity-100  focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 cursor-pointer"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <X
+            classname={cn(
+              'text-current w-5 h-5',
+              isHovering ? 'text-[var(--brown-dark)]' : 'text-[var(--grey)]',
+            )}
+          />
           <span className="sr-only">Close</span>
         </DialogPrimitive.Close>
       </DialogPrimitive.Content>
@@ -74,11 +88,7 @@ function DialogHeader({ className, ...props }: React.ComponentProps<'div'>) {
 
 function DialogFooter({ className, ...props }: React.ComponentProps<'div'>) {
   return (
-    <div
-      data-slot="dialog-footer"
-      className={cn('flex flex-col gap-2', className)}
-      {...props}
-    />
+    <div data-slot="dialog-footer" className={cn('flex flex-col gap-2', className)} {...props} />
   );
 }
 

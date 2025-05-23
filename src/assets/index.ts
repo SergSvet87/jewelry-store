@@ -26,7 +26,8 @@ import { HistoryIcon } from './icons/HistoryIcon';
 import { MessageIcon } from './icons/MessageIcon';
 import { ArrowDownIcon } from './icons/ArrowDownIcon';
 import { PhoneIcon } from './icons/PhoneIcon';
-import { CheckboxCheckedIcon } from './icons/CheckboxCheckedIcon'
+import { CheckboxCheckedIcon } from './icons/CheckboxCheckedIcon';
+import { DeleteIcon } from './icons/DeleteIcon';
 
 import Confetti from './images/confetti.png';
 import HeroImage1 from './images/Hero-1.jpg';
@@ -60,6 +61,7 @@ export {
   MenuIcon,
   ArrowLeft,
   FilterIcon,
+  DeleteIcon,
   GoogleIcon,
   AppleIcon,
   ChevronRight,

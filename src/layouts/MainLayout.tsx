@@ -2,9 +2,11 @@ import { Outlet } from 'react-router-dom';
 
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { PopUpCart } from '@/features/cart/PopUpCart';
 import { PopUpConfirmationPhone } from '@/features/auth/ConfirmationPhone';
 
 export const Layout = () => {
+  
   return (
     <div className="flex flex-col min-h-screen overflow-hidden">
       <Header />
@@ -16,6 +18,7 @@ export const Layout = () => {
       <Footer />
       
       <PopUpConfirmationPhone />
+      <PopUpCart />
     </div>
   );
 };

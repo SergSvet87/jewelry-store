@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-type ModalType = 'phoneVerification' | null;
+type ModalType = 'phoneVerification' | 'cart' | null;
 
 interface ModalState {
   openModal: ModalType;
