@@ -55,6 +55,19 @@ export const verifyPhoneNumber = async (code: VerifyRequest): Promise<VerifyResp
   return data;
 };
 
+export const verifyPhoneLogin = async (code: VerifyRequest): Promise<VerifyResponse> => {
+  const token = localStorageService.getItem(LocalStorage.ACCESS_TOKEN_KEY)
+
+  const data = await request<VerifyResponse>({
+    headers: { Authorization: `Bearer ${token}` },
+    url: ApiEndpoint.USER_VERIFY_LOGIN,
+    method: HttpMethod.POST,
+    data: code,
+  });
+
+  return data;
+};
+
 export const login = async (data: LoginRequest): Promise<LoginResponse> => {
   const response = await request<LoginResponse>({
     url: ApiEndpoint.SIGNIN,

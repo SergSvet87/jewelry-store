@@ -1,5 +1,5 @@
 import { AppRoute } from '@/enums';
-import { FavoriteIcon, ScalesIcon, SearchIcon, ShoppingBagIcon, UserIcon } from '@/assets';
+import { FavoriteIcon, MenuIcon, ScalesIcon, SearchIcon, ShoppingBagIcon, UserIcon } from '@/assets';
 
 export const headerButtons = [
   {
@@ -29,6 +29,27 @@ export const headerButtons = [
   {
     title: 'shoppingBag',
     icon: ShoppingBagIcon,
+    href: AppRoute.CART,
+    type: 'stroke',
+  },
+];
+
+export const headerButtonsMobile = [
+  {
+    title: 'search',
+    href: '#',
+    icon: SearchIcon,
+    type: 'fill',
+  },
+  {
+    title: 'shoppingBag',
+    icon: ShoppingBagIcon,
+    href: AppRoute.CART,
+    type: 'stroke',
+  },
+  {
+    title: 'menu icon',
+    icon: MenuIcon,
     href: AppRoute.CART,
     type: 'stroke',
   },

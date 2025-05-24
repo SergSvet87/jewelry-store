@@ -18,7 +18,6 @@ import {
   UserAgreement,
 } from '@/pages';
 import {
-  UserCart,
   UserData,
   UserFavorites,
   UserLoyalty,
@@ -61,10 +60,6 @@ export const routes = createBrowserRouter([
           {
             path: AppRoute.USER_DATA,
             element: <UserData />,
-          },
-          {
-            path: AppRoute.USER_CART,
-            element: <UserCart />,
           },
           {
             path: AppRoute.USER_FAVORITES,

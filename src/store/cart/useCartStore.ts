@@ -15,11 +15,13 @@ interface CartState {
   removeFromCart: (productId: number) => void;
 }
 
+const cart = localStorageService.getItem<ICartItem>(LocalStorage.CART_PRODUCTS) || {
+  userId: 1,
+  items: [],
+};
+
 export const useCartStore = create<CartState>((set, get) => ({
-  cart: localStorageService.getItem(LocalStorage.CART_PRODUCTS) || {
-    userId: 1,
-    items: [],
-  },
+  cart,
   cardTotalQuantity: parseInt(
     localStorageService.getItem(LocalStorage.CART_QUANTITY) || '0',
   ),

@@ -18,6 +18,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
     localStorageService.setItem(LocalStorage.REFRESH_TOKEN_KEY, refreshToken);
     set({ accessToken, refreshToken });
   },
+  
   logout: () => {
     localStorageService.removeItem(LocalStorage.ACCESS_TOKEN_KEY);
     localStorageService.removeItem(LocalStorage.REFRESH_TOKEN_KEY);
