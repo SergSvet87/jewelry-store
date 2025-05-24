@@ -1,4 +1,3 @@
-import MenuIcon from './icons/menu.svg';
 import ArrowLeft from './icons/arrow-left.svg';
 import FilterIcon from './icons/filter.svg';
 
@@ -12,6 +11,7 @@ import { SearchIcon } from './icons/SearchIcon';
 import { AppleIcon } from './icons/AppleIcon';
 import { GoogleIcon } from './icons/GoogleIcon';
 import { X } from './icons/X';
+import { MenuIcon } from './icons/MenuIcon';
 import { UserIcon } from './icons/UserIcon';
 import { FavoriteIcon } from './icons/FavoriteIcon';
 import { FavoriteFilledIcon } from './icons/FavoriteFilledIcon';
@@ -58,10 +58,10 @@ import SP1 from './images/single-product-1.jpg';
 import SP2 from './images/single-product-2.jpg';
 
 export {
-  MenuIcon,
   ArrowLeft,
   FilterIcon,
   DeleteIcon,
+  MenuIcon,
   GoogleIcon,
   AppleIcon,
   ChevronRight,

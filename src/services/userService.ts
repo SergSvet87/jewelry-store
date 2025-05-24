@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 import { request } from '@/api/requestService';
 import { ApiEndpoint, HttpMethod } from '@/enums';
 import { IUserItem } from '@/types/';
@@ -25,7 +23,7 @@ export const getUserByToken = async (token: string): Promise<IUserItem> => {
 
 export const updateUser = async (
   data: Partial<IUserItem>,
-  token: string
+  token: string | null
 ): Promise<IUserItem> => {
   const response = await request({
     headers: { Authorization: `Bearer ${token}` },
@@ -51,7 +49,7 @@ export const updateUserId = async (
   return response;
 };
 
-export const logoutUser = async (refreshToken: string) => {
-  const response = await axios.post('/api/auth/logout', { refreshToken });
-  return response.data;
-};
+// export const logoutUser = async (refreshToken: string) => {
+//   const response = await axios.post('/api/auth/logout', { refreshToken });
+//   return response.data;
+// };

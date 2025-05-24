@@ -9,7 +9,7 @@ export const SearchDropdown = ({ isOpen, onClose }: { isOpen: boolean; onClose: 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed top-[100px] h-[50px] left-0 w-full z-50 bg-[var(--main)] border-b-2 border-[var(--brown-dark)]">
+    <div className="fixed lg:top-[100px] top-[80px] lg:h-[50px] h-[40px] left-0 w-full z-50 bg-[var(--main)] border-b-2 border-[var(--brown-dark)]">
       <div className="container h-full flex items-center gap-2 ">
         <SearchIcon fill="var(--brown-dark)" />
         <Input

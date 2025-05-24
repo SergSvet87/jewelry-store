@@ -4,23 +4,25 @@ export const AboutUs = () => {
   return (
     <section
       id="about-us"
-      className="relative w-full h-[800px] flex flex-col items-center justify-center  mb-[var(--section-indent)] bg-cover bg-center"
+      className="relative w-full lg:h-[800px] h-[273px] flex flex-col items-center justify-center  section-indent bg-cover bg-center"
       style={{ backgroundImage: `url(${About})` }}
     >
-      <h2 className="text-center text-[var(--brown-dark)] mb-[41px]">Про нас</h2>
+      <div className="container">
+        <h2 className="text-center text-[var(--brown-dark)] lg:mb-[41px] mb-[33px]">Про нас</h2>
 
-      <div className="flex flex-col z-50 items-center gap-6 max-w-[490px] text-center text-[length:var(--text)]">
-        <p>
-          У нашому ювелірному магазині кожна прикраса — це поєднання бездоганної якості та
-          унікального стилю. Ми віримо, що коштовності мають не лише прикрашати, а й підкреслювати
-          індивідуальність.
-        </p>
+        <div className="w-full flex flex-col z-50 items-center justify-center lg:gap-6 gap-5 text-center lg:text-[length:var(--text)]">
+          <p className="max-w-[490px]">
+            У нашому ювелірному магазині кожна прикраса — це поєднання бездоганної якості та
+            унікального стилю. Ми віримо, що коштовності мають не лише прикрашати, а й підкреслювати
+            індивідуальність.
+          </p>
 
-        <p>
-          Ми ретельно відбираємо найкращі дорогоцінні метали та натуральні камені, щоб створювати
-          прикраси, що передають витонченість, довговічність і гармонію. Наші майстри ювелірного
-          мистецтва працюють із любов’ю до деталей, втілюючи у виробах унікальні рішення.
-        </p>
+          <p className="max-w-[490px]">
+            Ми ретельно відбираємо найкращі дорогоцінні метали та натуральні камені, щоб створювати
+            прикраси, що передають витонченість, довговічність і гармонію. Наші майстри ювелірного
+            мистецтва працюють із любов’ю до деталей, втілюючи у виробах унікальні рішення.
+          </p>
+        </div>
       </div>
     </section>
   );

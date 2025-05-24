@@ -1,12 +1,22 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
+import { AppRoute } from '@/enums';
 import { menuItems } from '@/mock/menuItems';
 import { UserContacts } from './UserContacts';
+import { useAuthStore } from '@/store/auth/useAuthStore';
 
 export const Sidebar = () => {
+  const navigate = useNavigate();
+  const logout = useAuthStore((state) => state.logout);
+
   const linkClass = 'flex gap-5 p-0 w-full items-center transition-all duration-200';
 
   const activeClass = 'text-[var(--brown-dark)]';
+
+  const handleLogout = () => {
+    logout();
+    navigate(AppRoute.ROOT);
+  };
 
   return (
     <aside className="w-[426px] bg-transparent">
@@ -41,7 +51,12 @@ export const Sidebar = () => {
         </ul>
       </nav>
 
-      <button className="btn text-[var(--grey)]">Вийти</button>
+      <button
+        className="btn text-[var(--grey)] hover:text-[var(--brown-dark)]"
+        onClick={handleLogout}
+      >
+        Вийти
+      </button>
     </aside>
   );
 };

@@ -29,7 +29,7 @@ export const SupportDrawer = () => {
   };
 
   return (
-    <div className="fixed bottom-15 right-15 z-100 flex align-center gap-1">
+    <div className="fixed lg:bottom-15 lg:right-15 bottom-4 right-4 z-100 flex align-center gap-1">
       <Drawer direction="right">
         <DrawerTrigger asChild>
           <button
@@ -47,7 +47,7 @@ export const SupportDrawer = () => {
           </button>
         </DrawerTrigger>
 
-        <DrawerContent className="!p-0 fixed bottom-15 right-15 z-1000 w-[360px] h-[500px] bg-[var(--main)] rounded-[6px] shadow-xl flex flex-col justify-between border border-[var(--accent)] ::after-none">
+        <DrawerContent className="!p-0 fixed lg:bottom-15 lg:right-15 bottom-4 right-0 z-1000 w-full lg:w-[360px] h-[500px] bg-[var(--main)] lg:rounded-[6px] lg:shadow-xl rounded-none shadow-none flex flex-col justify-between border border-[var(--accent)] ::after-none">
           <DrawerHeader className="w-full flex flex-row items-center justify-between px-4 py-2 border-b-2 border-[var(--accent)]">
             <DrawerTitle className="flex flex-row items-center gap-2">
               <span>

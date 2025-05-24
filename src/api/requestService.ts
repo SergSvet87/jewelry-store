@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axiosInstance from '@/api/axiosInstance';
+import { catchErrorCodes } from './errorService';
 
 interface RequestOptions<T = any> {
   url: string;
@@ -23,7 +24,7 @@ export const request = async <TResponse = any, TData = any>(
 
     return response.data;
   } catch (error) {
-    console.error('HTTP Request Error:', error);
+    console.error('HTTP Request Error:', catchErrorCodes(error));
     throw error;
   }
 };
