@@ -3,9 +3,8 @@ import {
   CheckCircleIcon,
   FavoriteIcon,
   HistoryIcon,
-  LoyaltyIcon,
+  // LoyaltyIcon,
   ScalesIcon,
-  ShoppingBagIcon,
   MessageIcon
 } from '@/assets';
 
@@ -15,16 +14,11 @@ export const menuItems = [
     text: 'Особисті дані',
     href: AppRoute.USER_DATA,
   },
-  {
-    icon: <LoyaltyIcon fill="var(--grey)" />,
-    text: 'Програма лояльності',
-    href: AppRoute.USER_LOYALTY,
-  },
-  {
-    icon: <ShoppingBagIcon stroke="var(--grey)" />,
-    text: 'Кошик',
-    href: AppRoute.USER_CART,
-  },
+  // {
+  //   icon: <LoyaltyIcon fill="var(--grey)" />,
+  //   text: 'Програма лояльності',
+  //   href: AppRoute.USER_LOYALTY,
+  // },
   {
     icon: <HistoryIcon stroke="var(--grey)" />,
     text: 'Історія замовлень',

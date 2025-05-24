@@ -1,8 +1,57 @@
-import { userData } from '@/mock/userData';
-import { Input, Label, RadioGroup, RadioGroupItem, Card, CardContent  } from '@/components/ui';
+import { useState } from 'react';
 
+import {
+  Input,
+  Label,
+  RadioGroup,
+  RadioGroupItem,
+  Card,
+  CardContent,
+  Button,
+} from '@/components/ui';
+import { useUserStore } from '@/store/user/useUserStore';
+import { updateUser } from '@/services/userService';
+import { useAuthStore } from '@/store/auth/useAuthStore';
 
 export const UserData = () => {
+  const user = useUserStore((state) => state.currentUser);
+  const setUser = useUserStore((state) => state.setUser);
+  const token = useAuthStore((state) => state.accessToken);
+
+  const [editMain, setEditMain] = useState(false);
+  const [editAdditional, setEditAdditional] = useState(false);
+
+  const [formData, setFormData] = useState({
+    firstName: user?.firstName || '',
+    lastName: user?.lastName || '',
+    phone: user?.phone || '',
+    email: user?.email || '',
+    gender: user?.gender || '',
+    birthdate: user?.birthdate || '',
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleGenderChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, gender: value }));
+  };
+
+  const handleSave = async () => {
+    try {
+      const updatedUser = await updateUser(formData, token);
+      setUser(updatedUser);
+      setEditMain(false);
+      setEditAdditional(false);
+    } catch (error) {
+      console.error('Помилка при оновленні:', error);
+    }
+  };
+
+  if (!user) return null;
+
   return (
     <div className="flex gap-4 w-full h-auto justify-between">
       <Card className="flex-1 min-w-[350px]">
@@ -12,52 +61,66 @@ export const UserData = () => {
           <div className="flex flex-col gap-7 w-full">
             <div className="flex flex-wrap justify-between gap-4 w-full">
               <div className="flex flex-col gap-1 min-w-[100px] flex-1">
-                <Label className="label mb-1">
-                  Ім&apos;я
-                </Label>
+                <Label className="label mb-1">Ім&apos;я</Label>
                 <Input
+                  name="firstName"
                   className="h-10"
-                  defaultValue={userData[0].firstName}
-                  readOnly
+                  readOnly={!editMain}
+                  value={formData.firstName}
+                  onChange={handleChange}
                 />
               </div>
 
               <div className="flex flex-col gap-1 min-w-[180px] flex-1">
-                <Label className="label mb-1">
-                  Прізвище
-                </Label>
+                <Label className="label mb-1">Прізвище</Label>
                 <Input
+                  name="lastName"
                   className="h-10"
-                  defaultValue={userData[0].lastName}
-                  readOnly
+                  readOnly={!editMain}
+                  value={formData.lastName}
+                  onChange={handleChange}
                 />
               </div>
             </div>
 
             <div className="flex flex-col gap-1 w-full">
-              <Label className="label mb-1">
-                Номер телефону
-              </Label>
+              <Label className="label mb-1">Номер телефону</Label>
               <Input
+                name="phone"
                 className="h-10"
-                defaultValue={userData[0].phone}
-                readOnly
+                readOnly={!editMain}
+                value={formData.phone}
+                onChange={handleChange}
               />
             </div>
 
             <div className="flex flex-col gap-1 w-full">
-              <Label className="label mb-1">
-                Електронна пошта
-              </Label>
+              <Label className="label mb-1">Електронна пошта</Label>
               <Input
+                name="email"
+                type="email"
                 className="h-10"
-                defaultValue={userData[0].email}
-                readOnly
+                readOnly={!editMain}
+                value={formData.email}
+                onChange={handleChange}
               />
             </div>
           </div>
 
-          <button className="btn-buy text-medium text-[20px] w-[212px]">Редагувати</button>
+          <div className="flex gap-4">
+            <Button
+              variant="outline"
+              className="w-[150px]"
+              onClick={() => setEditMain((prev) => !prev)}
+            >
+              {editMain ? 'Скасувати' : 'Редагувати'}
+            </Button>
+            {editMain && (
+              <Button variant="default" className="w-[150px]" onClick={handleSave}>
+                Зберегти
+              </Button>
+            )}
+          </div>
         </CardContent>
       </Card>
 
@@ -68,56 +131,62 @@ export const UserData = () => {
 
             <div className="flex flex-col gap-7 pl-3">
               <div className="flex flex-col gap-1">
-                <Label className="label mb-1">
-                  Стать
-                </Label>
-                <RadioGroup
-                  defaultValue={userData[0].gender}
-                  className="flex justify-between h-10 items-center"
-                >
-                  <div className="flex items-center gap-2">
-                    <RadioGroupItem
-                      value="female"
-                      id="female"
-                      className="w-5 h-5 border-[#5b242a] shadow-[1px_1px_4px_#00000040]"
-                    />
-                    <Label
-                      htmlFor="female"
-                      className=""
-                    >
-                      Жіноча
-                    </Label>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <RadioGroupItem
-                      value="male"
-                      id="male"
-                      className="w-5 h-5 border-[#717171] shadow-[1px_1px_4px_#00000040]"
-                    />
-                    <Label
-                      htmlFor="male"
-                      className=""
-                    >
-                      Чоловіча
-                    </Label>
-                  </div>
-                </RadioGroup>
+                <Label className="label mb-1">Стать</Label>
+                {!editAdditional ? (
+                  <Input className="h-10" readOnly value={formData.gender} />
+                ) : (
+                  <RadioGroup
+                    defaultValue={formData.gender}
+                    className="flex justify-between h-10 items-center"
+                    onValueChange={handleGenderChange}
+                  >
+                    <div className="flex items-center gap-2">
+                      <RadioGroupItem
+                        value="female"
+                        id="female"
+                        className="w-5 h-5"
+                      />
+                      <Label htmlFor="female">Жіноча</Label>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <RadioGroupItem
+                        value="male"
+                        id="male"
+                        className="w-5 h-5"
+                      />
+                      <Label htmlFor="male">Чоловіча</Label>
+                    </div>
+                  </RadioGroup>
+                )}
               </div>
 
               <div className="flex flex-col gap-1">
-                <Label className="label mb-1">
-                  День народження
-                </Label>
-                <div className="relative w-full h-10 bg-main border-b-2 border-[var(--grey)]">
-                  <div className="absolute top-2.5 left-2 text-[var(--grey)] text-[16px] leading-[130%] font-normal">
-                    &nbsp;&nbsp;ДД / ММ / РРРР
-                  </div>
-                </div>
+                <Label className="label mb-1">День народження</Label>
+                {!editAdditional ? (
+                  <div>{formData.birthdate || '-'}</div>
+                ) : (
+                  <Input
+                    name="birthdate"
+                    type="date"
+                    className="h-10"
+                    value={formData.birthdate}
+                    onChange={handleChange}
+                  />
+                )}
               </div>
             </div>
           </div>
 
-          <button className="border-[var(--brown-dark)] border-1 text-medium text-[20px] px-10 h-[46px] self-start mt-auto">Зберегти</button>
+          <div className="flex gap-4 mt-4">
+            <Button variant="outline" className="w-[150px]" onClick={() => setEditAdditional((prev) => !prev)}>
+              {editAdditional ? 'Скасувати' : 'Редагувати'}
+            </Button>
+            {editAdditional && (
+              <Button variant="default" className="w-[150px]" onClick={handleSave}>
+                Зберегти
+              </Button>
+            )}
+          </div>
         </CardContent>
       </Card>
     </div>

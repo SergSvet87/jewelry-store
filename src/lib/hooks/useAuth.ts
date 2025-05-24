@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { AppRoute, AuthAction, LocalStorage } from '@/enums';
 import { LoginRequest, RegisterRequest, VerifyRequest } from '@/types/auth';
-import { login, registerUser, verifyPhoneNumber } from '@/services/authService';
+import { login, registerUser, verifyPhoneLogin, verifyPhoneNumber } from '@/services/authService';
 import { useModalStore } from '@/store/modal/useModalStore';
 import { localStorageService } from '@/services/localStorageService';
 
@@ -107,8 +107,12 @@ const useAuth = (): Return => {
 
   const onVerifyPhoneCodeChange = (code: VerifyRequest) => {
     dispatch({ type: AuthAction.VERIFY_CODE, payload: code })
-  }
-
+  };
+  
+  const onRegisterFormChange = (newValue: RegisterRequest) => {
+    dispatch({ type: AuthAction.REGISTER_FORM, payload: newValue });
+  };
+  
   const onVerifyPhoneCode = async (code: VerifyRequest) => {
     const res = await verifyPhoneNumber(code);
 
@@ -116,29 +120,25 @@ const useAuth = (): Return => {
       useModalStore.getState().close();
       navigate(AppRoute.SUCCESS);
 
-      localStorageService.setItem(LocalStorage.ACCESS_TOKEN_KEY, res.access_token);
-      localStorageService.setItem(LocalStorage.REFRESH_TOKEN_KEY, res.refresh_token);
+      localStorageService.setItem(LocalStorage.ACCESS_TOKEN_KEY, res.token);
+      // localStorageService.setItem(LocalStorage.REFRESH_TOKEN_KEY, res.refresh_token);
     }
 
     dispatch({ type: AuthAction.RESET_FORM })
-  }
+  };
 
   const onVerifyPhoneLogin = async (code: VerifyRequest) => {
-    const res = await verifyPhoneNumber(code);
+    const res = await verifyPhoneLogin(code);
 
     if (res) {
       useModalStore.getState().close();
       navigate(AppRoute.ROOT);
 
-      localStorageService.setItem(LocalStorage.ACCESS_TOKEN_KEY, res.access_token);
-      localStorageService.setItem(LocalStorage.REFRESH_TOKEN_KEY, res.refresh_token);
+      localStorageService.setItem(LocalStorage.ACCESS_TOKEN_KEY, res.token);
+      // localStorageService.setItem(LocalStorage.REFRESH_TOKEN_KEY, res.refresh_token);
     }
 
     dispatch({ type: AuthAction.RESET_FORM })
-  }
-
-  const onRegisterFormChange = (newValue: RegisterRequest) => {
-    dispatch({ type: AuthAction.REGISTER_FORM, payload: newValue });
   };
 
   const onLoginFormSubmit = async (loginFormValue: LoginRequest) => {
@@ -147,8 +147,8 @@ const useAuth = (): Return => {
     if (res) {
       useModalStore.getState().open('phoneVerification');
 
-      localStorageService.setItem(LocalStorage.ACCESS_TOKEN_KEY, res.access_token);
-      localStorageService.setItem(LocalStorage.REFRESH_TOKEN_KEY, res.refresh_token);
+      localStorageService.setItem(LocalStorage.ACCESS_TOKEN_KEY, res.token);
+      // localStorageService.setItem(LocalStorage.REFRESH_TOKEN_KEY, res.refresh_token);
     }
 
     dispatch({ type: AuthAction.RESET_FORM });
@@ -156,6 +156,7 @@ const useAuth = (): Return => {
 
   const onRegisterFormSubmit = async (registerFormValue: RegisterRequest) => {
     const res = await registerUser(registerFormValue);
+
     if (res) {
       useModalStore.getState().open('phoneVerification');
 

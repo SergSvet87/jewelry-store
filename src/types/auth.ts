@@ -11,8 +11,8 @@ interface VerifyRequest {
 }
 
 interface VerifyResponse {
-  access_token: string;
-  refresh_token: string;
+  token: string;
+  // refresh_token: string;
 }
 
 interface LoginRequest {
@@ -20,8 +20,8 @@ interface LoginRequest {
 }
 
 interface LoginResponse {
-  access_token: string;
-  refresh_token: string;
+  token: string;
+  // refresh_token: string;
 }
 
 interface UpdateProfileRequest {
