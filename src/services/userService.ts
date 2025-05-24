@@ -23,7 +23,7 @@ export const getUserByToken = async (token: string): Promise<IUserItem> => {
 
 export const updateUser = async (
   data: Partial<IUserItem>,
-  token: string
+  token: string | null
 ): Promise<IUserItem> => {
   const response = await request({
     headers: { Authorization: `Bearer ${token}` },
