@@ -21,7 +21,7 @@ export interface ISingleProduct extends ProductItem {
   gemstone?: string | null;
 }
 
-export interface Product {
+export interface IProduct {
   id: number;
   name: string;
   productSizes: number[];

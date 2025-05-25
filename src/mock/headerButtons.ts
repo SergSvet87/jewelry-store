@@ -10,19 +10,19 @@ export const headerButtons = [
   },
   {
     title: 'user',
-    href: AppRoute.SIGN_UP,
+    href: AppRoute.SIGN_IN,
     icon: UserIcon,
     type: 'fill',
   },
   {
     title: 'favorite',
     icon: FavoriteIcon,
-    href: AppRoute.FAVORITE,
+    href: AppRoute.USER_FAVORITES,
     type: 'fill',
   },
   {
     title: 'scale',
-    href: AppRoute.SCALE,
+    href: AppRoute.USER_SCALES,
     icon: ScalesIcon,
     type: 'fill',
   },

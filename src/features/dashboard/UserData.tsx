@@ -110,13 +110,13 @@ export const UserData = () => {
           <div className="flex gap-4">
             <Button
               variant="outline"
-              className="w-[150px]"
+              className="w-[212px]"
               onClick={() => setEditMain((prev) => !prev)}
             >
-              {editMain ? 'Скасувати' : 'Редагувати'}
+              {editMain ? null : 'Редагувати'}
             </Button>
             {editMain && (
-              <Button variant="default" className="w-[150px]" onClick={handleSave}>
+              <Button variant="outline" className="w-[212px]" onClick={handleSave}>
                 Зберегти
               </Button>
             )}
@@ -178,11 +178,11 @@ export const UserData = () => {
           </div>
 
           <div className="flex gap-4 mt-4">
-            <Button variant="outline" className="w-[150px]" onClick={() => setEditAdditional((prev) => !prev)}>
-              {editAdditional ? 'Скасувати' : 'Редагувати'}
+            <Button variant="outline" className="w-[212px]" onClick={() => setEditAdditional((prev) => !prev)}>
+              {editAdditional ? null : 'Редагувати'}
             </Button>
             {editAdditional && (
-              <Button variant="default" className="w-[150px]" onClick={handleSave}>
+              <Button variant="outline" className="w-[212px]" onClick={handleSave}>
                 Зберегти
               </Button>
             )}
