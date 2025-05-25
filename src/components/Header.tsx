@@ -10,7 +10,6 @@ import { SearchDropdown } from './SearchDropdown';
 import { SupportDrawer } from './SupportDrawer';
 import { useCartStore } from '@/store/cart/useCartStore';
 import { useProductStore } from '@/store/products/useProductsStore';
-import { useModalStore } from '@/store/modal/useModalStore';
 import { useUserStore } from '@/store/user/useUserStore';
 
 const Header = () => {
@@ -18,6 +17,7 @@ const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [activeButton, setActiveButton] = useState<string | null>(null);
   const { pathname } = useLocation();
+
   const cartCount = useCartStore((state) => state.cart?.items?.length);
   const favoriteCount = useProductStore((state) => state.favorites.length);
   const user = useUserStore((state) => state.currentUser);
@@ -129,12 +129,13 @@ const Header = () => {
 
               if (item.title === 'shoppingBag') {
                 return (
-                  <button
+                  <Link
                     key={item.title}
                     className="btn relative"
-                    onClick={() => {
-                      useModalStore.getState().open('cart');
-                    }}
+                    to={AppRoute.CART}
+                    // onClick={() => {
+                    //   useModalStore.getState().open('cart');
+                    // }}
                   >
                     <Icon stroke={iconColor} />
                     {cartCount > 0 && (
@@ -142,7 +143,7 @@ const Header = () => {
                         {cartCount}
                       </span>
                     )}
-                  </button>
+                  </Link>
                 );
               }
               return (
@@ -223,12 +224,13 @@ const Header = () => {
 
                 if (item.title === 'shoppingBag') {
                   return (
-                    <button
+                    <Link
                       key={item.title}
                       className="btn relative"
-                      onClick={() => {
-                        useModalStore.getState().open('cart');
-                      }}
+                      to={AppRoute.CART}
+                      // onClick={() => {
+                      //   useModalStore.getState().open('cart');
+                      // }}
                     >
                       <Icon stroke={iconColor} />
                       {cartCount > 0 && (
@@ -236,7 +238,7 @@ const Header = () => {
                           {cartCount}
                         </span>
                       )}
-                    </button>
+                    </Link>
                   );
                 }
 
@@ -246,9 +248,14 @@ const Header = () => {
                       key={item.title}
                       to={AppRoute.USER_DATA}
                       onClick={() => setActiveButton(item.title)}
-                      className={cn('btn relative flex items-center', isActive && 'text-[var(--accent)]')}
+                      className={cn(
+                        'btn relative flex items-center',
+                        isActive && 'text-[var(--accent)]',
+                      )}
                     >
-                      <span className="text-[length:var(--text)] font-[500]">{user.firstName[0]}</span>
+                      <span className="text-[length:var(--text)] font-[500]">
+                        {user.firstName[0]}
+                      </span>
                     </Link>
                   ) : (
                     <Link
@@ -266,28 +273,46 @@ const Header = () => {
                   );
                 }
 
-                return (
-                  <Link
-                    key={item.title}
-                    to={item.href}
-                    onClick={() => setActiveButton(item.title)}
-                    className={cn('btn relative', isActive && 'text-[var(--accent)]')}
-                  >
-                    {item.type === 'fill' ? <Icon fill={iconColor} /> : <Icon stroke={iconColor} />}
-
-                    {item.title === 'favorite' && favoriteCount > 0 && (
-                      <span className="absolute -top-1 -right-1 text-medium text-[10px] bg-[var(--accent)] text-[var(--main)] rounded-full w-3 h-3 flex items-center justify-center">
-                        {favoriteCount}
+                if (item.title === 'scale') {
+                  return (
+                    <Link
+                      key={item.title}
+                      to={user ? AppRoute.USER_SCALES : '#'}
+                      onClick={() => setActiveButton(item.title)}
+                      className={cn(
+                        'btn relative flex items-center',
+                        isActive && 'text-[var(--accent)]',
+                      )}
+                    >
+                      <span className="text-[length:var(--text)] font-[500]">
+                        {item.type === 'fill' ? (
+                          <Icon fill={iconColor} />
+                        ) : (
+                          <Icon stroke={iconColor} />
+                        )}
                       </span>
-                    )}
+                    </Link>
+                  );
+                }
 
-                    {/* {item.title === 'scale' && cartCount > 0 && (
-                      <span className="absolute -top-1 -right-1 text-medium text-[10px] bg-[var(--accent)] text-[var(--main)] rounded-full w-3 h-3 flex items-center justify-center">
-                        {cartCount}
-                      </span>
-                    )} */}
-                  </Link>
-                );
+                if (item.title === 'favorite') {
+                  return (
+                    <Link
+                      key={item.title}
+                      to={user ? AppRoute.USER_FAVORITES : '#'}
+                      onClick={() => setActiveButton(item.title)}
+                      className={cn('btn relative', isActive && 'text-[var(--accent)]')}
+                    >
+                      <Icon fill={iconColor} />
+
+                      {favoriteCount > 0 && (
+                        <span className="absolute -top-1 -right-1 text-medium text-[10px] bg-[var(--accent)] text-[var(--main)] rounded-full w-3 h-3 flex items-center justify-center">
+                          {favoriteCount}
+                        </span>
+                      )}
+                    </Link>
+                  );
+                }
               })}
             </div>
           </div>

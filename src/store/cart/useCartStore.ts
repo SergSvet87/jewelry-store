@@ -44,6 +44,7 @@ export const useCartStore = create<CartState>((set, get) => ({
     localStorageService.setItem(LocalStorage.CART_PRODUCTS, updatedCart);
     localStorageService.setItem(LocalStorage.CART_QUANTITY, quantity);
   },
+  
   increaseQuantity: (productId) => {
     const { cart } = get();
     const updatedItems = cart.items.map(item =>

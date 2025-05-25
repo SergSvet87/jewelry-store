@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import cn from 'classnames';
 
 import { AppRoute } from '@/enums';
 import { Button } from '@/components/ui';
@@ -17,54 +18,63 @@ export const Cart = () => {
   }, 0);
 
   return (
-    <section className="!max-w-[650px] flex flex-col items-center gap-7 p-7">
-      <h6 className="w-full text-center text-[length:var(--text)]  font-[500] font-[family-name:var(--font-main)]">
-        Кошик
-      </h6>
+    <section className="w-full min-h-screen mt-[100px] py-[100px]">
+      <div className="container h-full flex items-center justify-center">
+        <div
+          className={cn(
+            'flex flex-col items-center gap-7 p-7',
+            cart?.items?.length > 0 ? 'max-w-[650px]' : 'max-w-[363px]',
+          )}
+        >
+          <h6 className="w-full text-center text-[length:var(--text)]  font-[500] font-[family-name:var(--font-main)]">
+            Кошик
+          </h6>
 
-      <div className="w-full text-center">
-        {cart && cart?.items?.length > 0 ? (
-          <div className="w-full flex flex-col gap-1">
-            <div className="flex flex-col gap-7 overflow-y-auto max-h-[440px]">
-              {cart?.items?.map(({ productId, quantity }) => {
-                const product = getProductById(productId);
+          <div className="w-full text-center pr-5 max-h-[440px] overflow-y-auto custom-scroll">
+            {cart && cart?.items?.length > 0 ? (
+              <div className="w-full flex flex-col gap-1">
+                <div className="flex flex-col gap-7 ">
+                  {cart?.items?.map(({ productId, quantity }) => {
+                    const product = getProductById(productId);
 
-                if (!product) return null;
+                    if (!product) return null;
 
-                return <CardCart key={product.id} item={product} quantity={quantity} />;
-              })}
-            </div>
-
-            <div className="pt-7 border-t border-[var(--brown-dark)] flex items-center justify-between">
-              <span className="text-[length:var(--text)]  font-[500] font-[family-name:var(--font-main)] text-[var(--brown-dark)]">
-                Разом
-              </span>{' '}
-              <span className="font-[family-name:var(--font-third)] text-[24px] text-[var(--button)]">
-                {total?.toFixed(2)} грн
-              </span>
-            </div>
+                    return <CardCart key={product.id} item={product} quantity={quantity} />;
+                  })}
+                </div>
+              </div>
+            ) : (
+              'У  вас немає товарів у кошику'
+            )}
           </div>
-        ) : (
-          'У  вас немає товарів у кошику'
-        )}
-      </div>
 
-      <div className="w-full">
-        {cart && cart?.items?.length > 0 ? (
-          <div className="flex items-center justify-between gap-5">
-            <Button variant="outline" className="w-[287px]" asChild onClick={() => close()}>
-              <Link to={AppRoute.PRODUCTS}>Продовжити покупки</Link>
-            </Button>
-
-            <Button className="w-[287px]" asChild onClick={() => close()}>
-              <Link to={AppRoute.CHECKOUT}>Оформити замовлення</Link>
-            </Button>
+          <div className="w-full pt-7 border-t border-[var(--brown-dark)] flex items-center justify-between">
+            <span className="text-[length:var(--text)]  font-[500] font-[family-name:var(--font-main)] text-[var(--brown-dark)]">
+              Разом
+            </span>{' '}
+            <span className="font-[family-name:var(--font-third)] text-[24px] text-[var(--button)]">
+              {total?.toFixed(2)} грн
+            </span>
           </div>
-        ) : (
-          <Button className="w-full" asChild onClick={() => close()}>
-            <Link to={AppRoute.PRODUCTS}>Переглянути каталог</Link>
-          </Button>
-        )}
+
+          <div className="w-full">
+            {cart && cart?.items?.length > 0 ? (
+              <div className="flex items-center justify-between gap-5">
+                <Button variant="outline" className="w-[287px]" asChild onClick={() => close()}>
+                  <Link to={AppRoute.PRODUCTS}>Продовжити покупки</Link>
+                </Button>
+
+                <Button className="w-[287px]" asChild onClick={() => close()}>
+                  <Link to={AppRoute.CHECKOUT}>Оформити замовлення</Link>
+                </Button>
+              </div>
+            ) : (
+              <Button className="w-full" asChild onClick={() => close()}>
+                <Link to={AppRoute.PRODUCTS}>Переглянути каталог</Link>
+              </Button>
+            )}
+          </div>
+        </div>
       </div>
     </section>
   );

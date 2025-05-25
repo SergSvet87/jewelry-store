@@ -1,9 +1,9 @@
 import { request } from "@/api/requestService";
 import { ApiEndpoint } from "@/enums";
-import { Product } from "@/types/";
+import { IProduct } from "@/types/";
 
-export const getAllProducts = async (): Promise<Product[]> => {
-  return await request<Product[]>({
+export const getAllProducts = async (): Promise<IProduct[]> => {
+  return await request<IProduct[]>({
     url: ApiEndpoint.PRODUCTS,
     method: 'GET',
   });
@@ -14,8 +14,8 @@ export const getProductsByPriceRange = async (
   minPrice: number,
   maxPrice: number,
   sort: 'asc' | 'desc' = 'asc'
-): Promise<Product[]> => {
-  return await request<Product[]>({
+): Promise<IProduct[]> => {
+  return await request<IProduct[]>({
     url: ApiEndpoint.PRODUCTS_SORTED,
     method: 'GET',
     params: { minPrice, maxPrice, sort },
@@ -23,16 +23,16 @@ export const getProductsByPriceRange = async (
 };
 
 // 3. Отримати продукт за ID
-export const getProductById = async (id: number): Promise<Product> => {
-  return await request<Product>({
+export const getProductById = async (id: number): Promise<IProduct> => {
+  return await request<IProduct>({
     url: `${ApiEndpoint.PRODUCTS}/${id}`,
     method: 'GET',
   });
 };
 
 // 4. Отримати продукт за SKU
-export const getProductBySku = async (sku: string): Promise<Product> => {
-  return await request<Product>({
+export const getProductBySku = async (sku: string): Promise<IProduct> => {
+  return await request<IProduct>({
     url: `${ApiEndpoint.PRODUCTS}/sku/${sku}`,
     method: 'GET',
   });

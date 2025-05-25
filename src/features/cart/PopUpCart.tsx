@@ -18,7 +18,7 @@ import { useProductStore } from '@/store/products/useProductsStore';
 export const PopUpCart = () => {
   const { openModal, close } = useModalStore();
 
-  const isOpen = openModal === 'cart';
+  const isOpen = openModal === 'deleteFromCart';
 
   const cart = useCartStore((state) => state.cart);
   const { getProductById } = useProductStore();

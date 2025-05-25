@@ -6,6 +6,7 @@ import { Button } from '@/components/ui';
 import { ISingleProduct } from '@/types/';
 import { useCartStore } from '@/store/cart/useCartStore';
 import { calculateItemTotalPrice } from '@/utils/calculateItemTotal';
+import { useModalStore } from '@/store/modal/useModalStore';
 
 interface ICardCart {
   item: ISingleProduct;
@@ -14,10 +15,14 @@ interface ICardCart {
 
 export const CardCart: FC<ICardCart> = ({ item, quantity }) => {
   const [isHovering, setIsHovering] = useState(false);
-  const { increaseQuantity, decreaseQuantity, removeFromCart } = useCartStore();
+  const { increaseQuantity, decreaseQuantity } = useCartStore();
 
   const handleMouseEnter = () => setIsHovering(true);
   const handleMouseLeave = () => setIsHovering(false);
+
+  const handleDeleteProduct = () => {
+    useModalStore.getState().openDeleteFromCartModal(item.id);
+  };
 
   return (
     <article className="flex justify-between gap-5 h-[202px]">
@@ -32,7 +37,7 @@ export const CardCart: FC<ICardCart> = ({ item, quantity }) => {
           <div className="flex items-center gap-1 ">
             <Button
               variant="ghost"
-              className="!w-[20px] h-[20px] text-[var(--grey)] text-[30px] hover:text-[var(--brown-dark)] disabled:text-[var(--grey)] disabled:cursor-default"
+              className="!w-[20px] h-[20px] text-[var(--grey)] text-[30px] hover:text-[var(--brown-dark)] disabled:text-[var(--grey)] disabled:cursor-default transition-all duration-300"
               disabled={quantity === 1}
               onClick={() => decreaseQuantity(item.id)}
             >
@@ -45,7 +50,7 @@ export const CardCart: FC<ICardCart> = ({ item, quantity }) => {
 
             <Button
               variant="ghost"
-              className="!w-[20px] h-[20px] text-[var(--grey)] text-[30px] hover:text-[var(--brown-dark)]"
+              className="!w-[20px] h-[20px] text-[var(--grey)] text-[30px] hover:text-[var(--brown-dark)] transition-all duration-300"
               onClick={() => increaseQuantity(item.id)}
             >
               +
@@ -60,12 +65,12 @@ export const CardCart: FC<ICardCart> = ({ item, quantity }) => {
         <Button
           variant="ghost"
           className="absolute top-0 right-0 h-auto !p-0"
-          onClick={() => removeFromCart(item.id)}
+          onClick={handleDeleteProduct}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
           <DeleteIcon
-            classnames={cn('w-5 h-5', isHovering ? 'text-[var(--brown-dark)]' : 'text-[var(--grey)]') }
+            classname={cn('w-5 h-5 transition-all duration-300', isHovering ? 'text-[var(--brown-dark)]' : 'text-[var(--grey)]') }
           />
         </Button>
       </div>
