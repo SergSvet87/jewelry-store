@@ -18,11 +18,11 @@
   --heading3         : 24px;
   --text-second      : 16px;
   --text             : 20px;
-  --text-mobile             : 12px;
+  --text-mobile      : 12px;
   --section-indent   : 140px;
   --max-width        : 1440px;
   --padding          : 60px;
-  --padding-mobile          : 16px;
+  --padding-mobile   : 16px;
   --font-second      : 'Lato', sans-serif;
   --font-main        : 'Manrope', sans-serif;
   --font-third       : 'Merriweather', serif;
@@ -115,14 +115,16 @@
     @apply bg-[var(--grey)] cursor-not-allowed;
   }
 
-  /* --- Додати в кошик --- */
-  .btn-add {
-    @apply w-[259px] h-[46px] bg-transparent flex items-center justify-center text-[var(--brown-dark)] py-[10px] px-[24px] border-1 border-solid border-[var(--brown-dark)] rounded-none outline-none cursor-pointer transition-all duration-300;
+  .custom-scroll::-webkit-scrollbar {
+    @apply w-1.5;
   }
 
-  /* --- Перейти до оплати --- */
-  .btn-checkout {
-    @reference bg-accent text-main py-[10px] px-[40px] rounded-[10px] font-sans font-semibold tracking-wide uppercase transition hover: brightness-110 active:scale-[0.97];
+  .custom-scroll::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  .custom-scroll::-webkit-scrollbar-thumb {
+    @apply bg-[var(--accent)] rounded-4xl;
   }
 }
 
@@ -141,25 +143,25 @@
 }
 
 .letter {
-  display: inline-block;
-  opacity: 1;
-  transform: translateY(0);
+  display   : inline-block;
+  opacity   : 1;
+  transform : translateY(0);
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .letter.fade-out {
-  opacity: 0;
+  opacity  : 0;
   transform: translateY(-40px);
 }
 
 @keyframes fadeIn {
   from {
-    opacity: 0;
+    opacity  : 0;
     transform: translateY(40px);
   }
 
   to {
-    opacity: 1;
+    opacity  : 1;
     transform: translateY(0);
   }
 }
