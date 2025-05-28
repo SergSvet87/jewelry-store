@@ -53,6 +53,7 @@ import Review1 from './images/review-1.png';
 import Review2 from './images/review-2.png';
 import Review3 from './images/review-3.png';
 import BannerImg from './images/Banner.png';
+import BannerImgMobile from './images/banner-mobile.png';
 import SPLarge from './images/single-product-large.png';
 import SP1 from './images/single-product-1.jpg';
 import SP2 from './images/single-product-2.jpg';
@@ -111,6 +112,7 @@ export {
   Review2,
   Review3,
   BannerImg,
+  BannerImgMobile,
   SPLarge,
   SP1,
   SP2,

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 import { LocalStorage } from '@/enums';
-import { localStorageService } from '@/services/localStorageService';
+import { localStorageService } from '@/api/localStorageService';
 
 interface AuthState {
   accessToken: string | null;

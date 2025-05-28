@@ -1,22 +1,24 @@
 import cn from 'classnames';
 
-import { Card, CardContent, CardFooter } from '@/components/ui';
-import { useProductStore } from '@/store/products/useProductsStore';
 import { DeleteIcon } from '@/assets';
+import { useProductStore } from '@/store';
+import { Card, CardContent, CardFooter } from '@/components/ui';
 
 export const UserFavorites = () => {
-  // const toggleFavorite = useProductStore((state) => state.toggleFavorite);
   const favorites = useProductStore((state) => state.favorites);
-  const products = favorites.map((id) => {
-    return useProductStore.getState().getProductById(id);
-  });
+  const setFavorites = useProductStore((state) => state.setFavorites);
+  const getProductById = useProductStore((state) => state.getProductById);
+
+  const products = favorites
+    .map((id) => getProductById(id))
+    .filter((p): p is NonNullable<typeof p> => p !== undefined);
 
   return (
     <div className="flex flex-col gap-7 w-full h-auto">
       <h4 className="mt-2">Улюблені товари</h4>
 
       <div className="flex flex-wrap gap-12">
-        {favorites.length > 0 ? (
+        {products.length > 0 ? (
           products.map((product) => (
             <Card className={cn('min-w-[259px] min-h-[297px] group rounded-none')}>
               <CardContent className={cn('relative w-full overflow-hidden')}>
@@ -32,8 +34,8 @@ export const UserFavorites = () => {
                   />
 
                   <div className="absolute top-5 right-5 flex gap-2 z-20 ">
-                    <button className="btn" onClick={() => {}}>
-                      <DeleteIcon classname="w-5 h-5 text-[var(--grey)]" />
+                    <button className="btn" onClick={() => setFavorites(product.id)}>
+                      <DeleteIcon classname="w-5 h-5 text-grey" />
                     </button>
                   </div>
                 </div>
@@ -41,12 +43,12 @@ export const UserFavorites = () => {
 
               <CardFooter className="flex items-center justify-between">
                 <div className="flex items-center gap-1">
-                  <span className="font-medium text-lg">{product?.categoryName}</span>
+                  <span className="font-medium text-lg">{product.categoryName}</span>
 
-                  <span className="text-sm text-gray-500">{product?.collectionName}</span>
+                  <span className="text-sm text-gray-500">{product.collectionName}</span>
                 </div>
 
-                <span className="font-semibold text-md">{product?.price} грн</span>
+                <span className="font-semibold text-md">{product.price} грн</span>
               </CardFooter>
             </Card>
           ))

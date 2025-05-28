@@ -2,7 +2,7 @@ import { request } from '@/api/requestService';
 import { ApiEndpoint, HttpMethod } from '@/enums';
 import { IUserItem } from '@/types/';
 
-export const getAllUsers = async (): Promise<IUserItem[]> => {
+const getAllUsers = async (): Promise<IUserItem[]> => {
   const data = await request({
     url: ApiEndpoint.USERS,
     method: HttpMethod.GET,
@@ -11,7 +11,7 @@ export const getAllUsers = async (): Promise<IUserItem[]> => {
   return data;
 };
 
-export const getUserByToken = async (token: string): Promise<IUserItem> => {
+const getUserByToken = async (token: string): Promise<IUserItem> => {
   const data = await request({
     headers: { Authorization: `Bearer ${token}` },
     url: ApiEndpoint.USER,
@@ -21,7 +21,7 @@ export const getUserByToken = async (token: string): Promise<IUserItem> => {
   return data;
 };
 
-export const updateUser = async (
+const updateUser = async (
   data: Partial<IUserItem>,
   token: string | null
 ): Promise<IUserItem> => {
@@ -35,7 +35,7 @@ export const updateUser = async (
   return response;
 };
 
-export const updateUserId = async (
+const updateUserId = async (
   userId: number,
   data: Partial<IUserItem>,
   token: string
@@ -49,7 +49,9 @@ export const updateUserId = async (
   return response;
 };
 
-// export const logoutUser = async (refreshToken: string) => {
-//   const response = await axios.post('/api/auth/logout', { refreshToken });
-//   return response.data;
-// };
+export {
+  getAllUsers,
+  getUserByToken,
+  updateUser,
+  updateUserId
+}

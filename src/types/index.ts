@@ -1,4 +1,4 @@
-export type { IProduct } from './product';
+export type { IProductItem } from './product';
 export type { IReviewItem } from './review';
 export type { ICartItem } from './cart';
 export type { SliderProps } from './mainSlider';

@@ -31,7 +31,7 @@ export const LoginForm: FC<LoginFormProps> = ({ initialValues, onLogin, onChange
     <Card className="w-[448px] bg-main relative">
       <CardContent className="p-8 flex flex-col items-center gap-12">
         <div className="flex flex-col items-center gap-7 w-full">
-          <h2 className="text-[length:var(--text)]  font-[500] font-[family-name:var(--font-main)]">
+          <h2 className="text-second  font-[500] font-main">
             Увійти в акаунт
           </h2>
 
@@ -42,10 +42,10 @@ export const LoginForm: FC<LoginFormProps> = ({ initialValues, onLogin, onChange
             <div className="w-full">
               <div
                 className={cn(
-                  'flex items-center gap-2 border-0 border-b-2 bg-transparent rounded-none focus-within:border-[var(--brown-dark)] focus-within:text-[var(--brown-dark)]',
+                  'flex items-center gap-2 border-0 border-b-2 bg-transparent rounded-none focus-within:border-brown-dark focus-within:text-brown-dark',
                   errors.phone
-                    ? 'border-[var(--error)] text-[var(--error)]'
-                    : 'border-[var(--grey)] text-[var(--grey)]',
+                    ? 'border-error text-error'
+                    : 'border-grey text-grey',
                 )}
               >
                 <PhoneIcon classname="w-4 h-5 text-inherit" />
@@ -63,7 +63,7 @@ export const LoginForm: FC<LoginFormProps> = ({ initialValues, onLogin, onChange
               </div>
 
               {errors.phone && (
-                <p className="text-[var(--error)] text-xs text-center mt-1">
+                <p className="text-error text-xs text-center mt-1">
                   {errors.phone.message}{' '}
                 </p>
               )}
@@ -73,18 +73,18 @@ export const LoginForm: FC<LoginFormProps> = ({ initialValues, onLogin, onChange
           </form>
 
           <div className="flex flex-col items-center gap-5 w-full">
-            <p className="text-[var(--grey)]">або продовжити з</p>
+            <p className="text-grey">або продовжити з</p>
 
             <form className="flex w-full items-center justify-between">
               <Button variant="secondary" asChild>
-                <Link to={ApiEndpoint.GOOGLE} className="text-[var(--black)]">
+                <Link to={ApiEndpoint.GOOGLE} className="text-black">
                   <GoogleIcon />
                   Google
                 </Link>
               </Button>
 
-              <Button variant="secondary" className="bg-[var(--black)] text-[var(--white)]" asChild>
-                <Link to={ApiEndpoint.APPLE} className="text-[var(--black)]">
+              <Button variant="secondary" className="bg-black text-white" asChild>
+                <Link to={ApiEndpoint.APPLE} className="text-black">
                   <AppleIcon />
                   Apple
                 </Link>
@@ -94,7 +94,7 @@ export const LoginForm: FC<LoginFormProps> = ({ initialValues, onLogin, onChange
         </div>
 
         <div className="flex flex-col w-full items-center gap-5">
-          <p className="text-[var(--grey)]">Немає акаунта?</p>
+          <p className="text-grey">Немає акаунта?</p>
 
           <Button asChild variant="outline" className="w-full">
             <Link to={AppRoute.SIGN_UP}>Зареєструватися</Link>

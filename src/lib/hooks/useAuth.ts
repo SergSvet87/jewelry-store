@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { AppRoute, AuthAction, LocalStorage } from '@/enums';
 import { LoginRequest, RegisterRequest, VerifyRequest } from '@/types/auth';
 import { login, registerUser, verifyPhoneLogin, verifyPhoneNumber } from '@/services/authService';
-import { useModalStore } from '@/store/modal/useModalStore';
-import { localStorageService } from '@/services/localStorageService';
+import { useModalStore } from '@/store/useModalStore';
+import { localStorageService } from '@/api/localStorageService';
 
 type Return = {
   loginFormValue: LoginRequest;

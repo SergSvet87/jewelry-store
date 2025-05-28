@@ -1,4 +1,4 @@
-import { ProductItem } from "./product"
+import { IProductItem } from "./"
 
 export interface IOrderItem {
   id: number,
@@ -7,7 +7,7 @@ export interface IOrderItem {
   {
     id: number,
     cartId: number,
-    product: ProductItem[],
+    product: IProductItem[],
     productName: string,
     quantity: number,
   }

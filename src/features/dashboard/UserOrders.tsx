@@ -1,7 +1,7 @@
 import cn from 'classnames';
 
 import { Button, Card, CardContent } from '@/components/ui';
-import { useOrderStore } from '@/store/order/useOrderStore';
+import { useOrderStore } from '@/store/useOrderStore';
 
 export const UserOrders = () => {
   const { order, status } = useOrderStore((state) => state);
@@ -28,13 +28,13 @@ export const UserOrders = () => {
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <span className="">№ {order.id}</span>
+                  <span className="">№ {order?.id}</span>
 
-                  <span className="text-[var(--grey)]">{product.name}</span>
+                  <span className="text-grey">{product.name}</span>
                 </div>
 
                 <div className="flex flex-col h-[202px] items-end justify-between">
-                  <span className="text-[var(--button)]">{status}</span>
+                  <span className="text-button">{status}</span>
 
                   <Button variant="outline" className="w-[259px]">
                     Залишити відгук

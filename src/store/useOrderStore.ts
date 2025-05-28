@@ -1,15 +1,15 @@
 import { create } from 'zustand';
 
 import { IOrderItem } from '@/types/';
-import { order } from '@/mock/orders';
+// import { order } from '@/mock/orders';
 
 interface OrderState {
-  order: IOrderItem;
+  order: IOrderItem | null;
   status: string;
 }
 
 export const useOrderStore = create<OrderState>(() => ({
-  order: order,
+  order: null,
   status: 'Виконано',
   
 

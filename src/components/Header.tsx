@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import Marquee from 'react-fast-marquee';
 import cn from 'classnames';
 
 import { Logo } from '@/assets';
@@ -8,9 +9,10 @@ import { navItems } from '@/mock';
 import { headerButtons, headerButtonsMobile } from '@/mock/headerButtons';
 import { SearchDropdown } from './SearchDropdown';
 import { SupportDrawer } from './SupportDrawer';
-import { useCartStore } from '@/store/cart/useCartStore';
-import { useProductStore } from '@/store/products/useProductsStore';
-import { useUserStore } from '@/store/user/useUserStore';
+import { useCartStore } from '@/store/useCartStore';
+import { useProductStore } from '@/store/useProductStore';
+import { useUserStore } from '@/store/useUserStore';
+import { BurgerMenu } from './BurgerMenu';
 
 const Header = () => {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -23,6 +25,10 @@ const Header = () => {
   const user = useUserStore((state) => state.currentUser);
 
   const toggleActiveButton = (title: string) => {
+    const isAuthPage = pathname === AppRoute.SIGN_IN || pathname === AppRoute.SIGN_UP;
+
+  if (isAuthPage && (title === 'scale' || title === 'favorite')) return;
+  
     if (activeButton === title) {
       setActiveButton(null);
     } else {
@@ -51,7 +57,9 @@ const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 400);
+      const scrolled = window.innerWidth >= 768 ? 400 : 100;
+
+      setScrolled(window.scrollY > scrolled);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -70,26 +78,26 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full fixed z-999">
-      <div className="w-[4500px] lg:h-[50px] bg-[var(--main)] flex items-center gap-8 lg:gap-[248px] animation-marquee whitespace-nowrap overflow-hidden h-[40px]">
+    <header className="w-full fixed z-50">
+      <Marquee className="lg:h-[50px] bg-main h-[40px]">
         {[...Array(10)].map((_, index) => (
-          <div
+          <span
             key={index}
-            className="font-body font-[number:var(--body-font-weight)] text-[length:var(--body-font-size)] text-center tracking-[var(--body-letter-spacing)] leading-[var(--body-line-height)] [font-style:var(--body-font-style)]"
+            className="lg:text-second text-[12px] lg:font-medium font-light pr-8 lg:pr-[248px]"
           >
             {promoMessage}
-          </div>
+          </span>
         ))}
-      </div>
+      </Marquee>
 
       <div
         className={cn(
-          'w-full lg:h-[50px] lg:p-0 py-[10px] text-[var(--main)] transition-colors duration-300',
+          'w-full lg:h-[50px] lg:p-0 py-[10px] transition-colors duration-300',
           pathname === AppRoute.ROOT || pathname === AppRoute.PRODUCTS
             ? scrolled
-              ? 'bg-[var(--brown-dark)]'
+              ? 'bg-brown-dark'
               : 'bg-transparent'
-            : 'bg-[var(--brown-dark)]',
+            : 'bg-brown-dark',
         )}
       >
         <div className="container flex items-center justify-between h-full">
@@ -101,15 +109,15 @@ const Header = () => {
             <Logo
               width={'105'}
               height={'30'}
-              classname="lg:w-[105px] lg:h-[30px] text-[var(--accent)] w-[70px] h-[20px]"
+              classname="lg:w-[105px] lg:h-[30px] text-accent w-[70px] h-[20px]"
             />
           </Link>
 
           <nav className="lg:hidden flex gap-10 items-center justify-between">
-            {headerButtonsMobile.map((item, index) => {
+            {headerButtonsMobile.map((item) => {
               const isActive = activeButton === item.title || pathname === item.href;
 
-              const iconColor = isActive ? 'var(--accent)' : 'var(--main)';
+              const iconColor = isActive ? 'accent' : 'main';
               const Icon = item.icon;
 
               if (item.title === 'search') {
@@ -122,49 +130,38 @@ const Header = () => {
                     }}
                     key={item.title}
                   >
-                    <Icon fill={iconColor} />
+                    <Icon classname={`text-${iconColor}`} />
                   </button>
                 );
               }
 
               if (item.title === 'shoppingBag') {
                 return (
-                  <Link
-                    key={item.title}
-                    className="btn relative"
-                    to={AppRoute.CART}
-                    // onClick={() => {
-                    //   useModalStore.getState().open('cart');
-                    // }}
-                  >
-                    <Icon stroke={iconColor} />
+                  <Link key={item.title} className="btn relative" to={AppRoute.CART}>
+                    <Icon classname={`text-${iconColor}`} />
                     {cartCount > 0 && (
-                      <span className="absolute -top-1 -right-1 text-medium text-[10px] bg-[var(--accent)] text-[var(--main)] rounded-full w-3 h-3 flex items-center justify-center">
+                      <span className="absolute -top-1 -right-1 text-medium text-[10px] bg-accent text-main rounded-full w-3 h-3 flex items-center justify-center">
                         {cartCount}
                       </span>
                     )}
                   </Link>
                 );
               }
-              return (
-                <Link
-                  key={index}
-                  to={item.href}
-                  className={cn(
-                    'btn relative',
-                    isActive ? 'text-[var(--accent)]' : 'text-[var(--main)]',
-                  )}
-                >
-                  <span className="whitespace-nowrap">
-                    {item.type === 'fill' ? <Icon fill={iconColor} /> : <Icon stroke={iconColor} />}
-                  </span>
-                </Link>
-              );
+
+              if (item.title === 'menuIcon') {
+                return (
+                  <BurgerMenu
+                    key={item.title}
+                    activeButton={activeButton}
+                    setActiveButton={toggleActiveButton}
+                  />
+                );
+              }
             })}
           </nav>
 
           <div className="lg:flex lg:items-center lg:gap-[196px] h-full hidden">
-            <nav className="flex gap-10 items-center ">
+            <nav className="flex gap-10 items-center text-main">
               {navItems
                 .filter((item) => {
                   if (item.href === '#about-us' && pathname !== AppRoute.ROOT) {
@@ -181,7 +178,7 @@ const Header = () => {
                         handleScrollClick(e as React.MouseEvent<HTMLAnchorElement>, item.href)
                       }
                       className={cn(
-                        'flex w-[88px] justify-center px-0 pb-[5px] py-2 border border-solid border-transparent items-center hover:border-b-[var(--main)] active:text-[var(--accent)]',
+                        'flex w-[88px] justify-center px-0 pb-[5px] py-2 border border-solid border-transparent items-center hover:border-b-main active:text-accent',
                       )}
                     >
                       <span className="whitespace-nowrap">{item.label}</span>
@@ -191,7 +188,7 @@ const Header = () => {
                       key={index}
                       to={item.href}
                       className={cn(
-                        'flex w-[88px] justify-center px-0 pb-[5px] py-2 border border-solid border-transparent items-center hover:border-b-[var(--main)] active:text-[var(--accent)]',
+                        'flex w-[88px] justify-center px-0 pb-[5px] py-2 border border-solid border-transparent items-center hover:border-b-main active:text-accent',
                       )}
                     >
                       <span className="whitespace-nowrap">{item.label}</span>
@@ -204,7 +201,7 @@ const Header = () => {
               {headerButtons.map((item) => {
                 const isActive = activeButton === item.title || pathname === item.href;
 
-                const iconColor = isActive ? 'var(--accent)' : 'var(--main)';
+                const iconColor = isActive ? 'accent' : 'main';
                 const Icon = item.icon;
 
                 if (item.title === 'search') {
@@ -217,24 +214,17 @@ const Header = () => {
                       }}
                       key={item.title}
                     >
-                      <Icon fill={iconColor} />
+                      <Icon classname={`text-${iconColor}`} />
                     </button>
                   );
                 }
 
                 if (item.title === 'shoppingBag') {
                   return (
-                    <Link
-                      key={item.title}
-                      className="btn relative"
-                      to={AppRoute.CART}
-                      // onClick={() => {
-                      //   useModalStore.getState().open('cart');
-                      // }}
-                    >
-                      <Icon stroke={iconColor} />
+                    <Link key={item.title} className="btn relative" to={AppRoute.CART}>
+                      <Icon classname={`text-${iconColor}`} />
                       {cartCount > 0 && (
-                        <span className="absolute -top-1 -right-1 text-medium text-[10px] bg-[var(--accent)] text-[var(--main)] rounded-full w-3 h-3 flex items-center justify-center">
+                        <span className="absolute -top-1 -right-1 text-medium text-[10px] bg-accent text-main rounded-full w-3 h-3 flex items-center justify-center">
                           {cartCount}
                         </span>
                       )}
@@ -248,27 +238,18 @@ const Header = () => {
                       key={item.title}
                       to={AppRoute.USER_DATA}
                       onClick={() => setActiveButton(item.title)}
-                      className={cn(
-                        'btn relative flex items-center',
-                        isActive && 'text-[var(--accent)]',
-                      )}
+                      className={cn('btn relative flex items-center', isActive && 'text-accent')}
                     >
-                      <span className="text-[length:var(--text)] font-[500]">
-                        {user.firstName[0]}
-                      </span>
+                      <span className="text-second font-[500]">{user.firstName[0]}</span>
                     </Link>
                   ) : (
                     <Link
                       key={item.title}
                       to={AppRoute.SIGN_IN}
                       onClick={() => setActiveButton(item.title)}
-                      className={cn('btn relative', isActive && 'text-[var(--accent)]')}
+                      className={cn('btn relative', isActive && 'text-accent')}
                     >
-                      {item.type === 'fill' ? (
-                        <Icon fill={iconColor} />
-                      ) : (
-                        <Icon stroke={iconColor} />
-                      )}
+                      <Icon classname={`text-${iconColor}`} />
                     </Link>
                   );
                 }
@@ -277,19 +258,12 @@ const Header = () => {
                   return (
                     <Link
                       key={item.title}
-                      to={user ? AppRoute.USER_SCALES : '#'}
+                      to={user ? AppRoute.USER_SCALES : AppRoute.SIGN_IN}
                       onClick={() => setActiveButton(item.title)}
-                      className={cn(
-                        'btn relative flex items-center',
-                        isActive && 'text-[var(--accent)]',
-                      )}
+                      className={cn('btn relative flex items-center', isActive && 'text-accent')}
                     >
-                      <span className="text-[length:var(--text)] font-[500]">
-                        {item.type === 'fill' ? (
-                          <Icon fill={iconColor} />
-                        ) : (
-                          <Icon stroke={iconColor} />
-                        )}
+                      <span className="text-second font-[500]">
+                        <Icon classname={`text-${iconColor}`} />
                       </span>
                     </Link>
                   );
@@ -299,14 +273,14 @@ const Header = () => {
                   return (
                     <Link
                       key={item.title}
-                      to={user ? AppRoute.USER_FAVORITES : '#'}
+                      to={user ? AppRoute.USER_FAVORITES : AppRoute.SIGN_IN}
                       onClick={() => setActiveButton(item.title)}
-                      className={cn('btn relative', isActive && 'text-[var(--accent)]')}
+                      className={cn('btn relative', isActive && 'text-accent')}
                     >
-                      <Icon fill={iconColor} />
+                      <Icon classname={`text-${iconColor}`} />
 
                       {favoriteCount > 0 && (
-                        <span className="absolute -top-1 -right-1 text-medium text-[10px] bg-[var(--accent)] text-[var(--main)] rounded-full w-3 h-3 flex items-center justify-center">
+                        <span className="absolute -top-1 -right-1 text-medium text-[10px] bg-accent text-main rounded-full w-3 h-3 flex items-center justify-center">
                           {favoriteCount}
                         </span>
                       )}

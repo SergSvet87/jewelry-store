@@ -1,5 +1,6 @@
 interface SlideData {
   background?: string;
+  bgMobile?: string;
   title?: string;
   subtitle?: string;
 }

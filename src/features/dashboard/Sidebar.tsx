@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { AppRoute } from '@/enums';
 import { menuItems } from '@/mock/menuItems';
 import { UserContacts } from './UserContacts';
-import { useAuthStore } from '@/store/auth/useAuthStore';
+import { useAuthStore } from '@/store/useAuthStore';
 
 export const Sidebar = () => {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ export const Sidebar = () => {
 
   const linkClass = 'flex gap-5 p-0 w-full items-center transition-all duration-200';
 
-  const activeClass = 'text-[var(--brown-dark)]';
+  const activeClass = 'text-brown-dark';
 
   const handleLogout = () => {
     logout();
@@ -31,7 +31,7 @@ export const Sidebar = () => {
                   to={item.href}
                   end
                   className={({ isActive }) =>
-                    `${linkClass} ${isActive ? activeClass : 'text-[var(--grey)]'}`
+                    `${linkClass} ${isActive ? activeClass : 'text-grey'}`
                   }
                 >
                   {({ isActive }) => (
@@ -52,7 +52,7 @@ export const Sidebar = () => {
       </nav>
 
       <button
-        className="btn text-[var(--grey)] hover:text-[var(--brown-dark)]"
+        className="btn text-grey hover:text-brown-dark"
         onClick={handleLogout}
       >
         Вийти

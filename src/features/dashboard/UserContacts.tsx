@@ -1,5 +1,5 @@
 import { UserIcon } from '@/assets';
-import { useUserStore } from '@/store/user/useUserStore';
+import { useUserStore } from '@/store/useUserStore';
 
 export const UserContacts = () => {
   const user = useUserStore((state) => state.currentUser);

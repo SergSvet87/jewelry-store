@@ -9,9 +9,9 @@ import {
   CardContent,
   Button,
 } from '@/components/ui';
-import { useUserStore } from '@/store/user/useUserStore';
+import { useUserStore } from '@/store/useUserStore';
 import { updateUser } from '@/services/userService';
-import { useAuthStore } from '@/store/auth/useAuthStore';
+import { useAuthStore } from '@/store/useAuthStore';
 
 export const UserData = () => {
   const user = useUserStore((state) => state.currentUser);

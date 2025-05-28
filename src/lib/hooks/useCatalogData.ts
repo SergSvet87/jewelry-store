@@ -2,7 +2,7 @@ import useSWR from 'swr';
 
 import { ApiEndpoint, HttpMethod } from '@/enums';
 import { request } from '@/api/requestService';
-import { useCatalogStore } from '@/store/catalog/useCatalogStore';
+import { useCatalogStore } from '@/store/useCatalogStore';
 
 export const useCatalogData = () => {
   const setCategories = useCatalogStore((s) => s.setCategories);
