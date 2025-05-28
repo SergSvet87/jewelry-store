@@ -1,12 +1,11 @@
-import { BannerImg } from "@/assets";
-
 export const Banner = () => {
   return (
     <div
-      className="w-full h-[460px] mt-[45px] bg-cover bg-center flex justify-center items-center m-0 p-0 relative"
-      style={{ backgroundImage: `url(${BannerImg})` }}
+      className={`w-full lg:h-[460px] h-[320px] lg:mt-[45px] mt-[40px] bg-cover bg-center flex justify-center lg:items-center m-0 p-0 relative bg-[url('/images/banner-mobile.png')] lg:bg-[url('/images/Banner.png')]`}
     >
-      <h1 className="w-[621px] text-center text-[var(--accent)] uppercase">Зроби свій стиль неповторним</h1>
+      <h1 className="lg:w-[621px] w-[254px] mt-14 lg:mt-0 text-center lg:text-accent text-main uppercase">
+        Зроби свій стиль неповторним
+      </h1>
     </div>
   );
 };

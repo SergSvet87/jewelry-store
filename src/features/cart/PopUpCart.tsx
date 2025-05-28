@@ -10,10 +10,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui';
-import { useModalStore } from '@/store/modal/useModalStore';
+import { useCartStore, useProductStore, useModalStore } from '@/store';
 import { CardCart } from './CardCart';
-import { useCartStore } from '@/store/cart/useCartStore';
-import { useProductStore } from '@/store/products/useProductsStore';
 
 export const PopUpCart = () => {
   const { openModal, close } = useModalStore();
@@ -33,7 +31,7 @@ export const PopUpCart = () => {
     <Dialog open={isOpen} onOpenChange={close}>
       <DialogTrigger className="hidden" />
       <DialogContent className="!max-w-[650px] flex flex-col items-center gap-7 p-7">
-        <DialogTitle className="w-full text-center text-[length:var(--text)]  font-[500] font-[family-name:var(--font-main)]">
+        <DialogTitle className="w-full text-center text-second font-[500] font-main">
           Кошик
         </DialogTitle>
 
@@ -52,17 +50,13 @@ export const PopUpCart = () => {
                 })}
               </div>
 
-              <div className="pt-7 border-t border-[var(--brown-dark)] flex items-center justify-between">
-                <span className="text-[length:var(--text)]  font-[500] font-[family-name:var(--font-main)] text-[var(--brown-dark)]">
-                  Разом
-                </span>{' '}
-                <span className="font-[family-name:var(--font-third)] text-[24px] text-[var(--button)]">
-                  {total?.toFixed(2)} грн
-                </span>
+              <div className="pt-7 border-t border-brown-dark flex items-center justify-between">
+                <span className="text-second  font-[500] font-main text-brown-dark">Разом</span>{' '}
+                <span className="font-third text-[24px] text-button">{total?.toFixed(2)} грн</span>
               </div>
             </div>
           ) : (
-            'У  вас немає товарів у кошику'
+            <span className="w-full text-center">У вас немає товарів у кошику</span>
           )}
         </div>
 
@@ -78,7 +72,7 @@ export const PopUpCart = () => {
               </Button>
             </div>
           ) : (
-            <Button className="w-full" asChild onClick={() => close()}>
+            <Button className="w-[307px]" asChild onClick={() => close()}>
               <Link to={AppRoute.PRODUCTS}>Переглянути каталог</Link>
             </Button>
           )}

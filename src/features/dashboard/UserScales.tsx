@@ -1,7 +1,7 @@
 import cn from 'classnames';
 
 import { Card, CardContent, CardFooter } from '@/components/ui';
-import { useProductStore } from '@/store/products/useProductsStore';
+import { useProductStore } from '@/store/useProductStore';
 import { X } from '@/assets';
 
 export const UserScales = () => {

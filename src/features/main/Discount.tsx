@@ -6,17 +6,17 @@ import { Card, CardContent } from '@/components/ui';
 
 export const Discount = () => {
   return (
-    <section className="relative w-full h-[700px] bg-cover bg-center flex items-center justify-center mb-[var(--section-indent)]">
+    <section className="relative w-full lg:h-[700px] min-h-[432px] h-full bg-cover bg-center flex items-center justify-center section-indent">
       <img className="absolute w-full h-full object-cover" src={DiscountImage} alt="Hero Image" />
 
-      <Card className="bg-transparent border-0 shadow-none z-50 text-[var(--main)] w-[550px]">
+      <Card className="bg-transparent z-5 text-main w-[550px]">
         <CardContent className="flex flex-col items-center justify-center gap-10 p-0">
           <h2 className="text-center">
-            Знижка на перше замовлення
-            <br />5 %
+            Знижка на перше <span className="md:inline block">замовлення</span>
+            <span className="block">-5%</span>
           </h2>
 
-          <Link to={AppRoute.PRODUCTS}>
+          <Link to={AppRoute.PRODUCTS} className='inline-block lg:static absolute bottom-4 left-50%'>
             <button className="btn-buy">Купити</button>
           </Link>
         </CardContent>

@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 
 import { AppRoute } from '@/enums';
-import { useModalStore } from '@/store/modal/useModalStore';
+import { useModalStore } from '@/store/useModalStore';
 import {
   Button,
   Dialog,
@@ -87,12 +87,12 @@ export const PopUpConfirmationPhone = () => {
     <Dialog open={isOpen} onOpenChange={close}>
       <DialogTrigger className="hidden" />
       <DialogContent className="max-w-[448px] flex flex-col items-center gap-6">
-        <DialogTitle className="w-[309px] text-center text-[length:var(--text)]  font-[500] font-[family-name:var(--font-main)]">
+        <DialogTitle className="w-[309px] text-center text-second  font-[500] font-main">
           Підтвердження номеру телефону
         </DialogTitle>
         <DialogDescription className="hidden" />
 
-        <p className="text-center text-[var(--grey)]">
+        <p className="text-center text-grey">
           Введіть код, який було відправлено вам на номер <span>{phone}</span>
         </p>
 
@@ -111,12 +111,12 @@ export const PopUpConfirmationPhone = () => {
                 onKeyDown={(e) => handleBackspace(e, i)}
                 className={clsx(
                   'w-8 h-12 text-center text-xl border-b-2 focus-visible:outline-none',
-                  error ? 'border-[var(--error)]' : 'border-[var(--brown-dark)]',
+                  error ? 'border-error' : 'border-brown-dark',
                 )}
               />
             ))}
           </label>
-          {error && <p className="text-[var(--error)] text-center text-[10px] mt-1">{error}</p>}
+          {error && <p className="text-error text-center text-[10px] mt-1">{error}</p>}
         </div>
 
         <DialogFooter className="w-full items-center gap-8">

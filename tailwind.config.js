@@ -1,6 +1,5 @@
-import type { Config } from 'tailwindcss';
-
-const config: Config = {
+/** @type {import('tailwindcss').Config} */
+module.exports = {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   theme: {
     extend: {
@@ -33,18 +32,14 @@ const config: Config = {
           '2xl': '1440px',
         },
       },
-      animation: {
-        marquee: 'marquee 25s linear infinite',
+      backgroundImage: {
+        'banner-mobile': "url('/images/banner-mobile.png')",
+        'banner-desktop': "url('/images/Banner.png')",
       },
-      keyframes: {
-        marquee: {
-          '0%': { transform: 'translateX(0%)' },
-          '100%': { transform: 'translateX(-100%)' },
-        },
-      },
+      container: false,
     },
   },
   plugins: [],
 };
 
-export default config;
+// export default config;

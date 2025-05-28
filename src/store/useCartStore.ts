@@ -1,36 +1,37 @@
 import { create } from 'zustand';
 
 import { LocalStorage } from '@/enums';
-import { ICartItem, ISingleProduct } from '@/types/';
-import { addToCartService } from '@/services/cartService';
-import { localStorageService } from '@/services/localStorageService';
+import { localStorageService } from '@/api';
+import { addToCartService } from '@/services';
+import { ICartItem, IProductItem } from '@/types/';
+import { useUserStore } from './useUserStore';
 
 interface CartState {
   cart: ICartItem;
-  cardTotalQuantity: number;
+  cartTotalQuantity: number;
   isInCart: (productId: number) => boolean;
-  addToCart: (product: ISingleProduct) => void;
+  addToCart: (product: IProductItem) => void;
   increaseQuantity: (productId: number) => void;
   decreaseQuantity: (productId: number) => void;
   removeFromCart: (productId: number) => void;
 }
 
-const cart = localStorageService.getItem<ICartItem>(LocalStorage.CART_PRODUCTS) || {
-  userId: 1,
+const defaultCart: ICartItem = {
+  userId: null,
   items: [],
 };
 
 export const useCartStore = create<CartState>((set, get) => ({
-  cart,
-  cardTotalQuantity: parseInt(
-    localStorageService.getItem(LocalStorage.CART_QUANTITY) || '0',
-  ),
+  cart: localStorageService.getItem<ICartItem>(LocalStorage.CART_PRODUCTS) ?? defaultCart,
+  cartTotalQuantity: Number(
+    localStorageService.getItem(LocalStorage.CART_QUANTITY)
+  ) || 0,
   isInCart: (productId) => {
     return get().cart?.items?.some((i) => i.productId === productId);
   },
 
   addToCart: (product) => {
-    const userId = 1;
+    const userId = useUserStore.getState().currentUser?.id ?? null;
     const { cart } = get();
     const updatedCart = addToCartService(product, cart, userId);
 
@@ -38,13 +39,13 @@ export const useCartStore = create<CartState>((set, get) => ({
 
     set({
       cart: updatedCart,
-      cardTotalQuantity: quantity,
+      cartTotalQuantity: quantity,
     });
 
     localStorageService.setItem(LocalStorage.CART_PRODUCTS, updatedCart);
     localStorageService.setItem(LocalStorage.CART_QUANTITY, quantity);
   },
-  
+
   increaseQuantity: (productId) => {
     const { cart } = get();
     const updatedItems = cart.items.map(item =>
@@ -53,8 +54,8 @@ export const useCartStore = create<CartState>((set, get) => ({
     const quantity = updatedItems.reduce((sum, i) => sum + i.quantity, 0);
     const updatedCart = { ...cart, items: updatedItems };
 
-    set({ cart: updatedCart, cardTotalQuantity: quantity });
-    localStorageService.setItem(LocalStorage.CART_PRODUCTS, updatedItems);
+    set({ cart: updatedCart, cartTotalQuantity: quantity });
+    localStorageService.setItem(LocalStorage.CART_PRODUCTS, updatedCart);
     localStorageService.setItem(LocalStorage.CART_QUANTITY, quantity);
   },
 
@@ -68,8 +69,8 @@ export const useCartStore = create<CartState>((set, get) => ({
     const quantity = updatedItems.reduce((sum, i) => sum + i.quantity, 0);
     const updatedCart = { ...cart, items: updatedItems };
 
-    set({ cart: updatedCart, cardTotalQuantity: quantity });
-    localStorageService.setItem(LocalStorage.CART_PRODUCTS, updatedItems);
+    set({ cart: updatedCart, cartTotalQuantity: quantity });
+    localStorageService.setItem(LocalStorage.CART_PRODUCTS, updatedCart);
     localStorageService.setItem(LocalStorage.CART_QUANTITY, quantity);
   },
 
@@ -79,8 +80,8 @@ export const useCartStore = create<CartState>((set, get) => ({
     const quantity = updatedItems.reduce((sum, i) => sum + i.quantity, 0);
     const updatedCart = { ...cart, items: updatedItems };
 
-    set({ cart: updatedCart, cardTotalQuantity: quantity });
-    localStorageService.setItem(LocalStorage.CART_PRODUCTS, updatedItems);
+    set({ cart: updatedCart, cartTotalQuantity: quantity });
+    localStorageService.setItem(LocalStorage.CART_PRODUCTS, updatedCart);
     localStorageService.setItem(LocalStorage.CART_QUANTITY, quantity);
   },
 }));

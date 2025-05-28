@@ -1,5 +1,5 @@
 import { ColGlow } from '@/assets';
-import { ISingleProduct } from '@/types/product';
+import { IProductItem } from '@/types/product';
 
 export const categories = ['Каблучки', 'Підвіски', 'Сережки', 'Браслети', 'Ланцюжки'];
 export const collections = ['Heart', 'Infinity', 'Nature', 'Royal', 'Eclipse', 'Moon', 'Glow', 'Ocean', 'Spark'];
@@ -19,7 +19,7 @@ function generateCode(): string {
   return String(Math.floor(250000 + Math.random() * 750000)).padStart(7, '0');
 }
 
-export const mockProducts: ISingleProduct[] = Array.from({ length: 50 }, (_, i) => {
+export const mockProducts: IProductItem[] = Array.from({ length: 50 }, (_, i) => {
   const id = (i + 1);
   const categoryName = getRandom(categories);
   const collectionName = getRandom(collections);
@@ -34,7 +34,7 @@ export const mockProducts: ISingleProduct[] = Array.from({ length: 50 }, (_, i) 
     price: getRandomFloat(250, 1000),
     image: ColGlow,
     collectionName,
-    description: `Елегантна прикраса з колекції "${collectionName}"${gemstone ? `, інкрустована ${gemstone.toLowerCase()}` : ''}.`,
+    // description: `Елегантна прикраса з колекції "${collectionName}"${gemstone ? `, інкрустована ${gemstone.toLowerCase()}` : ''}.`,
     rating: getRandomFloat(3.5, 5.0, 1),
     material: [getRandom(materials), Math.random() < 0.3 ? getRandom(materials) : undefined].filter(
       Boolean,

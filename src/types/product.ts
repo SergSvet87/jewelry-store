@@ -1,10 +1,5 @@
 export interface ProductItem {
-  id: number;
-  name: string;
-  price: number;
   image: string;
-  description?: string;
-  categoryName?: string;
   isLarge?: boolean;
   collectionName?: string;
   rating: number;
@@ -21,16 +16,17 @@ export interface ISingleProduct extends ProductItem {
   gemstone?: string | null;
 }
 
-export interface IProduct {
+export interface IProductItem extends ProductItem {
   id: number;
   name: string;
-  productSizes: number[];
+  productSizes?: number[];
   price: number;
+  sale?: number;
   quantity: number;
-  sku: string;
+  sku?: string;
   categoryName: string;
   collectionName: string;
-  description: {
+  description?: {
     defaultReturnText: string;
     defaultDeliveryText: string;
     characteristic: {

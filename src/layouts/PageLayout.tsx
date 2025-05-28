@@ -1,16 +1,16 @@
 import { FC, useEffect, useState } from 'react';
 
-import { ISingleProduct } from '@/types/';
+import { IProductItem } from '@/types/';
 import { AppRoute } from '@/enums';
 import { Banner } from '@/components/Banner';
 import { Catalog } from '@/components/Catalog';
 import { BreadCrumbs } from '@/components/BreadCrumbs';
 import { Filters } from '@/features/products/Filters';
 import { Sort } from '@/features/products/Sort';
-import { useCatalogStore } from '@/store/catalog/useCatalogStore';
+import { useCatalogStore } from '@/store/useCatalogStore';
 
 interface PageLayoutProps {
-  products: ISingleProduct[];
+  products: IProductItem[];
 }
 
 export const PageLayout: FC<PageLayoutProps> = ({ products }) => {
@@ -48,11 +48,11 @@ export const PageLayout: FC<PageLayoutProps> = ({ products }) => {
     <>
       <Banner />
 
-      <div className="container mx-auto py-10">
+      <div className="container py-10 lg:block hidden">
         <BreadCrumbs items={[{ label: 'Головна', href: AppRoute.ROOT }, { label: 'Каталог' }]} />
       </div>
 
-      <div className="container mx-auto flex gap-5 pb-[var(--section-indent)]">
+      <div className="container flex gap-5 pb-section">
         <Filters />
 
         <div className="flex flex-col grow gap-7 ">

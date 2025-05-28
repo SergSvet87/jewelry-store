@@ -36,7 +36,7 @@ export const AlsoBuy = () => {
 
   return (
     <section className="flex flex-col items-start gap-10 w-full">
-      <h2 className="w-full [font-family:'Merriweather',Helvetica] font-normal text-brown-dark text-2xl leading-[31.2px] tracking-[0]">
+      <h2 className="w-full font-third font-normal text-brown-dark text-2xl leading-[31.2px] tracking-[0]">
         Разом із цим товаром також купують
       </h2>
 
@@ -54,17 +54,17 @@ export const AlsoBuy = () => {
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center gap-1">
                   <div className="flex items-center justify-center gap-2">
-                    <span className="font-body-small font-[number:var(--body-small-font-weight)] text-brown-dark text-[length:var(--body-small-font-size)] tracking-[var(--body-small-letter-spacing)] leading-[var(--body-small-line-height)] whitespace-nowrap [font-style:var(--body-small-font-style)]">
+                    <span className="text-brown-dark whitespace-nowrap">
                       {product.type}
                     </span>
                   </div>
                   <div className="flex items-center justify-center gap-2">
-                    <span className="font-body-small font-[number:var(--body-small-font-weight)] text-grey text-[length:var(--body-small-font-size)] tracking-[var(--body-small-letter-spacing)] leading-[var(--body-small-line-height)] whitespace-nowrap [font-style:var(--body-small-font-style)]">
+                    <span className="text-grey whitespace-nowrap">
                       &quot;{product.name}&quot;
                     </span>
                   </div>
                 </div>
-                <span className="font-body-small font-[number:var(--body-small-font-weight)] text-brown-dark text-[length:var(--body-small-font-size)] tracking-[var(--body-small-letter-spacing)] leading-[var(--body-small-line-height)] whitespace-nowrap [font-style:var(--body-small-font-style)]">
+                <span className="text-brown-dark whitespace-nowrap">
                   {product.price}
                 </span>
               </div>

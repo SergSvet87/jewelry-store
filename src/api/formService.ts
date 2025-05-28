@@ -1,4 +1,4 @@
-import { request } from '../api/requestService';
+import { request } from './requestService';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface SubmitFormOptions<TData, _TResponse> {

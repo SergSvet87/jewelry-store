@@ -11,6 +11,8 @@ export const order =
     product: [{
       id: 1445,
       name: 'Сережки з білого золота з фіанітами “Glow”',
+      categoryName: 'Сережки',
+      collectionName: "Glow",
       price: 299.99,
       image: NewColHeart,
       description: 'Elegant gold ring with diamonds.',
@@ -20,6 +22,8 @@ export const order =
     {
       id: 1445,
       name: 'Сережки з білого золота з фіанітами “Glow”',
+      categoryName: 'Сережки',
+      collectionName: "Glow",
       price: 299.99,
       image: NewColHeart,
       description: 'Elegant gold ring with diamonds.',
@@ -29,6 +33,8 @@ export const order =
     {
       id: 1445,
       name: 'Сережки з білого золота з фіанітами “Glow”',
+      categoryName: 'Сережки',
+      collectionName: "Glow",
       price: 299.99,
       image: NewColHeart,
       description: 'Elegant gold ring with diamonds.',

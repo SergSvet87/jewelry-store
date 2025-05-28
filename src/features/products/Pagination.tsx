@@ -34,8 +34,8 @@ export const Pagination: FC<IPaginationProps> = ({ page, totalPages, setPage }) 
               key={p}
               onClick={() => setPage(p)}
               className={cn(
-                'w-7 h-7 px-[10.5px] py-[3.5px] border-[0.5px] cursor-pointer flex items-center justify-center hover:border-[var(--brown-dark)] hover:text-[var(--accent)] transition-all duration-300',
-                page === p ? 'border-[var(--brown-dark)]' : 'border-transparent',
+                'w-7 h-7 px-[10.5px] py-[3.5px] border-[0.5px] cursor-pointer flex items-center justify-center hover:border-brown-dark hover:text-accent transition-all duration-300',
+                page === p ? 'border-brown-dark' : 'border-transparent',
               )}
             >
               {p}

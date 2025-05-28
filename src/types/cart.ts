@@ -1,6 +1,6 @@
 export interface ICartItem {
   id?: number,
-  userId: number,
+  userId: number | null,
   items: {
     productId: number,
     quantity: number,

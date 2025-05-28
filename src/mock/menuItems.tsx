@@ -30,12 +30,12 @@ export const menuItems = [
     href: AppRoute.USER_REVIEWS,
   },
   {
-    icon: <FavoriteIcon fill="var(--grey)" />,
+    icon: <FavoriteIcon classname="text-grey" />,
     text: 'Список бажань',
     href: AppRoute.USER_FAVORITES,
   },
   {
-    icon: <ScalesIcon fill="var(--grey)" />,
+    icon: <ScalesIcon classname="text-grey" />,
     text: 'Список порівнянь',
     href: AppRoute.USER_SCALES,
   },

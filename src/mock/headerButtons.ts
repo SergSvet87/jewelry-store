@@ -48,9 +48,30 @@ export const headerButtonsMobile = [
     type: 'stroke',
   },
   {
-    title: 'menu icon',
+    title: 'menuIcon',
     icon: MenuIcon,
     href: AppRoute.CART,
     type: 'stroke',
   },
 ];
+
+export const burgerButtons = [
+  {
+    title: 'user',
+    href: AppRoute.SIGN_IN,
+    icon: UserIcon,
+    type: 'fill',
+  },
+  {
+    title: 'favorite',
+    icon: FavoriteIcon,
+    href: AppRoute.USER_FAVORITES,
+    type: 'fill',
+  },
+  {
+    title: 'scale',
+    href: AppRoute.USER_SCALES,
+    icon: ScalesIcon,
+    type: 'fill',
+  },
+]
