@@ -1,9 +1,9 @@
-import { ICartItem, ISingleProduct } from '@/types/';
+import { ICartItem, IProductItem } from '@/types/';
 
-export const addToCartService = (
-  product: ISingleProduct,
+const addToCartService = (
+  product: IProductItem,
   currentCart: ICartItem,
-  userId: number,
+  userId: number | null,
 ): ICartItem => {
   const cart = currentCart || {
     userId,
@@ -13,7 +13,14 @@ export const addToCartService = (
   const existingItem = cart?.items?.find((i) => i.productId === product.id);
 
   if (existingItem) {
-    existingItem.quantity += 1;
+    return {
+      ...cart,
+      items: cart.items.map(item =>
+        item.productId === product.id
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      ),
+    };
   } else {
     cart?.items?.push({
       productId: product.id,
@@ -24,7 +31,7 @@ export const addToCartService = (
   return cart;
 };
 
-export const removeFromCartService = (
+const removeFromCartService = (
   productId: number,
   currentItems: ICartItem[],
 ): ICartItem[] => {
@@ -38,7 +45,7 @@ export const removeFromCartService = (
   return updatedItems;
 };
 
-export const changeQuantityService = (
+const changeQuantityService = (
   productId: number,
   quantity: number,
   currentItems: ICartItem[],
@@ -51,6 +58,13 @@ export const changeQuantityService = (
   }));
 };
 
-export const clearCartService = (): ICartItem[] => {
+const clearCartService = (): ICartItem[] => {
   return [];
 };
+
+export {
+  addToCartService,
+  removeFromCartService,
+  changeQuantityService,
+  clearCartService
+}

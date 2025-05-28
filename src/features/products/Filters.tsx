@@ -13,7 +13,7 @@ import {
   Checkbox,
   Input,
 } from '@/components/ui/';
-import { useProductStore } from '@/store/products/useProductsStore';
+import { useProductStore } from '@/store/useProductStore';
 import { filterProducts } from '@/utils/filterProducts';
 import { declension } from '@/utils/declension';
 
@@ -66,12 +66,12 @@ export const Filters = () => {
         <div className="w-full flex flex-row gap-3">
           <img src={FilterIcon} alt="Filter icon" />
 
-          <h4 className="font-[number:500] text-[length:var(--text)] text-[font-style:var(--font-main)] ">
+          <h4 className="font-[500] text-second text-brown-dark ">
             Фільтри
           </h4>
         </div>
 
-        <p className="font-[number:400] text-[length:var(--text-second)] text-[var(--grey)]">
+        <p className="text-grey">
           Знайдено <span className='min-w-5'>{filteredProducts.length}</span> <span>{declension(filteredProducts.length, ['товар', 'товари', 'товарів'])}</span>
         </p>
       </div>
@@ -165,7 +165,7 @@ export const Filters = () => {
               <form className="w-full flex flex-col items-start gap-4">
                 <div className="w-full flex justify-between items-center gap-1">
                   <Input
-                    className="w-[60px] h-[30px] px-1 py-[7px] text-left border border-[var(--grey)]"
+                    className="w-[60px] h-[30px] px-1 py-[7px] text-left border border--grey"
                     type="text"
                     name="inputPriceMin"
                     id="inputPriceMin"
@@ -174,7 +174,7 @@ export const Filters = () => {
                   />
                   <span>-</span>
                   <Input
-                    className="w-[60px] h-[30px] px-1 py-[7px] text-end border border-[var(--grey)]"
+                    className="w-[60px] h-[30px] px-1 py-[7px] text-end border border-grey"
                     type="text"
                     name="inputPriceMax"
                     id="inputPriceMax"

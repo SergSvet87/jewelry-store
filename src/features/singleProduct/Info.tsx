@@ -43,11 +43,11 @@ export const Info = () => {
 
             <div className="flex items-center gap-4">
               <button type="button" className="btn" onClick={() => {}}>
-                <ScalesIcon fill="var(--brown-dark)" />
+                <ScalesIcon classname="text-brown-dark" />
               </button>
 
               <button type="button" className="btn" onClick={() => {}}>
-                <FavoriteIcon fill="var(--brown-dark)" />
+                <FavoriteIcon classname="text-brown-dark" />
               </button>
             </div>
           </div>
@@ -133,16 +133,16 @@ export const Info = () => {
             </AccordionTrigger>
             <AccordionContent>
               <div className="text-grey text-base">
-                <span className="text-[#717171] leading-[var(--body-small-line-height)] font-body-small tracking-[var(--body-small-letter-spacing)] text-[length:var(--body-small-font-size)]">
+                <span className="text-grey">
                   Доставка у відділення і поштомат Нової Пошти та кур&apos;єром Нової Пошти
                   незалежно від суми замовлення - безкоштовно.{' '}
                 </span>
 
-                <span className="font-medium text-[#717171] block my-2">
+                <span className="font-medium text-grey block my-2">
                   Оплату можна здійснити:
                 </span>
 
-                <span className="text-[#717171] leading-[var(--body-small-line-height)] font-body-small tracking-[var(--body-small-letter-spacing)] text-[length:var(--body-small-font-size)]">
+                <span className="text-grey">
                   Готівкою при отриманні; <br />
                   Післяплатою від Нової Пошти; <br />
                   Картою Visa / MasterCard; <br />

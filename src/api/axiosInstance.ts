@@ -6,8 +6,8 @@ import axios, {
 
 import { ContentType, LocalStorage } from '@/enums';
 import { refreshAccessToken } from '@/services/authService';
-import { localStorageService } from '@/services/localStorageService';
-import { useAuthStore } from '@/store/auth/useAuthStore';
+import { localStorageService } from '@/api/localStorageService';
+import { useAuthStore } from '@/store/useAuthStore';
 
 
 const axiosInstance = axios.create({

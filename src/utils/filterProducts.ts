@@ -1,7 +1,7 @@
-import { ISingleProduct } from "../types/";
+import { IProductItem } from "../types/";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const filterProducts = (products: ISingleProduct[], filters: any) => {
+export const filterProducts = (products: IProductItem[], filters: any) => {
   let filtered = [...products];
 
   const { selectedCategories, selectedCollections, selectedMaterials, priceRange } = filters;
@@ -15,7 +15,7 @@ export const filterProducts = (products: ISingleProduct[], filters: any) => {
   }
 
   if (selectedMaterials.length) {
-    filtered = filtered.filter((p) => selectedMaterials.includes(p.material));
+    filtered = filtered.filter((p) => selectedMaterials.includes(p.rating));
   }
 
   if (priceRange) {

@@ -7,8 +7,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui';
-import { useCartStore } from '@/store/cart/useCartStore';
-import { useModalStore } from '@/store/modal/useModalStore';
+import { useCartStore } from '@/store/useCartStore';
+import { useModalStore } from '@/store/useModalStore';
 
 export const PopUpDeleteFromCart = () => {
   const { openModal, deleteProductId, close } = useModalStore();
@@ -27,7 +27,7 @@ export const PopUpDeleteFromCart = () => {
     <Dialog open={isOpen} onOpenChange={close}>
       <DialogTrigger className="hidden" />
       <DialogContent className="!max-w-[363px] flex flex-col items-center gap-7 p-7">
-        <DialogTitle className="w-full text-center text-[length:var(--text)]  font-[500] font-[family-name:var(--font-main)]">
+        <DialogTitle className="w-full text-center text-text font-[500] font-main">
           Ви впевнені, що хочете видалити товар з кошика?
         </DialogTitle>
 

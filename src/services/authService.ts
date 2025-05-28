@@ -1,13 +1,13 @@
 import axios from 'axios';
 
-import { submitForm } from './formService';
+import { submitForm } from '../api/formService';
 import { request } from '@/api/requestService';
-import { useAuthStore } from '@/store/auth/useAuthStore';
-import { localStorageService } from './localStorageService';
+import { useAuthStore } from '@/store/useAuthStore';
+import { localStorageService } from '../api/localStorageService';
 import { ApiEndpoint, HttpMethod, LocalStorage } from '@/enums';
 import { RegisterRequest, RegisterResponse, VerifyResponse, VerifyRequest, LoginResponse, LoginRequest } from '@/types/';
 
-export const refreshAccessToken = async (): Promise<string | null> => {
+const refreshAccessToken = async (): Promise<string | null> => {
   const refreshToken = localStorageService.getItem(LocalStorage.REFRESH_TOKEN_KEY);
 
   if (!refreshToken) return null;
@@ -20,7 +20,7 @@ export const refreshAccessToken = async (): Promise<string | null> => {
   return newAccessToken;
 };
 
-export const registerUser = async (userData: Partial<RegisterRequest>): Promise<RegisterResponse> => {
+const registerUser = async (userData: Partial<RegisterRequest>): Promise<RegisterResponse> => {
   const data = await request<RegisterResponse>({
     url: ApiEndpoint.SIGNUP,
     method: HttpMethod.POST,
@@ -30,7 +30,7 @@ export const registerUser = async (userData: Partial<RegisterRequest>): Promise<
   return data;
 };
 
-export const useRegister = () => {
+const useRegister = () => {
   const register = async (data: RegisterRequest) => {
     return await submitForm<RegisterRequest, RegisterResponse>({
       url: ApiEndpoint.SIGNUP,
@@ -42,7 +42,7 @@ export const useRegister = () => {
   return { register };
 };
 
-export const verifyPhoneNumber = async (code: VerifyRequest): Promise<VerifyResponse> => {
+const verifyPhoneNumber = async (code: VerifyRequest): Promise<VerifyResponse> => {
   const token = localStorageService.getItem(LocalStorage.ACCESS_TOKEN_KEY)
 
   const data = await request<VerifyResponse>({
@@ -55,7 +55,7 @@ export const verifyPhoneNumber = async (code: VerifyRequest): Promise<VerifyResp
   return data;
 };
 
-export const verifyPhoneLogin = async (code: VerifyRequest): Promise<VerifyResponse> => {
+const verifyPhoneLogin = async (code: VerifyRequest): Promise<VerifyResponse> => {
   const token = localStorageService.getItem(LocalStorage.ACCESS_TOKEN_KEY)
 
   const data = await request<VerifyResponse>({
@@ -68,7 +68,7 @@ export const verifyPhoneLogin = async (code: VerifyRequest): Promise<VerifyRespo
   return data;
 };
 
-export const login = async (data: LoginRequest): Promise<LoginResponse> => {
+const login = async (data: LoginRequest): Promise<LoginResponse> => {
   const response = await request<LoginResponse>({
     url: ApiEndpoint.SIGNIN,
     method: HttpMethod.POST,
@@ -78,9 +78,14 @@ export const login = async (data: LoginRequest): Promise<LoginResponse> => {
   return response;
 };
 
-export const handleAuthError = () => {
+const handleAuthError = () => {
   const { logout } = useAuthStore.getState();
   logout();
 };
+
+export {
+  handleAuthError, login, verifyPhoneLogin, verifyPhoneNumber, useRegister, refreshAccessToken,
+  registerUser
+}
 
 

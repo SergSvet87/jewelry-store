@@ -1,16 +1,15 @@
 import { Link } from 'react-router-dom';
 import cn from 'classnames';
 
-import { ISingleProduct } from '@/types/';
+import { IProductItem } from '@/types/';
 import { AppRoute } from '@/enums';
-import { useCartStore } from '@/store/cart/useCartStore';
-import { useProductStore } from '@/store/products/useProductsStore';
+import { useCartStore, useProductStore } from '@/store';
 import { Card, CardContent, CardFooter } from '@/components/ui';
 import { FavoriteIcon, ShoppingBagIcon, FavoriteFilledIcon, ShoppingBagFilledIcon } from '@/assets';
 
-export const ProductCard = ({ product }: { product: ISingleProduct }) => {
+export const ProductCard = ({ product }: { product: IProductItem }) => {
   const addToCart = useCartStore((state) => state.addToCart);
-  const toggleFavorite = useProductStore((state) => state.toggleFavorite);
+  const setFavorites = useProductStore((state) => state.setFavorites);
   const favorites = useProductStore((state) => state.favorites);
   const isInCart = useCartStore((state) => state.isInCart(product.id));
 
@@ -36,11 +35,11 @@ export const ProductCard = ({ product }: { product: ISingleProduct }) => {
           />
 
           <div className="absolute top-5 right-5 flex gap-2 z-20 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-            <button className="btn" onClick={() => toggleFavorite(product.id)}>
+            <button className="btn" onClick={() => setFavorites(product.id)}>
               {isInFavorite ? (
                 <FavoriteFilledIcon classname="w-5 h-5" />
               ) : (
-                <FavoriteIcon fill="var(--brown-dark)" />
+                <FavoriteIcon classname="w-5 h-5 text-brown-dark" />
               )}
             </button>
 
@@ -48,7 +47,7 @@ export const ProductCard = ({ product }: { product: ISingleProduct }) => {
               {isInCart ? (
                 <ShoppingBagFilledIcon classname="w-5 h-5" />
               ) : (
-                <ShoppingBagIcon stroke="var(--brown-dark)" />
+                <ShoppingBagIcon classname="w-5 h-5 text-brown-dark" />
               )}
             </button>
           </div>

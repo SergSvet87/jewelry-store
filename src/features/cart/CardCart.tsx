@@ -3,13 +3,12 @@ import cn from 'classnames';
 
 import { DeleteIcon } from '@/assets';
 import { Button } from '@/components/ui';
-import { ISingleProduct } from '@/types/';
-import { useCartStore } from '@/store/cart/useCartStore';
+import { IProductItem } from '@/types/';
+import { useCartStore, useModalStore } from '@/store';
 import { calculateItemTotalPrice } from '@/utils/calculateItemTotal';
-import { useModalStore } from '@/store/modal/useModalStore';
 
 interface ICardCart {
-  item: ISingleProduct;
+  item: IProductItem;
   quantity: number;
 }
 
@@ -37,27 +36,27 @@ export const CardCart: FC<ICardCart> = ({ item, quantity }) => {
           <div className="flex items-center gap-1 ">
             <Button
               variant="ghost"
-              className="!w-[20px] h-[20px] text-[var(--grey)] text-[30px] hover:text-[var(--brown-dark)] disabled:text-[var(--grey)] disabled:cursor-default transition-all duration-300"
+              className="!w-[20px] h-[20px] text-grey text-[30px] hover:text-brown-dark disabled:text-grey disabled:cursor-default transition-all duration-300"
               disabled={quantity === 1}
               onClick={() => decreaseQuantity(item.id)}
             >
               -
             </Button>
 
-            <span className="w-[30px] h-[30px] border border-[var(--grey)] flex items-center justify-center">
+            <span className="w-[30px] h-[30px] border border-grey flex items-center justify-center">
               {quantity}
             </span>
 
             <Button
               variant="ghost"
-              className="!w-[20px] h-[20px] text-[var(--grey)] text-[30px] hover:text-[var(--brown-dark)] transition-all duration-300"
+              className="!w-[20px] h-[20px] text-grey text-[30px] hover:text-brown-dark transition-all duration-300"
               onClick={() => increaseQuantity(item.id)}
             >
               +
             </Button>
           </div>
 
-          <div className="min-w-[120px] text-[length:var(--text)] font-[500] font-[family-name:var(--font-main)] text-[var(--button)]">
+          <div className="min-w-[120px] text-second font-[500] font-main text-button">
             {calculateItemTotalPrice(quantity, item.price).toFixed(2)} грн
           </div>
         </div>
@@ -70,7 +69,10 @@ export const CardCart: FC<ICardCart> = ({ item, quantity }) => {
           onMouseLeave={handleMouseLeave}
         >
           <DeleteIcon
-            classname={cn('w-5 h-5 transition-all duration-300', isHovering ? 'text-[var(--brown-dark)]' : 'text-[var(--grey)]') }
+            classname={cn(
+              'w-5 h-5 transition-all duration-300',
+              isHovering ? 'text-brown-dark' : 'text-grey',
+            )}
           />
         </Button>
       </div>
