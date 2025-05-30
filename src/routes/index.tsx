@@ -16,6 +16,9 @@ import {
   AuthRegister,
   AuthLogin,
   UserAgreement,
+  SuccessfulRegister,
+  Certificates,
+  NotFound,
 } from '@/pages';
 import {
   UserData,
@@ -25,7 +28,7 @@ import {
   UserReviews,
   UserScales,
 } from '@/features/dashboard';
-import { SuccessfulRegister } from '@/pages/SuccessfulRegister';
+import { SingleCertificate } from '@/pages/SingleCertificate';
 
 export const routes = createBrowserRouter([
   {
@@ -52,6 +55,14 @@ export const routes = createBrowserRouter([
       {
         path: AppRoute.CART,
         element: <Cart />,
+      },
+      {
+        path: AppRoute.CERTIFICATES,
+        element: <Certificates />,
+      },
+      {
+        path: AppRoute.CERTIFICATE,
+        element: <SingleCertificate />,
       },
       {
         path: AppRoute.USER_DATA,
@@ -91,10 +102,10 @@ export const routes = createBrowserRouter([
       //   path: AppRoute.ADMIN,
       //   element: <AdminPage />,
       // },
-      // {
-      //   path: '*',
-      //   element: <NotFound />,
-      // },
+      {
+        path: '*',
+        element: <NotFound />,
+      },
     ],
   },
 ]);

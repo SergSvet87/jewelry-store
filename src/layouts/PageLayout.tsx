@@ -18,7 +18,7 @@ export const PageLayout: FC<PageLayoutProps> = ({ products }) => {
   const page = useCatalogStore((state) => state.page);
   const setTotalPages = useCatalogStore((state) => state.setTotalPages);
 
-  const itemsPerPage = 22;
+  const itemsPerPage = 24;
   const totalPages = Math.ceil(products.length / itemsPerPage);
 
   useEffect(() => {

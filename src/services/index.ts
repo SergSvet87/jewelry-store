@@ -30,4 +30,4 @@ export {
   updateUserId
 } from './userService'
 
-export { getOrCreateGuestId } from './guestService';
+export { getOrCreateGuestId, removeGuestId } from './guestService';

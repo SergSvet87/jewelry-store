@@ -70,6 +70,10 @@
     animation: fall 10s ease-in forwards;
   }
 
+  .animate-shine {
+    animation: shine 2s ease infinite;
+  }
+
   .swiper-wrapper {
     @apply items-center;
   }
@@ -157,6 +161,16 @@
   }
 }
 
-.animate-fade-in {
-  animation: fadeIn 1s ease forwards;
+@keyframes shine {
+  0% {
+    left: -100%
+  }
+
+  50% {
+    left: 100%
+  }
+
+  100% {
+    left: 100%
+  }
 }

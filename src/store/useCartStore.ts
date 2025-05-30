@@ -32,6 +32,7 @@ export const useCartStore = create<CartState>((set, get) => ({
 
   addToCart: (product) => {
     const userId = useUserStore.getState().currentUser?.id ?? null;
+    // const userId = useUserStore.getState().currentUser?.id ?? null;
     const { cart } = get();
     const updatedCart = addToCartService(product, cart, userId);
 

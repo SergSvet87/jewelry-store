@@ -4,16 +4,18 @@ import { Outlet } from 'react-router-dom';
 import { ICartItem } from '../types/';
 import { LocalStorage } from '@/enums';
 import { localStorageService } from '@/api';
-import { getUserByToken } from '@/services';
+import { getOrCreateGuestId, getUserByToken } from '@/services';
 import { useUserStore, useAuthStore, useProductStore, useCartStore } from '@/store';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { PopUpDeleteFromCart } from '@/features/cart/PopUpDeleteFromCart';
 import { PopUpConfirmationPhone } from '@/features/auth/ConfirmationPhone';
+import { Loading } from '@/components/Loading';
 
 export const Layout = () => {
   const accessToken = useAuthStore((state) => state.accessToken);
   const setUser = useUserStore((state) => state.setUser);
+  const guestId = getOrCreateGuestId();
 
   useEffect(() => {
     const storedFavorites = localStorageService.getItem<number[]>(LocalStorage.FAVORITE_PRODUCTS);
@@ -27,7 +29,7 @@ export const Layout = () => {
 
           if (!storedCart) {
             const newCart: ICartItem = {
-              userId: user.id,
+              userId: user.id ?? guestId,
               items: [],
             };
             localStorageService.setItem(LocalStorage.CART_PRODUCTS, newCart);
@@ -43,7 +45,7 @@ export const Layout = () => {
     } else {
       if (!storedCart) {
         const newCart: ICartItem = {
-          userId: null,
+          userId: guestId,
           items: [],
         };
         localStorageService.setItem(LocalStorage.CART_PRODUCTS, newCart);
@@ -56,7 +58,7 @@ export const Layout = () => {
     if (!storedCartQuantity) {
       localStorageService.setItem(LocalStorage.CART_QUANTITY, 0);
       useCartStore.setState({ cartTotalQuantity: 0 });
-    }else {
+    } else {
       useCartStore.setState({ cartTotalQuantity: storedCartQuantity });
     }
 
@@ -66,7 +68,7 @@ export const Layout = () => {
     } else {
       useProductStore.setState({ favorites: storedFavorites });
     }
-  }, [accessToken, setUser]);
+  }, [accessToken, setUser, guestId]);
 
   return (
     <div className="flex flex-col min-h-screen overflow-hidden">
@@ -74,6 +76,7 @@ export const Layout = () => {
 
       <main className="flex-grow w-full h-full">
         <Outlet />
+        <Loading />
       </main>
 
       <Footer />
