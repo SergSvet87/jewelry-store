@@ -89,7 +89,7 @@ export const Filters = () => {
           <AccordionContent>
             <div className="flex flex-col w-full items-start gap-3">
               {categories.map((category) => (
-                <label key={category.id} className="flex items-center gap-2">
+                <label key={category.id} className="flex items-center gap-2 cursor-pointer">
                   <Checkbox
                     checked={selectedCategories.includes(category.title)}
                     onCheckedChange={() =>
@@ -115,7 +115,7 @@ export const Filters = () => {
           <AccordionContent>
             <div className="flex flex-col w-full items-start gap-3">
               {collections.map((collection) => (
-                <label key={collection.id} className="flex items-center gap-2">
+                <label key={collection.id} className="flex items-center gap-2 cursor-pointer">
                   <Checkbox
                     checked={selectedCollections.includes(collection.name)}
                     onCheckedChange={() =>
@@ -141,7 +141,7 @@ export const Filters = () => {
           <AccordionContent>
             <div className="flex flex-col w-full items-start gap-3">
               {materials.map((material) => (
-                <label key={material} className="flex items-center gap-2">
+                <label key={material} className="flex items-center gap-2 cursor-pointer">
                   <Checkbox
                     checked={selectedMaterials.includes(material)}
                     onCheckedChange={() =>

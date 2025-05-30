@@ -19,7 +19,7 @@ function generateCode(): string {
   return String(Math.floor(250000 + Math.random() * 750000)).padStart(7, '0');
 }
 
-export const mockProducts: IProductItem[] = Array.from({ length: 50 }, (_, i) => {
+export const mockProducts: IProductItem[] = Array.from({ length: 70 }, (_, i) => {
   const id = (i + 1);
   const categoryName = getRandom(categories);
   const collectionName = getRandom(collections);

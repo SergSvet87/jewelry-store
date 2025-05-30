@@ -7,6 +7,7 @@ export type { IUserItem } from './user';
 export type { IOrderItem } from './order';
 export type { ICategory } from './category';
 export type { ICollection } from './collection';
+export type { ICertificateItem } from './certificate';
 export type {
   RegisterRequest,
   LoginRequest,

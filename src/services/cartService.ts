@@ -5,28 +5,33 @@ const addToCartService = (
   currentCart: ICartItem,
   userId: number | null,
 ): ICartItem => {
-  const cart = currentCart || {
-    userId,
-    items: [],
-  };
+  const isNewCart = !currentCart || !currentCart.items;
 
-  const existingItem = cart?.items?.find((i) => i.productId === product.id);
+  const cart: ICartItem = isNewCart
+    ? {
+        userId,
+        items: [{ productId: product.id, quantity: 1 }],
+      }
+    : (() => {
+        const existingItem = currentCart.items.find(i => i.productId === product.id);
 
-  if (existingItem) {
-    return {
-      ...cart,
-      items: cart.items.map(item =>
-        item.productId === product.id
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      ),
-    };
-  } else {
-    cart?.items?.push({
-      productId: product.id,
-      quantity: 1,
-    });
-  }
+        if (existingItem) {
+          return {
+            ...currentCart,
+            items: currentCart.items.map(item =>
+              item.productId === product.id
+                ? { ...item, quantity: item.quantity + 1 }
+                : item
+            ),
+          };
+        } else {
+          return {
+            ...currentCart,
+            items: [...currentCart.items, { productId: product.id, quantity: 1 }],
+          };
+        }
+      })();
+
 
   return cart;
 };

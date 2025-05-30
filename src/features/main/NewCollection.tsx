@@ -4,17 +4,20 @@ import { AppRoute } from '@/enums';
 import { useProductStore, useCartStore } from '@/store';
 import { Card, CardContent, CardFooter } from '@/components/ui';
 import { FavoriteFilledIcon, FavoriteIcon, ShoppingBagFilledIcon, ShoppingBagIcon } from '@/assets';
+import { ProductCard } from '@/components/ProductCard';
 
 export const NewCollection = () => {
   const addToCart = useCartStore((state) => state.addToCart);
+  const removeFromCart = useCartStore((state) => state.removeFromCart);
   const setFavorites = useProductStore((state) => state.setFavorites);
   const products = useProductStore((state) => state.products);
   const favorites = useProductStore((state) => state.favorites);
+  const isInCart = useCartStore((state) => state.isInCart);
   const visibleProducts = products.slice(0, 3);
 
   const firstProduct = visibleProducts[0];
   const isInFavoriteFirst = favorites.includes(firstProduct.id);
-  const isInCartFirst = useCartStore.getState().isInCart(firstProduct.id);
+  const isInCartFirst = isInCart(firstProduct.id);
 
   return (
     <section className="relative w-full section-indent">
@@ -29,15 +32,12 @@ export const NewCollection = () => {
 
                 <img
                   className="absolute w-full h-full object-cover scale-100 lg:group-hover:scale-107 transition-all duration-300"
-                  src={visibleProducts[0].image}
-                  alt={visibleProducts[0].name}
+                  src={firstProduct.image}
+                  alt={firstProduct.name}
                 />
 
                 <div className="absolute w-full top-2 lg:top-5 left-0 flex items-center justify-between lg:justify-end gap-5 px-2 lg:px-5 z-5 lg:opacity-0 lg:group-hover:opacity-100 translate-y-2 lg:group-hover:translate-y-0 transition-all duration-300">
-                  <button
-                    className="btn w-6 h-6"
-                    onClick={() => setFavorites(visibleProducts[0].id)}
-                  >
+                  <button className="btn w-6 h-6" onClick={() => setFavorites(firstProduct.id)}>
                     {isInFavoriteFirst ? (
                       <FavoriteFilledIcon classname="w-6 h-6" />
                     ) : (
@@ -45,7 +45,12 @@ export const NewCollection = () => {
                     )}
                   </button>
 
-                  <button className="btn w-6 h-6" onClick={() => addToCart(visibleProducts[0])}>
+                  <button
+                    className="btn w-6 h-6"
+                    onClick={() =>
+                      isInCartFirst ? removeFromCart(firstProduct.id) : addToCart(firstProduct)
+                    }
+                  >
                     {isInCartFirst ? (
                       <ShoppingBagFilledIcon classname="w-6 h-6" />
                     ) : (
@@ -55,7 +60,10 @@ export const NewCollection = () => {
                 </div>
 
                 <Link
-                  to={AppRoute.PRODUCTS}
+                  to={AppRoute.PRODUCT.replace(':id', firstProduct.id.toString())
+                    .replace(':category', firstProduct.categoryName)
+                    .replace(':collection', firstProduct.collectionName)
+                    .replace(':title', firstProduct.name)}
                   className="absolute lg:bottom-5 bottom-4 z-5 lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-300"
                 >
                   <button className="btn-buy">Купити</button>
@@ -65,12 +73,12 @@ export const NewCollection = () => {
 
             <CardFooter className="flex items-center justify-between">
               <div className="font-medium text-brown-dark">
-                <span className="">{visibleProducts[0].name} </span>
-                <span className="text-grey">{visibleProducts[0].collectionName}</span>
+                <span className="">{firstProduct.name} </span>
+                <span className="text-grey">{firstProduct.collectionName}</span>
               </div>
 
               <div className="whitespace-nowrap lg:text-second text-mobile">
-                {visibleProducts[0].price}&nbsp;грн
+                {firstProduct.price}&nbsp;грн
               </div>
             </CardFooter>
           </Card>
@@ -78,63 +86,14 @@ export const NewCollection = () => {
 
         <div className="flex flex-col gap-4 w-full lg:w-[650px]">
           <div className="flex flex-row justify-between lg:gap-4 gap-1">
-            {visibleProducts.slice(1).map((product) => {
-              const isInCart = useCartStore.getState().isInCart(product.id);
-              const isInFavorite = favorites.includes(product.id);
-              
-              return (
-                <Card key={product.id} className="min-w-[177px] flex-1 lg:w-[315px] group">
-                  <CardContent className="relative mb-3 overflow-hidden">
-                    <div className="flex flex-col lg:h-[400px] h-[244px] items-center justify-end gap-2.5 relative w-full bg-cover bg-[50%_50%]">
-                      <div className="absolute inset-0 bg-black/20 opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 z-2" />
-
-                      <img
-                        className="absolute w-full h-full object-cover scale-100 lg:group-hover:scale-107 transition-all duration-300"
-                        src={product.image}
-                        alt={product.name}
-                      />
-
-                      <div className="absolute w-full top-2 lg:top-4 left-0 flex items-center lg:justify-end justify-between px-2 lg:px-4 gap-4 z-20 lg:opacity-0 lg:group-hover:opacity-100 translate-y-2 lg:group-hover:translate-y-0 transition-all duration-300">
-                        <button className="btn w-6 h-6" onClick={() => setFavorites(product.id)}>
-                          {isInFavorite ? (
-                            <FavoriteFilledIcon classname="w-6 h-6" />
-                          ) : (
-                            <FavoriteIcon classname="w-6 h-6 text-brown-dark" />
-                          )}
-                        </button>
-
-                        <button className="btn w-6 h-6" onClick={() => addToCart(product)}>
-                          {isInCart ? (
-                            <ShoppingBagFilledIcon classname="w-6 h-6" />
-                          ) : (
-                            <ShoppingBagIcon classname="w-6 h-6 text-brown-dark" />
-                          )}
-                        </button>
-                      </div>
-
-                      <Link
-                        to={AppRoute.PRODUCTS}
-                        className="absolute lg:bottom-5 bottom-4 z-5 lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-300"
-                      >
-                        <button className="btn-buy w-[160px]">Купити</button>
-                      </Link>
-                    </div>
-                  </CardContent>
-
-                  <CardFooter className="flex items-center justify-between">
-                    <div className="">
-                      <span className="">{product.name} </span>
-
-                      <span className="text-grey">{product.collectionName}</span>
-                    </div>
-
-                    <div className="whitespace-nowrap lg:text-second text-mobile">
-                      {product.price}&nbsp;грн
-                    </div>
-                  </CardFooter>
-                </Card>
-              );
-            })}
+            {visibleProducts.slice(1).map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                size="small"
+                className="lg:w-[315px] w-[177px] lg:h-[438px] h-[262px]"
+              />
+            ))}
           </div>
 
           <div className="mt-auto ml-auto relative bottom-[38px] max-w-[290px] hidden lg:block">

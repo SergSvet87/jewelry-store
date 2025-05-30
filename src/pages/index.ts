@@ -11,3 +11,6 @@ export { PrivacyPolicy } from './PrivacyPolicy';
 export { UserAccount } from './UserAccount';
 export { UserAgreement } from './UserAgreement';
 export { Checkout } from './Checkout';
+export { Certificates } from './Certificates';
+export { SuccessfulRegister } from './SuccessfulRegister';
+export { NotFound } from './404'
