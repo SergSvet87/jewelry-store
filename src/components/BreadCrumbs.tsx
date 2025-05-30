@@ -11,10 +11,10 @@ export const BreadCrumbs = ({items}: {items: BreadcrumbItem[]}) => {
   return (
     <nav className="flex items-center gap-2">
       {items.map((item, i) => (
-        <div key={i} className="flex items-center gap-2 capitalize">
+        <div key={i} className="flex items-center gap-2">
           {i > 0 && <ChevronRight />}
           {item.href ? (
-            <Link to={item.href} className="text-grey">
+            <Link to={item.href} className="text-grey hover:text-brown-dark transition-colors duration-800">
               {item.label}
             </Link>
           ) : (

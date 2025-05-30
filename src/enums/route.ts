@@ -12,6 +12,8 @@ const AppRoute = {
   USER_FAVORITES: '/dashboard/favorites',
   USER_SCALES: '/dashboard/scales',
   CART: '/cart',
+  CERTIFICATES: '/certificates',
+  CERTIFICATE: '/certificates/:id/:title',
   PRODUCTS: '/products',
   PRODUCT: '/products/:id/:category/:collection/:title',
   NEW: '/products-new',

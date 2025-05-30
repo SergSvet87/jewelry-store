@@ -35,7 +35,7 @@ export const AlsoBuy = () => {
   ];
 
   return (
-    <section className="flex flex-col items-start gap-10 w-full">
+    <section className="flex flex-col items-start gap-10 w-full section-indent">
       <h2 className="w-full font-third font-normal text-brown-dark text-2xl leading-[31.2px] tracking-[0]">
         Разом із цим товаром також купують
       </h2>
@@ -50,6 +50,7 @@ export const AlsoBuy = () => {
                 src={product.image}
               />
             </div>
+            
             <CardContent className="p-0 pt-2">
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center gap-1">
