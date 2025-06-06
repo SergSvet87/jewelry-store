@@ -1,8 +1,6 @@
-import { ISingleProduct } from "./product";
 
-export interface ICategory {
+export interface ICategoryItem {
   id: number,
   name: string,
   description: string,
-  products: ISingleProduct[],
 }

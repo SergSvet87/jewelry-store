@@ -1,75 +1,107 @@
-import React from 'react';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import cn from 'classnames';
 
+import { AppRoute } from '@/enums';
+import { IProductItem } from '@/types/';
+import { useCartStore, useProductStore } from '@/store';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion';
-import { FavoriteIcon, ScalesIcon } from '@/assets';
-// import { useCartStore } from '@/store/cart/useCartStore';
-// import { useProductStore } from '@/store/products/useProductsStore';
-import { Link } from 'react-router-dom';
-import { AppRoute } from '@/enums';
+  Button,
+} from '@/components/ui';
+import { FavoriteFilledIcon, FavoriteIcon, InfoIcon, ScalesIcon } from '@/assets';
 
-export const Info = () => {
-  // const addToCart = useCartStore((state) => state.addToCart);
-  // const toggleFavorite = useProductStore((state) => state.toggleFavorite);
+export const Info = ({ product }: { product: IProductItem }) => {
+  const [active, setActive] = useState(16);
+  const addToCart = useCartStore((state) => state.addToCart);
+  const setFavorites = useProductStore((state) => state.setFavorites);
+  const favorites = useProductStore((state) => state.favorites);
 
-  const productDetails = {
-    name: 'Підвіска "Glow"',
-    articleNumber: '0025150',
-    price: '5 248 грн',
+  const isFavorite = favorites.includes(product.id);
+
+  const handleActive = (size: number) => setActive(size);
+
+  const handleBuy = ({ product }: { product: IProductItem }) => {
+    console.log('product: ', product);
+    addToCart(product);
   };
 
-  const specifications = [
-    { name: 'Метал', value: 'Золото' },
-    { name: 'Колір', value: 'Білий' },
-    { name: 'Середня вага', value: '~2,18 г' },
-  ];
-
-  const dimensions = [
-    { name: 'Ширина', value: '8 мм' },
-    { name: 'Висота', value: '8 мм' },
-    { name: 'Довжина', value: '2 мм' },
-  ];
+  const sizes = [16, 16.5, 17, 17.5, 18, 18.5, 19, 19.5, 20];
 
   return (
     <div className="flex flex-col w-full items-start gap-8">
       <div className="flex-col items-end gap-7 flex relative self-stretch w-full">
         <div className="flex flex-col items-start gap-1 relative self-stretch w-full">
           <div className="flex items-center justify-between relative self-stretch w-full">
-            <h3 className="">{productDetails.name}</h3>
+            <h3 className="">{product?.name}</h3>
 
             <div className="flex items-center gap-4">
               <button type="button" className="btn" onClick={() => {}}>
                 <ScalesIcon classname="text-brown-dark" />
               </button>
 
-              <button type="button" className="btn" onClick={() => {}}>
-                <FavoriteIcon classname="text-brown-dark" />
+              <button type="button" className="btn" onClick={() => setFavorites(product.id)}>
+                {isFavorite ? (
+                  <FavoriteFilledIcon classname="w-6 h-6" />
+                ) : (
+                  <FavoriteIcon classname="w-6 h-6 text-brown-dark" />
+                )}
               </button>
             </div>
           </div>
 
-          <div className="self-stretch font-medium text-grey text-base leading-[20.8px]">
-            Артикул: {productDetails.articleNumber}
+          <div className="self-stretch font-medium text-grey">Артикул: {product.sku}</div>
+        </div>
+
+        <div className="flex flex-col items-start gap-4 w-full">
+          <div className="flex items-center justify-between w-full">
+            <div className="">Розмір</div>
+
+            <div className="">
+              <button
+                type="button"
+                className="btn min-w-[200px] text-grey flex items-center gap-3 hover:text-brown-dark transition-all duration-300"
+                onClick={() => {}}
+              >
+                Як визначити розмір?
+                <InfoIcon classname="w-6 h-6" />
+              </button>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 w-full">
+            {sizes.map((size) => (
+              <button
+                key={size}
+                type="button"
+                className={cn(
+                  'btn w-[46px] h-[29px] py-1 px-2 border-[0.5px] hover:text-accent transition-all duration-300',
+                  active === size ? 'border-brown-dark' : 'border-transparent',
+                )}
+                onClick={handleActive.bind(null, size)}
+              >
+                {size}
+              </button>
+            ))}
           </div>
         </div>
 
         <div className="flex flex-col items-start gap-5 relative self-stretch w-full">
           <div className="inline-flex h-8 items-center justify-center">
-            <h3 className="">{productDetails.price}</h3>
+            <h3 className="">{product?.price}&nbsp;грн</h3>
           </div>
 
           <div className="flex items-center justify-between gap-5 relative self-stretch w-full">
-            <Link to={AppRoute.CHECKOUT} className=''>
-              <button className="btn-buy">Купити</button>
-            </Link>
+            <Button type="button" className="w-[259px]" asChild onClick={() => handleBuy({ product })}>
+              <Link to={AppRoute.CHECKOUT}>Купити</Link>
+            </Button>
 
-            <button className="btn-add " onClick={() => {}}>
+            <Button type="button" variant="outline" className="w-[259px]" onClick={() => addToCart(product)}>
               Додати в кошик
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -85,43 +117,58 @@ export const Info = () => {
               <span className="font-medium text-brown-dark text-xl">Характеристики</span>
             </AccordionTrigger>
             <AccordionContent>
-              <div className="flex flex-col w-full items-start gap-1">
-                {specifications.map((spec, index) => (
-                  <React.Fragment key={index}>
-                    <div className="flex items-center justify-between w-full">
-                      <div className="font-medium text-grey text-base leading-[20.8px]">
-                        {spec.name}
-                      </div>
-                      <div className="font-medium text-grey text-base leading-[20.8px]">
-                        {spec.value}
-                      </div>
-                    </div>
-                  </React.Fragment>
-                ))}
-
-                <div className="flex items-center justify-between w-full">
-                  <div className="font-medium text-grey text-base leading-[20.8px]">Розміри</div>
-                </div>
-                <div className="flex items-center justify-between w-full pl-4 pr-0 py-2">
-                  <div className="flex flex-col items-start gap-1">
-                    {dimensions.map((dim, index) => (
-                      <div key={index} className="font-medium text-grey text-base leading-[20.8px]">
-                        {dim.name}
-                      </div>
-                    ))}
-                  </div>
-                  <div className="flex flex-col items-end gap-1">
-                    {dimensions.map((dim, index) => (
-                      <div key={index} className="font-medium text-grey text-base leading-[20.8px]">
-                        {dim.value}
-                      </div>
-                    ))}
+              <div className="flex flex-col w-full items-start border-t border-grey">
+                <div className="flex items-center justify-between w-full py-1 border-b border-grey">
+                  <div className="font-medium text-grey">Метал</div>
+                  <div className="font-medium text-grey">
+                    {product.description?.characteristic.metal}
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between w-full">
-                  <div className="font-medium text-grey text-base leading-[20.8px]">Камінь</div>
-                  <div className="font-medium text-grey text-base leading-[20.8px]">Фіаніт</div>
+                <div className="flex items-center justify-between w-full py-1 border-b border-grey">
+                  <div className="font-medium text-grey">Колір</div>
+                  <div className="font-medium text-grey">
+                    {product.description?.characteristic.color}
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between w-full py-1 border-b border-grey">
+                  <div className="font-medium text-grey">Середня вага</div>
+                  <div className="font-medium text-grey">
+                    ~&nbsp;{product.description?.characteristic.averageWeight}&nbsp;г
+                  </div>
+                </div>
+
+                <div className="flex flex-col w-full py-1 border-b border-grey">
+                  <div className="font-medium text-grey  mb-2">Розміри</div>
+
+                  <div className="flex items-center justify-between w-full mb-1">
+                    <span className="font-medium text-grey">Ширина</span>
+                    <span className="font-medium text-grey">
+                      {product.description?.characteristic.size.width}&nbsp;мм
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between w-full mb-1">
+                    <span className="font-medium text-grey">Висота</span>
+                    <span className="font-medium text-grey">
+                      {product.description?.characteristic.size.height}&nbsp;мм
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between w-full">
+                    <span className="font-medium text-grey">Довжина</span>
+                    <span className="font-medium text-grey">
+                      {product.description?.characteristic.size.length}&nbsp;мм
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between w-full py-1 border-b border-grey">
+                  <div className="font-medium text-grey">Камінь</div>
+                  <div className="font-medium text-grey">
+                    {product.description?.characteristic.stone}
+                  </div>
                 </div>
               </div>
             </AccordionContent>
@@ -138,9 +185,7 @@ export const Info = () => {
                   незалежно від суми замовлення - безкоштовно.{' '}
                 </span>
 
-                <span className="font-medium text-grey block my-2">
-                  Оплату можна здійснити:
-                </span>
+                <span className="font-medium text-grey block my-2">Оплату можна здійснити:</span>
 
                 <span className="text-grey">
                   Готівкою при отриманні; <br />

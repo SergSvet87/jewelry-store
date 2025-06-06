@@ -28,6 +28,24 @@ export {
   getUserByToken,
   updateUser,
   updateUserId
-} from './userService'
+} from './userService';
+
+export {
+  getAllCollections,
+  getCollectionByName,
+  getCollectionById,
+  updateCollection,
+  createCollection,
+  deleteCollection
+} from './collectionService';
+
+export {
+  getAllCategories,
+  getCategoryByName,
+  getCategoryById,
+  updateCategory,
+  createCategory,
+  deleteCategory,
+} from './categoryService';
 
 export { getOrCreateGuestId, removeGuestId } from './guestService';

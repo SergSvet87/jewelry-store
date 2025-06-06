@@ -2,11 +2,10 @@ export type { IProductItem } from './product';
 export type { IReviewItem } from './review';
 export type { ICartItem } from './cart';
 export type { SliderProps } from './mainSlider';
-export type { ISingleProduct } from './product';
 export type { IUserItem } from './user';
 export type { IOrderItem } from './order';
-export type { ICategory } from './category';
-export type { ICollection } from './collection';
+export type { ICategoryItem } from './category';
+export type { ICollectionItem } from './collection';
 export type { ICertificateItem } from './certificate';
 export type {
   RegisterRequest,

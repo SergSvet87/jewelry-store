@@ -2,13 +2,14 @@ import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 
 import { AppRoute } from '@/enums';
-import { IProductItem } from '../types/';
+import { ICertificateItem, IProductItem } from '../types/';
 import { useCartStore, useProductStore } from '@/store';
-import { FavoriteFilledIcon, FavoriteIcon, ShoppingBagFilledIcon, ShoppingBagIcon } from '@/assets';
 import { Card, CardContent, CardFooter } from './ui';
+import { FavoriteFilledIcon, FavoriteIcon, ShoppingBagFilledIcon, ShoppingBagIcon } from '@/assets';
 
 interface ProductCardProps {
   product: IProductItem;
+  certificate?: ICertificateItem;
   size?: 'small' | 'medium' | 'large';
   className?: string;
   isHidden?: boolean;
@@ -19,7 +20,7 @@ export const ProductCard = ({ product, size = 'small', className, isHidden }: Pr
   const addToCart = useCartStore((state) => state.addToCart);
   const removeFromCart = useCartStore((state) => state.removeFromCart);
   const setFavorites = useProductStore((state) => state.setFavorites);
-  const favorites = useProductStore((state) => state.favorites);
+  const favorites = useProductStore((state) => state.favorites);  
 
   const isFavorite = favorites.includes(product.id);
   const isInCartProduct = isInCart(product.id);
@@ -53,7 +54,7 @@ export const ProductCard = ({ product, size = 'small', className, isHidden }: Pr
 
         <img
           className="absolute w-full h-full object-cover scale-100 lg:group-hover:scale-107 transition-all duration-300"
-          src={product.image}
+          src={product.images?.url}
           alt={product.name}
         />
 

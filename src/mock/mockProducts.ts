@@ -42,7 +42,7 @@ export const mockProducts: IProductItem[] = Array.from({ length: 70 }, (_, i) =>
     color: getRandom(colors),
     weight: getRandomFloat(1.5, 10.0),
     size: categoryName === 'Кільце' ? `${getRandomFloat(15, 20)} мм` : `${getRandomFloat(35, 50)} см`,
-    code: generateCode(),
+    sku: generateCode(),
     gemstoneUsed,
     gemstone,
     quantity: 10,

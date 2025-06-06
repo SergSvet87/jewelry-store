@@ -59,9 +59,7 @@ export const Collections = () => {
                         to={`${AppRoute.PRODUCTS}/collections/${id}`}
                         className="w-full text-center absolute bottom-1 lg:bottom-5 left-0 z-20 opacity-100 transition-all duration-300"
                       >
-                        <h1
-                          className="w-full text-main text-center text-[20px] lg:text-heading1"
-                        >
+                        <h1 className="w-full text-main text-center text-[20px] lg:text-heading1">
                           {collection?.name}
                         </h1>
                       </Link>

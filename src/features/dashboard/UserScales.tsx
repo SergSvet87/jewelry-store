@@ -21,7 +21,7 @@ export const UserScales = () => {
                 <div className="absolute w-full h-auto  inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
 
                 <img
-                  src={product?.image}
+                  src={product?.images?.url}
                   alt={product?.name}
                   className={cn(
                     'absolute w-full h-full object-cover scale-100 group-hover:scale-107 transition-all duration-300',

@@ -2,12 +2,12 @@ import { FC, useEffect, useState } from 'react';
 
 import { IProductItem } from '@/types/';
 import { AppRoute } from '@/enums';
+import { useCatalogStore } from '@/store';
 import { Banner } from '@/components/Banner';
 import { Catalog } from '@/components/Catalog';
 import { BreadCrumbs } from '@/components/BreadCrumbs';
 import { Filters } from '@/features/products/Filters';
 import { Sort } from '@/features/products/Sort';
-import { useCatalogStore } from '@/store/useCatalogStore';
 
 interface PageLayoutProps {
   products: IProductItem[];
@@ -33,8 +33,8 @@ export const PageLayout: FC<PageLayoutProps> = ({ products }) => {
         return a.price - b.price;
       case 'priceHigh':
         return b.price - a.price;
-      case 'rating':
-        return b.rating - a.rating;
+      // case 'rating':
+      //   return b.rating - a.rating;
       case 'name':
         return a.name.localeCompare(b.name);
       default:
