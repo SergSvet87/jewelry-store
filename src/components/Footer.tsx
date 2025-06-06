@@ -1,11 +1,12 @@
 import { Link, useLocation } from 'react-router-dom';
 
 import { AppRoute } from '@/enums';
-import { categories, footerLinks, socialLinks } from '@/mock';
 import { ArrowUp } from '@/assets';
+import { categories, footerLinks, socialLinks } from '@/mock';
 
 const Footer = () => {
   const { pathname } = useLocation();
+
   const handleScrollClick = (e: React.MouseEvent<HTMLAnchorElement>, el: string) => {
     e.preventDefault();
 

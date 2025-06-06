@@ -23,6 +23,7 @@ export const HeroSlider: FC<SliderProps> = ({ slides, classname, loop, autoplay 
       >
         {slides.map((slide, index) => {
           const bg = window.innerWidth >= 1024 ? slide.background : slide.bgMobile;
+          
           return (
             <SwiperSlide key={index}>
               <div

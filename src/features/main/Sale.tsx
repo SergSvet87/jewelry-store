@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { AppRoute } from '@/enums';
 import { useProductStore, useCartStore } from '@/store';
 import { Card, CardContent, CardFooter } from '@/components/ui';
-import { FavoriteFilledIcon, FavoriteIcon, ShoppingBagFilledIcon, ShoppingBagIcon } from '@/assets';
 import { ProductCard } from '@/components/ProductCard';
+import { FavoriteFilledIcon, FavoriteIcon, ShoppingBagFilledIcon, ShoppingBagIcon } from '@/assets';
 
 export const Sale = () => {
   const addToCart = useCartStore((state) => state.addToCart);
@@ -16,8 +16,8 @@ export const Sale = () => {
   const visibleProducts = products.slice(5, 8);
 
   const lastProduct = visibleProducts[2];
-  const isInFavoriteLast = favorites.includes(lastProduct.id);
-  const isInCartLast = isInCart(lastProduct.id);
+  const isInFavoriteLast = favorites.includes(lastProduct?.id);
+  const isInCartLast = isInCart(lastProduct?.id);
 
   return (
     <section className="relative w-full section-indent">
@@ -47,7 +47,7 @@ export const Sale = () => {
 
                   <img
                     className="absolute w-full h-full object-cover scale-100 lg:group-hover:scale-107 transition-all duration-300"
-                    src={lastProduct.image}
+                    src={lastProduct.images?.url}
                     alt={lastProduct.name}
                   />
 

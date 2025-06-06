@@ -21,7 +21,7 @@ export const UserOrders = () => {
               >
                 <div className="w-[202px] h-[202px]">
                   <img
-                    src={product.image}
+                    src={product.images?.url}
                     alt={product.name}
                     className={cn('w-full h-full object-cover')}
                   />

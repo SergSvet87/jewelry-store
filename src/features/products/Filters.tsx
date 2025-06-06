@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { categories } from '@/mock';
 import { collections } from '@/mock/collections';
-import { materials, mockProducts } from '@/mock/mockProducts';
+import { materials } from '@/mock/mockProducts';
 import { FilterIcon } from '@/assets';
 import {
   Accordion,
@@ -18,7 +18,7 @@ import { filterProducts } from '@/utils/filterProducts';
 import { declension } from '@/utils/declension';
 
 export const Filters = () => {
-  const { setProducts } = useProductStore();
+  const { setProducts, products } = useProductStore();
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedCollections, setSelectedCollections] = useState<string[]>([]);
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
@@ -27,7 +27,7 @@ export const Filters = () => {
   const [inputPriceMax, setInputPriceMax] = useState('36225');
 
   const filteredProducts = useMemo(() => {
-    return filterProducts(mockProducts, {
+    return filterProducts(products, {
       selectedCategories,
       selectedCollections,
       selectedMaterials,

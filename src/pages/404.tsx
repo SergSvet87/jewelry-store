@@ -7,7 +7,7 @@ import NotFoundImage from '/images/404.png';
 export const NotFound = () => {
   return (
     <section className="w-full h-screen section-indent">
-      <div className="container h-full flex flex-col items-center justify-center py-20">
+      <div className="container h-full flex flex-col items-center justify-center py-20 bg-[url('/images/bg.jpg')] bg-cover">
         <img src={NotFoundImage} alt="image 404" />
 
         <p className="max-w-[475px] text-center text-second font-medium mb-9">

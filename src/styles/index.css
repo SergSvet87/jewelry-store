@@ -31,6 +31,7 @@
   --font-second            : 'Lato', sans-serif;
   --font-main              : 'Manrope', sans-serif;
   --font-third             : 'Merriweather', serif;
+  --shadow-main            : 11px 18px 22px 0px rgba(29, 17, 10, 0.09), 26px 41px 29px 0px rgba(29, 17, 10, 0.05), 46px 74px 35px 0px rgba(29, 17, 10, 0.01);
 }
 
 @layer base {

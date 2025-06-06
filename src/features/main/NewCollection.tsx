@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom';
 
 import { AppRoute } from '@/enums';
 import { useProductStore, useCartStore } from '@/store';
+import { ProductCard } from '@/components/ProductCard';
 import { Card, CardContent, CardFooter } from '@/components/ui';
 import { FavoriteFilledIcon, FavoriteIcon, ShoppingBagFilledIcon, ShoppingBagIcon } from '@/assets';
-import { ProductCard } from '@/components/ProductCard';
 
 export const NewCollection = () => {
   const addToCart = useCartStore((state) => state.addToCart);
@@ -16,8 +16,8 @@ export const NewCollection = () => {
   const visibleProducts = products.slice(0, 3);
 
   const firstProduct = visibleProducts[0];
-  const isInFavoriteFirst = favorites.includes(firstProduct.id);
-  const isInCartFirst = isInCart(firstProduct.id);
+  const isInFavoriteFirst = favorites.includes(firstProduct?.id);
+  const isInCartFirst = isInCart(firstProduct?.id);
 
   return (
     <section className="relative w-full section-indent">
@@ -32,12 +32,12 @@ export const NewCollection = () => {
 
                 <img
                   className="absolute w-full h-full object-cover scale-100 lg:group-hover:scale-107 transition-all duration-300"
-                  src={firstProduct.image}
-                  alt={firstProduct.name}
+                  src={firstProduct?.images?.url}
+                  alt={firstProduct?.name}
                 />
 
                 <div className="absolute w-full top-2 lg:top-5 left-0 flex items-center justify-between lg:justify-end gap-5 px-2 lg:px-5 z-5 lg:opacity-0 lg:group-hover:opacity-100 translate-y-2 lg:group-hover:translate-y-0 transition-all duration-300">
-                  <button className="btn w-6 h-6" onClick={() => setFavorites(firstProduct.id)}>
+                  <button className="btn w-6 h-6" onClick={() => setFavorites(firstProduct?.id)}>
                     {isInFavoriteFirst ? (
                       <FavoriteFilledIcon classname="w-6 h-6" />
                     ) : (
@@ -88,7 +88,7 @@ export const NewCollection = () => {
           <div className="flex flex-row justify-between lg:gap-4 gap-1">
             {visibleProducts.slice(1).map((product) => (
               <ProductCard
-                key={product.id}
+                key={product?.id}
                 product={product}
                 size="small"
                 className="lg:w-[315px] w-[177px] lg:h-[438px] h-[262px]"

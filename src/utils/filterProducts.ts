@@ -4,7 +4,7 @@ import { IProductItem } from "../types/";
 export const filterProducts = (products: IProductItem[], filters: any) => {
   let filtered = [...products];
 
-  const { selectedCategories, selectedCollections, selectedMaterials, priceRange } = filters;
+  const { selectedCategories, selectedCollections, priceRange } = filters;
 
   if (selectedCategories.length) {
     filtered = filtered.filter((p) => selectedCategories.includes(p.categoryName));
@@ -14,9 +14,9 @@ export const filterProducts = (products: IProductItem[], filters: any) => {
     filtered = filtered.filter((p) => selectedCollections.includes(p.collectionName));
   }
 
-  if (selectedMaterials.length) {
-    filtered = filtered.filter((p) => selectedMaterials.includes(p.rating));
-  }
+  // if (selectedMaterials.length) {
+  //   filtered = filtered.filter((p) => selectedMaterials.includes(p.rating));
+  // }
 
   if (priceRange) {
     filtered = filtered.filter(

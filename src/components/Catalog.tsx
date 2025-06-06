@@ -1,9 +1,10 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { IProductItem } from '@/types/';
 import { Pagination } from '@/features/products/Pagination';
 import { useCatalogStore } from '@/store/useCatalogStore';
 import { ProductCard } from './ProductCard';
+import { CardSkeleton } from './CardSkeleton';
 
 interface ICatalogProps {
   data: IProductItem[];
@@ -13,11 +14,26 @@ interface ICatalogProps {
 
 export const Catalog: FC<ICatalogProps> = ({ data, totalPages, page }) => {
   const setPage = useCatalogStore((state) => state.setPage);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
 
   return (
     <>
       <div className="grid  grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:auto-rows-[297px] auto-rows-[266px] lg:gap-5 gap-1 mb-12">
-        {data.map((product) => (
+        {loading ? 
+        Array.from({ length: 12 }).map((_, index) => (
+          <CardSkeleton
+            key={index}
+            size="small"
+            className="col-span-1 row-span-1"
+          />
+        ))
+      : data.map((product) => (
           <ProductCard
             key={product.id}
             product={product}
