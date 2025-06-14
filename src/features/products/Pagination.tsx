@@ -1,40 +1,37 @@
-import { FC } from 'react';
 import cn from 'classnames';
 
 import { ChevronRight } from '@/assets';
+import { useCatalogStore } from '@/store';
 
-interface IPaginationProps {
-  page: number;
-  totalPages: number;
-  setPage: (page: number) => void;
-}
 
-export const Pagination: FC<IPaginationProps> = ({ page, totalPages, setPage }) => {
-  const handlePrev = () => {
-    if (page > 1) setPage(page - 1);
-  };
+export const Pagination = () => {  
+    const {setPage, page, totalPages} = useCatalogStore();
 
-  const handleNext = () => {
-    if (page < totalPages) setPage(page + 1);
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
   };
 
   return (
     <div className="w-full flex items-center justify-center h-7">
       <div className="min-w-[541px] flex items-center justify-between gap-2 ">
         <button
-          className={cn('btn', page === 1 && 'cursor-default')}
-          onClick={handlePrev}
+          className={cn(
+            'btn hover:text-accent transition-all duration-300',
+            page === 1 && 'cursor-default text-grey hover:text-grey',
+          )}
+          onClick={handlePageChange.bind(null, page - 1)}
           disabled={page === 1}
         >
           <ChevronRight classname="w-5 h-5 transform rotate-180" />
         </button>
+
         <div className="flex items-center flex-row gap-3">
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
             <button
               key={p}
               onClick={() => setPage(p)}
               className={cn(
-                'w-7 h-7 px-[10.5px] py-[3.5px] border-[0.5px] cursor-pointer flex items-center justify-center hover:border-brown-dark hover:text-accent transition-all duration-300',
+                'w-7 h-7 px-[10.5px] py-[3.5px] border-[0.5px] border-solid cursor-pointer flex items-center justify-center hover:border-brown-dark hover:text-accent transition-all duration-300',
                 page === p ? 'border-brown-dark' : 'border-transparent',
               )}
             >
@@ -42,9 +39,13 @@ export const Pagination: FC<IPaginationProps> = ({ page, totalPages, setPage }) 
             </button>
           ))}
         </div>
+
         <button
-          className={cn('btn', page === totalPages && 'cursor-default')}
-          onClick={handleNext}
+          className={cn(
+            'btn hover:text-accent transition-all duration-300',
+            page === totalPages && 'cursor-default text-grey hover:text-grey',
+          )}
+          onClick={handlePageChange.bind(null, page + 1)}
           disabled={page === totalPages}
         >
           <ChevronRight classname="w-5 h-5" />

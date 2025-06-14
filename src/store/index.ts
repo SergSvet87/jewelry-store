@@ -7,4 +7,3 @@ export { useOrderStore } from './useOrderStore';
 export { useProductStore } from './useProductStore';
 export { useUserStore } from './useUserStore';
 export { useCertificateStore } from './useCertificateStore';
-export { useCategoryStore } from './useCategoryStore';

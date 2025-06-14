@@ -1,27 +1,27 @@
 export const categories = [
   {
     id: '1',
-    title: 'Каблучки',
+    name: 'Каблучки',
     link: '',
   },
   {
     id: '2',
-    title: 'Сережки',
+    name: 'Сережки',
     link: '',
   },
   {
     id: '3',
-    title: 'Підвіски',
+    name: 'Підвіски',
     link: '',
   },
   {
     id: '4',
-    title: 'Ланцюжки',
+    name: 'Ланцюжки',
     link: '',
   },
   {
     id: '5',
-    title: 'Браслети',
+    name: 'Браслети',
     link: '',
   },
 ];

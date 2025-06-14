@@ -32,7 +32,7 @@ export const mockProducts: IProductItem[] = Array.from({ length: 70 }, (_, i) =>
     categoryName,
     name,
     price: getRandomFloat(250, 1000),
-    image: ColGlow,
+    images: [{url: ColGlow, isMainImage: false}],
     collectionName,
     // description: `Елегантна прикраса з колекції "${collectionName}"${gemstone ? `, інкрустована ${gemstone.toLowerCase()}` : ''}.`,
     rating: getRandomFloat(3.5, 5.0, 1),

@@ -17,10 +17,11 @@ export {
 
 export {
   getAllProducts,
-  getProductsByPriceRange,
   getProductById,
   getProductBySku,
   deleteProductById,
+  getFilteredProducts,
+  getSearchProducts,
 } from './productService';
 
 export {
@@ -36,7 +37,7 @@ export {
   getCollectionById,
   updateCollection,
   createCollection,
-  deleteCollection
+  deleteCollection,
 } from './collectionService';
 
 export {
