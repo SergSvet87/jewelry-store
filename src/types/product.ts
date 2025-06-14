@@ -6,10 +6,10 @@ export interface IProductItem {
   sale?: number;
   quantity: number;
   sku: string;
-  images?: {
+  images: {
     url: string;
     isMainImage: boolean;
-  };
+  }[];
   categoryName: string;
   collectionName: string;
   description?: {

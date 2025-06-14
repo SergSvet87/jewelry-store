@@ -122,7 +122,7 @@ export const BurgerMenu: FC<BurgerMenuProps> = ({ activeButton, setActiveButton 
             {categories.map((category) => (
               <li key={category.id} className="py-3">
                 <Link to="#" className="hover:text-accent transition-colors">
-                  {category.title}
+                  {category.name}
                 </Link>
               </li>
             ))}

@@ -26,7 +26,14 @@ export const CardCart: FC<ICardCart> = ({ item, quantity }) => {
   return (
     <article className="flex justify-between gap-5 h-[202px]">
       <div className="w-[202px] h-auto">
-        <img src={item.images?.url} alt={item.name} className="w-full h-full object-cover" />
+        {item.images.map((image, index) => (
+          <img
+            key={index}
+            src={image.url}
+            alt={item.name}
+            className="w-full h-full object-cover"
+          />
+        )).slice(0, 1)}
       </div>
 
       <div className="flex flex-col justify-between pb-[53px] relative flex-1">

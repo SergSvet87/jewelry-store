@@ -20,7 +20,7 @@ export const ProductCard = ({ product, size = 'small', className, isHidden }: Pr
   const addToCart = useCartStore((state) => state.addToCart);
   const removeFromCart = useCartStore((state) => state.removeFromCart);
   const setFavorites = useProductStore((state) => state.setFavorites);
-  const favorites = useProductStore((state) => state.favorites);  
+  const favorites = useProductStore((state) => state.favorites);
 
   const isFavorite = favorites.includes(product.id);
   const isInCartProduct = isInCart(product.id);
@@ -52,11 +52,14 @@ export const ProductCard = ({ product, size = 'small', className, isHidden }: Pr
       >
         <div className="absolute inset-0 bg-black/20 opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 z-2" />
 
-        <img
-          className="absolute w-full h-full object-cover scale-100 lg:group-hover:scale-107 transition-all duration-300"
-          src={product.images?.url}
-          alt={product.name}
-        />
+        {product.images.map((image, index) => (
+          <img
+            key={index}
+            src={image.url}
+            alt={product.name}
+            className="w-full h-full object-cover"
+          />
+        )).slice(0, 1)}
 
         <div className="absolute w-full top-2 lg:top-5 left-0 flex items-center justify-between lg:justify-end gap-5 px-2 lg:px-5 z-5 lg:opacity-0 lg:group-hover:opacity-100 translate-y-2 lg:group-hover:translate-y-0 transition-all duration-300">
           <button className="btn w-6 h-6" onClick={() => setFavorites(product.id)}>

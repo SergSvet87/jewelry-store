@@ -1,9 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useState } from 'react';
 
-import { categories } from '@/mock';
-import { collections } from '@/mock/collections';
+import { declension } from '@/utils/declension';
 import { materials } from '@/mock/mockProducts';
-import { FilterIcon } from '@/assets';
 import {
   Accordion,
   AccordionContent,
@@ -13,31 +11,27 @@ import {
   Checkbox,
   Input,
 } from '@/components/ui/';
-import { useProductStore } from '@/store/useProductStore';
-import { filterProducts } from '@/utils/filterProducts';
-import { declension } from '@/utils/declension';
+import { useProductStore, useCatalogStore } from '@/store';
+import { FilterIcon } from '@/assets';
 
 export const Filters = () => {
-  const { setProducts, products } = useProductStore();
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [selectedCollections, setSelectedCollections] = useState<string[]>([]);
-  const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState<[number, number]>([20, 36225]);
-  const [inputPriceMin, setInputPriceMin] = useState('20');
-  const [inputPriceMax, setInputPriceMax] = useState('36225');
+  const { products } = useProductStore();
+  const {
+    selectedCategories,
+    selectedCollections,
+    selectedMaterials,
+    priceRange,
+    categories,
+    collections,
+    setSelectedCategories,
+    setSelectedCollections,
+    setSelectedMaterials,
+    setPriceRange,
+    setPage,
+  } = useCatalogStore();
 
-  const filteredProducts = useMemo(() => {
-    return filterProducts(products, {
-      selectedCategories,
-      selectedCollections,
-      selectedMaterials,
-      priceRange,
-    });
-  }, [selectedCategories, selectedCollections, selectedMaterials, priceRange]);
-
-  useEffect(() => {
-    setProducts(filteredProducts);
-  }, [filteredProducts, setProducts]);
+  const [inputPriceMin, setInputPriceMin] = useState<string>(priceRange[0].toString());
+  const [inputPriceMax, setInputPriceMax] = useState<string>(priceRange[1].toString());
 
   const handleCheckboxChange = (
     value: string,
@@ -52,13 +46,40 @@ export const Filters = () => {
   };
 
   const handlePriceInputChange = () => {
-    const min = Number(inputPriceMin);
-    const max = Number(inputPriceMax);
+    const min = priceRange[0];
+    const max = priceRange[1];
 
     if (!isNaN(min) && !isNaN(max) && min <= max) {
       setPriceRange([min, max]);
     }
   };
+
+  const handleCategoryChange = (value: string) => {
+    const updated = selectedCategories.includes(value)
+      ? selectedCategories.filter((v) => v !== value)
+      : [...selectedCategories, value];
+
+    setSelectedCategories(updated);
+    setPage(1);
+  };
+
+  const handleCollectionChange = (value: string) => {
+    const updated = selectedCollections.includes(value)
+      ? selectedCollections.filter((v) => v !== value)
+      : [...selectedCollections, value];
+
+    setSelectedCollections(updated);
+    setPage(1);
+  };
+
+  // const handleMaterialChange = (value: string) => {
+  //   const updated = selectedMaterials.includes(value)
+  //     ? selectedMaterials.filter((v) => v !== value)
+  //     : [...selectedMaterials, value];
+
+  //   setSelectedMaterials(updated);
+  //   setPage(1);
+  // };
 
   return (
     <aside className="w-[203px] flex flex-col gap-8">
@@ -66,13 +87,12 @@ export const Filters = () => {
         <div className="w-full flex flex-row gap-3">
           <img src={FilterIcon} alt="Filter icon" />
 
-          <h4 className="font-[500] text-second text-brown-dark ">
-            Фільтри
-          </h4>
+          <h4 className="font-[500] text-second text-brown-dark ">Фільтри</h4>
         </div>
 
         <p className="text-grey">
-          Знайдено <span className='min-w-5'>{filteredProducts.length}</span> <span>{declension(filteredProducts.length, ['товар', 'товари', 'товарів'])}</span>
+          Знайдено <span className="min-w-5">{products.page.totalElements}</span>{' '}
+          <span>{declension(products.page.totalElements, ['товар', 'товари', 'товарів'])}</span>
         </p>
       </div>
 
@@ -91,16 +111,10 @@ export const Filters = () => {
               {categories.map((category) => (
                 <label key={category.id} className="flex items-center gap-2 cursor-pointer">
                   <Checkbox
-                    checked={selectedCategories.includes(category.title)}
-                    onCheckedChange={() =>
-                      handleCheckboxChange(
-                        category.title,
-                        selectedCategories,
-                        setSelectedCategories,
-                      )
-                    }
+                    checked={selectedCategories.includes(category.name)}
+                    onCheckedChange={() => handleCategoryChange(category.name)}
                   />
-                  {category.title}
+                  {category.name}
                 </label>
               ))}
             </div>
@@ -118,13 +132,7 @@ export const Filters = () => {
                 <label key={collection.id} className="flex items-center gap-2 cursor-pointer">
                   <Checkbox
                     checked={selectedCollections.includes(collection.name)}
-                    onCheckedChange={() =>
-                      handleCheckboxChange(
-                        collection.name,
-                        selectedCollections,
-                        setSelectedCollections,
-                      )
-                    }
+                    onCheckedChange={() => handleCollectionChange(collection.name)}
                   />
                   {collection.name}
                 </label>

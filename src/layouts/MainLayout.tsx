@@ -4,12 +4,19 @@ import { Outlet } from 'react-router-dom';
 import { ICartItem } from '../types/';
 import { LocalStorage } from '@/enums';
 import { localStorageService } from '@/api';
-import { getAllProducts, getOrCreateGuestId, getUserByToken } from '@/services';
+import {
+  getAllCategories,
+  getAllCollections,
+  getFilteredProducts,
+  getOrCreateGuestId,
+  getUserByToken,
+} from '@/services';
 import {
   useUserStore,
   useAuthStore,
   useProductStore,
   useCartStore,
+  useCatalogStore,
 } from '@/store';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -20,8 +27,8 @@ export const Layout = () => {
   const guestId = getOrCreateGuestId();
   const accessToken = useAuthStore((state) => state.accessToken);
   const setUser = useUserStore((state) => state.setUser);
-  const setProducts = useProductStore((state) => state.setProducts);
-  // const setCategories = useCategoryStore((state) => state.setCategories);
+  const {  setLoading, setProducts } = useProductStore();
+  const { page, category, collection, sort, setTotalPages, setCategories, setCollections } = useCatalogStore();
 
   const initUser = async () => {
     if (!accessToken) return;
@@ -76,12 +83,25 @@ export const Layout = () => {
 
   const fetchInitialData = async () => {
     try {
-      const [products] = await Promise.all([getAllProducts()]);
+      setLoading(true);
 
-      // setCategories(categories);
+      const [products, categories, collections] = await Promise.all([
+        getFilteredProducts(page,
+        category || undefined,
+        collection || undefined,
+        sort,),
+        getAllCategories(),
+        getAllCollections(),
+      ]);
+
+      setCategories(categories);
       setProducts(products);
+      setCollections(collections);
+      setTotalPages(products.page.totalPages);
     } catch (err) {
       console.error('Помилка завантаження даних', err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -90,7 +110,7 @@ export const Layout = () => {
     initCart();
     initUser();
     fetchInitialData();
-  }, [accessToken]);
+  }, [accessToken, page, category, collection, sort]);
 
   return (
     <div className="flex flex-col min-h-screen overflow-hidden">
@@ -98,7 +118,6 @@ export const Layout = () => {
 
       <main className="flex-grow w-full h-full">
         <Outlet />
-        {/* <Loading /> */}
       </main>
 
       <Footer />
