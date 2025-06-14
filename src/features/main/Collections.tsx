@@ -36,6 +36,7 @@ export const Collections = () => {
           <div className="w-full flex flex-wrap gap-1.5 lg:gap-5 items-start justify-between">
             {collections.map((collection) => {
               const id = collection.id;
+              const name = collection.name;
               return (
                 <Card
                   key={id}
@@ -52,16 +53,14 @@ export const Collections = () => {
                       <img
                         className="absolute w-full h-full object-cover scale-100 group-hover:scale-107 transition-all duration-300"
                         src={collection?.image.link}
-                        alt={collection.name}
+                        alt={name}
                       />
 
                       <Link
-                        to={`${AppRoute.PRODUCTS}/collections/${id}`}
+                        to={`${AppRoute.PRODUCTS}/collections/name/${name}`}
                         className="w-full text-center absolute bottom-1 lg:bottom-5 left-0 z-20 opacity-100 transition-all duration-300"
                       >
-                        <h1
-                          className="w-full text-main text-center text-[20px] lg:text-heading1"
-                        >
+                        <h1 className="w-full text-main text-center text-[20px] lg:text-heading1">
                           {collection?.name}
                         </h1>
                       </Link>

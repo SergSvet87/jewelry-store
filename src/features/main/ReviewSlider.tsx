@@ -33,8 +33,8 @@ export const ReviewSlider: FC<SliderProps> = ({ slides, classname, pagination, s
               {({ isActive }) => (
                 <Card
                   className={cn(
-                    'transition-all duration-500 ease-in-out bg-transparent shadow-lg mx-auto cursor-pointer',
-                    isActive ? 'w-[400px] h-[550px] z-10' : 'w-[306px] h-[460px] opacity-70',
+                    'transition-all duration-500 ease-in-out bg-transparent mx-auto cursor-pointer',
+                    isActive ? 'w-[400px] h-[550px] z-10 shadow-main' : 'w-[306px] h-[460px] opacity-70',
                   )}
                 >
                   <CardContent className="p-6 flex flex-col h-full justify-between">

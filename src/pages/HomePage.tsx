@@ -8,15 +8,18 @@ import {
   Sale,
   Feedback,
 } from '@/features/main';
+import { useProductStore } from '@/store';
 
 export const HomePage = () => {
+  const { products, loading } = useProductStore();
+
   return (
     <>
       <Hero />
       <Collections />
       <Discount />
-      <NewCollection />
-      <Sale />
+      <NewCollection loading={loading} products={products.content} />
+      <Sale loading={loading} products={products.content} />
       <Certificate />
       <AboutUs />
       <Feedback />

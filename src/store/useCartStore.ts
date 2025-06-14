@@ -31,9 +31,8 @@ export const useCartStore = create<CartState>((set, get) => ({
   },
 
   addToCart: (product) => {
-    const userId = useUserStore.getState().currentUser?.id ?? null;
-    // const userId = useUserStore.getState().currentUser?.id ?? null;
     const { cart } = get();
+    const userId = useUserStore.getState().currentUser?.id ?? null;
     const updatedCart = addToCartService(product, cart, userId);
 
     const quantity = updatedCart?.items?.reduce((sum, i) => sum + i.quantity, 0);

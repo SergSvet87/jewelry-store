@@ -1,6 +1,7 @@
 const ApiEndpoint = {
   PRODUCTS: '/api/products',
   PRODUCTS_SORTED: '/api/products/sorted',
+  PRODUCTS_SEARCH: '/api/products/search',
   ORDERS: '/api/orders',
   FORGOT_PASSWORD: '/api/resetPassword',
   CHANGE_PASSWORD: '/api/changePassword',

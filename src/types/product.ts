@@ -1,29 +1,15 @@
-export interface ProductItem {
-  image: string;
-  isLarge?: boolean;
-  collectionName?: string;
-  rating: number;
-  quantity: number
-}
-
-export interface ISingleProduct extends ProductItem {
-  material?: string[];
-  color?: string;
-  weight?: number;
-  size?: string;
-  code?: string;
-  gemstoneUsed?: boolean;
-  gemstone?: string | null;
-}
-
-export interface IProductItem extends ProductItem {
+export interface IProductItem {
   id: number;
   name: string;
   productSizes?: number[];
   price: number;
   sale?: number;
   quantity: number;
-  sku?: string;
+  sku: string;
+  images: {
+    url: string;
+    isMainImage: boolean;
+  }[];
   categoryName: string;
   collectionName: string;
   description?: {

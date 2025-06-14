@@ -1,49 +1,49 @@
 import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
 
 import { LocalStorage } from '@/enums';
 import { IProductItem } from '@/types/';
 import { localStorageService } from '@/api';
-import { mockProducts } from '@/mock/mockProducts';
-import { getAllProducts } from '@/services';
+import { IProducts } from '@/types/products';
 
 interface ProductState {
-  products: IProductItem[];
+  products: IProducts;
   favorites: number[];
   scales: number[];
+
   loading: boolean;
   error: string | null;
-  fetchProducts: () => Promise<void>;
-  setProducts: (products: IProductItem[]) => void;
+
+  setProducts: (products: IProducts) => void;
   getProductById: (id: number) => IProductItem | undefined;
   filterByCategory: (category: string) => IProductItem[];
   setFavorites: (id: number) => void;
+  setLoading: (value: boolean) => void;
 }
 
-export const useProductStore = create<ProductState>((set, get) => ({
-  products: mockProducts,
+export const useProductStore = create<ProductState>()(devtools((set, get) => ({
+  products: {
+    content: [],
+    page: {
+      size: 0,
+      number: 0,
+      totalElements: 0,
+      totalPages: 0
+    }
+  },
   favorites: localStorageService.getItem<number[]>(
     LocalStorage.FAVORITE_PRODUCTS
   ) ?? [],
   scales: [],
+
   loading: false,
   error: null,
 
-  fetchProducts: async () => {
-    set({ loading: true, error: null });
-    try {
-      const products = await getAllProducts();
-      set({ products });
-    } catch (err) {
-      set({ error: 'Помилка при завантаженні продуктів' });
-      console.error(err);
-    } finally {
-      set({ loading: false });
-    }
-  },
-
   setProducts: (products) => set({ products }),
-  getProductById: (id) => get().products.find((product) => product.id === id),
-  filterByCategory: (category) => get().products.filter((p) => p.categoryName === category),
+
+  getProductById: (id) => get().products.content.find((product) => product.id === id),
+
+  filterByCategory: (category) => get().products.content.filter((p) => p.categoryName === category),
 
   setFavorites: (id) => {
     const { favorites } = get();
@@ -55,4 +55,6 @@ export const useProductStore = create<ProductState>((set, get) => ({
     set({ favorites: updated });
     localStorageService.setItem(LocalStorage.FAVORITE_PRODUCTS, updated);
   },
-}));
+
+  setLoading: (value) => set({ loading: value }),
+})));

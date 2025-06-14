@@ -1,11 +1,14 @@
 import { Link, useLocation } from 'react-router-dom';
 
 import { AppRoute } from '@/enums';
-import { categories, footerLinks, socialLinks } from '@/mock';
 import { ArrowUp } from '@/assets';
+import { categories, footerLinks, socialLinks } from '@/mock';
+// import { useCatalogStore } from '@/store';
 
 const Footer = () => {
   const { pathname } = useLocation();
+  // const categories = useCatalogStore((state) => state.category);
+
   const handleScrollClick = (e: React.MouseEvent<HTMLAnchorElement>, el: string) => {
     e.preventDefault();
 
@@ -32,7 +35,7 @@ const Footer = () => {
                     to="#"
                     className="font-body-small font-[number:var(--body-small-font-weight)] text-main text-[length:var(--body-small-font-size)] tracking-[var(--body-small-letter-spacing)] leading-[var(--body-small-line-height)] [font-style:var(--body-small-font-style)]"
                   >
-                    {category.title}
+                    {category.name}
                   </Link>
                 </li>
               ))}

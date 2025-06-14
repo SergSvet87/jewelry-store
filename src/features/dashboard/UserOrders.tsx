@@ -20,11 +20,16 @@ export const UserOrders = () => {
                 )}
               >
                 <div className="w-[202px] h-[202px]">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className={cn('w-full h-full object-cover')}
-                  />
+                  {product.images
+                    .map((image, index) => (
+                      <img
+                        key={index}
+                        src={image.url}
+                        alt={product.name}
+                        className="w-full h-full object-cover"
+                      />
+                    ))
+                    .slice(0, 1)}
                 </div>
 
                 <div className="flex flex-col gap-1">

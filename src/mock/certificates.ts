@@ -1,12 +1,16 @@
 import { ICertificateItem } from '../types/';
-import CertificateImage from '/images/certificate-500.jpg';
+import Certificate500Image from '/images/certificate-500.jpg';
+import Certificate1000Image from '/images/certificate-1000.jpg';
+import Certificate2000Image from '/images/certificate-2000.jpg';
+import Certificate5000Image from '/images/certificate-5000.jpg';
+import Certificate10000Image from '/images/certificate-10000.jpg';
 
 export const certificates: ICertificateItem[] = [
   {
     id: 1,
     name: '500 грн',
     price: 500,
-    image: CertificateImage,
+    image: Certificate500Image,
     sku: 100001,
     description: `
       Коли важливо не помилитися з вибором — подаруйте сертифікат, який стане початком особливої історії!
@@ -21,7 +25,7 @@ export const certificates: ICertificateItem[] = [
     id: 2,
     name: '1000 грн',
     price: 1000,
-    image: CertificateImage,
+    image: Certificate1000Image,
     sku: 100002,
     description: `
       Коли важливо не помилитися з вибором — подаруйте сертифікат, який стане початком особливої історії!
@@ -36,7 +40,7 @@ export const certificates: ICertificateItem[] = [
     id: 3,
     name: '2000 грн',
     price: 2000,
-    image: CertificateImage,
+    image: Certificate2000Image,
     sku: 100003,
     description: `
       Коли важливо не помилитися з вибором — подаруйте сертифікат, який стане початком особливої історії!
@@ -51,7 +55,7 @@ export const certificates: ICertificateItem[] = [
     id: 4,
     name: '5000 грн',
     price: 5000,
-    image: CertificateImage,
+    image: Certificate5000Image,
     sku: 100004,
     description: `
       Коли важливо не помилитися з вибором — подаруйте сертифікат, який стане початком особливої історії!
@@ -66,7 +70,7 @@ export const certificates: ICertificateItem[] = [
     id: 5,
     name: '10000 грн',
     price: 10000,
-    image: CertificateImage,
+    image: Certificate10000Image,
     sku: 100005,
     description: `
       Коли важливо не помилитися з вибором — подаруйте сертифікат, який стане початком особливої історії!

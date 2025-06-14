@@ -3,10 +3,10 @@ import { FC, useState } from 'react';
 import { AppRoute } from '@/enums';
 import { ICertificateItem } from '../types/';
 import { BreadCrumbs } from '@/components/BreadCrumbs';
-import { Sort } from '@/features/products/Sort';
 import { Banner } from '@/features/certificates/Banner';
 import { Filters } from '@/features/certificates/Filters';
 import { Catalog } from '@/features/certificates/Catalog';
+import { Sort } from '@/features/certificates/Sort';
 
 interface CertificateLayoutProps {
   certificates: ICertificateItem[];
@@ -44,7 +44,7 @@ export const CertificateLayout: FC<CertificateLayoutProps> = ({ certificates }) 
         <Filters />
 
         <div className="flex flex-col grow gap-7 ">
-          <Sort sort={sort} setSort={setSort} />
+          <Sort setSort={setSort} sort={sort} />
 
           {sorted.length > 0 ? <Catalog data={sorted} /> : <div>Certificates not found</div>}
         </div>

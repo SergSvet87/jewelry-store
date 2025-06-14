@@ -33,9 +33,10 @@ export const Details = () => {
   return (
     <div className="flex flex-col gap-12 w-full max-w-[426px]">
       {/* Personal Information Card */}
-      <Card className="bg-main shadow-[1px_1px_4px_#00000040] rounded-none">
+      <Card className="bg-main shadow-[1px 1px 4px 0px rgba(0, 0, 0, 0.25)]
+ rounded-none font-main">
         <CardContent className="p-6 flex flex-col items-start gap-7">
-          <h2 className="font-body text-brown-dark text-[var(--body-font-size)] leading-[var(--body-line-height)]">
+          <h2 className="font-body text-brown-dark font-medium text-second">
             Ваші дані
           </h2>
 

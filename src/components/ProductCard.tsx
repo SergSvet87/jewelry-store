@@ -2,13 +2,14 @@ import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 
 import { AppRoute } from '@/enums';
-import { IProductItem } from '../types/';
+import { ICertificateItem, IProductItem } from '../types/';
 import { useCartStore, useProductStore } from '@/store';
-import { FavoriteFilledIcon, FavoriteIcon, ShoppingBagFilledIcon, ShoppingBagIcon } from '@/assets';
 import { Card, CardContent, CardFooter } from './ui';
+import { FavoriteFilledIcon, FavoriteIcon, ShoppingBagFilledIcon, ShoppingBagIcon } from '@/assets';
 
 interface ProductCardProps {
   product: IProductItem;
+  certificate?: ICertificateItem;
   size?: 'small' | 'medium' | 'large';
   className?: string;
   isHidden?: boolean;
@@ -51,11 +52,14 @@ export const ProductCard = ({ product, size = 'small', className, isHidden }: Pr
       >
         <div className="absolute inset-0 bg-black/20 opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 z-2" />
 
-        <img
-          className="absolute w-full h-full object-cover scale-100 lg:group-hover:scale-107 transition-all duration-300"
-          src={product.image}
-          alt={product.name}
-        />
+        {product.images.map((image, index) => (
+          <img
+            key={index}
+            src={image.url}
+            alt={product.name}
+            className="w-full h-full object-cover"
+          />
+        )).slice(0, 1)}
 
         <div className="absolute w-full top-2 lg:top-5 left-0 flex items-center justify-between lg:justify-end gap-5 px-2 lg:px-5 z-5 lg:opacity-0 lg:group-hover:opacity-100 translate-y-2 lg:group-hover:translate-y-0 transition-all duration-300">
           <button className="btn w-6 h-6" onClick={() => setFavorites(product.id)}>
