@@ -8,7 +8,7 @@ import { ApiEndpoint, AppRoute } from '@/enums';
 import { RegisterRequest } from '@/types/';
 import { registerSchema } from '@/schemas/authSchema';
 import { Button, Card, CardContent, Input } from '@/components/ui';
-import { AppleIcon, GoogleIcon, PhoneIcon, UserIcon } from '@/assets';
+import { AppleIcon, GoogleIcon, MailIcon, UserIcon, X } from '@/assets';
 
 interface RegisterFormProps {
   initialValues: RegisterRequest;
@@ -33,12 +33,9 @@ export const RegisterForm: FC<RegisterFormProps> = ({
 
   return (
     <Card className="w-[448px] bg-main relative">
-
       <CardContent className="p-8 flex flex-col items-center gap-12">
         <div className="flex flex-col items-center gap-7 w-full">
-          <h2 className="text-second font-[500] font-main">
-            Реєстрація
-          </h2>
+          <h2 className="text-second font-[500] font-main">Реєстрація</h2>
 
           <form
             className="flex flex-col items-center gap-7 w-full"
@@ -48,51 +45,13 @@ export const RegisterForm: FC<RegisterFormProps> = ({
               <div
                 className={cn(
                   'flex items-center gap-2 border-0 border-b-2 bg-transparent rounded-none focus-within:border-brown-dark focus-within:text-brown-dark',
-                  errors.phone
-                    ? 'border-error text-error'
-                    : 'border-grey text-grey',
-                )}
-              >
-                <PhoneIcon
-                  classname={cn(
-                    'w-5 h-5 text-inherit',
-                    errors.phone
-                      ? 'border-error text-error'
-                      : 'border-grey text-grey',
-                  )}
-                />
-                <Input
-                  {...register('phone')}
-                  name="phone"
-                  placeholder="Ваш номер телефону"
-                  className="w-full h-10 pr-5 !bg-transparent border-none"
-                  type="tel"
-                  onChange={(e) => {
-                    setValue('phone', e.target.value);
-                    onChangeField({ ...initialValues, phone: e.target.value });
-                  }}
-                />
-              </div>
-              {errors.phone && (
-                <p className="text-error text-xs text-center mt-1">{errors.phone.message}</p>
-              )}
-            </div>
-
-            <div className="w-full">
-              <div
-                className={cn(
-                  'flex items-center gap-2 border-0 border-b-2 bg-transparent rounded-none focus-within:border-brown-dark focus-within:text-brown-dark',
-                  errors.phone
-                    ? 'border-error text-error'
-                    : 'border-grey text-grey',
+                  errors.name ? 'border-error text-error' : 'border-grey text-grey',
                 )}
               >
                 <UserIcon
                   classname={cn(
                     'w-5 h-5 text-inherit',
-                    errors.phone
-                      ? 'border-error text-error'
-                      : 'border-grey text-grey',
+                    errors.name ? 'border-error text-error' : 'border-grey text-grey',
                   )}
                 />
                 <Input
@@ -109,6 +68,36 @@ export const RegisterForm: FC<RegisterFormProps> = ({
               </div>
               {errors.name && (
                 <p className="text-error text-xs text-center mt-1">{errors.name.message}</p>
+              )}
+            </div>
+
+            <div className="w-full">
+              <div
+                className={cn(
+                  'flex items-center gap-2 border-0 border-b-2 bg-transparent rounded-none focus-within:border-brown-dark focus-within:text-brown-dark',
+                  errors.email ? 'border-error text-error' : 'border-grey text-grey',
+                )}
+              >
+                <MailIcon
+                  classname={cn(
+                    'w-5 h-5 text-inherit',
+                    errors.email ? 'border-error text-error' : 'border-grey text-grey',
+                  )}
+                />
+                <Input
+                  {...register('email')}
+                  name="email"
+                  placeholder="Ваша електронна пошта"
+                  className="w-full h-10 pr-5 !bg-transparent border-none"
+                  type="email"
+                  onChange={(e) => {
+                    setValue('email', e.target.value);
+                    onChangeField({ ...initialValues, email: e.target.value });
+                  }}
+                />
+              </div>
+              {errors.email && (
+                <p className="text-error text-xs text-center mt-1">{errors.email.message}</p>
               )}
             </div>
 
@@ -144,6 +133,17 @@ export const RegisterForm: FC<RegisterFormProps> = ({
           </Button>
         </div>
       </CardContent>
+
+      <Button
+        variant="ghost"
+        className="absolute right-5 top-5 h-5 w-5 p-0 text-grey hover:text-accent transition-text duration-300"
+        aria-label="Close"
+        asChild
+      >
+        <Link to={AppRoute.ROOT}>
+          <X classname="h-5 w-5" />
+        </Link>
+      </Button>
     </Card>
   );
 };

@@ -9,10 +9,15 @@ import { navItems } from '@/mock';
 import { headerButtons, headerButtonsMobile } from '@/mock/headerButtons';
 import { SearchDropdown } from './SearchDropdown';
 import { SupportDrawer } from './SupportDrawer';
-import { useCartStore } from '@/store/useCartStore';
-import { useProductStore } from '@/store/useProductStore';
-import { useUserStore } from '@/store/useUserStore';
 import { BurgerMenu } from './BurgerMenu';
+import { setQueryParams } from '@/utils/urlParams';
+import {
+  useCatalogStore,
+  useProductStore,
+  useUserStore,
+  useModalStore,
+} from '@/store';
+import { useSmartCart } from '@/lib/hooks/useSmartCart';
 
 const Header = () => {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -20,15 +25,18 @@ const Header = () => {
   const [activeButton, setActiveButton] = useState<string | null>(null);
   const { pathname } = useLocation();
 
-  const cartCount = useCartStore((state) => state.cart?.items?.length);
+  const {cartTotalQuantity} = useSmartCart();
   const favoriteCount = useProductStore((state) => state.favorites.length);
   const user = useUserStore((state) => state.currentUser);
+  const { page, sort, priceRange } = useCatalogStore();
 
+  const promoMessage = "Безкоштовна доставка кур'єром Нової Пошти!";
+  
   const toggleActiveButton = (title: string) => {
     const isAuthPage = pathname === AppRoute.SIGN_IN || pathname === AppRoute.SIGN_UP;
 
-  if (isAuthPage && (title === 'scale' || title === 'favorite')) return;
-  
+    if (isAuthPage && (title === 'scale' || title === 'favorite')) return;
+
     if (activeButton === title) {
       setActiveButton(null);
     } else {
@@ -65,8 +73,6 @@ const Header = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [pathname]);
-
-  const promoMessage = "Безкоштовна доставка кур'єром Нової Пошти!";
 
   const handleScrollClick = (e: React.MouseEvent<HTMLAnchorElement>, el: string) => {
     e.preventDefault();
@@ -137,14 +143,21 @@ const Header = () => {
 
               if (item.title === 'shoppingBag') {
                 return (
-                  <Link key={item.title} className="btn relative" to={AppRoute.CART}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      useModalStore.getState().open('cart');
+                    }}
+                    key={item.title}
+                    className="btn relative"
+                  >
                     <Icon classname={`text-${iconColor}`} />
-                    {cartCount > 0 && (
+                    {cartTotalQuantity > 0 && (
                       <span className="absolute -top-1 -right-1 text-medium text-[10px] bg-accent text-main rounded-full w-3 h-3 flex items-center justify-center">
-                        {cartCount}
+                        {cartTotalQuantity}
                       </span>
                     )}
-                  </Link>
+                  </button>
                 );
               }
 
@@ -186,7 +199,16 @@ const Header = () => {
                   ) : (
                     <Link
                       key={index}
-                      to={item.href}
+                      to={
+                        item.label === 'Каталог'
+                          ? `${AppRoute.PRODUCTS}${setQueryParams({
+                              page,
+                              direction: sort,
+                              minPrice: priceRange[0],
+                              maxPrice: priceRange[1],
+                            })}`
+                          : item.href
+                      }
                       className={cn(
                         'flex w-[88px] justify-center px-0 pb-[5px] py-2 border border-solid border-transparent items-center hover:border-b-main active:text-accent',
                       )}
@@ -221,14 +243,21 @@ const Header = () => {
 
                 if (item.title === 'shoppingBag') {
                   return (
-                    <Link key={item.title} className="btn relative" to={AppRoute.CART}>
+                    <button
+                      onClick={() => {
+                        useModalStore.getState().open('cart');
+                      }}
+                      key={item.title}
+                      className="btn relative"
+                      type="button"
+                    >
                       <Icon classname={`text-${iconColor}`} />
-                      {cartCount > 0 && (
+                      {cartTotalQuantity > 0 && (
                         <span className="absolute -top-1 -right-1 text-medium text-[10px] bg-accent text-main rounded-full w-3 h-3 flex items-center justify-center">
-                          {cartCount}
+                          {cartTotalQuantity}
                         </span>
                       )}
-                    </Link>
+                    </button>
                   );
                 }
 

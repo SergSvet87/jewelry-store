@@ -19,7 +19,7 @@ const ApiEndpoint = {
   COLLECTIONS: '/api/collections',
   ATTRIBUTES: '/api/attributes',
   CART: '/api/cart',
-  CART_ADD: '/api/cart/add',
+  GUEST_CART: '/api/guest-cart',
   GOOGLE: 'http://ec2-16-170-255-92.eu-north-1.compute.amazonaws.com:8080/oauth2/authorize/google',
   APPLE: '#',
 } as const;

@@ -2,9 +2,10 @@ import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 
 import { AppRoute } from '@/enums';
+import { useProductStore } from '@/store';
 import { ICertificateItem, IProductItem } from '../types/';
-import { useCartStore, useProductStore } from '@/store';
 import { Card, CardContent, CardFooter } from './ui';
+import { useSmartCart } from '@/lib/hooks/useSmartCart';
 import { FavoriteFilledIcon, FavoriteIcon, ShoppingBagFilledIcon, ShoppingBagIcon } from '@/assets';
 
 interface ProductCardProps {
@@ -13,17 +14,26 @@ interface ProductCardProps {
   size?: 'small' | 'medium' | 'large';
   className?: string;
   isHidden?: boolean;
+  discounted?: boolean;
 }
 
-export const ProductCard = ({ product, size = 'small', className, isHidden }: ProductCardProps) => {
-  const isInCart = useCartStore((state) => state.isInCart);
-  const addToCart = useCartStore((state) => state.addToCart);
-  const removeFromCart = useCartStore((state) => state.removeFromCart);
+export const ProductCard = ({
+  product,
+  size = 'small',
+  className,
+  isHidden,
+  discounted,
+}: ProductCardProps) => {
+  const { addToCart, removeFromCart, isInCart } = useSmartCart();
   const setFavorites = useProductStore((state) => state.setFavorites);
   const favorites = useProductStore((state) => state.favorites);
 
   const isFavorite = favorites.includes(product.id);
-  const isInCartProduct = isInCart(product.id);
+
+  const handleCartClick = () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    isInCart(product.id) ? removeFromCart(product.id) : addToCart(product);
+  };
 
   const isLarge = size === 'large';
   const isMedium = size === 'medium';
@@ -52,14 +62,16 @@ export const ProductCard = ({ product, size = 'small', className, isHidden }: Pr
       >
         <div className="absolute inset-0 bg-black/20 opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 z-2" />
 
-        {product.images.map((image, index) => (
-          <img
-            key={index}
-            src={image.url}
-            alt={product.name}
-            className="w-full h-full object-cover"
-          />
-        )).slice(0, 1)}
+        {product.images
+          .map((image, index) => (
+            <img
+              key={index}
+              src={image.url}
+              alt={product.name}
+              className={cn(' object-cover w-full h-full')}
+            />
+          ))
+          .slice(0, 1)}
 
         <div className="absolute w-full top-2 lg:top-5 left-0 flex items-center justify-between lg:justify-end gap-5 px-2 lg:px-5 z-5 lg:opacity-0 lg:group-hover:opacity-100 translate-y-2 lg:group-hover:translate-y-0 transition-all duration-300">
           <button className="btn w-6 h-6" onClick={() => setFavorites(product.id)}>
@@ -70,10 +82,7 @@ export const ProductCard = ({ product, size = 'small', className, isHidden }: Pr
             )}
           </button>
 
-          <button
-            className="btn w-6 h-6"
-            onClick={() => (isInCartProduct ? removeFromCart(product.id) : addToCart(product))}
-          >
+          <button className="btn w-6 h-6" onClick={handleCartClick}>
             {isInCart(product.id) ? (
               <ShoppingBagFilledIcon classname="w-6 h-6" />
             ) : (
@@ -85,8 +94,7 @@ export const ProductCard = ({ product, size = 'small', className, isHidden }: Pr
         <Link
           to={AppRoute.PRODUCT.replace(':id', product.id.toString())
             .replace(':category', product.categoryName)
-            .replace(':collection', product.collectionName)
-            .replace(':title', product.name)}
+            .replace(':title', `${product.name} ${product.collectionName}`)}
           className="absolute lg:bottom-5 bottom-4 z-5 lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-300"
         >
           <button className="btn-buy">Купити</button>
@@ -102,13 +110,15 @@ export const ProductCard = ({ product, size = 'small', className, isHidden }: Pr
           </div>
 
           <div className="text-right lg:text-text text-mobile text-brown-dark">
-            {product.sale ? (
+            {product.price.discountPercentage && discounted ? (
               <>
-                <div className="line-through text-grey">{product.price}&nbsp;грн</div>
-                <div>{product.sale}&nbsp;грн</div>
+                <div className="line-through text-grey">
+                  {product.price.normalPrice.toFixed(2)}&nbsp;грн
+                </div>
+                <div>{product.price.discountedPrice.toFixed(2)}&nbsp;грн</div>
               </>
             ) : (
-              <div>{product.price}&nbsp;грн</div>
+              <div>{product.price.normalPrice.toFixed(2)}&nbsp;грн</div>
             )}
           </div>
         </CardFooter>

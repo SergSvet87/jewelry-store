@@ -6,6 +6,7 @@ const LocalStorage = {
   CART_QUANTITY: 'cart_quantity',
   FAVORITE_PRODUCTS: 'favorites',
   FAVORITE_CERTIFICATES: 'favorites_certificates',
+  GUEST_ID: 'guestId'
 } as const;
 
 export type LocalStoragePath = (typeof LocalStorage)[keyof typeof LocalStorage];

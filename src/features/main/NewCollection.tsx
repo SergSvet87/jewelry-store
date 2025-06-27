@@ -2,26 +2,28 @@ import { Link } from 'react-router-dom';
 
 import { AppRoute } from '@/enums';
 import { IProductItem } from '@/types/';
-import { useProductStore, useCartStore } from '@/store';
+import { useProductStore } from '@/store';
 import { Loader } from '@/components/Loader';
 import { ProductCard } from '@/components/ProductCard';
 import { Card, CardContent, CardFooter } from '@/components/ui';
 import { FavoriteFilledIcon, FavoriteIcon, ShoppingBagFilledIcon, ShoppingBagIcon } from '@/assets';
+import { useSmartCart } from '@/lib/hooks/useSmartCart';
 
 export const NewCollection = ({
   loading,
   products,
+  discounted,
 }: {
   loading: boolean;
+  discounted: boolean;
   products: IProductItem[];
 }) => {
-  const addToCart = useCartStore((state) => state.addToCart);
-  const removeFromCart = useCartStore((state) => state.removeFromCart);
+  const newCol = products.filter((p) => p.isNew === true);
+  const { addToCart, removeFromCart, isInCart } = useSmartCart();
   const setFavorites = useProductStore((state) => state.setFavorites);
 
   const favorites = useProductStore((state) => state.favorites);
-  const isInCart = useCartStore((state) => state.isInCart);
-  const visibleProducts = products.slice(0, 3);
+  const visibleProducts = newCol.slice(0, 3);
 
   const firstProduct = visibleProducts[0];
   const isInFavoriteFirst = favorites.includes(firstProduct?.id);
@@ -77,8 +79,7 @@ export const NewCollection = ({
                 <Link
                   to={AppRoute.PRODUCT.replace(':id', firstProduct.id.toString())
                     .replace(':category', firstProduct.categoryName)
-                    .replace(':collection', firstProduct.collectionName)
-                    .replace(':title', firstProduct.name)}
+                    .replace(':title', `${firstProduct.name} ${firstProduct.collectionName}`)}
                   className="absolute lg:bottom-5 bottom-4 z-5 lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-300"
                 >
                   <button className="btn-buy">Купити</button>
@@ -93,7 +94,7 @@ export const NewCollection = ({
               </div>
 
               <div className="whitespace-nowrap lg:text-second text-mobile">
-                {firstProduct.price}&nbsp;грн
+                {firstProduct.price.normalPrice}&nbsp;грн
               </div>
             </CardFooter>
           </Card>
@@ -107,6 +108,7 @@ export const NewCollection = ({
                 product={product}
                 size="small"
                 className="lg:w-[315px] w-[177px] lg:h-[438px] h-[262px]"
+                discounted={discounted}
               />
             ))}
           </div>

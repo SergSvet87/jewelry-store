@@ -48,7 +48,7 @@ export const UserScales = () => {
                 <span className="text-sm text-gray-500">{product?.collectionName}</span>
               </div>
 
-              <span className="font-semibold text-md mt-2">{product?.price} грн</span>
+              <span className="font-semibold text-md mt-2">{product?.price.discountedPrice ?? product?.price.normalPrice} грн</span>
             </CardFooter>
           </Card>
         ))

@@ -8,9 +8,12 @@ import 'swiper/css';
 import { AppRoute } from '@/enums';
 import { SliderProps } from '@/types/mainSlider';
 import { CustomPagination } from '@/components/swiper';
+import { setQueryParams } from '@/utils/urlParams';
+import { useCatalogStore } from '@/store';
 
 export const HeroSlider: FC<SliderProps> = ({ slides, classname, loop, autoplay }) => {
   const [activeIndex, setActiveIndex] = useState(0);
+    const { page, sort, priceRange } = useCatalogStore();
 
   return (
     <>
@@ -37,7 +40,12 @@ export const HeroSlider: FC<SliderProps> = ({ slides, classname, loop, autoplay 
 
                   <p className=" lg:w-[365px] lg:h-[53px] lg:mb-[40px] lg:block hidden">{slide.subtitle}</p>
 
-                  <Link to={AppRoute.PRODUCTS} className="inline-block">
+                  <Link to={`${AppRoute.PRODUCTS}${setQueryParams({
+                      page,
+                      direction: sort,
+                      minPrice: priceRange[0],
+                      maxPrice: priceRange[1],
+                    })}`} className="inline-block">
                     <button className="btn-buy">Купити</button>
                   </Link>
                 </div>

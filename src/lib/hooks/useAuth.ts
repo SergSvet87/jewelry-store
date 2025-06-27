@@ -44,7 +44,7 @@ type ReducerAction =
   };
 
 const LOGIN_FORM_INITIAL_VALUE: LoginRequest = {
-  phone: '',
+  email: '',
 };
 
 const VERIFY_CODE_INITIAL_VALUE: VerifyRequest = {
@@ -53,7 +53,7 @@ const VERIFY_CODE_INITIAL_VALUE: VerifyRequest = {
 
 const REGISTER_FORM_INITIAL_VALUE: RegisterRequest = {
   name: '',
-  phone: '',
+  email: '',
 };
 
 const INITIAL_STATE: State = {

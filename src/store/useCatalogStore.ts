@@ -16,6 +16,8 @@ interface CatalogState {
   selectedMaterials: string[];
   priceRange: [number, number];
 
+  loading: boolean;
+
   setPage: (page: number) => void;
   setTotalPages: (total: number) => void;
   setCategory: (cat: string | null) => void;
@@ -28,6 +30,7 @@ interface CatalogState {
   setSelectedCollections: (collectionsName: string[]) => void;
   setSelectedMaterials: (materials: string[]) => void;
   setPriceRange: (range: [number, number]) => void;
+  setLoading: (value: boolean) => void;
 }
 
 export const useCatalogStore = create<CatalogState>((set) => ({
@@ -42,7 +45,9 @@ export const useCatalogStore = create<CatalogState>((set) => ({
   selectedCategories: [],
   selectedCollections: [],
   selectedMaterials: [],
-  priceRange: [20, 36225],
+  priceRange: [20, 37775],
+
+  loading: false,
 
   setPage: (page) => set({ page }),
   setTotalPages: (totalPages) => set({ totalPages }),
@@ -56,4 +61,5 @@ export const useCatalogStore = create<CatalogState>((set) => ({
   setSelectedCollections: (collectionsName) => set({ selectedCollections: collectionsName }),
   setSelectedMaterials: (materials) => set({ selectedMaterials: materials }),
   setPriceRange: (range) => set({ priceRange: range }),
+  setLoading: (value) => set({ loading: value }),
 }));

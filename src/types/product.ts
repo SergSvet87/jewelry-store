@@ -1,9 +1,11 @@
+import { IPriceItem } from "./price";
+
 export interface IProductItem {
   id: number;
   name: string;
   productSizes?: number[];
-  price: number;
-  sale?: number;
+  price: IPriceItem;
+  isNew?: boolean;
   quantity: number;
   sku: string;
   images: {

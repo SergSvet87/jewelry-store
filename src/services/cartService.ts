@@ -1,75 +1,103 @@
-import { ICartItem, IProductItem } from '@/types/';
+import { request } from '@/api';
+import { ApiEndpoint, HttpMethod } from '@/enums';
+import { ICartItem } from '@/types/';
 
-const addToCartService = (
-  product: IProductItem,
-  currentCart: ICartItem,
-  userId: number | null,
-): ICartItem => {
-  const isNewCart = !currentCart || !currentCart.items;
+const getAllProductsFromCartService = async (
+  userId: number,
+): Promise<ICartItem> => {
+  const res = await request<ICartItem>({
+    url: ApiEndpoint.CART,
+    method: HttpMethod.GET,
+    params: { userId },
+  });
 
-  const cart: ICartItem = isNewCart
-    ? {
-        userId,
-        items: [{ productId: product.id, quantity: 1 }],
-      }
-    : (() => {
-        const existingItem = currentCart.items.find(i => i.productId === product.id);
-
-        if (existingItem) {
-          return {
-            ...currentCart,
-            items: currentCart.items.map(item =>
-              item.productId === product.id
-                ? { ...item, quantity: item.quantity + 1 }
-                : item
-            ),
-          };
-        } else {
-          return {
-            ...currentCart,
-            items: [...currentCart.items, { productId: product.id, quantity: 1 }],
-          };
-        }
-      })();
-
-
-  return cart;
+  return res;
 };
 
-const removeFromCartService = (
+const getProductFromCartService = async (
+  userId: number,
   productId: number,
-  currentItems: ICartItem[],
-): ICartItem[] => {
-  const updatedItems = currentItems
-    .map(cart => ({
-      ...cart,
-      items: cart.items.filter(i => i.productId !== productId),
-    }))
-    .filter(cart => cart.items.length > 0);
+): Promise<ICartItem> => {
+  const res = await request<ICartItem>({
+    url: `${ApiEndpoint.CART}/items/${productId}`,
+    method: HttpMethod.GET,
+    params: { userId },
+  });
 
-  return updatedItems;
+  return res;
 };
 
-const changeQuantityService = (
+const addToCartService = async (
+  userId: number,
   productId: number,
   quantity: number,
-  currentItems: ICartItem[],
-): ICartItem[] => {
-  return currentItems.map(cart => ({
-    ...cart,
-    items: cart.items.map(i =>
-      i.productId === productId ? { ...i, quantity } : i,
-    ),
-  }));
+): Promise<ICartItem> => {
+  const res = await request<ICartItem>({
+    url: `${ApiEndpoint.CART}/add`,
+    method: HttpMethod.POST,
+    data: {
+      userId,
+      productId,
+      quantity
+    },
+  });
+
+  return res;
 };
 
-const clearCartService = (): ICartItem[] => {
-  return [];
+const removeFromCartService = async (
+  productId: number,
+  userId: number,
+): Promise<ICartItem> => {
+  const res = await request<ICartItem>({
+    url: `${ApiEndpoint.CART}/items/${productId}`,
+    method: HttpMethod.DELETE,
+    params: {
+      productId,
+      userId
+    },
+  });
+
+  return res;
+};
+
+const changeQuantityCartService = async (
+  cartId: number,
+  productId: number,
+  quantity: number,
+  userId: number,
+): Promise<ICartItem> => {
+  const res = await request<ICartItem>({
+    url: `${ApiEndpoint.CART}/cart/${cartId}/items/${productId}`,
+    method: HttpMethod.PUT,
+    data: {
+      cartId,
+      productId,
+      quantity,
+      userId
+    },
+  });
+
+  return res;
+};
+
+const clearCartService = async (userId: number): Promise<ICartItem> => {
+  const res = await request<ICartItem>({
+    url: `${ApiEndpoint.CART}/clear`,
+    method: HttpMethod.DELETE,
+    params: {
+      userId
+    },
+  });
+
+  return res;
 };
 
 export {
+  getAllProductsFromCartService,
+  getProductFromCartService,
   addToCartService,
   removeFromCartService,
-  changeQuantityService,
+  changeQuantityCartService,
   clearCartService
 }

@@ -84,7 +84,12 @@ const handleAuthError = () => {
 };
 
 export {
-  handleAuthError, login, verifyPhoneLogin, verifyPhoneNumber, useRegister, refreshAccessToken,
+  handleAuthError, 
+  login, 
+  verifyPhoneLogin, 
+  verifyPhoneNumber, 
+  useRegister, 
+  refreshAccessToken,
   registerUser
 }
 

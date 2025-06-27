@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import {
   AboutUs,
   Certificate,
@@ -9,17 +11,50 @@ import {
   Feedback,
 } from '@/features/main';
 import { useProductStore } from '@/store';
+import { getAllProducts } from '@/services';
 
 export const HomePage = () => {
-  const { products, loading } = useProductStore();
+  const {
+    allProducts,
+    setAllProducts,
+    loading,
+    setLoading,
+    hasFetched,
+    setHasFetched,
+  } = useProductStore();
+
+   useEffect(() => {
+    if (hasFetched) return;
+
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+
+        const PAGE = 0;
+        const SIZE = 100;
+
+        const res = await getAllProducts(PAGE, SIZE);
+        setAllProducts(res);
+
+        setHasFetched(true);
+
+      } catch (err) {
+        console.error('Помилка завантаження продуктів:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [hasFetched]);
 
   return (
     <>
       <Hero />
       <Collections />
       <Discount />
-      <NewCollection loading={loading} products={products.content} />
-      <Sale loading={loading} products={products.content} />
+      <NewCollection loading={loading} products={allProducts.content} discounted={false} />
+      <Sale loading={loading} products={allProducts.content} discounted={true} />
       <Certificate />
       <AboutUs />
       <Feedback />
