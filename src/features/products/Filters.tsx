@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import { materials } from '@/mock/mockProducts';
 import { declension } from '@/utils/declension';
 import { getQueryParams, setQueryParams } from '@/utils/urlParams';
 import {
@@ -15,6 +14,8 @@ import {
 } from '@/components/ui/';
 import { useProductStore, useCatalogStore } from '@/store';
 import { FilterIcon } from '@/assets';
+
+export const materials = ['Біле золото', 'Жовте золото', 'Срібло', 'Платина'];
 
 export const Filters = () => {
   const products = useProductStore((state) => state.products);

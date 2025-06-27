@@ -1,10 +1,9 @@
 import { create } from 'zustand';
 
-import { IOrderItem } from '@/types/';
-// import { order } from '@/mock/orders';
+import { IOrderResponse } from '@/types/';
 
 interface OrderState {
-  order: IOrderItem | null;
+  order: IOrderResponse | null;
   status: string;
 }
 

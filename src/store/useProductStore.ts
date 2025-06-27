@@ -61,7 +61,7 @@ export const useProductStore = create<ProductState>()(devtools((set, get) => ({
   setAllProducts: (allProducts) => set({ allProducts }),
   setSelectedProduct: (selectedProduct) => set({ selectedProduct }),
 
-  getProductById: (id) => get().products.content.find((product) => product.id === id),
+  getProductById: (id) => get().allProducts.content.find((product) => product.id === id),
 
   filterByCategory: (category) => get().products.content.filter((p) => p.categoryName === category),
 
