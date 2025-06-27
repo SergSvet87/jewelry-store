@@ -1,6 +1,6 @@
 interface RegisterRequest {
   name: string;
-  phone: string;
+  email: string;
 }
 interface RegisterResponse {
   token: string;
@@ -16,7 +16,7 @@ interface VerifyResponse {
 }
 
 interface LoginRequest {
-  phone: string;
+  email: string;
 }
 
 interface LoginResponse {

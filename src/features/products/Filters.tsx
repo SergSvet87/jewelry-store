@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
-import { declension } from '@/utils/declension';
 import { materials } from '@/mock/mockProducts';
+import { declension } from '@/utils/declension';
+import { getQueryParams, setQueryParams } from '@/utils/urlParams';
 import {
   Accordion,
   AccordionContent,
@@ -15,21 +17,22 @@ import { useProductStore, useCatalogStore } from '@/store';
 import { FilterIcon } from '@/assets';
 
 export const Filters = () => {
-  const { products } = useProductStore();
+  const products = useProductStore((state) => state.products);
   const {
+    sort,
     selectedCategories,
     selectedCollections,
     selectedMaterials,
     priceRange,
     categories,
     collections,
-    setSelectedCategories,
-    setSelectedCollections,
     setSelectedMaterials,
     setPriceRange,
     setPage,
   } = useCatalogStore();
+  const [searchParams, setSearchParams] = useSearchParams();
 
+  const [localPriceRange, setLocalPriceRange] = useState<[number, number]>(priceRange);
   const [inputPriceMin, setInputPriceMin] = useState<string>(priceRange[0].toString());
   const [inputPriceMax, setInputPriceMax] = useState<string>(priceRange[1].toString());
 
@@ -38,19 +41,30 @@ export const Filters = () => {
     selected: string[],
     setSelected: (val: string[]) => void,
   ) => {
-    if (selected.includes(value)) {
-      setSelected(selected.filter((v) => v !== value));
-    } else {
-      setSelected([...selected, value]);
-    }
+    const updated = selected.includes(value)
+      ? selected.filter((v) => v !== value)
+      : [...selected, value];
+    setSelected(updated);
+    setPage(1);
   };
 
   const handlePriceInputChange = () => {
-    const min = priceRange[0];
-    const max = priceRange[1];
+    const min = parseInt(inputPriceMin, 10);
+    const max = parseInt(inputPriceMax, 10);
 
     if (!isNaN(min) && !isNaN(max) && min <= max) {
       setPriceRange([min, max]);
+      setPage(1);
+
+      setSearchParams(
+        setQueryParams({
+          ...getQueryParams(searchParams),
+          minPrice: min,
+          maxPrice: max,
+          page: 1,
+          direction: sort,
+        }),
+      );
     }
   };
 
@@ -59,8 +73,14 @@ export const Filters = () => {
       ? selectedCategories.filter((v) => v !== value)
       : [...selectedCategories, value];
 
-    setSelectedCategories(updated);
-    setPage(1);
+    setSearchParams(
+      setQueryParams({
+        ...getQueryParams(searchParams),
+        category: updated,
+        page: 1,
+        direction: sort,
+      }),
+    );
   };
 
   const handleCollectionChange = (value: string) => {
@@ -68,8 +88,14 @@ export const Filters = () => {
       ? selectedCollections.filter((v) => v !== value)
       : [...selectedCollections, value];
 
-    setSelectedCollections(updated);
-    setPage(1);
+    setSearchParams(
+      setQueryParams({
+        ...getQueryParams(searchParams),
+        collection: updated,
+        page: 1,
+        direction: sort,
+      }),
+    );
   };
 
   // const handleMaterialChange = (value: string) => {
@@ -77,8 +103,14 @@ export const Filters = () => {
   //     ? selectedMaterials.filter((v) => v !== value)
   //     : [...selectedMaterials, value];
 
-  //   setSelectedMaterials(updated);
-  //   setPage(1);
+  //   setSearchParams(
+  //     setQueryParams({
+  //       ...getQueryParams(searchParams),
+  //       material: updated,
+  //       page: 1,
+  //       direction: sort,
+  //     }),
+  //   );
   // };
 
   return (
@@ -112,7 +144,9 @@ export const Filters = () => {
                 <label key={category.id} className="flex items-center gap-2 cursor-pointer">
                   <Checkbox
                     checked={selectedCategories.includes(category.name)}
-                    onCheckedChange={() => handleCategoryChange(category.name)}
+                    onCheckedChange={() =>
+                      handleCategoryChange(category.name)
+                    }
                   />
                   {category.name}
                 </label>
@@ -132,7 +166,11 @@ export const Filters = () => {
                 <label key={collection.id} className="flex items-center gap-2 cursor-pointer">
                   <Checkbox
                     checked={selectedCollections.includes(collection.name)}
-                    onCheckedChange={() => handleCollectionChange(collection.name)}
+                    onCheckedChange={() =>
+                      handleCollectionChange(
+                        collection.name,
+                      )
+                    }
                   />
                   {collection.name}
                 </label>
@@ -201,11 +239,11 @@ export const Filters = () => {
                 <Slider
                   name="priceRange"
                   min={0}
-                  max={40000}
-                  step={5}
-                  value={priceRange}
+                  max={42500}
+                  step={25}
+                  value={localPriceRange}
                   onValueChange={(val) => {
-                    setPriceRange(val as [number, number]);
+                    setLocalPriceRange(val as [number, number]);
                     setInputPriceMin(val[0].toString());
                     setInputPriceMax(val[1].toString());
                   }}

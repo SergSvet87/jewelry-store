@@ -1,10 +1,39 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
 
+import { IProductItem } from '../types/';
+import { getSearchProducts } from '@/services';
+import { Loader } from './Loader';
 import { SearchIcon, X } from '@/assets';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '@/enums';
 
 export const SearchDropdown = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   const [search, setSearch] = useState('');
+  const [results, setResults] = useState<IProductItem[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const delayDebounce = setTimeout(async () => {
+      if (search.trim().length < 2) {
+        setResults([]);
+        return;
+      }
+
+      setIsLoading(true);
+      try {
+        const res = await getSearchProducts(1, undefined, undefined, search.trim());
+        setResults(res.content);
+      } catch (err) {
+        console.error('Search error:', err);
+        setResults([]);
+      } finally {
+        setIsLoading(false);
+      }
+    }, 400);
+
+    return () => clearTimeout(delayDebounce);
+  }, [search]);
 
   if (!isOpen) return null;
 
@@ -24,6 +53,36 @@ export const SearchDropdown = ({ isOpen, onClose }: { isOpen: boolean; onClose: 
           <X />
         </button>
       </div>
+      
+      {search && (
+        <div className="absolute top-full left-0 w-full shadow-main max-h-[300px] overflow-y-auto border mt-2 z-50">
+          <div className="container">
+            {isLoading ? (
+              <div className="p-4 text-center bg-main">
+                <Loader />
+              </div>
+            ) : results.length === 0 ? (
+              <div className="p-4 text-center bg-main">Нічого не знайдено</div>
+            ) : (
+              results.map((product) => (
+                <Link
+                  key={product.id}
+                  to={AppRoute.PRODUCT.replace(':id', product.id.toString())
+                    .replace(':category', product.categoryName)
+                    .replace(':title', `${product.name} ${product.collectionName}`)}
+                  className="bg-main p-4 block hover:bg-accent cursor-pointer"
+                  onClick={() => {
+                    onClose();
+                    setSearch('');
+                  }}
+                >
+                  <span>{product.name}</span> <span>{product.collectionName}</span>
+                </Link>
+              ))
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

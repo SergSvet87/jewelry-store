@@ -3,8 +3,12 @@ import { Link } from 'react-router-dom';
 import { AppRoute } from '@/enums';
 import { DiscountImage } from '@/assets';
 import { Card, CardContent } from '@/components/ui';
+import { setQueryParams } from '@/utils/urlParams';
+import { useCatalogStore } from '@/store';
 
 export const Discount = () => {
+  const { page, sort, priceRange } = useCatalogStore();
+
   return (
     <section className="relative w-full lg:h-[700px] min-h-[432px] h-full bg-cover bg-center flex items-center justify-center section-indent">
       <img className="absolute w-full h-full object-cover" src={DiscountImage} alt="Hero Image" />
@@ -16,7 +20,15 @@ export const Discount = () => {
             <span className="block">-5%</span>
           </h2>
 
-          <Link to={AppRoute.PRODUCTS} className='inline-block lg:static absolute bottom-4 left-50%'>
+          <Link
+            to={`${AppRoute.PRODUCTS}${setQueryParams({
+              page,
+              direction: sort,
+              minPrice: priceRange[0],
+              maxPrice: priceRange[1],
+            })}`}
+            className="inline-block lg:static absolute bottom-4 left-50%"
+          >
             <button className="btn-buy">Купити</button>
           </Link>
         </CardContent>

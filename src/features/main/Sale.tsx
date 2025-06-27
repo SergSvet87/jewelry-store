@@ -2,19 +2,19 @@ import { Link } from 'react-router-dom';
 
 import { AppRoute } from '@/enums';
 import { IProductItem } from '@/types/';
-import { useProductStore, useCartStore } from '@/store';
+import { useProductStore } from '@/store';
 import { Loader } from '@/components/Loader';
 import { ProductCard } from '@/components/ProductCard';
 import { Card, CardContent, CardFooter } from '@/components/ui';
 import { FavoriteFilledIcon, FavoriteIcon, ShoppingBagFilledIcon, ShoppingBagIcon } from '@/assets';
+import { useSmartCart } from '@/lib/hooks/useSmartCart';
 
-export const Sale = ({ loading, products }: { loading: boolean; products: IProductItem[] }) => {
-  const addToCart = useCartStore((state) => state.addToCart);
-  const removeFromCart = useCartStore((state) => state.removeFromCart);
+export const Sale = ({ loading, products, discounted }: { loading: boolean; discounted: boolean; products: IProductItem[] }) => {
+  const discountCol = products.filter((p) => p.price.discountPercentage > 0);
+  const { addToCart, removeFromCart, isInCart } = useSmartCart();
   const setFavorites = useProductStore((state) => state.setFavorites);
   const favorites = useProductStore((state) => state.favorites);
-  const isInCart = useCartStore((state) => state.isInCart);
-  const visibleProducts = products.slice(5, 8);
+  const visibleProducts = discountCol.slice(0, 3);
 
   const lastProduct = visibleProducts[2];
   const isInFavoriteLast = favorites.includes(lastProduct?.id);
@@ -36,6 +36,7 @@ export const Sale = ({ loading, products }: { loading: boolean; products: IProdu
                   product={product}
                   size="small"
                   className="lg:w-[315px] w-[177px] lg:h-[438px] h-[262px]"
+                  discounted={discounted}
                 />
               ))}
             </div>
@@ -90,8 +91,7 @@ export const Sale = ({ loading, products }: { loading: boolean; products: IProdu
                   <Link
                     to={AppRoute.PRODUCT.replace(':id', lastProduct.id.toString())
                       .replace(':category', lastProduct.categoryName)
-                      .replace(':collection', lastProduct.collectionName)
-                      .replace(':title', lastProduct.name)}
+                      .replace(':title', `${lastProduct.name} ${lastProduct.collectionName}`)}
                     className="absolute lg:bottom-5 bottom-4 z-5 lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-300"
                   >
                     <button className="btn-buy">Купити</button>
@@ -107,9 +107,11 @@ export const Sale = ({ loading, products }: { loading: boolean; products: IProdu
 
                 <div className="flex flex-col items-end gap-1 lg:text-second text-mobile">
                   <div className="text-grey line-through whitespace-nowrap">
-                    {lastProduct.price}&nbsp;грн
+                    {lastProduct.price.normalPrice}&nbsp;грн
                   </div>
-                  <div className="text-brown-dark">{lastProduct.sale}&nbsp;грн</div>
+                  <div className="text-brown-dark">
+                    {lastProduct.price.discountedPrice}&nbsp;грн
+                  </div>
                 </div>
               </CardFooter>
             </Card>

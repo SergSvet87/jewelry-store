@@ -4,7 +4,8 @@ import cn from 'classnames';
 
 import { AppRoute } from '@/enums';
 import { IProductItem } from '@/types/';
-import { useCartStore, useProductStore } from '@/store';
+import { useProductStore } from '@/store';
+import { useSmartCart } from '@/lib/hooks/useSmartCart';
 import {
   Accordion,
   AccordionContent,
@@ -15,8 +16,8 @@ import {
 import { FavoriteFilledIcon, FavoriteIcon, InfoIcon, ScalesIcon } from '@/assets';
 
 export const Info = ({ product }: { product: IProductItem }) => {
-  const [active, setActive] = useState(16);
-  const addToCart = useCartStore((state) => state.addToCart);
+  const [active, setActive] = useState(product.productSizes?.[0] ?? null);
+  const { addToCart } = useSmartCart();
   const setFavorites = useProductStore((state) => state.setFavorites);
   const favorites = useProductStore((state) => state.favorites);
 
@@ -25,18 +26,17 @@ export const Info = ({ product }: { product: IProductItem }) => {
   const handleActive = (size: number) => setActive(size);
 
   const handleBuy = ({ product }: { product: IProductItem }) => {
-    console.log('product: ', product);
     addToCart(product);
   };
-
-  const sizes = [16, 16.5, 17, 17.5, 18, 18.5, 19, 19.5, 20];
 
   return (
     <div className="flex flex-col w-full items-start gap-8">
       <div className="flex-col items-end gap-7 flex relative self-stretch w-full">
         <div className="flex flex-col items-start gap-1 relative self-stretch w-full">
           <div className="flex items-center justify-between relative self-stretch w-full">
-            <h3 className="">{product?.name}</h3>
+            <h3 className="">
+              {product?.name}&nbsp;&quot;{product?.collectionName}&quot;
+            </h3>
 
             <div className="flex items-center gap-4">
               <button type="button" className="btn" onClick={() => {}}>
@@ -56,50 +56,69 @@ export const Info = ({ product }: { product: IProductItem }) => {
           <div className="self-stretch font-medium text-grey">Артикул: {product.sku}</div>
         </div>
 
-        <div className="flex flex-col items-start gap-4 w-full">
-          <div className="flex items-center justify-between w-full">
-            <div className="">Розмір</div>
+        {product?.name === 'Ланцюжок' || product?.name === 'Каблучка' ? (
+          <div className="flex flex-col items-start gap-4 w-full">
+            <div className="flex items-center justify-between w-full">
+              <div className="">Розмір</div>
 
-            <div className="">
-              <button
-                type="button"
-                className="btn min-w-[200px] text-grey flex items-center gap-3 hover:text-brown-dark transition-all duration-300"
-                onClick={() => {}}
-              >
-                Як визначити розмір?
-                <InfoIcon classname="w-6 h-6" />
-              </button>
+              <div className="">
+                <button
+                  type="button"
+                  className="btn min-w-[200px] text-grey flex items-center gap-3 hover:text-brown-dark transition-all duration-300"
+                  onClick={() => {}}
+                >
+                  Як визначити розмір?
+                  <InfoIcon classname="w-6 h-6" />
+                </button>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 w-full">
+              {product.productSizes?.map((size) => (
+                <button
+                  key={size}
+                  type="button"
+                  className={cn(
+                    'btn w-[46px] h-[29px] py-1 px-2 border-[0.5px] hover:text-accent transition-all duration-300',
+                    active === size ? 'border-brown-dark' : 'border-transparent',
+                  )}
+                  onClick={handleActive.bind(null, size)}
+                >
+                  {size}
+                </button>
+              ))}
             </div>
           </div>
-
-          <div className="flex items-center gap-3 w-full">
-            {sizes.map((size) => (
-              <button
-                key={size}
-                type="button"
-                className={cn(
-                  'btn w-[46px] h-[29px] py-1 px-2 border-[0.5px] hover:text-accent transition-all duration-300',
-                  active === size ? 'border-brown-dark' : 'border-transparent',
-                )}
-                onClick={handleActive.bind(null, size)}
-              >
-                {size}
-              </button>
-            ))}
-          </div>
-        </div>
+        ) : null}
 
         <div className="flex flex-col items-start gap-5 relative self-stretch w-full">
-          <div className="inline-flex h-8 items-center justify-center">
-            <h3 className="">{product?.price}&nbsp;грн</h3>
+          <div className="inline-flex h-8 items-center justify-center gap-3">
+            {product.price.discountPercentage ? (
+              <>
+                <h3 className="line-through text-grey">{product?.price.normalPrice}&nbsp;грн</h3>{' '}
+                <h3>{product.price.discountedPrice}&nbsp;грн</h3>
+              </>
+            ) : (
+              <h3 className="">{product?.price.normalPrice}&nbsp;грн</h3>
+            )}
           </div>
 
           <div className="flex items-center justify-between gap-5 relative self-stretch w-full">
-            <Button type="button" className="w-[259px]" asChild onClick={() => handleBuy({ product })}>
+            <Button
+              type="button"
+              className="w-[259px]"
+              asChild
+              onClick={() => handleBuy({ product })}
+            >
               <Link to={AppRoute.CHECKOUT}>Купити</Link>
             </Button>
 
-            <Button type="button" variant="outline" className="w-[259px]" onClick={() => addToCart(product)}>
+            <Button
+              type="button"
+              variant="outline"
+              className="w-[259px]"
+              onClick={() => addToCart(product)}
+            >
               Додати в кошик
             </Button>
           </div>
@@ -139,30 +158,32 @@ export const Info = ({ product }: { product: IProductItem }) => {
                   </div>
                 </div>
 
-                <div className="flex flex-col w-full py-1 border-b border-grey">
-                  <div className="font-medium text-grey  mb-2">Розміри</div>
+                {product?.name !== 'Ланцюжок' && product?.name !== 'Каблучка' ? (
+                  <div className="flex flex-col w-full py-1 border-b border-grey">
+                    <div className="font-medium text-grey  mb-2">Розміри</div>
 
-                  <div className="flex items-center justify-between w-full mb-1">
-                    <span className="font-medium text-grey">Ширина</span>
-                    <span className="font-medium text-grey">
-                      {product.description?.characteristic.size.width}&nbsp;мм
-                    </span>
-                  </div>
+                    <div className="flex items-center justify-between w-full mb-1">
+                      <span className="font-medium text-grey">Ширина</span>
+                      <span className="font-medium text-grey">
+                        {product.description?.characteristic.size.width}&nbsp;мм
+                      </span>
+                    </div>
 
-                  <div className="flex items-center justify-between w-full mb-1">
-                    <span className="font-medium text-grey">Висота</span>
-                    <span className="font-medium text-grey">
-                      {product.description?.characteristic.size.height}&nbsp;мм
-                    </span>
-                  </div>
+                    <div className="flex items-center justify-between w-full mb-1">
+                      <span className="font-medium text-grey">Висота</span>
+                      <span className="font-medium text-grey">
+                        {product.description?.characteristic.size.height}&nbsp;мм
+                      </span>
+                    </div>
 
-                  <div className="flex items-center justify-between w-full">
-                    <span className="font-medium text-grey">Довжина</span>
-                    <span className="font-medium text-grey">
-                      {product.description?.characteristic.size.length}&nbsp;мм
-                    </span>
+                    <div className="flex items-center justify-between w-full">
+                      <span className="font-medium text-grey">Довжина</span>
+                      <span className="font-medium text-grey">
+                        {product.description?.characteristic.size.length}&nbsp;мм
+                      </span>
+                    </div>
                   </div>
-                </div>
+                ) : null}
 
                 <div className="flex items-center justify-between w-full py-1 border-b border-grey">
                   <div className="font-medium text-grey">Камінь</div>

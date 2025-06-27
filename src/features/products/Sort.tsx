@@ -1,23 +1,44 @@
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import cn from 'classnames';
 
 import { sortOptions } from '@/mock';
 import { useCatalogStore } from '@/store';
+import { setQueryParams } from '@/utils/urlParams';
 import { ArrowDownIcon, SortIcon } from '@/assets';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui';
 
 export const Sort = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const selectedSortName = useCatalogStore(state => state.sort);
+  const [, setSearchParams] = useSearchParams();
+  const {
+    selectedCategories,
+    selectedCollections,
+    selectedMaterials,
+    priceRange,
+    sort,
+  } = useCatalogStore();
 
-  const selectedSort = sortOptions.find((opt) => opt.value === selectedSortName);
+  const selectedSort = sortOptions.find((opt) => opt.value === sort);
 
   const handleSortChange = (value: string) => {
-  useCatalogStore.getState().setSort(value);
-  useCatalogStore.getState().setPage(1);
+    useCatalogStore.getState().setSort(value);
+    useCatalogStore.getState().setPage(1);
 
-  setIsOpen(false);
-};
+    setSearchParams(
+      setQueryParams({
+        page: 1,
+        direction: value,
+        category: selectedCategories,
+        collection: selectedCollections,
+        material: selectedMaterials,
+        minPrice: priceRange[0],
+        maxPrice: priceRange[1],
+      }),
+    );
+
+    setIsOpen(false);
+  };
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -35,7 +56,7 @@ export const Sort = () => {
         {sortOptions.map((opt) => (
           <div
             className={
-              cn(opt.value === selectedSortName && 'bg-button text-main ') +
+              cn(opt.value === sort && 'bg-button text-main ') +
               'px-9 py-3 cursor-pointer w-full hover:bg-accent'
             }
             onClick={() => handleSortChange(opt.value)}

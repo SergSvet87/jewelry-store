@@ -1,6 +1,8 @@
 import ArrowLeft from './icons/arrow-left.svg';
 import FilterIcon from './icons/filter.svg';
 
+import { Visa } from './icons/Visa';
+import { MasterCard } from './icons/MasterCard'
 import { Logo } from './icons/Logo';
 import { ArrowUp } from './icons/ArrowUp';
 import { SortIcon } from './icons/SortIcon';
@@ -12,6 +14,7 @@ import { AppleIcon } from './icons/AppleIcon';
 import { GoogleIcon } from './icons/GoogleIcon';
 import { X } from './icons/X';
 import { MenuIcon } from './icons/MenuIcon';
+import { MailIcon } from './icons/MailIcon';
 import { UserIcon } from './icons/UserIcon';
 import { FavoriteIcon } from './icons/FavoriteIcon';
 import { FavoriteFilledIcon } from './icons/FavoriteFilledIcon';
@@ -62,6 +65,9 @@ import SP2 from './images/single-product-2.jpg';
 export {
   ArrowLeft,
   FilterIcon,
+  Visa,
+  MasterCard,
+  MailIcon,
   DeleteIcon,
   InfoIcon,
   MenuIcon,

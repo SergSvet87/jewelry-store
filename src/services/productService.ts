@@ -3,18 +3,19 @@ import { ApiEndpoint, HttpMethod } from "@/enums";
 import { IProductItem, IProducts } from "@/types/";
 
 const getAllProducts = async (
-  page: number
+  page: number,
+  pageSize?: number
 ): Promise<IProducts> => {
   return await request<IProducts>({
     url: ApiEndpoint.PRODUCTS,
     method: HttpMethod.GET,
-    params: { page },
+    params: { page, pageSize },
   });
 };
 
-const getProductById = async (id: number): Promise<IProductItem> => {
+const fetchProductById = async (id: number): Promise<IProductItem> => {
   return await request<IProductItem>({
-    url: `${ApiEndpoint.PRODUCTS}/${id}`,
+    url: `${ApiEndpoint.PRODUCTS}/id/${id}`,
     method: HttpMethod.GET,
   });
 };
@@ -33,25 +34,29 @@ const deleteProductById = async (id: number): Promise<void> => {
   });
 };
 
-const getFilteredProducts = async (
+const getSortedProducts = async (
   page: number,
-  category?: string,
-  collection?: string,
-  direction?: string,
+  sort?: string,
   maxPrice?: number,
-  minPrice?: number
+  minPrice?: number,
+  category?: string[],
+  collection?: string[],
+  material?: string[]
 ): Promise<IProducts> => {
   return await request<IProducts>({
     url: ApiEndpoint.PRODUCTS_SORTED,
-    method: HttpMethod.GET,
+    method: HttpMethod.POST,
     params: {
       page: page - 1,
-      category,
-      collection,
-      direction,
+      direction: sort,
       minPrice,
       maxPrice,
+      material,
     },
+    data: {
+      categories: category,
+      collections: collection,
+    }
   });
 };
 
@@ -81,9 +86,9 @@ const getSearchProducts = async (
 
 export {
   getAllProducts,
-  getProductById,
+  fetchProductById,
   getProductBySku,
   deleteProductById,
-  getFilteredProducts,
+  getSortedProducts,
   getSearchProducts,
 }

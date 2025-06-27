@@ -1,34 +1,36 @@
 export const catchErrorCodes = (error: unknown): string => {
-  if (typeof error !== 'object' || error === null) return 'Unknown error';
+  if (typeof error !== 'object' || error === null) return 'Невідома помилка';
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const axiosError = error as any;
 
-  if (axiosError.response?.status) {
-    const code = axiosError.response.status;
-    switch (code) {
-      case 400:
-        return 'Невірні дані';
-      case 401:
-        return 'Сесія закінчилась. Увійдіть знову';
-      case 403:
-        return 'Недостатньо прав доступу';
-      case 422:
-        return 'Unprocessable entity';
-      case 404:
-        return 'Не знайдено';
-      case 500:
-        return 'Серверна помилка';
-      case 502:
-        return 'Bad Gateway';
-      case 503:
-        return 'Service Unavailable';
-      case 800:
-        return 'Network Timeout';
-      default:
-        return `Сталася помилка: ${code}`;
-    }
-  }
+  const status = axiosError.response?.status;
+  const url = axiosError.config?.url;
+  const method = axiosError.config?.method?.toUpperCase();
+  const message = axiosError.response?.data?.message || axiosError.message;
 
-  return 'Невідома помилка';
+  const base = `[${method || 'UNKNOWN'}] ${url || 'невідомий запит'} → `;
+
+  switch (status) {
+    case 400:
+      return `${base}Невірні дані. ${message}`;
+    case 401:
+      return `${base}Сесія закінчилась. Увійдіть знову.`;
+    case 403:
+      return `${base}Недостатньо прав доступу.`;
+    case 404:
+      return `${base}Ресурс не знайдено.`;
+    case 422:
+      return `${base}Некоректні поля. ${message}`;
+    case 500:
+      return `${base}Серверна помилка. ${message}`;
+    case 502:
+      return `${base}Bad Gateway.`;
+    case 503:
+      return `${base}Сервер тимчасово недоступний.`;
+    default:
+      return status
+        ? `${base}Сталася помилка (${status}). ${message}`
+        : `${base}Невідома помилка. ${message}`;
+  }
 };

@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 
-import { userData } from '@/mock/userData';
 import { IUserItem } from '@/types/';
 
 export interface UserState {
@@ -10,7 +9,7 @@ export interface UserState {
 }
 
 export const useUserStore = create<UserState>((set) => ({
-  users: userData,
+  users: [],
   currentUser: null,
   setUser: (user) => set({ currentUser: user }),
 }));
