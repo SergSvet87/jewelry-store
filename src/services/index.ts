@@ -61,4 +61,4 @@ export {
   clearGuestCartService
 } from './guestCartService';
 
-export { createOrderService } from './orderService';
+export { createOrderService, createOrderGuestService } from './orderService';

@@ -5,6 +5,7 @@ import {
   changeQuantityGuestCartService,
   clearGuestCartService,
   fetchProductById,
+  getOrCreateGuestId,
   getProductFromGuestCartService,
   removeFromGuestCartService
 } from '@/services';
@@ -30,13 +31,12 @@ interface GuestCartState {
 }
 
 export const useGuestCartStore = create<GuestCartState>((set, get) => {
-  const initialGuestId = localStorageService.getItem(LocalStorage.GUEST_ID) as string;
 
   return {
     guestCart: [],
     cartTotalQuantity: 0,
     isLoading: false,
-    guestId: initialGuestId,
+    guestId: localStorageService.getItem(LocalStorage.GUEST_ID) || getOrCreateGuestId(),
 
     loadedProducts: [] as IProductItem[],
     setLoadedProducts: (products: IProductItem[]) => set({ loadedProducts: products }),
@@ -44,6 +44,7 @@ export const useGuestCartStore = create<GuestCartState>((set, get) => {
     fetchGuestCart: async () => {
       set({ isLoading: true });
 
+      const initialGuestId = localStorageService.getItem(LocalStorage.GUEST_ID) as string;
       const items = await getProductFromGuestCartService(initialGuestId);
       const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -63,6 +64,8 @@ export const useGuestCartStore = create<GuestCartState>((set, get) => {
     },
 
     addToCart: async (product) => {
+      const initialGuestId = localStorageService.getItem(LocalStorage.GUEST_ID) as string;
+      
       if (!initialGuestId) return;
 
       const existing = get().guestCart.find((i) => i.productId === product.id);
@@ -85,6 +88,8 @@ export const useGuestCartStore = create<GuestCartState>((set, get) => {
     },
 
     increaseQuantity: async (productId) => {
+      const initialGuestId = localStorageService.getItem(LocalStorage.GUEST_ID) as string;
+
       if (!initialGuestId) return;
 
       const cart = get().guestCart;
@@ -105,6 +110,8 @@ export const useGuestCartStore = create<GuestCartState>((set, get) => {
     },
 
     decreaseQuantity: async (productId) => {
+      const initialGuestId = localStorageService.getItem(LocalStorage.GUEST_ID) as string;
+
       if (!initialGuestId) return;
 
       const cart = get().guestCart;
@@ -127,6 +134,8 @@ export const useGuestCartStore = create<GuestCartState>((set, get) => {
     },
 
     removeFromCart: async (productId) => {
+      const initialGuestId = localStorageService.getItem(LocalStorage.GUEST_ID) as string;
+
       if (!initialGuestId) return;
 
       await removeFromGuestCartService(productId, initialGuestId);
@@ -139,6 +148,9 @@ export const useGuestCartStore = create<GuestCartState>((set, get) => {
     },
 
     clearCart: async () => {
+
+      const initialGuestId = localStorageService.getItem(LocalStorage.GUEST_ID) as string;
+
       if (!initialGuestId) return;
 
       await clearGuestCartService(initialGuestId);

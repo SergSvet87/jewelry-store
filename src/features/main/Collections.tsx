@@ -6,7 +6,7 @@ import { setQueryParams } from '@/utils/urlParams';
 import { Card, CardContent } from '@/components/ui';
 
 export const Collections = () => {
-  const { collections, page, sort, priceRange } = useCatalogStore();
+  const { collections, page, sortBy, priceRange } = useCatalogStore();
 
   const mainCollection = collections.find((c) => c.name.toLowerCase() === 'heart');
   const secondaryCollections = collections
@@ -36,8 +36,8 @@ export const Collections = () => {
                   <Link
                     to={`${AppRoute.PRODUCTS}${setQueryParams({
                       page,
-                      collection: [mainCollection.name],
-                      direction: sort,
+                      collections: [mainCollection.name],
+                      sortBy: sortBy,
                       minPrice: priceRange[0],
                       maxPrice: priceRange[1],
                     })}`}
@@ -71,8 +71,8 @@ export const Collections = () => {
                     <Link
                       to={`${AppRoute.PRODUCTS}${setQueryParams({
                         page,
-                        collection: [collection.name],
-                        direction: sort,
+                        collections: [collection.name],
+                        sortBy: sortBy,
                         minPrice: priceRange[0],
                         maxPrice: priceRange[1],
                       })}`}

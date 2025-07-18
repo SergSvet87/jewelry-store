@@ -15,7 +15,7 @@ const AppRoute = {
   CERTIFICATES: '/certificates',
   CERTIFICATE: '/certificates/:id/:title',
   PRODUCTS: '/products',
-  PRODUCT: '/products/:id/:category/:title',
+  PRODUCT: '/products/:id/:category/:collection/:title',
   NEW: '/products-new',
   SCALE: '/scale',
   FAVORITE: '/favorite',

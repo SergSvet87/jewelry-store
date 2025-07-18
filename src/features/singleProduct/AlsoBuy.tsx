@@ -1,38 +1,9 @@
-import { NewColHeart, NewColRing, SaleMoon, SaleRing } from "@/assets";
-import { Card, CardContent } from "@/components/ui";
+import { Card, CardContent } from '@/components/ui';
+import { useProductStore } from '@/store';
 
-
-export const AlsoBuy = () => {
-  const products = [
-    {
-      id: 1,
-      image: NewColHeart,
-      type: "Підвіска",
-      name: "Heart",
-      price: "22 636 грн",
-    },
-    {
-      id: 2,
-      image: NewColRing,
-      type: "Каблучка",
-      name: "Heart",
-      price: "20 124 грн",
-    },
-    {
-      id: 3,
-      image: SaleMoon,
-      type: "Ланцюжок",
-      name: "Moon",
-      price: "24 586 грн",
-    },
-    {
-      id: 4,
-      image: SaleRing,
-      type: "Каблучка",
-      name: "Moon",
-      price: "7 329 грн",
-    },
-  ];
+export const AlsoBuy = ({ id }: { id: number }) => {
+  const collectionProducts = useProductStore(state => state.collectionProducts);
+  const products = collectionProducts.filter(product => product.id !== id);
 
   return (
     <section className="flex flex-col items-start gap-10 w-full section-indent">
@@ -41,37 +12,41 @@ export const AlsoBuy = () => {
       </h2>
 
       <div className="flex items-center gap-5 w-full">
-        {products.map((product) => (
-          <Card key={product.id} className="w-full border-none shadow-none">
-            <div className="relative w-full h-[276px] bg-grey">
-              <img
-                className="absolute w-full h-full top-0 left-0 object-cover"
-                alt={`${product.type} ${product.name}`}
-                src={product.image}
-              />
-            </div>
-            
-            <CardContent className="p-0 pt-2">
-              <div className="flex items-center justify-between w-full">
-                <div className="flex items-center gap-1">
-                  <div className="flex items-center justify-center gap-2">
-                    <span className="text-brown-dark whitespace-nowrap">
-                      {product.type}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-center gap-2">
-                    <span className="text-grey whitespace-nowrap">
-                      &quot;{product.name}&quot;
-                    </span>
-                  </div>
-                </div>
-                <span className="text-brown-dark whitespace-nowrap">
-                  {product.price}
-                </span>
+        {products.map((product) => {
+          const firstImage = product.images[0];
+
+          return (
+            <Card key={product.id} className="w-[260px] border-none shadow-none">
+              <div className="relative w-full h-[276px] bg-grey">
+                <img
+                  className="absolute w-full h-full top-0 left-0 object-cover"
+                  alt={`${product.name}`}
+                  src={firstImage.url}
+                />
               </div>
-            </CardContent>
-          </Card>
-        ))}
+
+              <CardContent className="p-0 pt-2">
+                <div className="flex items-center justify-between w-full">
+                  <div className="flex items-center gap-1">
+                    <div className="flex items-center justify-center gap-2">
+                      <span className="text-brown-dark whitespace-nowrap">
+                        {product.name}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-center gap-2">
+                      <span className="text-grey whitespace-nowrap">
+                        &quot;{product.collectionName}&quot;
+                      </span>
+                    </div>
+                  </div>
+                  <span className="text-brown-dark whitespace-nowrap">
+                    {product.price.normalPrice}&nbsp;грн
+                  </span>
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
     </section>
   );

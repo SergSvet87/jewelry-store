@@ -9,7 +9,15 @@ import { Card, CardContent, CardFooter } from '@/components/ui';
 import { FavoriteFilledIcon, FavoriteIcon, ShoppingBagFilledIcon, ShoppingBagIcon } from '@/assets';
 import { useSmartCart } from '@/lib/hooks/useSmartCart';
 
-export const Sale = ({ loading, products, discounted }: { loading: boolean; discounted: boolean; products: IProductItem[] }) => {
+export const Sale = ({
+  loading,
+  products,
+  discounted,
+}: {
+  loading: boolean;
+  discounted: boolean;
+  products: IProductItem[];
+}) => {
   const discountCol = products.filter((p) => p.price.discountPercentage > 0);
   const { addToCart, removeFromCart, isInCart } = useSmartCart();
   const setFavorites = useProductStore((state) => state.setFavorites);

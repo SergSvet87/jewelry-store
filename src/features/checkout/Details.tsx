@@ -150,8 +150,8 @@ export const Details = () => {
                             <div className="flex flex-col gap-2">
                               <label className="font-additional-small text-grey">Термін дії</label>
                               <div className="relative w-[94px] h-6">
-                                <Input className="h-6 border-[0.5px] border-grey rounded-none" />
-                                <div className="absolute top-1.5 left-11 font-additional-small text-grey">
+                                <Input className="h-6 w-full border-[0.5px] border-grey rounded-none" />
+                                <div className="absolute top-0.5 left-11 font-additional-small text-grey">
                                   /
                                 </div>
                               </div>

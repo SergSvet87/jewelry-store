@@ -1,6 +1,6 @@
 import { request } from "@/api/requestService";
 import { ApiEndpoint, HttpMethod } from "@/enums";
-import { IProductItem, IProducts } from "@/types/";
+import { IProductItem, IProducts, ISearchParams } from "@/types/";
 
 const getAllProducts = async (
   page: number,
@@ -61,25 +61,31 @@ const getSortedProducts = async (
 };
 
 const getSearchProducts = async (
-  page: number,
-  category?: string,
-  collection?: string,
-  name?: string,
-  stone?: string,
-  color?: string,
-  metal?: string
+  {
+    page,
+    size,
+    query,
+    maxPrice,
+    minPrice,
+    categories,
+    collections,
+    materials,
+    sortBy
+  }: ISearchParams
 ): Promise<IProducts> => {
   return await request<IProducts>({
     url: ApiEndpoint.PRODUCTS_SEARCH,
     method: HttpMethod.GET,
     params: {
       page: page - 1,
-      category,
-      collection,
-      name,
-      stone,
-      color,
-      metal
+      size,
+      query,
+      minPrice,
+      maxPrice,
+      categories,
+      collections,
+      materials,
+      sortBy,
     },
   });
 };

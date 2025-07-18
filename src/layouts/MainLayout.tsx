@@ -5,12 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import { LocalStorage } from '@/enums';
 import { localStorageService } from '@/api';
 import { getQueryParams } from '@/utils/urlParams';
-import {
-  getAllCategories,
-  getAllCollections,
-  getSortedProducts,
-  getUserByToken,
-} from '@/services';
+import { getAllCategories, getAllCollections, getSearchProducts, getUserByToken } from '@/services';
 import {
   useUserStore,
   useAuthStore,
@@ -29,12 +24,13 @@ import { PopUpConfirmationPhone } from '@/features/auth/ConfirmationPhone';
 export const Layout = () => {
   const accessToken = useAuthStore((state) => state.accessToken);
   const setUser = useUserStore((state) => state.setUser);
-  const { setProducts, setLoading } = useProductStore();
+  const { setProducts, setLoading, setIsNew } = useProductStore();
   const {
     setCategories,
     setCollections,
     setPage,
     setSort,
+    setSearch,
     setSelectedCategories,
     setSelectedCollections,
     setSelectedMaterials,
@@ -43,6 +39,7 @@ export const Layout = () => {
   } = useCatalogStore();
 
   const [searchParams] = useSearchParams();
+const isNewFromUrl = searchParams.get('isNew') === 'true';
 
   const initUser = async () => {
     if (!accessToken) return;
@@ -78,12 +75,14 @@ export const Layout = () => {
 
   useEffect(() => {
     const query = getQueryParams(searchParams);
-
+    
     if (query.page) setPage(query.page);
-    if (query.direction) setSort(query.direction);
-    if (query.category) setSelectedCategories(query.category);
-    if (query.collection) setSelectedCollections(query.collection);
-    if (query.material) setSelectedMaterials(query.material);
+    if (query.size) setPage(query.size);
+    if (query.query) setSearch(query.query);
+    if (query.categories) setSelectedCategories(query.categories);
+    if (query.collections) setSelectedCollections(query.collections);
+    if (query.materials) setSelectedMaterials(query.materials);
+    if (query.sortBy) setSort(query.sortBy);
     if (query.minPrice !== undefined && query.maxPrice !== undefined)
       setPriceRange([query.minPrice, query.maxPrice]);
 
@@ -92,19 +91,23 @@ export const Layout = () => {
         setLoading(true);
 
         const [products, categories, collections] = await Promise.all([
-          getSortedProducts(
-            query.page || 1,
-            query.direction,
-            query.maxPrice,
-            query.minPrice,
-            query.category,
-            query.collection,
-            query.material,
-          ),
+          getSearchProducts({
+            page: query.page || 1,
+            size: 12,
+            query: query.query || '',
+            maxPrice: query.maxPrice || 0,
+            minPrice: query.minPrice || 0,
+            categories: query.categories || [],
+            collections: query.collections || [],
+            materials: query.materials || [],
+            sortBy: query.sortBy || '',
+          }),
           getAllCategories(),
           getAllCollections(),
         ]);
+        
 
+        setIsNew(isNewFromUrl);
         setProducts(products);
         setCategories(categories);
         setCollections(collections);
@@ -135,10 +138,9 @@ export const Layout = () => {
       <PopUpConfirmationPhone />
       <PopUpDeleteFromCart />
       <PopUpCart />
-      
+
       <Notification />
       <ToastContainer />
     </div>
-
   );
 };

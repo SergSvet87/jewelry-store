@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
+
 import { AppRoute } from '@/enums';
-import { useProductStore } from '@/store';
+import { useCatalogStore, useProductStore } from '@/store';
 import { Loader } from '@/components/Loader';
 import { Banner } from '@/components/Banner';
 import { Catalog } from '@/components/Catalog';
@@ -7,8 +9,20 @@ import { BreadCrumbs } from '@/components/BreadCrumbs';
 import { Sort } from '@/features/products/Sort';
 import { Filters } from '@/features/products/Filters';
 
+const PAGE_SIZE = 12;
+
 export const PageLayout = () => {
-  const { products, loading, error } = useProductStore();
+  const { products, allProducts, loading, isNew, error } = useProductStore();
+  const { setTotalPages } = useCatalogStore();
+
+  const newProducts = isNew
+    ? allProducts.content.filter((product) => product.isNew)
+    : products.content;
+
+  useEffect(() => {
+    const total = isNew ? newProducts.length : products.page.totalElements;
+    setTotalPages(Math.max(1, Math.ceil(total / PAGE_SIZE)));
+  }, [isNew, newProducts.length, products.page.totalElements, setTotalPages]);
 
   if (loading) return <Loader />;
   if (error) return <div className="text-center py-20 text-error">{error}</div>;
@@ -27,11 +41,7 @@ export const PageLayout = () => {
         <div className="flex flex-col grow gap-7 ">
           <Sort />
 
-          {products.content.length > 0 ? (
-            <Catalog data={products.content} />
-          ) : (
-            <div>Products not found</div>
-          )}
+          {newProducts.length > 0 ? <Catalog data={newProducts} /> : <div>Products not found</div>}
         </div>
       </div>
     </>

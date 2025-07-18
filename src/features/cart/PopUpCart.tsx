@@ -19,7 +19,7 @@ import { CardCart } from './CardCart';
 export const PopUpCart = () => {
   const { openModal, close } = useModalStore();
   const { cartItemsWithData } = useSmartCart();
-  const { page, sort, priceRange } = useCatalogStore();
+  const { page, sortBy, priceRange } = useCatalogStore();
 
   const isOpen = openModal === 'cart' || openModal === 'deleteFromCart';
 
@@ -75,7 +75,7 @@ export const PopUpCart = () => {
                 <Link
                   to={`${AppRoute.PRODUCTS}${setQueryParams({
                     page,
-                    direction: sort,
+                    sortBy: sortBy,
                     minPrice: priceRange[0],
                     maxPrice: priceRange[1],
                   })}`}
@@ -93,7 +93,7 @@ export const PopUpCart = () => {
               <Link
                 to={`${AppRoute.PRODUCTS}${setQueryParams({
                   page,
-                  direction: sort,
+                  sortBy: sortBy,
                   minPrice: priceRange[0],
                   maxPrice: priceRange[1],
                 })}`}

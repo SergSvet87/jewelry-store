@@ -1,12 +1,11 @@
-export interface IFilterParams {
-  page?: number;
-  size?: number;
+export interface ISearchParams {
+  page: number;
+  size: number;
   query?: string;
-  minPrice?: number;
   maxPrice?: number;
+  minPrice?: number;
   categories?: string[];
   collections?: string[];
   materials?: string[];
   sortBy?: string;
-  isNew?: boolean;
-};
+}
