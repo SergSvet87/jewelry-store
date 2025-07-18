@@ -16,10 +16,10 @@ export const Sort = () => {
     selectedCollections,
     selectedMaterials,
     priceRange,
-    sort,
+    sortBy,
   } = useCatalogStore();
 
-  const selectedSort = sortOptions.find((opt) => opt.value === sort);
+  const selectedSort = sortOptions.find((opt) => opt.value === sortBy);
 
   const handleSortChange = (value: string) => {
     useCatalogStore.getState().setSort(value);
@@ -28,10 +28,10 @@ export const Sort = () => {
     setSearchParams(
       setQueryParams({
         page: 1,
-        direction: value,
-        category: selectedCategories,
-        collection: selectedCollections,
-        material: selectedMaterials,
+        sortBy: value,
+        categories: selectedCategories,
+        collections: selectedCollections,
+        materials: selectedMaterials,
         minPrice: priceRange[0],
         maxPrice: priceRange[1],
       }),
@@ -56,7 +56,7 @@ export const Sort = () => {
         {sortOptions.map((opt) => (
           <div
             className={
-              cn(opt.value === sort && 'bg-button text-main ') +
+              cn(opt.value === sortBy && 'bg-button text-main ') +
               'px-9 py-3 cursor-pointer w-full hover:bg-accent'
             }
             onClick={() => handleSortChange(opt.value)}

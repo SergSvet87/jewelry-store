@@ -20,7 +20,7 @@ export const materials = ['Біле золото', 'Жовте золото', '�
 export const Filters = () => {
   const products = useProductStore((state) => state.products);
   const {
-    sort,
+    sortBy,
     selectedCategories,
     selectedCollections,
     selectedMaterials,
@@ -63,7 +63,7 @@ export const Filters = () => {
           minPrice: min,
           maxPrice: max,
           page: 1,
-          direction: sort,
+          sortBy: sortBy,
         }),
       );
     }
@@ -77,9 +77,9 @@ export const Filters = () => {
     setSearchParams(
       setQueryParams({
         ...getQueryParams(searchParams),
-        category: updated,
+        categories: updated,
         page: 1,
-        direction: sort,
+        sortBy,
       }),
     );
   };
@@ -92,9 +92,9 @@ export const Filters = () => {
     setSearchParams(
       setQueryParams({
         ...getQueryParams(searchParams),
-        collection: updated,
+        collections: updated,
         page: 1,
-        direction: sort,
+        sortBy,
       }),
     );
   };

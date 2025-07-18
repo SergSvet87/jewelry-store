@@ -11,12 +11,7 @@ import { SearchDropdown } from './SearchDropdown';
 import { SupportDrawer } from './SupportDrawer';
 import { BurgerMenu } from './BurgerMenu';
 import { setQueryParams } from '@/utils/urlParams';
-import {
-  useCatalogStore,
-  useProductStore,
-  useUserStore,
-  useModalStore,
-} from '@/store';
+import { useCatalogStore, useProductStore, useUserStore, useModalStore } from '@/store';
 import { useSmartCart } from '@/lib/hooks/useSmartCart';
 
 const Header = () => {
@@ -25,13 +20,13 @@ const Header = () => {
   const [activeButton, setActiveButton] = useState<string | null>(null);
   const { pathname } = useLocation();
 
-  const {cartTotalQuantity} = useSmartCart();
+  const { cartTotalQuantity } = useSmartCart();
   const favoriteCount = useProductStore((state) => state.favorites.length);
   const user = useUserStore((state) => state.currentUser);
-  const { page, sort, priceRange } = useCatalogStore();
+  const { page, sortBy, priceRange } = useCatalogStore();
 
   const promoMessage = "Безкоштовна доставка кур'єром Нової Пошти!";
-  
+
   const toggleActiveButton = (title: string) => {
     const isAuthPage = pathname === AppRoute.SIGN_IN || pathname === AppRoute.SIGN_UP;
 
@@ -203,11 +198,19 @@ const Header = () => {
                         item.label === 'Каталог'
                           ? `${AppRoute.PRODUCTS}${setQueryParams({
                               page,
-                              direction: sort,
+                              sortBy: sortBy,
                               minPrice: priceRange[0],
                               maxPrice: priceRange[1],
                             })}`
-                          : item.href
+                          : item.label === 'Новинки'
+                            ? `${AppRoute.PRODUCTS}${setQueryParams({
+                                page: 1,
+                                sortBy: sortBy,
+                                minPrice: priceRange[0],
+                                maxPrice: priceRange[1],
+                                isNew: true,
+                              })}`
+                            : item.href
                       }
                       className={cn(
                         'flex w-[88px] justify-center px-0 pb-[5px] py-2 border border-solid border-transparent items-center hover:border-b-main active:text-accent',

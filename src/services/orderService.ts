@@ -1,27 +1,27 @@
 import { request } from "@/api";
 import { ApiEndpoint, HttpMethod } from "@/enums";
-import { IOrderRequest } from "../types/";
+import { IGuestOrderRequest, IOrderRequest } from "../types/";
 
-const createOrderService = async (
-  userId: number,
-  cartId: number,
-  productId: number,
-  quantity: number,
-): Promise<IOrderRequest> => {
+const createOrderService = async (data: IOrderRequest) => {
   const res = await request<IOrderRequest>({
     url: `${ApiEndpoint.ORDERS}/create`,
     method: HttpMethod.POST,
-    data: {
-      userId,
-      items: {
-        cartId,
-        productId,
-        quantity
-      }
-    },
+    data: data
   });
+
 
 return res;
 };
 
-export { createOrderService }
+const createOrderGuestService = async (data: IGuestOrderRequest) => {
+  const res = await request<IOrderRequest>({
+    url: `${ApiEndpoint.ORDERS}/guest/create`,
+    method: HttpMethod.POST,
+    data: data
+  });
+
+  
+return res;
+};
+
+export { createOrderService, createOrderGuestService }

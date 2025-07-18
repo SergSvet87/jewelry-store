@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { AppRoute } from '@/enums';
-import { fetchProductById } from '@/services';
+import { fetchProductById, getCollectionByName } from '@/services';
 import { setQueryParams } from '@/utils/urlParams';
 import { useCatalogStore, useProductStore } from '@/store';
 import { Loader } from '@/components/Loader';
@@ -11,29 +11,48 @@ import { Info } from '@/features/singleProduct/Info';
 import { AlsoBuy } from '@/features/singleProduct/AlsoBuy';
 
 export const SingleProduct = () => {
-  const { id, category, title } = useParams();
+  const { id, category, collection, title } = useParams();
   const numericId = Number(id);
-  const { page, sort, priceRange } = useCatalogStore();
-  const { loading, selectedProduct, getProductById, setSelectedProduct, setLoading } =
-    useProductStore();
+  const { page, sortBy, priceRange, setCategory } = useCatalogStore();
+  const {
+    loading,
+    selectedProduct,
+    getProductById,
+    setSelectedProduct,
+    setLoading,
+    setCollectionProducts,
+  } = useProductStore();
 
-   useEffect(() => {
+  useEffect(() => {
     const loadProduct = async () => {
       setLoading(true);
       const localProduct = getProductById(numericId);
 
       if (localProduct) {
         setSelectedProduct(localProduct);
+
         setLoading(false);
       } else {
         try {
           const fetched = await fetchProductById(numericId);
+          const currentCategory = useCatalogStore.getState().category;
+
+          if (fetched.categoryName !== currentCategory) {
+            setCategory(fetched.categoryName);
+          }
+
           setSelectedProduct(fetched);
         } catch (error) {
           console.error('Помилка завантаження продукту', error);
         } finally {
           setLoading(false);
         }
+      }
+
+      if (collection !== null && collection !== undefined) {
+        const collectionProducts = await getCollectionByName(collection);
+        setCollectionProducts(collectionProducts.products);
+        setLoading(false);
       }
     };
 
@@ -57,8 +76,8 @@ export const SingleProduct = () => {
               label: category?.toString() || '',
               href: `${AppRoute.PRODUCTS}${setQueryParams({
                 page,
-                direction: sort,
-                category: [category] as string[],
+                sortBy,
+                categories: [category] as string[],
                 minPrice: priceRange[0],
                 maxPrice: priceRange[1],
               })}`,
@@ -97,7 +116,7 @@ export const SingleProduct = () => {
           {selectedProduct && loading ? <Loader /> : <Info product={selectedProduct} />}
         </div>
 
-        <AlsoBuy />
+        {selectedProduct && loading ? <Loader /> : <AlsoBuy id={numericId} />}
       </div>
     </div>
   );

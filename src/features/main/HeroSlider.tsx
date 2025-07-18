@@ -13,7 +13,7 @@ import { useCatalogStore } from '@/store';
 
 export const HeroSlider: FC<SliderProps> = ({ slides, classname, loop, autoplay }) => {
   const [activeIndex, setActiveIndex] = useState(0);
-    const { page, sort, priceRange } = useCatalogStore();
+    const { page, sortBy, priceRange } = useCatalogStore();
 
   return (
     <>
@@ -42,7 +42,7 @@ export const HeroSlider: FC<SliderProps> = ({ slides, classname, loop, autoplay 
 
                   <Link to={`${AppRoute.PRODUCTS}${setQueryParams({
                       page,
-                      direction: sort,
+                      sortBy: sortBy,
                       minPrice: priceRange[0],
                       maxPrice: priceRange[1],
                     })}`} className="inline-block">

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 
+import { AppRoute } from '@/enums';
 import { IProductItem } from '../types/';
 import { getSearchProducts } from '@/services';
 import { Loader } from './Loader';
 import { SearchIcon, X } from '@/assets';
-import { Link } from 'react-router-dom';
-import { AppRoute } from '@/enums';
 
 export const SearchDropdown = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   const [search, setSearch] = useState('');
@@ -15,14 +15,25 @@ export const SearchDropdown = ({ isOpen, onClose }: { isOpen: boolean; onClose: 
 
   useEffect(() => {
     const delayDebounce = setTimeout(async () => {
-      if (search.trim().length < 2) {
+      const trimmed = search.trim();
+      if (trimmed.length < 2) {
         setResults([]);
         return;
       }
 
       setIsLoading(true);
       try {
-        const res = await getSearchProducts(1, undefined, undefined, search.trim());
+        const res = await getSearchProducts({
+        page: 1,
+        size: Infinity,
+        query: trimmed,
+        maxPrice: undefined,
+        minPrice: undefined,
+        categories: [],
+        collections: [],
+        materials: [],
+        sortBy: '',
+      });
         setResults(res.content);
       } catch (err) {
         console.error('Search error:', err);
@@ -53,7 +64,7 @@ export const SearchDropdown = ({ isOpen, onClose }: { isOpen: boolean; onClose: 
           <X />
         </button>
       </div>
-      
+
       {search && (
         <div className="absolute top-full left-0 w-full shadow-main max-h-[300px] overflow-y-auto border mt-2 z-50">
           <div className="container">

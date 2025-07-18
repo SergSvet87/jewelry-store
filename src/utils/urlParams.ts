@@ -19,13 +19,16 @@ export const getQueryParams = (searchParams: URLSearchParams): IFilterParams => 
   };
 
   return {
-    category: parseArray('category'),
-    collection: parseArray('collection'),
-    material: parseArray('material'),
-    direction: searchParams.get('sort') || undefined,
     page: getNumber('page'),
+    size: getNumber('size'),
+    query: searchParams.get('query') || undefined,
     minPrice: getNumber('minPrice'),
     maxPrice: getNumber('maxPrice'),
+    categories: parseArray('categories'),
+    collections: parseArray('collections'),
+    materials: parseArray('materials'),
+    sortBy: searchParams.get('sortBy') || undefined,
+    isNew: searchParams.get('isNew') === 'true',
   };
 };
 
@@ -44,14 +47,17 @@ export const setQueryParams = (params: IFilterParams): string => {
     }
   };
 
-  addArrayAsStringifiedList('category', params.category);
-  addArrayAsStringifiedList('collection', params.collection);
-  addArrayAsStringifiedList('material', params.material);
+  addArrayAsStringifiedList('categories', params.categories);
+  addArrayAsStringifiedList('collections', params.collections);
+  addArrayAsStringifiedList('material', params.materials);
 
-  if (params.direction) searchParams.set('sort', params.direction);
+  if (params.sortBy) searchParams.set('sort', params.sortBy);
   addNumber('page', params.page);
+  addNumber('size', params.size);
   addNumber('minPrice', params.minPrice);
   addNumber('maxPrice', params.maxPrice);
+
+  if (params.isNew) searchParams.set('isNew', 'true');
 
   return `?${searchParams.toString()}`;
 };

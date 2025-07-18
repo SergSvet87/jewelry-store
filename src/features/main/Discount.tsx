@@ -7,7 +7,7 @@ import { setQueryParams } from '@/utils/urlParams';
 import { useCatalogStore } from '@/store';
 
 export const Discount = () => {
-  const { page, sort, priceRange } = useCatalogStore();
+  const { page, sortBy, priceRange } = useCatalogStore();
 
   return (
     <section className="relative w-full lg:h-[700px] min-h-[432px] h-full bg-cover bg-center flex items-center justify-center section-indent">
@@ -23,7 +23,7 @@ export const Discount = () => {
           <Link
             to={`${AppRoute.PRODUCTS}${setQueryParams({
               page,
-              direction: sort,
+              sortBy: sortBy,
               minPrice: priceRange[0],
               maxPrice: priceRange[1],
             })}`}

@@ -7,7 +7,7 @@ import { Button } from '@/components/ui';
 import NotFoundImage from '/images/404.png';
 
 export const NotFound = () => {
-  const { page, sort, priceRange } = useCatalogStore();
+  const { page, sortBy, priceRange } = useCatalogStore();
 
   return (
     <section className="w-full h-screen bg-[url('/images/bg.jpg')] bg-cover">
@@ -22,7 +22,7 @@ export const NotFound = () => {
           <Link
             to={`${AppRoute.PRODUCTS}${setQueryParams({
               page,
-              direction: sort,
+              sortBy,
               minPrice: priceRange[0],
               maxPrice: priceRange[1],
             })}`}

@@ -9,16 +9,20 @@ import { IProducts } from '@/types/products';
 interface ProductState {
   products: IProducts;
   allProducts: IProducts;
+  collectionProducts: IProductItem[];
   favorites: number[];
   scales: number[];
   selectedProduct: null | IProductItem,
 
   loading: boolean;
   hasFetched: boolean;
+  isNew: boolean;
   error: string | null;
 
   getProductById: (id: number) => IProductItem | undefined;
+  setIsNew: (value: boolean) => void;
   setProducts: (products: IProducts) => void;
+  setCollectionProducts: (collectionProducts: IProductItem[]) => void;
   setAllProducts: (products: IProducts) => void;
   setSelectedProduct: (product: IProductItem) => void,
   filterByCategory: (category: string) => IProductItem[];
@@ -46,6 +50,7 @@ export const useProductStore = create<ProductState>()(devtools((set, get) => ({
       totalPages: 0
     }
   },
+  collectionProducts: [],
   favorites: localStorageService.getItem<number[]>(
     LocalStorage.FAVORITE_PRODUCTS
   ) ?? [],
@@ -55,9 +60,12 @@ export const useProductStore = create<ProductState>()(devtools((set, get) => ({
   loading: false,
   hasFetched: false,
   error: null,
+  isNew: false,
 
+  setIsNew: (value) => set({ isNew: value }),
   setHasFetched: (value) => set({ hasFetched: value }),
   setProducts: (products) => set({ products }),
+  setCollectionProducts: (collectionProducts) => set({ collectionProducts }),
   setAllProducts: (allProducts) => set({ allProducts }),
   setSelectedProduct: (selectedProduct) => set({ selectedProduct }),
 

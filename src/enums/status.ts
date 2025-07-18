@@ -1,9 +1,8 @@
 const Status = {
-  PENDING: 'PENDING',
-  PUT: 'PUT',
-  POST: 'POST',
-  DELETE: 'DELETE',
-  PATCH: 'PATCH',
+  PENDING: 'loading',
+  FULFILLED: 'fulfilled',
+  REJECT: 'error',
+  IDLE: 'idle',
 } as const;
 
 export type StatusPath = (typeof Status)[keyof typeof Status];
