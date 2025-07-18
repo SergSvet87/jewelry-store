@@ -1,14 +1,21 @@
+import { useSearchParams } from 'react-router-dom';
 import cn from 'classnames';
 
 import { ChevronRight } from '@/assets';
 import { useCatalogStore } from '@/store';
+import { getQueryParams, setQueryParams } from '@/utils/urlParams';
 
-
-export const Pagination = () => {  
-    const {setPage, page, totalPages} = useCatalogStore();
+export const Pagination = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { page, totalPages } = useCatalogStore();
 
   const handlePageChange = (newPage: number) => {
-    setPage(newPage);
+    setSearchParams(
+      setQueryParams({
+        ...getQueryParams(searchParams),
+        page: newPage,
+      }),
+    );
   };
 
   return (
@@ -29,7 +36,7 @@ export const Pagination = () => {
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
             <button
               key={p}
-              onClick={() => setPage(p)}
+              onClick={handlePageChange.bind(null, p)}
               className={cn(
                 'w-7 h-7 px-[10.5px] py-[3.5px] border-[0.5px] border-solid cursor-pointer flex items-center justify-center hover:border-brown-dark hover:text-accent transition-all duration-300',
                 page === p ? 'border-brown-dark' : 'border-transparent',

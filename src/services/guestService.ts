@@ -1,21 +1,25 @@
 import { v4 as uuidv4 } from 'uuid';
 
-const GUEST_ID_KEY = 'guestId';
+import { LocalStorage } from '@/enums';
+import { localStorageService } from '@/api';
 
-const getOrCreateGuestId = (): number => {
+const getOrCreateGuestId = (): string => {
   const cookies = document.cookie.split('; ').reduce((acc: Record<string, string>, curr) => {
     const [key, value] = curr.split('=');
     acc[key] = value;
     return acc;
   }, {});
 
-  let guestId = Number(cookies[GUEST_ID_KEY]);
-
+  let guestId = cookies[LocalStorage.GUEST_ID];
+  
   if (!guestId) {
-    guestId = parseInt(uuidv4());
-
-    document.cookie = `${GUEST_ID_KEY}=${guestId}; path=/; max-age=${30 * 24 * 60 * 60}`;
+    guestId = uuidv4();
+    
+    localStorageService.setItem(LocalStorage.GUEST_ID, guestId);
+    
+    document.cookie = `${LocalStorage.GUEST_ID}=${guestId}; path=/; max-age=${30 * 24 * 60 * 60}`;
   }
+  console.log('guestId: ', guestId);
 
   return guestId;
 };

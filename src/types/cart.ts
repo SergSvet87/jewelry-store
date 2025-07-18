@@ -1,20 +1,12 @@
-export interface ICartItem {
-  id?: number,
-  userId: number | null,
-  items: {
+export interface IItem {
+    id: number,
+    cartId: number,
     productId: number,
     quantity: number,
-  }[],
 }
 
-// export interface ICartItem {
-//   id?: number,
-//   userId: number,
-//   items: {
-//     id?: number,
-//     cartId?: number,
-//     product: ISingleProduct,
-//     productName?: string,
-//     quantity: number,
-//   }[],
-// }
+export interface ICartItem {
+  id: number | null,
+  userId: number | string | null,
+  items: IItem[],
+}

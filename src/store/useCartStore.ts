@@ -2,86 +2,132 @@ import { create } from 'zustand';
 
 import { LocalStorage } from '@/enums';
 import { localStorageService } from '@/api';
-import { addToCartService } from '@/services';
-import { ICartItem, IProductItem } from '@/types/';
 import { useUserStore } from './useUserStore';
+import { ICartItem, IProductItem } from '@/types/';
+import {
+  addToCartService,
+  getAllProductsFromCartService,
+  // getProductFromCartService,
+  changeQuantityCartService,
+  removeFromCartService,
+  clearCartService,
+} from '@/services';
 
 interface CartState {
   cart: ICartItem;
   cartTotalQuantity: number;
+  isLoading: boolean;
+
+  fetchCart: () => Promise<void>;
   isInCart: (productId: number) => boolean;
   addToCart: (product: IProductItem) => void;
   increaseQuantity: (productId: number) => void;
   decreaseQuantity: (productId: number) => void;
   removeFromCart: (productId: number) => void;
+  clearCart: () => Promise<void>;
 }
 
 const defaultCart: ICartItem = {
+  id: null,
   userId: null,
   items: [],
 };
 
 export const useCartStore = create<CartState>((set, get) => ({
-  cart: localStorageService.getItem<ICartItem>(LocalStorage.CART_PRODUCTS) ?? defaultCart,
-  cartTotalQuantity: Number(
-    localStorageService.getItem(LocalStorage.CART_QUANTITY)
-  ) || 0,
-  isInCart: (productId) => {
-    return get().cart?.items?.some((i) => i.productId === productId);
-  },
+  cart: defaultCart,
+  cartTotalQuantity: 0,
+  isLoading: false,
 
-  addToCart: (product) => {
-    const { cart } = get();
-    const userId = useUserStore.getState().currentUser?.id ?? null;
-    const updatedCart = addToCartService(product, cart, userId);
+  isInCart: (productId) => get().cart.items.some(i => i.productId === productId),
 
-    const quantity = updatedCart?.items?.reduce((sum, i) => sum + i.quantity, 0);
+  fetchCart: async () => {
+    const userId = useUserStore.getState().currentUser?.id;
+    if (!userId) return;
 
-    set({
-      cart: updatedCart,
-      cartTotalQuantity: quantity,
-    });
+    set({ isLoading: true });
+    const data = await getAllProductsFromCartService(userId);
+    const quantity = data.items.reduce((sum, i) => sum + i.quantity, 0);
 
-    localStorageService.setItem(LocalStorage.CART_PRODUCTS, updatedCart);
+    set({ cart: data, cartTotalQuantity: quantity, isLoading: false });
+
+    localStorageService.setItem(LocalStorage.CART_PRODUCTS, data);
     localStorageService.setItem(LocalStorage.CART_QUANTITY, quantity);
   },
 
-  increaseQuantity: (productId) => {
-    const { cart } = get();
-    const updatedItems = cart.items.map(item =>
-      item.productId === productId ? { ...item, quantity: item.quantity + 1 } : item
-    );
-    const quantity = updatedItems.reduce((sum, i) => sum + i.quantity, 0);
-    const updatedCart = { ...cart, items: updatedItems };
+  // getOneProductCart: async (productId: number) => {
+  //   const item = get().cart.items.find(i => i.productId === productId);
+  //   if (!userId || !item) return;
 
-    set({ cart: updatedCart, cartTotalQuantity: quantity });
-    localStorageService.setItem(LocalStorage.CART_PRODUCTS, updatedCart);
+  //   set({ isLoading: true });
+  //   const data = await getProductFromCartService(userId, productId);
+  //   const quantity = data.items.reduce((sum, i) => sum + i.quantity, 0);
+
+  //   set({ cart: data, cartTotalQuantity: quantity, isLoading: false });
+  // },
+
+  addToCart: async (product, qty = 1) => {
+
+    const userId = useUserStore.getState().currentUser?.id;
+    if (!userId) return;
+
+    const res = await addToCartService(product.id, qty, userId);
+    const quantity = res.items.reduce((sum, i) => sum + i.quantity, 0);
+
+    set({ cart: res, cartTotalQuantity: quantity });
+
+    localStorageService.setItem(LocalStorage.CART_PRODUCTS, res);
     localStorageService.setItem(LocalStorage.CART_QUANTITY, quantity);
   },
 
-  decreaseQuantity: (productId) => {
-    const { cart } = get();
-    const updatedItems = cart.items.map(item =>
-      item.productId === productId && item.quantity > 1
-        ? { ...item, quantity: item.quantity - 1 }
-        : item
-    );
-    const quantity = updatedItems.reduce((sum, i) => sum + i.quantity, 0);
-    const updatedCart = { ...cart, items: updatedItems };
+  increaseQuantity: async (productId) => {
+    const userId = useUserStore.getState().currentUser?.id;
+    const item = get().cart.items.find(i => i.productId === productId);
 
-    set({ cart: updatedCart, cartTotalQuantity: quantity });
-    localStorageService.setItem(LocalStorage.CART_PRODUCTS, updatedCart);
+    if (!item || !userId) return;
+
+    const res = await changeQuantityCartService(item.id, item.quantity + 1, productId, userId);
+    const quantity = res.items.reduce((sum, i) => sum + i.quantity, 0);
+    set({ cart: res, cartTotalQuantity: quantity });
+
+    localStorageService.setItem(LocalStorage.CART_PRODUCTS, res);
     localStorageService.setItem(LocalStorage.CART_QUANTITY, quantity);
   },
 
-  removeFromCart: (productId) => {
-    const { cart } = get();
-    const updatedItems = cart.items.filter(item => item.productId !== productId);
-    const quantity = updatedItems.reduce((sum, i) => sum + i.quantity, 0);
-    const updatedCart = { ...cart, items: updatedItems };
+  decreaseQuantity: async (productId) => {
+    const userId = useUserStore.getState().currentUser?.id;
+    const item = get().cart.items.find(i => i.productId === productId);
+    if (!userId || !item) return;
 
-    set({ cart: updatedCart, cartTotalQuantity: quantity });
-    localStorageService.setItem(LocalStorage.CART_PRODUCTS, updatedCart);
+    if (item.quantity <= 1) {
+      await get().removeFromCart(productId);
+      return;
+    }
+    const res = await changeQuantityCartService(item.id, item.quantity - 1, productId, userId);
+    const quantity = res.items.reduce((sum, i) => sum + i.quantity, 0);
+    set({ cart: res, cartTotalQuantity: quantity });
+    localStorageService.setItem(LocalStorage.CART_PRODUCTS, res);
     localStorageService.setItem(LocalStorage.CART_QUANTITY, quantity);
+  },
+
+  removeFromCart: async (productId) => {
+    const userId = useUserStore.getState().currentUser?.id;
+
+    const item = get().cart.items.find(i => i.productId === productId);
+    if (!item || !userId) return;
+
+    const res = await removeFromCartService(item.id, userId);
+    const quantity = res.items.reduce((sum, i) => sum + i.quantity, 0);
+    set({ cart: res, cartTotalQuantity: quantity });
+    localStorageService.setItem(LocalStorage.CART_PRODUCTS, res);
+    localStorageService.setItem(LocalStorage.CART_QUANTITY, quantity);
+  },
+
+  clearCart: async () => {
+    const userId = useUserStore.getState().currentUser?.id;
+    if (!userId) return;
+    await clearCartService(userId);
+    set({ cart: defaultCart, cartTotalQuantity: 0 });
+    localStorageService.removeItem(LocalStorage.CART_PRODUCTS);
+    localStorageService.removeItem(LocalStorage.CART_QUANTITY);
   },
 }));

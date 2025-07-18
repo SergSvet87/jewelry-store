@@ -7,7 +7,7 @@ import cn from 'classnames';
 import { ApiEndpoint, AppRoute } from '@/enums';
 import { LoginRequest } from '@/types/';
 import { loginSchema } from '@/schemas/authSchema';
-import { AppleIcon, GoogleIcon, PhoneIcon } from '@/assets';
+import { AppleIcon, GoogleIcon, MailIcon, X } from '@/assets';
 import { Button, Card, CardContent, Input } from '@/components/ui';
 
 interface LoginFormProps {
@@ -31,9 +31,7 @@ export const LoginForm: FC<LoginFormProps> = ({ initialValues, onLogin, onChange
     <Card className="w-[448px] bg-main relative">
       <CardContent className="p-8 flex flex-col items-center gap-12">
         <div className="flex flex-col items-center gap-7 w-full">
-          <h2 className="text-second  font-[500] font-main">
-            Увійти в акаунт
-          </h2>
+          <h2 className="text-second  font-[500] font-main">Увійти в акаунт</h2>
 
           <form
             className="flex flex-col items-center gap-7 w-full"
@@ -43,29 +41,25 @@ export const LoginForm: FC<LoginFormProps> = ({ initialValues, onLogin, onChange
               <div
                 className={cn(
                   'flex items-center gap-2 border-0 border-b-2 bg-transparent rounded-none focus-within:border-brown-dark focus-within:text-brown-dark',
-                  errors.phone
-                    ? 'border-error text-error'
-                    : 'border-grey text-grey',
+                  errors.email ? 'border-error text-error' : 'border-grey text-grey',
                 )}
               >
-                <PhoneIcon classname="w-4 h-5 text-inherit" />
+                <MailIcon classname="w-5 h-5 text-inherit" />
                 <Input
-                  {...register('phone')}
-                  name="phone"
-                  placeholder="Ваш номер телефону"
+                  {...register('email')}
+                  name="email"
+                  placeholder="Ваша електронна пошта"
                   className="w-full h-10 !bg-transparent border-none"
-                  type="tel"
+                  type="email"
                   onChange={(e) => {
-                    setValue('phone', e.target.value);
-                    onChangeField({ ...initialValues, phone: e.target.value });
+                    setValue('email', e.target.value);
+                    onChangeField({ ...initialValues, email: e.target.value });
                   }}
                 />
               </div>
 
-              {errors.phone && (
-                <p className="text-error text-xs text-center mt-1">
-                  {errors.phone.message}{' '}
-                </p>
+              {errors.email && (
+                <p className="text-error text-xs text-center mt-1">{errors.email.message} </p>
               )}
             </div>
 
@@ -101,6 +95,17 @@ export const LoginForm: FC<LoginFormProps> = ({ initialValues, onLogin, onChange
           </Button>
         </div>
       </CardContent>
+
+      <Button
+        variant="ghost"
+        className="absolute right-5 top-5 h-5 w-5 p-0 text-grey hover:text-accent transition-text duration-300"
+        aria-label="Close"
+        asChild
+      >
+        <Link to={AppRoute.ROOT}>
+          <X classname="h-5 w-5" />
+        </Link>
+      </Button>
     </Card>
   );
 };

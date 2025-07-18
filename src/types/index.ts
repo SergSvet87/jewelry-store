@@ -4,10 +4,15 @@ export type { IReviewItem } from './review';
 export type { ICartItem } from './cart';
 export type { SliderProps } from './mainSlider';
 export type { IUserItem } from './user';
-export type { IOrderItem } from './order';
 export type { ICategoryItem } from './category';
 export type { ICollectionItem } from './collection';
+export type { IMaterialItem } from './material'
 export type { ICertificateItem } from './certificate';
+export type { IFilterParams } from './filter';
+export type { ISortParams } from './sort';
+export type { ISearchParams } from './searchParams';
+export type { IOrderRequest, IOrderResponse, IGuestOrderRequest } from './order';
+
 export type {
   RegisterRequest,
   LoginRequest,
@@ -16,4 +21,9 @@ export type {
   VerifyResponse,
   VerifyRequest,
   UpdateProfileRequest,
-} from './auth'
+} from './auth';
+
+export type {
+  IGuestCartItem,
+  IGuestCartResponse,
+} from './guestCart';

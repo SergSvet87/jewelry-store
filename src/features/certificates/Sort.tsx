@@ -13,7 +13,7 @@ interface ISortProps {
 
 export const Sort: FC<ISortProps> = ({ sort, setSort }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const selectedSortName = useCatalogStore((state) => state.sort);
+  const selectedSortName = useCatalogStore((state) => state.sortBy);
 
   const selectedSort = Object.values(sortOptions).find((s) => s.value === sort)?.label;
 

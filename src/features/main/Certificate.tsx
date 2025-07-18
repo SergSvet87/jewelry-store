@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 
-import { Cert } from '@/assets';
 import { AppRoute } from '@/enums';
 
 export const Certificate = () => {
@@ -8,7 +7,7 @@ export const Certificate = () => {
     <section
       id="certificate"
       className="relative w-full lg:h-[1000px] min-h-[323px] bg-cover bg-center"
-      style={{ backgroundImage: `url(${Cert})` }}
+      style={{ backgroundImage: `url('/images/certif.jpg')` }}
     >
       <div className="flex flex-col h-full items-center justify-between gap-16 lg:py-[100px] py-4">
         <h2 className="text-center text-main">Подарункові сертифікати</h2>

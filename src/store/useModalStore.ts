@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-type ModalType = 'phoneVerification' | 'deleteFromCart' | null;
+type ModalType = 'phoneVerification' | 'deleteFromCart' | 'cart' | null;
 
 interface ModalState {
   openModal: ModalType;
@@ -12,6 +12,7 @@ interface ModalState {
   setError: (error: string | null) => void;
   close: () => void;
   openDeleteFromCartModal: (id: number) => void;
+  backToCart: () => void;
 }
 
 export const useModalStore = create<ModalState>((set) => ({
@@ -24,6 +25,7 @@ export const useModalStore = create<ModalState>((set) => ({
   close: () => set({ openModal: null }),
 
   setError: (error) => set({ error }),
+  backToCart: () => set({ openModal: 'cart', deleteProductId: null }),
 
   openDeleteFromCartModal: (id: number) =>
     set({ openModal: 'deleteFromCart', deleteProductId: id }),

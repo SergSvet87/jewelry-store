@@ -1,10 +1,11 @@
 import cn from 'classnames';
 
 import { Button, Card, CardContent } from '@/components/ui';
-import { useOrderStore } from '@/store/useOrderStore';
+import { useOrderStore, useProductStore } from '@/store';
 
 export const UserOrders = () => {
-  const { order, status } = useOrderStore((state) => state);
+  const { order, status } = useOrderStore();
+  const getProductById = useProductStore((state) => state.getProductById);
 
   return (
     <div className="flex flex-col gap-7 w-full h-auto">
@@ -12,7 +13,10 @@ export const UserOrders = () => {
 
       <div className="flex flex-col gap-4">
         {order ? (
-          order.items.product.map((product) => (
+          order.items.map((item) => {
+            const product = getProductById(item.productId);
+
+            return (
             <Card className={cn('w-full h-[202px] rounded-none')}>
               <CardContent
                 className={cn(
@@ -20,8 +24,7 @@ export const UserOrders = () => {
                 )}
               >
                 <div className="w-[202px] h-[202px]">
-                  {product.images
-                    .map((image, index) => (
+                  {product?.images.map((image, index) => (
                       <img
                         key={index}
                         src={image.url}
@@ -35,7 +38,7 @@ export const UserOrders = () => {
                 <div className="flex flex-col gap-1">
                   <span className="">№ {order?.id}</span>
 
-                  <span className="text-grey">{product.name}</span>
+                  <span className="text-grey">{product?.name}</span>
                 </div>
 
                 <div className="flex flex-col h-[202px] items-end justify-between">
@@ -47,7 +50,7 @@ export const UserOrders = () => {
                 </div>
               </CardContent>
             </Card>
-          ))
+          )})
         ) : (
           <div>У вас немає успішних замовлень</div>
         )}

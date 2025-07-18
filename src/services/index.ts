@@ -9,18 +9,20 @@ export {
 } from './authService';
 
 export {
+  getAllProductsFromCartService,
+  getProductFromCartService,
   addToCartService,
   removeFromCartService,
-  changeQuantityService,
+  changeQuantityCartService,
   clearCartService
 } from './cartService';
 
 export {
   getAllProducts,
-  getProductById,
+  fetchProductById,
   getProductBySku,
   deleteProductById,
-  getFilteredProducts,
+  getSortedProducts,
   getSearchProducts,
 } from './productService';
 
@@ -50,3 +52,13 @@ export {
 } from './categoryService';
 
 export { getOrCreateGuestId, removeGuestId } from './guestService';
+
+export {
+  getProductFromGuestCartService,
+  addToGuestCartService,
+  removeFromGuestCartService,
+  changeQuantityGuestCartService,
+  clearGuestCartService
+} from './guestCartService';
+
+export { createOrderService, createOrderGuestService } from './orderService';
