@@ -15,7 +15,11 @@ export const Catalog: FC<ICatalogProps> = ({ data }) => {
 
   return (
     <>
-      <div className="grid  grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:auto-rows-[297px] auto-rows-[266px] lg:gap-5 gap-1 mb-12">
+      <div
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 
+                      auto-rows-[266px] lg:auto-rows-[297px] 
+                      gap-2 md:gap-4 lg:gap-5 mb-12"
+      >
         {loading
           ? Array.from({ length: 12 }).map((_, index) => (
               <CardSkeleton key={index} size="small" className="col-span-1 row-span-1" />

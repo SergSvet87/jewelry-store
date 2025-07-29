@@ -7,6 +7,7 @@ const LocalStorage = {
   FAVORITE_PRODUCTS: 'favorites',
   FAVORITE_CERTIFICATES: 'favorites_certificates',
   GUEST_ID: 'guest_id',
+  GUEST_CART_ID: 'guest_cart_id',
   SESSION_ID: 'session_id'
 } as const;
 

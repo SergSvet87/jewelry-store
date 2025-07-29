@@ -5,6 +5,7 @@ import { createOrderService, createOrderGuestService } from '@/services';
 import { DeliveryMethod, LocalStorage, PaymentMethod } from '@/enums';
 import { useSmartCart } from './useSmartCart';
 import { localStorageService } from '@/api';
+import { checkoutSchema } from '@/schemas';
 
 export const useCheckoutForm = () => {
   const { cartItems } = useSmartCart();
@@ -54,6 +55,18 @@ export const useCheckoutForm = () => {
   };
 
   const submitForm = async () => {
+    const data = {
+      personalInfo,
+      deliveryInfo,
+      paymentInfo,
+    };
+
+    const validation = checkoutSchema.safeParse(data);
+    if (!validation.success) {
+      console.error('Помилки валідації:', validation.error.flatten());
+      throw new Error('Некоректні дані. Перевірте форму.');
+    }
+
     const items = cartItems.map((item) => ({
       id: 0,
       cartId: 0,

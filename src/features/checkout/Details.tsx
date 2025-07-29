@@ -1,7 +1,24 @@
 import { MasterCard, Visa } from '@/assets';
 import { Card, CardContent, Checkbox, Input, RadioGroup, RadioGroupItem } from '@/components/ui';
+import { IDeliveryInfo, IPaymentInfo, IPersonalInfo } from '@/types/';
 
-export const Details = () => {
+interface DetailsProps {
+  personalInfo: IPersonalInfo;
+  deliveryInfo: IDeliveryInfo;
+  paymentInfo: IPaymentInfo;
+  onPersonalChange: (field: keyof IPersonalInfo, value: string | boolean) => void;
+  onDeliveryChange: (field: keyof IDeliveryInfo, value: string) => void;
+  onPaymentChange: (field: keyof IPaymentInfo | 'cardData', value: string | object) => void;
+}
+
+export const Details = ({
+  personalInfo,
+  deliveryInfo,
+  // paymentInfo,
+  onPersonalChange,
+  onDeliveryChange,
+  onPaymentChange,
+}: DetailsProps) => {
   const personalFields = [
     { id: 'name', label: "Ім'я" },
     { id: 'surname', label: 'Прізвище' },
@@ -43,6 +60,10 @@ export const Details = () => {
                 <Input
                   className="h-10 w-full bg-transparent border-none rounded-none px-3 pt-2.5"
                   placeholder={field.label}
+                  value={personalInfo[field.id as keyof IPersonalInfo] as string}
+                  onChange={(e) =>
+                    onPersonalChange(field.id as keyof IPersonalInfo, e.target.value)
+                  }
                 />
               </div>
             ))}
@@ -63,14 +84,23 @@ export const Details = () => {
             <h2 className="font-body text-brown-dark font-medium text-second">Доставка</h2>
 
             <div className="w-full relative flex items-center gap-2 border-b-2 border-grey bg-transparent rounded-none focus-within:border-brown-dark focus-within:text-brown-dark">
-              <Input className="h-10 w-full bg-transparent border-0 " placeholder="Вкажіть місто" />
+              <Input
+                className="h-10 w-full bg-transparent border-0 "
+                placeholder="Вкажіть місто"
+                value={deliveryInfo.city}
+                onChange={(e) => onDeliveryChange('city', e.target.value)}
+              />
             </div>
           </div>
 
           <div className="flex flex-col w-full items-start gap-7">
             <h2 className="font-body text-brown-dark font-medium text-second">Способи доставки</h2>
 
-            <RadioGroup defaultValue="courier" className="w-full space-y-7">
+            <RadioGroup
+              defaultValue="courier"
+              className="w-full space-y-7"
+              onValueChange={(value) => onDeliveryChange('method', value)}
+            >
               {deliveryMethods.map((method) => (
                 <div key={method.id} className="flex justify-between items-start w-full">
                   <div className="flex items-center gap-2">
@@ -96,7 +126,11 @@ export const Details = () => {
           <div className="flex flex-col items-start gap-7 w-full">
             <h2 className="font-body text-brown-dark font-medium text-second">Оплата</h2>
 
-            <RadioGroup defaultValue="card" className="w-full space-y-7">
+            <RadioGroup
+              defaultValue="card"
+              className="w-full space-y-7"
+              onValueChange={(value) => onPaymentChange('method', value)}
+            >
               {paymentMethods.map((method) => (
                 <div key={method.id} className="flex flex-col w-full">
                   <div className="flex items-center gap-2">
@@ -104,8 +138,9 @@ export const Details = () => {
                       value={method.id}
                       id={method.id}
                       className="w-5 h-5 border-[0.5px] border-grey"
+                      // checked={method.selected}
                     />
-                    <label htmlFor={method.id} className=" text-brown-dark ">
+                    <label htmlFor={method.id} className=" text-brown-dark cursor-pointer">
                       {method.label}
                     </label>
                   </div>
