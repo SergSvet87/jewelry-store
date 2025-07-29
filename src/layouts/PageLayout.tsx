@@ -31,7 +31,7 @@ export const PageLayout = () => {
     <>
       <Banner />
 
-      <div className="container py-10 lg:block hidden">
+      <div className="container py-10 desktop:block hidden">
         <BreadCrumbs items={[{ label: 'Головна', href: AppRoute.ROOT }, { label: 'Каталог' }]} />
       </div>
 

@@ -43,7 +43,7 @@ export const ProductCard = ({
       className={cn(
         'group relative border-0 overflow-hidden flex flex-col justify-between transition-all',
         isLarge
-          ? 'lg:w-[650px] w-[361px] lg:h-[828px] h-[399px]'
+          ? 'lg:w-[650px] sm:w-[350px] w-[361px] lg:h-[828px] sm:h-[426px] h-[399px]'
           : isMedium
             ? 'lg:w-[315px] w-[176px] lg:h-[438px] h-[262px]'
             : 'lg:w-[259px] w-[177px] lg:h-[297px] h-[266px]',

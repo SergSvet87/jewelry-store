@@ -9,9 +9,9 @@ import {
   getProductFromGuestCartService,
   removeFromGuestCartService
 } from '@/services';
-import { IGuestCartItem, IProductItem } from '@/types/';
-import { localStorageService } from '@/api';
 import { LocalStorage } from '@/enums';
+import { localStorageService } from '@/api';
+import { IGuestCartItem, IProductItem } from '@/types/';
 
 interface GuestCartState {
   guestCart: IGuestCartItem[];
@@ -21,6 +21,7 @@ interface GuestCartState {
   loadedProducts: IProductItem[];
 
   fetchGuestCart: () => Promise<void>;
+  createGuestCart: () => Promise<void>;
 
   isInCart: (productId: number) => boolean;
   addToCart: (product: IProductItem) => Promise<void>;
@@ -40,6 +41,16 @@ export const useGuestCartStore = create<GuestCartState>((set, get) => {
 
     loadedProducts: [] as IProductItem[],
     setLoadedProducts: (products: IProductItem[]) => set({ loadedProducts: products }),
+
+    createGuestCart: async () => {
+      const guestId = get().guestId;
+      localStorage.setItem(LocalStorage.GUEST_CART_ID, guestId);
+
+      set({
+        guestCart: [],
+        cartTotalQuantity: 0,
+      });
+    },
 
     fetchGuestCart: async () => {
       set({ isLoading: true });
@@ -65,7 +76,7 @@ export const useGuestCartStore = create<GuestCartState>((set, get) => {
 
     addToCart: async (product) => {
       const initialGuestId = localStorageService.getItem(LocalStorage.GUEST_ID) as string;
-      
+
       if (!initialGuestId) return;
 
       const existing = get().guestCart.find((i) => i.productId === product.id);

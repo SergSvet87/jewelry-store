@@ -79,7 +79,8 @@ export const NewCollection = ({
                 <Link
                   to={AppRoute.PRODUCT.replace(':id', firstProduct.id.toString())
                     .replace(':category', firstProduct.categoryName)
-                    .replace(':title', `${firstProduct.name} ${firstProduct.collectionName}`)}
+                    .replace(':collection', firstProduct.collectionName)
+                    .replace(':title', `${firstProduct.name}`)}
                   className="absolute lg:bottom-5 bottom-4 z-5 lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-300"
                 >
                   <button className="btn-buy">Купити</button>
