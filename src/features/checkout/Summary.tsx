@@ -1,4 +1,3 @@
-// import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import { AppRoute } from '@/enums';
@@ -7,13 +6,6 @@ import { useSmartCart } from '@/lib/hooks/useSmartCart';
 
 export const Summary = ({isOrderReady, handleSubmit}: {isOrderReady: boolean, handleSubmit: () => void}) => {
   const { cartItemsWithData } = useSmartCart();
-  // const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   if (!cartItemsWithData.length) {
-  //     navigate(AppRoute.PRODUCTS);
-  //   }
-  // }, [cartItemsWithData]);
 
   const conditions = [
     {
