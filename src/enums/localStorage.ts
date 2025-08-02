@@ -8,7 +8,8 @@ const LocalStorage = {
   FAVORITE_CERTIFICATES: 'favorites_certificates',
   GUEST_ID: 'guest_id',
   GUEST_CART_ID: 'guest_cart_id',
-  SESSION_ID: 'session_id'
+  SESSION_ID: 'session_id',
+  CARDS: 'cards',
 } as const;
 
 export type LocalStoragePath = (typeof LocalStorage)[keyof typeof LocalStorage];

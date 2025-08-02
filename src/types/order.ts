@@ -1,5 +1,4 @@
 interface IOrderRequest {
-  id: number;
   userId: number;
   paymentMethod: string;
   deliveryMethod: string;
@@ -30,16 +29,14 @@ interface IOrderResponse {
 }
 
 interface IGuestOrderRequest {
-  id: number;
   sessionId: string;
   paymentMethod: string;
   deliveryMethod: string;
-  items: {
-    id: number;
-    cartId: number;
-    productId: number;
-    quantity: number;
-  }[];
+  firstName: string,
+  lastName: string,
+  fatherName: string,
+  phone: string,
+  email: string
 }
 
 export type { IOrderRequest, IOrderResponse, IGuestOrderRequest }

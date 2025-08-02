@@ -1,27 +1,22 @@
 import { z } from 'zod';
 
 export const personalInfoSchema = z.object({
-  name: z.string().min(2),
-  surname: z.string().min(2),
-  patronymic: z.string().min(2),
+  firstName: z.string().min(2),
+  lastName: z.string().min(2),
+  fatherName: z.string().min(2),
   phone: z.string().regex(/^\+380\d{9}$/, 'Некоректний номер'),
   email: z.string().email(),
   isGift: z.boolean(),
 });
 
 export const deliveryInfoSchema = z.object({
-  city: z.string().min(2),
+  city: z.string().min(2).max(15),
   method: z.string(),
-});
-
-export const cardDataSchema = z.object({
-  number: z.string().min(16, 'Мінімум 16 цифр'),
-  expiry: z.string().regex(/^\d{2}\/\d{2}$/, 'MM/YY'),
-  cvv: z.string().length(3, 'CVV має бути 3 цифри'),
 });
 
 export const paymentInfoSchema = z.object({
   method: z.string(),
+  cardType: z.enum(['savedCard', 'newCard']).optional(),
   cardData: z
     .object({
       number: z.string().min(16, 'Мінімум 16 цифр'),
