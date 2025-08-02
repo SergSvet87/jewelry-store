@@ -1,8 +1,8 @@
 export interface IPersonalInfo {
-  name: string;
-  surname: string;
-  patronymic: string;
+  firstName: string;
+  lastName: string;
+  fatherName: string;
   phone: string;
   email: string;
-  isGift: boolean;
+  isGift?: boolean;
 }

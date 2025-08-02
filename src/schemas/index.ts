@@ -7,7 +7,6 @@ export {
 export {
   personalInfoSchema,
   deliveryInfoSchema,
-  cardDataSchema,
   paymentInfoSchema,
   checkoutSchema,
 } from './checkoutSchema';
