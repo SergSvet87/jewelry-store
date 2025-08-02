@@ -57,7 +57,7 @@ const changeQuantityGuestCartService = async (
   const res = await request<IGuestCartResponse>({
     url: `${ApiEndpoint.GUEST_CART}/update`,
     method: HttpMethod.PUT,
-    data: {
+    params: {
       productId,
       quantity,
       guestId

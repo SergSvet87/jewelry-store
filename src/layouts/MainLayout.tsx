@@ -39,7 +39,7 @@ export const Layout = () => {
   } = useCatalogStore();
 
   const [searchParams] = useSearchParams();
-const isNewFromUrl = searchParams.get('isNew') === 'true';
+  const isNewFromUrl = searchParams.get('isNew') === 'true';
 
   const initUser = async () => {
     if (!accessToken) return;
@@ -56,10 +56,19 @@ const isNewFromUrl = searchParams.get('isNew') === 'true';
   const initCart = async () => {
     const currentUser = useUserStore.getState().currentUser;
 
-    if (currentUser) {
-      await useCartStore.getState().fetchCart();
-    } else {
-      await useGuestCartStore.getState().fetchGuestCart();
+    try {
+      if (currentUser) {
+        await useCartStore.getState().fetchCart();
+      } else {
+        const guestCartId = localStorage.getItem(LocalStorage.GUEST_CART_ID);
+        if (!guestCartId) {
+          await useGuestCartStore.getState().createGuestCart();
+        } else {
+          await useGuestCartStore.getState().fetchGuestCart();
+        }
+      }
+    } catch (error) {
+      console.error('Помилка при ініціалізації кошика:', error);
     }
   };
 
@@ -75,7 +84,7 @@ const isNewFromUrl = searchParams.get('isNew') === 'true';
 
   useEffect(() => {
     const query = getQueryParams(searchParams);
-    
+
     if (query.page) setPage(query.page);
     if (query.size) setPage(query.size);
     if (query.query) setSearch(query.query);
@@ -105,7 +114,6 @@ const isNewFromUrl = searchParams.get('isNew') === 'true';
           getAllCategories(),
           getAllCollections(),
         ]);
-        
 
         setIsNew(isNewFromUrl);
         setProducts(products);

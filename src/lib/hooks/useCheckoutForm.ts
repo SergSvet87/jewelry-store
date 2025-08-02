@@ -1,102 +1,101 @@
-import { useState } from 'react';
-
 import { useUserStore } from '@/store';
-import { createOrderService, createOrderGuestService } from '@/services';
-import { DeliveryMethod, LocalStorage, PaymentMethod } from '@/enums';
 import { useSmartCart } from './useSmartCart';
-import { localStorageService } from '@/api';
 
 export const useCheckoutForm = () => {
   const { cartItems } = useSmartCart();
   const currentUser = useUserStore.getState().currentUser;
-  const sessionId = localStorageService.getItem(LocalStorage.SESSION_ID);
-
-  const [personalInfo, setPersonalInfo] = useState({
-    name: '',
-    surname: '',
-    patronymic: '',
-    phone: '',
-    email: '',
-    isGift: false,
-  });
-
-  const [deliveryInfo, setDeliveryInfo] = useState({
-    city: '',
-    method: DeliveryMethod.COURIER,
-  });
-
-  const [paymentInfo, setPaymentInfo] = useState({
-    method: PaymentMethod.CARD,
-    cardData: {
-      number: '',
-      expiry: '',
-      cvv: '',
-    },
-  });
-
-  const handlePersonalChange = (field: string, value: string | boolean) => {
-    setPersonalInfo((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const handleDeliveryChange = (field: string, value: string) => {
-    setDeliveryInfo((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const handlePaymentChange = (field: string, value: string | object) => {
-    if (field === 'cardData' && typeof value === 'object' && value !== null) {
-      setPaymentInfo((prev) => ({
-        ...prev,
-        cardData: { ...prev.cardData, ...(value as typeof prev.cardData) },
-      }));
-    } else {
-      setPaymentInfo((prev) => ({ ...prev, [field]: value }));
-    }
-  };
-
-  const submitForm = async () => {
-    const items = cartItems.map((item) => ({
-      id: 0,
-      cartId: 0,
-      productId: Number(item.productId),
-      quantity: item.quantity,
-    }));
-
-    try {
-      if (currentUser) {
-        const payload = {
-          id: 0,
-          userId: currentUser.id,
-          paymentMethod: paymentInfo.method,
-          deliveryMethod: deliveryInfo.method,
-          items,
-        };
-        return await createOrderService(payload);
-      } else {
-        if (!sessionId) throw new Error('Session ID відсутній');
-
-        const guestPayload = {
-          id: 0,
-          sessionId: sessionId.toString(),
-          paymentMethod: paymentInfo.method,
-          deliveryMethod: deliveryInfo.method,
-          items,
-        };
-
-        return await createOrderGuestService(guestPayload);
-      }
-    } catch (error) {
-      console.error('Помилка створення замовлення:', error);
-      throw error;
-    }
-  };
 
   return {
-    personalInfo,
-    deliveryInfo,
-    paymentInfo,
-    handlePersonalChange,
-    handleDeliveryChange,
-    handlePaymentChange,
-    submitForm,
+    cartItems,
+    currentUser,
   };
 };
+
+
+// import { useState } from 'react';
+// import { useNavigate } from 'react-router-dom';
+// import { useFormContext } from 'react-hook-form';
+
+// import { useUserStore } from '@/store';
+// import { localStorageService } from '@/api';
+// import { useSmartCart } from './useSmartCart';
+// import { IFormSchema } from '@/schemas/formSchema';
+// import { AppRoute, LocalStorage } from '@/enums';
+// import { IGuestOrderRequest, IOrderRequest } from '@/types/order';
+// import { createOrderGuestService, createOrderService } from '@/services';
+
+// export const useCheckoutForm = () => {
+//   const navigate = useNavigate();
+//   const { cartItems } = useSmartCart();
+//   const currentUser = useUserStore.getState().currentUser;
+//   const sessionId = localStorageService.getItem(LocalStorage.SESSION_ID);
+
+//   const onOrderConfirmed = async (data: IFormSchema) => {
+//     const { contactsFormValue, deliveryFormValue, paymentFormValue } = state;
+
+//     const items = cartItems.map((item) => ({
+//       id: 0,
+//       cartId: 0,
+//       productId: Number(item.productId),
+//       quantity: item.quantity,
+//     }));
+
+//     const userOrderFields = {
+//       deliveryMethod: deliveryFormValue.method,
+//       paymentMethod: paymentFormValue.method,
+//       items,
+//     };
+
+//     const guestOrderFields = {
+//       deliveryMethod: deliveryFormValue.method,
+//       paymentMethod: paymentFormValue.method,
+//       firstName: contactsFormValue.firstName,
+//       lastName: contactsFormValue.lastName,
+//       fatherName: contactsFormValue.fatherName,
+//       phone: contactsFormValue.phone,
+//       email: contactsFormValue.email,
+//     };
+
+//     if (currentUser?.id) {
+//       const orderData: IOrderRequest = {
+//         userId: currentUser.id,
+//         ...userOrderFields,
+//       };
+
+//       try {
+//         const result = await createOrderService(orderData);
+//         dispatch({ type: OrderAction.CONFIRM_ORDER, payload: { orderId: result.id } });
+//         navigate(AppRoute.PRODUCTS);
+//       } catch (err) {
+//         console.error('Error creating user order:', err);
+//       }
+//     }
+
+//     // гостьовий користувач
+//     else if (sessionId) {
+//       const guestOrderData: IGuestOrderRequest = {
+//         sessionId: sessionId.toString(),
+//         ...guestOrderFields,
+//       };
+
+//       try {
+//         const result = await createOrderGuestService(guestOrderData);
+//         dispatch({ type: OrderAction.CONFIRM_ORDER, payload: { orderId: result.id } });
+//         navigate(AppRoute.PRODUCTS);
+//       } catch (err) {
+//         console.error('Error creating guest order:', err);
+//       }
+//     }
+
+//     else {
+//       console.error('No user or session ID — cannot create order.');
+//     }
+//   };
+
+//   const isOrderReady = useFormContext()?.formState?.isValid ?? false;
+
+//   return {
+//     onOrderConfirmed,
+//     isOrderReady,
+//   };
+// };

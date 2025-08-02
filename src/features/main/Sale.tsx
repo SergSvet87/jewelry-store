@@ -99,7 +99,8 @@ export const Sale = ({
                   <Link
                     to={AppRoute.PRODUCT.replace(':id', lastProduct.id.toString())
                       .replace(':category', lastProduct.categoryName)
-                      .replace(':title', `${lastProduct.name} ${lastProduct.collectionName}`)}
+                      .replace(':collection', lastProduct.collectionName)
+                      .replace(':title', `${lastProduct.name}`)}
                     className="absolute lg:bottom-5 bottom-4 z-5 lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-300"
                   >
                     <button className="btn-buy">Купити</button>

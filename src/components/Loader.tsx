@@ -1,6 +1,6 @@
 export const Loader = () => {
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-transparent z-[2000]">
+    <div className="fixed inset-0 flex items-center justify-center bg-main z-[2000]">
       <h3 className="text-accent hidden">
         JEMMA
       </h3>
