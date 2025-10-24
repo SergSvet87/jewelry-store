@@ -19,7 +19,6 @@ const getOrCreateGuestId = (): string => {
     
     document.cookie = `${LocalStorage.GUEST_ID}=${guestId}; path=/; max-age=${30 * 24 * 60 * 60}`;
   }
-  console.log('guestId: ', guestId);
 
   return guestId;
 };

@@ -18,17 +18,17 @@ const Footer = () => {
 
   return (
     <footer id="footer" className="w-full bg-brown-dark lg:py-16 py-12 text-main relative">
-      <div className="container mx-auto flex flex-col md:flex-row justify-between">
+      <div className="container grid grid-cols-1  xl:flex">
         <div
-          className="md:flex justify-start items-center hidden cursor-pointer pr-[165px]"
+          className="hidden justify-center items-center cursor-pointer sm:flex sm:hidden xl:block pr-[165px]"
           onClick={() => AppRoute.ROOT}
         >
           <div className="text-accent text-[54px] [font-family:'Aboreto'] font-normal">JEMMA</div>
         </div>
 
-        <div className="w-full grid lg:grid-cols-[1fr_1.2fr_1fr] grid-cols-[0.8fr_1.4fr_auto] gap-2 mb-5 md:text-text text-[10px] pl-auto">
+        <div className="w-full gap-2 mb-4 text-[10px] grid grid-cols-[1fr_1fr_1fr] sm:grid-cols-[0.8fr_1fr_0.2fr] sm:px-3 sm:gap-10 xl:grid-cols-[0.8fr_1.2fr_1fr] md:text-text">
           <div className="">
-            <ul className="flex flex-col gap-4">
+            <ul className="flex flex-col gap-4 sm:items-start">
               {categories.map((category) => (
                 <li key={`product-${category.id}`}>
                   <Link
@@ -73,7 +73,7 @@ const Footer = () => {
               )}
           </nav>
 
-          <ul className="flex flex-col gap-4 lg:items-start items-end">
+          <ul className="flex flex-col gap-4 items-end sm:items-start lg:items-start ">
             {socialLinks.map((link, index) => (
               <li key={`social-${index}`}>
                 <a href="#" className="">
@@ -85,7 +85,7 @@ const Footer = () => {
         </div>
 
         <div
-          className="w-full md:hidden flex justify-center items-center"
+          className="w-full flex justify-center items-center sm:mt-5 xl:hidden"
           onClick={() => AppRoute.ROOT}
         >
           <div className="text-accent text-[51px] [font-family:'Aboreto'] font-normal">JEMMA</div>

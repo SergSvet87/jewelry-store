@@ -15,6 +15,7 @@ export type { IDeliveryInfo } from './deliveryInfo';
 export type { IPaymentInfo } from './paymentInfo';
 export type { IPersonalInfo } from './personalInfo';
 export type { IFormSchema } from '../schemas/formSchema';
+export type { ICardData } from './card';
 export type { IOrderRequest, IOrderResponse, IGuestOrderRequest } from './order';
 
 export type {

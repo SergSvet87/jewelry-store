@@ -67,7 +67,7 @@ export const SingleProduct = () => {
   const firstImage = selectedProduct?.images[0];
 
   return (
-    <div className="mt-[100px]">
+    <div className="mt-[60px] xl:mt-[100px]">
       <div className="container mx-auto py-10">
         <BreadCrumbs
           items={[

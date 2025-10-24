@@ -28,7 +28,7 @@ interface CatalogState {
   setCategories: (categories: ICategoryItem[]) => void;
   setCollections: (collections: ICollectionItem[]) => void;
   setMaterials: (materials: IMaterialItem[]) => void;
-  
+
   setSelectedCategories: (categoriesName: string[]) => void;
   setSelectedCollections: (collectionsName: string[]) => void;
   setSelectedMaterials: (materials: string[]) => void;

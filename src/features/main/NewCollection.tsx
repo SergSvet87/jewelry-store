@@ -33,27 +33,27 @@ export const NewCollection = ({
 
   return (
     <section className="relative w-full section-indent">
-      <h2 className="text-center lg:mb-[61px] mb-[36px]">Колекція весна 2025</h2>
+      <h2 className="text-center xl:mb-[61px] mb-[36px]">Колекція весна 2025</h2>
 
-      <div className="container mx-auto flex flex-col md:flex-row gap-4 justify-center">
+      <div className="container grid grid-cols-1 sm:grid sm:grid-cols-2 sm:gap-5">
         {firstProduct && (
-          <Card className="w-full lg:w-[650px] group border-0">
+          <Card className="w-full xl:w-[650px] group border-0">
             <CardContent className="relative mb-3 overflow-hidden border-0">
-              <div className="flex flex-col lg:h-[790px] h-[383px] items-center justify-end gap-2.5 relative w-full bg-cover bg-center">
-                <div className="absolute inset-0 bg-black/20 opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 z-2" />
+              <div className="flex flex-col h-[429px] w-full xl:h-[790px] xl:w-full sm:h-[456px] sm:w-full  items-center justify-end gap-2.5 relative bg-cover bg-center">
+                <div className="absolute inset-0 bg-black/20 opacity-0 xl:group-hover:opacity-100 transition-opacity duration-500 z-2" />
 
                 {firstProduct.images
-                  .map((image, index) => (
+                  .map((image, index) => ( 
                     <img
                       key={index}
-                      className="absolute w-full h-full object-cover scale-100 lg:group-hover:scale-107 transition-all duration-300"
+                      className="absolute w-full h-full object-cover xl:group-hover:scale-105 ease-in-out transition-transform duration-500"
                       src={image.url}
                       alt={firstProduct.name}
                     />
                   ))
                   .slice(0, 1)}
 
-                <div className="absolute w-full top-2 lg:top-5 left-0 flex items-center justify-between lg:justify-end gap-5 px-2 lg:px-5 z-5 lg:opacity-0 lg:group-hover:opacity-100 translate-y-2 lg:group-hover:translate-y-0 transition-all duration-300">
+                <div className="absolute w-full top-2 xl:top-5 left-0 flex items-center justify-between xl:justify-end gap-5 px-2 xl:px-5 z-5 xl:opacity-0 xl:group-hover:opacity-100 translate-y-2 xl:group-hover:translate-y-0 transition-all duration-300">
                   <button className="btn w-6 h-6" onClick={() => setFavorites(firstProduct?.id)}>
                     {isInFavoriteFirst ? (
                       <FavoriteFilledIcon classname="w-6 h-6" />
@@ -81,7 +81,7 @@ export const NewCollection = ({
                     .replace(':category', firstProduct.categoryName)
                     .replace(':collection', firstProduct.collectionName)
                     .replace(':title', `${firstProduct.name}`)}
-                  className="absolute lg:bottom-5 bottom-4 z-5 lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-300"
+                  className="absolute xl:bottom-5 bottom-4 z-5 xl:opacity-0 xl:group-hover:opacity-100 transition-all duration-300"
                 >
                   <button className="btn-buy">Купити</button>
                 </Link>
@@ -90,33 +90,33 @@ export const NewCollection = ({
 
             <CardFooter className="flex items-center justify-between">
               <div className="font-medium text-brown-dark">
-                <span className="">{firstProduct.name} </span>
-                <span className="text-grey">{firstProduct.collectionName}</span>
+                <span>{firstProduct.name} </span>
+                <span className="text-grey">"{firstProduct.collectionName}"</span>
               </div>
 
-              <div className="whitespace-nowrap lg:text-second text-mobile">
+              <div className="whitespace-nowrap xl:text-second text-mobile">
                 {firstProduct.price.normalPrice}&nbsp;грн
               </div>
             </CardFooter>
           </Card>
         )}
-
-        <div className="flex flex-col gap-4 w-full lg:w-[650px]">
-          <div className="flex flex-row justify-between lg:gap-4 gap-1">
+        <div className="grid grid-cols-1">
+          <div className="flex flex-row justify-between xl:gap-4 gap-2 mt-2 sm:mt-0 xl:mt-0">
             {visibleProducts.slice(1).map((product) => (
               <ProductCard
                 key={product.id}
                 product={product}
                 size="small"
-                className="lg:w-[315px] w-[177px] lg:h-[438px] h-[262px]"
+                className="xl:h-[438px] xl:w-full sm:h-[221px] sm:w-full h-[244px] w-full transition-transform duration-500 ease-in-out hover:scale-105"
                 discounted={discounted}
               />
             ))}
           </div>
 
-          <div className="mt-auto ml-auto relative bottom-[38px] max-w-[290px] hidden lg:block">
+            <div className="mt-auto ml-auto relative max-w-[290px] hidden sm:block xl:block">
             Почни весну з блиску, який не тільки прикрашає, але і змінює настрій!
           </div>
+        
         </div>
       </div>
     </section>

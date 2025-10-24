@@ -13,7 +13,6 @@ interface ProductState {
   favorites: number[];
   scales: number[];
   selectedProduct: null | IProductItem,
-
   loading: boolean;
   hasFetched: boolean;
   isNew: boolean;

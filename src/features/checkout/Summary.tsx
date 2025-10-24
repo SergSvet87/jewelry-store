@@ -1,19 +1,11 @@
-import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { AppRoute } from '@/enums';
 import { CardCheckout } from './CardCheckout';
 import { useSmartCart } from '@/lib/hooks/useSmartCart';
 
-export const Summary = ({ handleSubmit }: { handleSubmit: () => Promise<void> }) => {
+export const Summary = ({isOrderReady, handleSubmit}: {isOrderReady: boolean, handleSubmit: () => void}) => {
   const { cartItemsWithData } = useSmartCart();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!cartItemsWithData.length) {
-      navigate(AppRoute.PRODUCTS);
-    }
-  }, [cartItemsWithData, navigate]);
 
   const conditions = [
     {
@@ -37,13 +29,6 @@ export const Summary = ({ handleSubmit }: { handleSubmit: () => Promise<void> })
 
   return (
     <div className="flex flex-col w-full max-w-[538px] items-start gap-10">
-      {/* <div className="flex items-center justify-between w-full">
-        <h4 className="text-second text-brown-dark">Промокод</h4>
-
-        <div className="flex items-center justify-center">
-          <Button variant="outline" className="">Додати</Button>
-        </div>
-      </div> */}
 
       <div className="flex w-full flex-col gap-7 ">
         {cartItemsWithData.map(({ product, quantity }) => {
@@ -76,7 +61,7 @@ export const Summary = ({ handleSubmit }: { handleSubmit: () => Promise<void> })
       </div>
 
       <div className="flex items-center w-full mb-10">
-        <button className="w-full btn-buy" onClick={handleSubmit}>
+        <button className="w-full btn-buy" type="submit" disabled={!isOrderReady} onClick={handleSubmit}>
           Замовлення підтверджую
         </button>
       </div>
