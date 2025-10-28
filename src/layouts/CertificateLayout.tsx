@@ -7,12 +7,16 @@ import { Banner } from '@/features/certificates/Banner';
 import { Filters } from '@/features/certificates/Filters';
 import { Catalog } from '@/features/certificates/Catalog';
 import { Sort } from '@/features/certificates/Sort';
+import { useWindowWidth } from '@/lib/hooks/useWindowWidth';
 
 interface CertificateLayoutProps {
   certificates: ICertificateItem[];
 }
 
 export const CertificateLayout: FC<CertificateLayoutProps> = ({ certificates }) => {
+
+  const {isDesktop} = useWindowWidth();
+
   const [sort, setSort] = useState('popular');
 
   const filtered = certificates.filter((certificate) => certificate.name.toLowerCase());
@@ -34,21 +38,35 @@ export const CertificateLayout: FC<CertificateLayoutProps> = ({ certificates }) 
     <>
       <Banner />
 
-      <div className="container py-10 lg:block hidden">
+      <div className="container mt-5 hidden md:block xl:block ">
         <BreadCrumbs
           items={[{ label: 'Головна', href: AppRoute.ROOT }, { label: 'Подарункові сертифікати' }]}
         />
       </div>
 
-      <div className="container flex gap-5 pb-section">
-        <Filters />
-
-        <div className="flex flex-col grow gap-7 ">
-          <Sort setSort={setSort} sort={sort} />
-
-          {sorted.length > 0 ? <Catalog data={sorted} /> : <div>Certificates not found</div>}
+      {isDesktop? (
+        <div className='container grid grid-cols-[0.2fr_1fr] gap-5 mt-5'>
+          <div>
+            <Filters/>
+          </div>
+          <div>
+            <Sort setSort={setSort} sort={sort} />
+            {sorted.length > 0 ? <Catalog data={sorted} /> : <div>Certificates not found</div>}
+          </div>
+        
         </div>
-      </div>
-    </>
-  );
-};
+          ) : (<div className='container grid grid-cols-1'>
+            <div className='flex w-full mt-7 mb-7 gap-3'>
+              <div className='w-1/2 md:w-1/3'>
+                  <Filters/>
+              </div>
+              <div className='w-1/2 md:w-1/3'>
+                  <Sort setSort={setSort} sort={sort} />
+              </div>
+            </div>
+            {sorted.length > 0 ? <Catalog data={sorted} /> : <div>Certificates not found</div>}
+          </div>)}
+          
+          </>
+        );
+      };

@@ -4,46 +4,26 @@ import { cn } from '@/lib/utils';
 import { AppRoute } from '@/enums';
 import { ICertificateItem } from '../types/';
 import { Card, CardContent, CardFooter } from './ui';
-import { FavoriteFilledIcon, FavoriteIcon, } from '@/assets';
+import { FavoriteFilledIcon, FavoriteIcon, ShoppingBagFilledIcon, ShoppingBagIcon } from '@/assets';
 import { useCertificateStore } from '@/store';
 
 interface CertificateCardProps {
   certificate: ICertificateItem;
-  size?: 'small' | 'medium' | 'large';
-  className?: string;
   isHidden?: boolean;
 }
 
-export const CertificateCard = ({ certificate, size = 'small', className, isHidden }: CertificateCardProps) => {
+export const CertificateCard = ({ certificate, isHidden }: CertificateCardProps) => {
   const setFavorites = useCertificateStore((state) => state.setFavorites);
   const favorites = useCertificateStore((state) => state.favorites);
 
   const isFavorite = favorites.includes(certificate.id);
 
-  const isLarge = size === 'large';
-  const isMedium = size === 'medium';
-
   return (
     <Card
-      className={cn(
-        'group relative border-0 overflow-hidden flex flex-col justify-between transition-all',
-        isLarge
-          ? 'lg:w-[650px] w-[361px] lg:h-[828px] h-[399px]'
-          : isMedium
-            ? 'lg:w-[315px] w-[176px] lg:h-[438px] h-[262px]'
-            : 'lg:w-[259px] w-[177px] lg:h-[297px] h-[266px]',
-        className,
-      )}
+      className='group relative border-0 overflow-hidden flex flex-col object-cover justify-between transition-all w-full h-[230px] md:h-[242px] lg:h-[340px]'
     >
       <CardContent
-        className={cn(
-          'flex flex-col items-center justify-end gap-2.5 relative flex-1 shrink-0 mb-3 overflow-hidden border-0 w-full bg-cover bg-center',
-          isLarge
-            ? 'lg:h-[593px] h-[383px]'
-            : isMedium
-              ? 'lg:h-[400px] h-[244px]'
-              : 'lg:h-[276px] h-[244px]',
-        )}
+        className='flex flex-col items-center justify-end gap-2.5 relative flex-1 shrink-0 mb-1 overflow-hidden border-0 w-full bg-cover bg-center'
       >
         <div className="absolute inset-0 bg-black/20 opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 z-2" />
 
@@ -61,21 +41,32 @@ export const CertificateCard = ({ certificate, size = 'small', className, isHidd
               <FavoriteIcon classname="w-6 h-6 text-brown-dark" />
             )}
           </button>
+
+           {/* <button className="btn w-6 h-6" onClick={handleCartClick}>
+                      {isInCart(product.id) ? (
+                        <ShoppingBagFilledIcon classname="w-6 h-6" />
+                      ) : (
+                        <ShoppingBagIcon classname="w-6 h-6" />
+                      )}
+            </button> */}
         </div>
 
+        
+        
         <Link
           to={AppRoute.CERTIFICATE.replace(':id', certificate.id.toString())
             .replace(':title', certificate.name)}
-          className="absolute lg:bottom-5 bottom-4 z-5 lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-300"
+          className="absolute bottom-2 lg:bottom-3 z-5 lg:opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-all duration-300"
         >
-          <button className="btn-buy">Купити</button>
+          <button className="btn-buy bg-white text-black">Купити</button>
         </Link>
       </CardContent>
 
       {isHidden ? null : (
-        <CardFooter className="flex justify-between items-center font-medium text-brown-dark">
-          <span className="">{certificate.price} грн</span>
-        </CardFooter>
+        <CardFooter className="flex font-medium text-brown-dark justify-end md:justify-between md:items-start">
+    <span className='hidden md:block md:w-1/2'>{certificate.name}</span>
+    <span className="text-end md:w-1/3">{certificate.price} грн</span>
+</CardFooter>
       )}
     </Card>
   );

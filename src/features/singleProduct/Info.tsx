@@ -95,7 +95,7 @@ export const Info = ({ product }: { product: IProductItem }) => {
           <div className="inline-flex h-8 items-center justify-center gap-3">
             {product.price.discountPercentage ? (
               <>
-                <h3 className="line-through text-grey">{product?.price.normalPrice}&nbsp;грн</h3>{' '}
+                <h3 className="line-through text-grey">{product?.price.normalPrice}&nbsp;грн</h3>
                 <h3>{product.price.discountedPrice}&nbsp;грн</h3>
               </>
             ) : (

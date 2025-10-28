@@ -30,7 +30,7 @@ export const useWindowWidth = () => {
 
     const isMobile = width < SM_MIN;
     const isTablet = width >= SM_MIN  && width <= LG_MIN; 
-    const isDesktop = width >= LG_MIN;
+    const isDesktop = width > LG_MIN;
 
     return { 
         width, 
