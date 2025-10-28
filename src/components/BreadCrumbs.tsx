@@ -9,13 +9,13 @@ interface BreadcrumbItem {
 
 export const BreadCrumbs = ({items}: {items: BreadcrumbItem[]}) => {
   return (
-    <nav className="flex items-center gap-2">
+    <nav className="flex w-[250px] md:flex md:w-max">
       {items.map((item, i) => (
-        <div key={i} className="flex items-center gap-2">
-          {i > 0 && <ChevronRight />}
+        <div key={i} className="flex items-center gap-3">
+          {i > 0 && <ChevronRight classname="opacity-40"/>}
           {item.href ? (
-            <Link to={item.href} className="text-grey hover:text-brown-dark transition-colors duration-800">
-              {item.label}
+            <Link to={item.href} className="text-greyhover:text-brown-dark transition-colors duration-800">
+              <div className="opacity-70">{item.label}</div>
             </Link>
           ) : (
             <span className="text-brown-dark">{item.label}</span>

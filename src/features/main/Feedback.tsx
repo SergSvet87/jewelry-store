@@ -3,10 +3,9 @@ import { ReviewSlider } from './ReviewSlider';
 
 export const Feedback = () => {
   return (
-    <section className="w-full relative section-indent pb-10">
+    <section className="w-full relative pb-10">
       <h2 className="text-center mb-5">Відгуки наших клієнтів</h2>
-
-      <div className="max-w-[1440px] h-[590px] mx-auto relative px-4">
+      <div className="max-w-[1440px] max-h-[690px] mx-auto relative px-4">
         <ReviewSlider
           slides={reviews}
           classname="w-full h-full review-slider"

@@ -33,35 +33,36 @@ export const Sale = ({
   return (
     <section className="relative w-full section-indent">
       <div className="container mx-auto relative">
-        <h2 className="text-center lg:mb-[61px] mb-[36px]">Розпродаж минулої колекції</h2>
+        <h2 className="text-center xl:mb-[61px] mb-[36px]">Розпродаж минулої колекції</h2>
 
-        <div className="flex flex-col md:flex-row gap-4 justify-center">
-          <div className="flex flex-col gap-4 w-full lg:w-[650px]">
-            <div className="flex flex-row justify-between lg:gap-4 gap-1">
+        <div className="grid grid-cols-1 sm:grid sm:grid-cols-2 xl:grid xl:grid-cols-2 gap-4">
+          <div className="flex flex-col gap-4 w-full order-2 xl:w-[650px] xl:order-1 sm:order-1">
+            <div className="flex flex-row justify-between xl:gap-4 gap-2">
               {visibleProducts.slice(0, 2).map((product) => (
                 <ProductCard
                   key={product.id}
                   product={product}
                   size="small"
-                  className="lg:w-[315px] w-[177px] lg:h-[438px] h-[262px]"
+                  className="h-[244px] w-full sm:w-full sm:h-[221px] xl:h-[438px] xl:w-full"
                   discounted={discounted}
                 />
               ))}
             </div>
 
-            <div className="mt-auto mr-auto relative bottom-[38px] max-w-[490px] hidden lg:block">
+            <div className="mt-auto mr-auto relative max-w-[490px] hidden sm:block xl:block">
               Кращий момент для оновлення
               <br />
               образу - знижки на розкішну колекцію!
             </div>
           </div>
 
+          <div className='xl:order-2 sm:order-1'>
           {lastProduct && (
-            <Card className="w-full lg:w-[650px] group border-0">
+            <Card className="w-full xl:w-[650px] group border-0">
               <CardContent className="relative mb-3 overflow-hidden border-0">
-                <div className="flex flex-col lg:h-[790px] h-[383px] items-center justify-end gap-2.5 relative w-full bg-cover bg-center">
-                  <div className="absolute inset-0 bg-black/20 opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 z-2" />
-
+                <div className="flex flex-col xl:h-[790px] h-[383px] items-center justify-end gap-2.5 relative w-full bg-cover bg-center ">
+                  <div className="cursor-pointer absolute inset-0 bg-black/20 opacity-0 xl:group-hover:opacity-100 transition-opacity duration-300 z-2"/>
+                 
                   {lastProduct.images
                     .map((image, index) => (
                       <img
@@ -73,7 +74,7 @@ export const Sale = ({
                     ))
                     .slice(0, 1)}
 
-                  <div className="absolute w-full top-2 lg:top-5 left-0 flex items-center justify-between lg:justify-end gap-5 px-2 lg:px-5 z-5 lg:opacity-0 lg:group-hover:opacity-100 translate-y-2 lg:group-hover:translate-y-0 transition-all duration-300">
+                  <div className="absolute w-full top-2 xl:top-5 left-0 flex items-center justify-between xl:justify-end gap-5 px-2 xl:px-5 z-5 xl:opacity-0 xl:group-hover:opacity-100 translate-y-2 xl:group-hover:translate-y-0 transition-all duration-300">
                     <button className="btn w-6 h-6" onClick={() => setFavorites(lastProduct.id)}>
                       {isInFavoriteLast ? (
                         <FavoriteFilledIcon classname="w-6 h-6" />
@@ -101,7 +102,7 @@ export const Sale = ({
                       .replace(':category', lastProduct.categoryName)
                       .replace(':collection', lastProduct.collectionName)
                       .replace(':title', `${lastProduct.name}`)}
-                    className="absolute lg:bottom-5 bottom-4 z-5 lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-300"
+                    className="absolute xl:bottom-5 bottom-4 z-5 xl:opacity-0 xl:group-hover:opacity-100 transition-all duration-300"
                   >
                     <button className="btn-buy">Купити</button>
                   </Link>
@@ -114,7 +115,7 @@ export const Sale = ({
                   <span className="text-grey">{lastProduct.collectionName}</span>
                 </div>
 
-                <div className="flex flex-col items-end gap-1 lg:text-second text-mobile">
+                <div className="flex flex-col items-end gap-1 xl:text-second text-mobile">
                   <div className="text-grey line-through whitespace-nowrap">
                     {lastProduct.price.normalPrice}&nbsp;грн
                   </div>
@@ -125,6 +126,7 @@ export const Sale = ({
               </CardFooter>
             </Card>
           )}
+          </div>
         </div>
       </div>
     </section>

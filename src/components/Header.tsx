@@ -169,7 +169,7 @@ const Header = () => {
           </nav>
 
           <div className="lg:flex lg:items-center lg:gap-[196px] h-full hidden">
-            <nav className="flex gap-10 items-center text-main">
+            <nav className="flex gap-10 sm:hidden xl:flex items-center text-main">
               {navItems
                 .filter((item) => {
                   if (item.href === '#about-us' && pathname !== AppRoute.ROOT) {

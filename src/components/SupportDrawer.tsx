@@ -21,7 +21,9 @@ export const SupportDrawer = () => {
   const currentTime = new Date();
   const currentHours = currentTime.getHours();
   const currentMinutes = currentTime.getMinutes();
-  const formattedTime = `${currentHours}:${currentMinutes}`;
+  const currentMinutesWithZero = currentMinutes <= 9 ? `0${currentMinutes}` : currentMinutes;
+  
+  const formattedTime = `${currentHours}:${currentMinutesWithZero}`;
 
   const handleInputText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
@@ -66,7 +68,8 @@ export const SupportDrawer = () => {
             <MessageSquareIcon stroke="var(--color-accent)" />
 
             <div className="w-[217px] flex flex-col gap-1 bg-accent text-text p-2">
-              <p className="text-[12px] text-brown-dark">Сьогодні, {formattedTime}</p>
+              <p className="text-[12px] text-brown-dark">Сьогодні, { formattedTime }</p>
+              
               <p className=" text-main rounded-[4px] w-fit">
                 Вітаємо в Jemma. Чим можемо вам допомогти?
               </p>

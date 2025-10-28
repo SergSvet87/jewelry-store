@@ -42,11 +42,11 @@ export const Sort = () => {
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <PopoverTrigger className="max-w-[250px] flex items-center gap-3 cursor-pointer text-second target:border-b-2 target:border-button">
+      <PopoverTrigger className="border-1 p-1 gap-1 w-full flex cursor-pointer text-[16px] font-medium align-center md:border-none lg:border-none lg:gap-5">
         <SortIcon />
         {selectedSort ? selectedSort.label : 'За популярністю'}
         <ArrowDownIcon
-          classname={cn('w-5 h-5 transition-transform duration-300', {
+          classname={cn('w-5 h-5 transition-transform duration-300 hidden md:ml-5 md:block lg:block', {
             'rotate-180': isOpen,
           })}
         />

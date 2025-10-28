@@ -19,8 +19,8 @@ export const Pagination = () => {
   };
 
   return (
-    <div className="w-full flex items-center justify-center h-7">
-      <div className="min-w-[541px] flex items-center justify-between gap-2 ">
+    <div className="w-full flex items-center justify-center h-7 mb-5 mt-5 ">
+      <div className="min-w-[541px] flex items-center justify-between gap-2  ">
         <button
           className={cn(
             'btn hover:text-accent transition-all duration-300',
