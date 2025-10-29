@@ -9,8 +9,15 @@ import { Loader } from '@/components/Loader';
 import { BreadCrumbs } from '@/components/BreadCrumbs';
 import { Info } from '@/features/singleProduct/Info';
 import { AlsoBuy } from '@/features/singleProduct/AlsoBuy';
+import { useWindowWidth } from '@/lib/hooks/useWindowWidth';
+
+import { StaticProductGallery } from '@/features/singleProduct/StaticProductGallery';
+import { MobileProductSwiper } from '@/features/singleProduct/MobileProductSwiper';
+import { ProductHeaderMobile } from '@/features/singleProduct/ProductHeaderMobile';
+import { ProductMobilePriceDetails } from '@/features/singleProduct/ProductMobilePriceDetails';
 
 export const SingleProduct = () => {
+  const {isDesktop, isTablet} = useWindowWidth();
   const { id, category, collection, title } = useParams();
   const numericId = Number(id);
   const { page, sortBy, priceRange, setCategory } = useCatalogStore();
@@ -64,11 +71,9 @@ export const SingleProduct = () => {
   if (loading) return <Loader />;
   if (!selectedProduct) return <div className="container py-10">Товар не знайдено</div>;
 
-  const firstImage = selectedProduct?.images[0];
-
   return (
-    <div className="mt-[100px]">
-      <div className="container mx-auto py-10">
+    <div className="mt-[100px] md:mt-[60px] xl:mt-[100px]">
+      <div className="container mb-5 mx-auto md:mb-0 md:py-10 xl:py-10 ">
         <BreadCrumbs
           items={[
             { label: 'Головна', href: AppRoute.ROOT },
@@ -88,30 +93,18 @@ export const SingleProduct = () => {
       </div>
 
       <div className="container mx-auto pb-[var(--section-indent)]">
-        <div className="flex gap-20 mb-20 w-full justify-between">
-          <div className="flex flex-col w-full max-w-[650px] items-start gap-5">
-            {firstImage && (
-              <img
-                key={id}
-                src={firstImage.url}
-                alt={selectedProduct.name}
-                className="w-full h-full object-cover"
-              />
-            )}
+        
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:mb-20 xl:gap-20 ">
 
-            <div className="flex items-center gap-5 w-full">
-              {selectedProduct?.images
-                .map((image, index) => (
-                  <div
-                    key={index}
-                    className="w-[315px] h-[315px] bg-cover bg-center"
-                    style={{ backgroundImage: `url(${image.url})` }}
-                    role="img"
-                  />
-                ))
-                .slice(1)}
-            </div>
-          </div>
+          {isTablet || isDesktop? (
+            <StaticProductGallery product={selectedProduct} />
+          ) : (
+            <>
+              <ProductHeaderMobile product={selectedProduct}/>
+              <MobileProductSwiper product={selectedProduct}/>
+              <ProductMobilePriceDetails product={selectedProduct}/>
+            </>
+          )}
 
           {selectedProduct && loading ? <Loader /> : <Info product={selectedProduct} />}
         </div>

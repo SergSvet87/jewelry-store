@@ -16,9 +16,7 @@ export const Catalog: FC<ICatalogProps> = ({ data }) => {
   return (
     <>
       <div
-        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 
-                      auto-rows-[266px] lg:auto-rows-[297px] 
-                      gap-2 md:gap-4 lg:gap-5 mb-12"
+        className='grid grid-cols-2 gap-3 md:grid md:grid-cols-4 md:gap-5 xl:grid xl:grid-cols-4 '
       >
         {loading
           ? Array.from({ length: 12 }).map((_, index) => (

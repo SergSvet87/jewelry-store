@@ -14,8 +14,10 @@ import {
   Button,
 } from '@/components/ui';
 import { FavoriteFilledIcon, FavoriteIcon, InfoIcon, ScalesIcon } from '@/assets';
+import { useWindowWidth } from '@/lib/hooks/useWindowWidth';
 
 export const Info = ({ product }: { product: IProductItem }) => {
+  const {isDesktop, isTablet} = useWindowWidth();
   const [active, setActive] = useState(product.productSizes?.[0] ?? null);
   const { addToCart } = useSmartCart();
   const setFavorites = useProductStore((state) => state.setFavorites);
@@ -30,10 +32,14 @@ export const Info = ({ product }: { product: IProductItem }) => {
   };
 
   return (
-    <div className="flex flex-col w-full items-start gap-8">
+    <div className="flex flex-col w-full items-start gap-4 md:gap-6">
       <div className="flex-col items-end gap-7 flex relative self-stretch w-full">
-        <div className="flex flex-col items-start gap-1 relative self-stretch w-full">
-          <div className="flex items-center justify-between relative self-stretch w-full">
+
+    {/* нижче іде умовний рендерінг, щоб правильно відображалась верстка на десткопі/таблеті/мобілці */}
+
+        {isDesktop || isTablet ? (
+          <div className="flex flex-col items-start gap-1 relative self-stretch w-full">
+           <div className="flex items-center justify-between relative self-stretch w-full">
             <h3 className="">
               {product?.name}&nbsp;&quot;{product?.collectionName}&quot;
             </h3>
@@ -54,9 +60,8 @@ export const Info = ({ product }: { product: IProductItem }) => {
           </div>
 
           <div className="self-stretch font-medium text-grey">Артикул: {product.sku}</div>
-        </div>
 
-        {product?.name === 'Ланцюжок' || product?.name === 'Каблучка' ? (
+          {product?.name === 'Ланцюжок' || product?.name === 'Каблучка' ? ( 
           <div className="flex flex-col items-start gap-4 w-full">
             <div className="flex items-center justify-between w-full">
               <div className="">Розмір</div>
@@ -72,7 +77,6 @@ export const Info = ({ product }: { product: IProductItem }) => {
                 </button>
               </div>
             </div>
-
             <div className="flex items-center gap-3 w-full">
               {product.productSizes?.map((size) => (
                 <button
@@ -90,23 +94,27 @@ export const Info = ({ product }: { product: IProductItem }) => {
             </div>
           </div>
         ) : null}
+        </div>
+        ) : null}
 
         <div className="flex flex-col items-start gap-5 relative self-stretch w-full">
-          <div className="inline-flex h-8 items-center justify-center gap-3">
-            {product.price.discountPercentage ? (
-              <>
-                <h3 className="line-through text-grey">{product?.price.normalPrice}&nbsp;грн</h3>{' '}
-                <h3>{product.price.discountedPrice}&nbsp;грн</h3>
-              </>
-            ) : (
-              <h3 className="">{product?.price.normalPrice}&nbsp;грн</h3>
-            )}
-          </div>
-
-          <div className="flex items-center justify-between gap-5 relative self-stretch w-full">
+          {isDesktop || isTablet ? (
+            <div className="inline-flex h-8 items-center justify-center gap-3">
+              {product.price.discountPercentage ? (
+                <>
+                  <h3 className="line-through text-grey">{product?.price.normalPrice}&nbsp;грн</h3>
+                  <h3>{product.price.discountedPrice}&nbsp;грн</h3>
+                </>
+              ) : (
+                <h3 className="">{product?.price.normalPrice}&nbsp;грн</h3>
+              )}
+            </div>
+          ) : null}
+         
+          <div className="flex gap-2 md:gap-5 self-stretch w-full">
             <Button
               type="button"
-              className="w-[259px]"
+              className="flex-1"
               asChild
               onClick={() => handleBuy({ product })}
             >
@@ -116,7 +124,7 @@ export const Info = ({ product }: { product: IProductItem }) => {
             <Button
               type="button"
               variant="outline"
-              className="w-[259px]"
+              className="flex-1"
               onClick={() => addToCart(product)}
             >
               Додати в кошик
@@ -201,21 +209,20 @@ export const Info = ({ product }: { product: IProductItem }) => {
             </AccordionTrigger>
             <AccordionContent>
               <div className="text-grey text-base">
-                <span className="text-grey">
-                  Доставка у відділення і поштомат Нової Пошти та кур&apos;єром Нової Пошти
-                  незалежно від суми замовлення - безкоштовно.{' '}
+                <span className="text-grey ">
+                  Доставка у відділення і поштомат Нової Пошти та кур'єром Нової Пошти
+                  незалежно від суми замовлення - безкоштовно.
                 </span>
 
-                <span className="font-medium text-grey block my-2">Оплату можна здійснити:</span>
-
-                <span className="text-grey">
-                  Готівкою при отриманні; <br />
-                  Післяплатою від Нової Пошти; <br />
-                  Картою Visa / MasterCard; <br />
-                  Скористатися сервісами LiqPay, Приват24, Monobank; <br />
-                  Оформити оплату частинами від Приват 24, Monobank; <br />
-                  Подарунковим сертифікатом ТМ &#34;Jemma&#34;.
-                </span>
+                <span className="font-medium text-grey block mt-5">Оплату можна здійснити:</span>
+                  <ul className="text-grey list-disc px-5" >
+                    <li> Готівкою при отриманні;</li>
+                    <li> Післяплатою від Нової Пошти;</li>
+                    <li>Картою Visa / MasterCard;</li>
+                    <li>Скористатися сервісами LiqPay, Приват24, Monobank;</li>
+                    <li>Оформити оплату частинами від Приват 24, Monobank;</li>
+                    <li> Подарунковим сертифікатом ТМ "Jemma".</li>
+                  </ul>
               </div>
             </AccordionContent>
           </AccordionItem>

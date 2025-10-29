@@ -115,15 +115,17 @@ export const Filters = () => {
   // };
 
   return (
-    <aside className="w-[203px] flex flex-col gap-8">
-      <div className="flex flex-col justify-between ">
-        <div className="w-full flex flex-row gap-3">
-          <img src={FilterIcon} alt="Filter icon" />
 
-          <h4 className="font-[500] text-second text-brown-dark ">Фільтри</h4>
+    <aside className="flex flex-col gap-8 mr-5 w-full">
+      <div className="flex flex-col justify-between">
+        
+        <div className="flex gap-1 border-1 p-1 md:border-none lg:border-none ">
+          <img src={FilterIcon} alt="Filter icon"/>
+
+          <h4 className="font-medium text-[16px] text-brown-dark">Фільтри</h4>
         </div>
 
-        <p className="text-grey">
+        <p className="hidden text-grey lg:block">
           Знайдено <span className="min-w-5">{products.page.totalElements}</span>{' '}
           <span>{declension(products.page.totalElements, ['товар', 'товари', 'товарів'])}</span>
         </p>
@@ -131,11 +133,11 @@ export const Filters = () => {
 
       <Accordion
         type="multiple"
-        className="w-full flex flex-col gap-8"
+        className="w-full flex flex-col gap-8 hidden xl:block" 
         defaultValue={['categories', 'collections', 'material', 'price']}
       >
-        <AccordionItem value="categories" className="border-none ">
-          <AccordionTrigger className="p-0 hover:no-underline mb-5">
+        <AccordionItem value="categories" className="border-none">
+          <AccordionTrigger className="p-0 hover:no-underline mb-5 mr-5 justify-between">
             <span className="">Категорії</span>
           </AccordionTrigger>
 
@@ -157,7 +159,7 @@ export const Filters = () => {
         </AccordionItem>
 
         <AccordionItem value="collections" className="border-none">
-          <AccordionTrigger className="p-0 hover:no-underline mb-5">
+          <AccordionTrigger className="p-0 hover:no-underline mb-5  mr-5justify-between">
             <span className="">Колекції</span>
           </AccordionTrigger>
 
@@ -181,7 +183,7 @@ export const Filters = () => {
         </AccordionItem>
 
         <AccordionItem value="material" className="border-none">
-          <AccordionTrigger className="p-0 hover:no-underline mb-5">
+          <AccordionTrigger className="p-0 hover:no-underline mb-5 mr-5 justify-between">
             <span className="">Матеріал</span>
           </AccordionTrigger>
 
@@ -203,12 +205,12 @@ export const Filters = () => {
         </AccordionItem>
 
         <AccordionItem value="price" className="border-none">
-          <AccordionTrigger className="p-0 hover:no-underline mb-5">
+          <AccordionTrigger className="p-0 hover:no-underline mb-5 mr-5 justify-between">
             <span className="">Ціна, грн</span>
           </AccordionTrigger>
 
           <AccordionContent>
-            <div className=" w-full ">
+            <div className="w-max">
               <form className="w-full flex flex-col items-start gap-4">
                 <div className="w-full flex justify-between items-center gap-1">
                   <Input

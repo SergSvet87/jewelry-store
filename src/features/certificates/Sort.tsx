@@ -25,11 +25,11 @@ export const Sort: FC<ISortProps> = ({ sort, setSort }) => {
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <PopoverTrigger className="max-w-[250px] flex items-center gap-3 cursor-pointer text-second target:border-b-2 target:border-button">
+      <PopoverTrigger className="border-1 w-full flex items-center gap-1 p-2 font-[400] text-[16px] cursor-pointer  target:border-b-2 target:border-button md:border-none xl:mb-5">
         <SortIcon />
         {selectedSort ? selectedSort : 'За популярністю'}
         <ArrowDownIcon
-          classname={cn('w-5 h-5 transition-transform duration-300', {
+          classname={cn('hidden w-5 h-5 md:block transition-transform duration-300', {
             'rotate-180': isOpen,
           })}
         />

@@ -86,7 +86,7 @@
 
 @layer components {
   .btn-buy {
-    @apply w-[168px] lg:h-[46px] h-[36px] bg-button inline-block text-main py-[10px] px-[50px] border border-solid border-transparent rounded-none outline-none cursor-pointer transition-all duration-300;
+    @apply w-[160px] h-[40px] md:w-[148px] xl:w-[168px] xl:h-[46px] bg-button inline-block text-main py-[10px] px-[50px] border border-solid border-transparent rounded-none outline-none cursor-pointer transition-all duration-300;
   }
 
   .btn-buy:hover,

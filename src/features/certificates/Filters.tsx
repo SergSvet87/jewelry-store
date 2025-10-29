@@ -39,25 +39,25 @@ export const Filters = () => {
   };
 
   return (
-    <aside className="w-[203px] flex flex-col gap-8">
-      <div className="flex flex-col justify-between ">
-        <div className="w-full flex flex-row gap-3">
+    <aside className="w-full flex flex-col gap-8">
+      <div className="flex flex-col justify-between">
+        <div className="w-full flex flex-row border-1 md:border-none p-2 gap-1">
           <img src={FilterIcon} alt="Filter icon" />
 
-          <h4 className="font-[500] text-second text-brown-dark ">Фільтри</h4>
+          <h4 className="font-[400] text-[16px] text-brown-dark">Фільтри</h4>
         </div>
 
-        <p className="text-grey">
+        <p className="text-grey hidden md:hidden xl:block">
           Знайдено <span className="min-w-5">{filteredCertificates.length}</span>{' '}
           <span>
-            {declension(filteredCertificates.length, ['сертифікат', 'сертифікати', 'сертифікатів'])}
+            {declension(filteredCertificates.length, ['товар', 'товари', 'товарів'])}
           </span>
         </p>
       </div>
 
       <Accordion
         type="multiple"
-        className="w-full flex flex-col gap-8"
+        className="w-full flex flex-col gap-8 hidden xl:block"
         defaultValue={['categories', 'collections', 'material', 'price']}
       >
         <AccordionItem value="price" className="border-none">

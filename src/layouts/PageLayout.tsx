@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 
+import { useWindowWidth } from '@/lib/hooks/useWindowWidth';
 import { AppRoute } from '@/enums';
 import { useCatalogStore, useProductStore } from '@/store';
 import { Loader } from '@/components/Loader';
@@ -14,6 +15,7 @@ const PAGE_SIZE = 12;
 export const PageLayout = () => {
   const { products, allProducts, loading, isNew, error } = useProductStore();
   const { setTotalPages } = useCatalogStore();
+  const { isTablet } = useWindowWidth();
 
   const newProducts = isNew
     ? allProducts.content.filter((product) => product.isNew)
@@ -30,19 +32,38 @@ export const PageLayout = () => {
   return (
     <>
       <Banner />
-
-      <div className="container py-10 desktop:block hidden">
+      <div className="container py-3">
         <BreadCrumbs items={[{ label: 'Головна', href: AppRoute.ROOT }, { label: 'Каталог' }]} />
       </div>
-
-      <div className="container flex gap-5 pb-section">
-        <Filters />
-
-        <div className="flex flex-col grow gap-7 ">
-          <Sort />
-
-          {newProducts.length > 0 ? <Catalog data={newProducts} /> : <div>Products not found</div>}
-        </div>
+      <div className='container'>
+          {isTablet? (
+          <div>
+            <div className='flex mb-10 mt-5'>
+              <Filters/>
+              <Sort/>
+            </div>
+            <div className='w-full'>
+            {newProducts.length > 0 ? (
+              <Catalog data={newProducts} /> 
+               ) : (
+                <div>Products not found</div>
+            )}
+            </div>
+          </div>) : (
+          <div className='flex flex-col lg:grid lg:grid-cols-[0.2fr_1fr] gap-4'> 
+            <div className="w-full lg:block">
+              <Filters/>
+            </div>
+              <div className="w-full flex flex-col gap-4"> 
+                <Sort/>
+                {newProducts.length > 0 ? (
+                  <Catalog data={newProducts} /> 
+                    ) : (
+                        <div>Products not found</div>
+                    )}
+              </div>
+          </div> 
+          )}
       </div>
     </>
   );
