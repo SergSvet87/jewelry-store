@@ -1,6 +1,6 @@
-import { FC, useEffect, useState } from "react"
+// import { FC, useEffect, useState } from "react"
 
-export const FilterBurgerMenu = () => {
+// export const FilterBurgerMenu = () => {
 
-}
+// }
 

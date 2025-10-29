@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 
 const SM_MIN = 640;   // min-width: 640px 
-const MD_MIN = 768;   // min-width: 768px
+// const MD_MIN = 768;   // min-width: 768px
 const LG_MIN = 1024;  // min-width: 1024px
-const XL_MIN = 1280;  // min-width: 1280px
+// const XL_MIN = 1280;  // min-width: 1280px
 
 export const useWindowWidth = () => {
     const [width, setWidth] = useState(0);

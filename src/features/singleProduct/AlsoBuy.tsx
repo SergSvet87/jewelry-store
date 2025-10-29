@@ -6,7 +6,7 @@ export const AlsoBuy = ({ id }: { id: number }) => {
   const products = collectionProducts.filter(product => product.id !== id);
 
   return (
-    <section className="flex flex-col items-start gap-10 w-full section-indent">
+    <section className="flex flex-col items-start gap-10 w-full section-indent mt-15">
       <h2 className="w-full font-third font-normal text-brown-dark text-2xl leading-[31.2px] tracking-[0]">
         Разом із цим товаром також купують
       </h2>
@@ -16,8 +16,8 @@ export const AlsoBuy = ({ id }: { id: number }) => {
           const firstImage = product.images[0];
 
           return (
-            <Card key={product.id} className="w-[260px] border-none shadow-none">
-              <div className="relative w-full h-[276px] bg-grey">
+            <Card key={product.id} className="w-[276px] border-none shadow-none">
+              <div className="relative w-full h-[244px] md:h-[195px] xl:w-[276px] bg-grey">
                 <img
                   className="absolute w-full h-full top-0 left-0 object-cover"
                   alt={`${product.name}`}

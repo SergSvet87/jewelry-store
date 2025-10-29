@@ -12,7 +12,6 @@ import {
 import { declension } from '@/utils/declension';
 import { useCertificateStore } from '@/store/useCertificateStore';
 import { filterCertificates } from '@/utils/filterCertificates';
-import { ArrowDownIcon, SortIcon } from '@/assets';
 
 export const Filters = () => {
   const { certificates, setCertificates } = useCertificateStore();

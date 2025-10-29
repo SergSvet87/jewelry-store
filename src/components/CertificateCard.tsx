@@ -1,10 +1,8 @@
 import { Link } from 'react-router-dom';
-import { cn } from '@/lib/utils';
-
 import { AppRoute } from '@/enums';
 import { ICertificateItem } from '../types/';
 import { Card, CardContent, CardFooter } from './ui';
-import { FavoriteFilledIcon, FavoriteIcon, ShoppingBagFilledIcon, ShoppingBagIcon } from '@/assets';
+import { FavoriteFilledIcon, FavoriteIcon} from '@/assets';
 import { useCertificateStore } from '@/store';
 
 interface CertificateCardProps {
