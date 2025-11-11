@@ -9,6 +9,7 @@ import { Catalog } from '@/components/Catalog';
 import { BreadCrumbs } from '@/components/BreadCrumbs';
 import { Sort } from '@/features/products/Sort';
 import { Filters } from '@/features/products/Filters';
+import { useShallow } from 'zustand/react/shallow';
 
 const PAGE_SIZE = 12;
 
@@ -16,6 +17,16 @@ export const PageLayout = () => {
   const { products, allProducts, loading, isNew, error } = useProductStore();
   const { setTotalPages } = useCatalogStore();
   const { isTablet } = useWindowWidth();
+  const fetchProducts = useProductStore((state) => state.fetchProducts);
+
+const filters = useCatalogStore(useShallow((state) => ({ 
+        page: state.page,
+        sortBy: state.sortBy,
+        selectedCategories: state.selectedCategories,
+        selectedCollections: state.selectedCollections,
+        selectedMaterials: state.selectedMaterials,
+        priceRange: state.priceRange,
+   })));
 
   const newProducts = isNew
     ? allProducts.content.filter((product) => product.isNew)
@@ -25,6 +36,17 @@ export const PageLayout = () => {
     const total = isNew ? newProducts.length : products.page.totalElements;
     setTotalPages(Math.max(1, Math.ceil(total / PAGE_SIZE)));
   }, [isNew, newProducts.length, products.page.totalElements, setTotalPages]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    fetchProducts(signal)
+
+    return () => {
+      controller.abort();
+    };
+  }, [fetchProducts, filters])
 
   if (loading) return <Loader />;
   if (error) return <div className="text-center py-20 text-error">{error}</div>;

@@ -36,7 +36,17 @@ interface CatalogState {
   setLoading: (value: boolean) => void;
 }
 
-export const useCatalogStore = create<CatalogState>((set) => ({
+const areArraysEqual = (a: string[], b: string[]) => {
+  if (a.length !== b.length) return false;
+  const sortedA = [...a].sort();
+  const sortedB = [...b].sort();
+  for (let i = 0; i < sortedA.length; i++) {
+    if (sortedA[i] !== sortedB[i]) return false;
+  }
+  return true;
+};
+
+export const useCatalogStore = create<CatalogState>((set, get) => ({
   page: 1,
   totalPages: 1,
   category: null,
@@ -63,9 +73,29 @@ export const useCatalogStore = create<CatalogState>((set) => ({
   setCategories: (categories) => set({categories}),
   setCollections: (collections) => set({collections}),
 
-  setSelectedCategories: (categoriesName) => set({ selectedCategories: categoriesName }),
-  setSelectedCollections: (collectionsName) => set({ selectedCollections: collectionsName }),
-  setSelectedMaterials: (materials) => set({ selectedMaterials: materials }),
-  setPriceRange: (range) => set({ priceRange: range }),
+  setSelectedCategories: (categoriesName) => {
+        const currentCategories = get().selectedCategories;
+        
+        if (!areArraysEqual(categoriesName, currentCategories)) {
+            set({ 
+                selectedCategories: categoriesName, 
+                page: 1 
+            });
+        }
+  },
+
+  setSelectedCollections: (collectionsName) => {
+        const currentCollections = get().selectedCollections;
+        
+        if (!areArraysEqual(collectionsName, currentCollections)) {
+            set({ 
+                selectedCollections: collectionsName, 
+                page: 1 
+            });
+        }
+  },
+
+  setSelectedMaterials: (materials) => set({ selectedMaterials: materials, page: 1 }),
+  setPriceRange: (range) => set({ priceRange: range, page: 1 }),
   setLoading: (value) => set({ loading: value }),
 }));

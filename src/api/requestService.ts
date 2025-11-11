@@ -9,6 +9,7 @@ interface RequestOptions<T = any> {
   data?: T;
   params?: Record<string, any>;
   headers?: Record<string, string>;
+  signal?: AbortSignal;
 }
 
 export const request = async <TResponse = any, TData = any>(
