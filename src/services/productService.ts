@@ -1,16 +1,37 @@
 import { request } from "@/api/requestService";
 import { ApiEndpoint, HttpMethod } from "@/enums";
-import { IProductItem, IProducts, ISearchParams } from "@/types/";
+import { IProductItem, IProducts, ISearchParams, IFilterParams } from "@/types/";
 
 const getAllProducts = async (
-  page: number,
-  pageSize?: number
+  filters: IFilterParams, 
+  signal?: AbortSignal 
 ): Promise<IProducts> => {
+    const params: Record<string, any> = {};
+
+    if (filters.page !== undefined) params.page = filters.page;
+    if (filters.size !== undefined) params.size = filters.size;
+    if (filters.sortBy) params.sortBy = filters.sortBy;
+    if (filters.minPrice !== undefined) params.minPrice = filters.minPrice;
+    if (filters.maxPrice !== undefined) params.maxPrice = filters.maxPrice;
+
+    if (filters.categories && filters.categories.length > 0) {
+        params.categories = filters.categories.join(',');
+    }
+
+    if (filters.collections && filters.collections.length > 0) {
+        params.collections = filters.collections.join(',');
+    }
+    
+    if (filters.materials && filters.materials.length > 0) {
+        params.materials = filters.materials.join(',');
+    }
+    
   return await request<IProducts>({
     url: ApiEndpoint.PRODUCTS,
     method: HttpMethod.GET,
-    params: { page, pageSize },
-  });
+    params, 
+    signal,
+});
 };
 
 const fetchProductById = async (id: number): Promise<IProductItem> => {
@@ -73,20 +94,30 @@ const getSearchProducts = async (
     sortBy
   }: ISearchParams
 ): Promise<IProducts> => {
+
+  const params : Record<string, any> = {
+    page: page - 1,
+    size,
+    query,
+    minPrice,
+    maxPrice,
+    sortBy,
+  }
+
+  if(categories && categories.length > 0 ) {
+    params.categories = categories.join(",")
+  }
+  if(collections && collections.length > 0) {
+    params.collections = collections.join(",")
+  }
+  if(materials && materials.length > 0) {
+    params.materials = materials.join(',');
+  }
+
   return await request<IProducts>({
     url: ApiEndpoint.PRODUCTS_SEARCH,
     method: HttpMethod.GET,
-    params: {
-      page: page - 1,
-      size,
-      query,
-      minPrice,
-      maxPrice,
-      categories,
-      collections,
-      materials,
-      sortBy,
-    },
+    params: params
   });
 };
 

@@ -2,9 +2,13 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 import { LocalStorage } from '@/enums';
-import { IProductItem } from '@/types/';
+import { IFilterParams, IProductItem } from '@/types/';
 import { localStorageService } from '@/api';
 import { IProducts } from '@/types/products';
+
+import { useCatalogStore } from './useCatalogStore';
+import { getAllProducts } from '@/services';
+import { number } from 'zod';
 
 interface ProductState {
   products: IProducts;
@@ -28,6 +32,7 @@ interface ProductState {
   setFavorites: (id: number) => void;
   setLoading: (value: boolean) => void;
   setHasFetched: (value: boolean) => void;
+  fetchProducts: (signal: AbortSignal) => Promise<void>;
 }
 
 export const useProductStore = create<ProductState>()(devtools((set, get) => ({
@@ -84,4 +89,43 @@ export const useProductStore = create<ProductState>()(devtools((set, get) => ({
   },
 
   setLoading: (value) => set({ loading: value }),
+
+  fetchProducts: async (signal: AbortSignal) => {
+    const { 
+      page, 
+      sortBy, 
+      selectedCategories, 
+      selectedCollections, 
+      selectedMaterials, 
+      priceRange 
+    } = useCatalogStore.getState(); 
+
+    try {
+      set({ loading: true, error: null });
+
+      const filters:IFilterParams = {
+        page: page - 1, 
+        size: 12, 
+        sortBy: sortBy,
+        categories: selectedCategories,
+        collections: selectedCollections,
+        materials: selectedMaterials,
+        minPrice: priceRange[0],
+        maxPrice: priceRange[1],
+      };
+
+      const res = await getAllProducts(filters, signal); 
+
+      // 4. Оновлення стану
+      set({ products: res, loading: false });
+
+    } catch (err) {
+      if (err instanceof Error && err.name !== 'AbortError') {
+        set({ error: (err as Error).message, loading: false });
+      } else {
+        set({ loading: false });
+      }
+    }
+  },
+
 })));

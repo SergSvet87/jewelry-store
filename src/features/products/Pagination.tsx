@@ -1,15 +1,19 @@
 import { useSearchParams } from 'react-router-dom';
 import cn from 'classnames';
 
+import { useEffect } from 'react';
+
 import { ChevronRight } from '@/assets';
 import { useCatalogStore } from '@/store';
 import { getQueryParams, setQueryParams } from '@/utils/urlParams';
 
 export const Pagination = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { page, totalPages } = useCatalogStore();
+  const { page, totalPages, setPage } = useCatalogStore();
 
   const handlePageChange = (newPage: number) => {
+    setPage(newPage)
+
     setSearchParams(
       setQueryParams({
         ...getQueryParams(searchParams),
@@ -17,6 +21,13 @@ export const Pagination = () => {
       }),
     );
   };
+
+  useEffect(() => {
+    const urlPage = Number(searchParams.get('page') || 1);
+    if(urlPage !== page) {
+      setPage(urlPage);
+    }
+  },[searchParams, setPage, page])
 
   return (
     <div className="w-full flex items-center justify-center h-7 mb-5 mt-5 ">
