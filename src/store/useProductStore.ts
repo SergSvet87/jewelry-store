@@ -8,7 +8,6 @@ import { IProducts } from '@/types/products';
 
 import { useCatalogStore } from './useCatalogStore';
 import { getAllProducts } from '@/services';
-import { number } from 'zod';
 
 interface ProductState {
   products: IProducts;

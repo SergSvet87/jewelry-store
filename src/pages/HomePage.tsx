@@ -33,10 +33,14 @@ export const HomePage = () => {
         const PAGE = 0;
         const SIZE = 100;
 
-        const res = await getAllProducts(PAGE, SIZE);
-        setAllProducts(res);
+       const filters = {
+        page : PAGE,
+        size : SIZE
+       }
 
-        setHasFetched(true);
+       const res = await getAllProducts(filters);
+       setAllProducts(res);
+       setHasFetched(true);
 
       } catch (err) {
         console.error('Помилка завантаження продуктів:', err);
