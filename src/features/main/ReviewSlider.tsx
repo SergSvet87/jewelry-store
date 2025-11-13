@@ -9,8 +9,12 @@ import { SliderProps } from '@/types/';
 import { Card, CardContent } from '@/components/ui';
 import { SlideDataReview } from '@/types/mainSlider';
 
+import { useNavigate } from 'react-router-dom';
+
 export const ReviewSlider: FC<SliderProps> = ({ slides, classname, pagination, space, loop }) => {
   const [, setActiveIndex] = useState(0);
+
+  const navigate = useNavigate();
 
    const swiperBreakpoints = {
     0 : {
@@ -20,7 +24,7 @@ export const ReviewSlider: FC<SliderProps> = ({ slides, classname, pagination, s
       slidesPerView : 3,
     },
     1440 : {
-      slidesPerView : 4,
+      slidesPerView: 4,
     }
   }
 
@@ -37,7 +41,7 @@ export const ReviewSlider: FC<SliderProps> = ({ slides, classname, pagination, s
         loop={loop}
       >
         {slides &&
-          slides.map((slide: SlideDataReview) => (
+          slides.map((slide: SlideDataReview) => (           
             <SwiperSlide
               key={slide?.id}
               className="flex justify-center transition-all duration-500 sm:mb-10"
@@ -80,12 +84,14 @@ export const ReviewSlider: FC<SliderProps> = ({ slides, classname, pagination, s
                         {slide.text}
                       </p>
 
-                      {slide.hasProductImage && (
+                      {/* Фотографію товару вирішили видалити */}
+                      {/* {slide.hasProductImage && (
                         <img
                           src={slide.image}
                           alt="Product Image"
                           className='w-full h-auto object-cover mt-2'/>
-                      )}
+                      )} */} 
+ 
                     </div>
 
                     <div className="flex items-center justify-start gap-2">
@@ -102,7 +108,19 @@ export const ReviewSlider: FC<SliderProps> = ({ slides, classname, pagination, s
                         <p className="text-[12px] sm:text-[16px] text-gray-500">{slide.location}</p>
                       </div>
                     </div>
-                  </CardContent>
+                   
+                      <button 
+                      onClick={() => 
+                        navigate(
+                         `/products/${slide.productId}/${slide.productCategory}/${slide.productCollection}/${slide.productTitle}`
+                        )
+                    }
+                      className={cn(
+                        'text-[20px] border-1 p-2 mt-5 mb-2 cursor-pointer hover:bg-black hover:text-white', isActive? "block" : "hidden",
+                      )}>Переглянути товар
+                      </button>
+
+             </CardContent>
                 </Card>
               )}
             </SwiperSlide>

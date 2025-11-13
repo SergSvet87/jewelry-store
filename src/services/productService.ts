@@ -13,6 +13,7 @@ const getAllProducts = async (
     if (filters.sortBy) params.sortBy = filters.sortBy;
     if (filters.minPrice !== undefined) params.minPrice = filters.minPrice;
     if (filters.maxPrice !== undefined) params.maxPrice = filters.maxPrice;
+    if(filters.isNew !==undefined) params.isNew = filters.isNew;
 
     if (filters.categories && filters.categories.length > 0) {
         params.categories = filters.categories.join(',');

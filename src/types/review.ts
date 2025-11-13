@@ -1,5 +1,10 @@
 export interface IReviewItem {
+
   id: number,
+  productId : number;
+  productCategory: string,
+  productCollection: string;
+  productTitle: string;
   rating: number;
   date: string;
   text: string;

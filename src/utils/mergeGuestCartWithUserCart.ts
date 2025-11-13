@@ -4,7 +4,7 @@ import { useCartStore } from "@/store";
 import { IGuestCartItem } from "@/types/";
 
 export const mergeGuestCartWithUserCart = async (guestItems: IGuestCartItem[], userId: number) => {
-  console.log('Merging guest cart with user cart...');
+  // console.log('Merging guest cart with user cart...');
   
   try {
     await Promise.all(guestItems.map(item =>

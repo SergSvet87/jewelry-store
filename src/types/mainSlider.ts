@@ -6,6 +6,10 @@ interface SlideData {
 }
 
 export interface SlideDataReview extends SlideData {
+ productId?: number; 
+  productCategory?: string; 
+  productCollection?: string; 
+  productTitle?: string;
   id?: number;
   rating?: number | null;
   date?: string;
