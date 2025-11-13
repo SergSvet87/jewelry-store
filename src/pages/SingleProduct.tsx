@@ -87,7 +87,7 @@ export const SingleProduct = () => {
                 maxPrice: priceRange[1],
               })}`,
             },
-            { label: title?.toString() || '' },
+            { label: title?.toString() + ` "${collection}"` || '' },
           ]}
         />
       </div>
@@ -106,10 +106,10 @@ export const SingleProduct = () => {
             </>
           )}
 
-          {selectedProduct && loading ? <Loader /> : <Info product={selectedProduct} />}
+          {selectedProduct ? <Info product={selectedProduct} /> : null}
         </div>
 
-        {selectedProduct && loading ? <Loader /> : <AlsoBuy id={numericId} />}
+        {selectedProduct ? <AlsoBuy id={numericId} /> : null}
       </div>
     </div>
   );

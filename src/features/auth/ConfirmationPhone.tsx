@@ -76,7 +76,6 @@ export const PopUpConfirmationPhone = () => {
   };
 
   const resendCode = () => {
-    console.log('Resend code for phone:', phone);
     setError(null);
     setCode(['', '', '', '']);
     setShowResend(false);

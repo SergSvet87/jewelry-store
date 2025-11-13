@@ -15,8 +15,6 @@ export const MobileProductSwiper:FC<MobileProductSwiperProps> = ({product}) => {
     const [thumbsSwiper] = useState(null);
     const images = product.images || [];
 
-    console.log(images)
-
     return(
 
         <div className='w-full'>

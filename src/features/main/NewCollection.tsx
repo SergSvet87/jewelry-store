@@ -18,12 +18,12 @@ export const NewCollection = ({
   discounted: boolean;
   products: IProductItem[];
 }) => {
-  const newCol = products.filter((p) => p.isNew === true);
+  // const newCol = products.filter((p) => p.isNew === true);
   const { addToCart, removeFromCart, isInCart } = useSmartCart();
   const setFavorites = useProductStore((state) => state.setFavorites);
 
   const favorites = useProductStore((state) => state.favorites);
-  const visibleProducts = newCol.slice(0, 3);
+  const visibleProducts = products.slice(4,7);
 
   const firstProduct = visibleProducts[0];
   const isInFavoriteFirst = favorites.includes(firstProduct?.id);
