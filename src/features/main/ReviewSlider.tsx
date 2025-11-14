@@ -75,10 +75,10 @@ export const ReviewSlider: FC<SliderProps> = ({ slides, classname, pagination, s
                       <p
                         className={cn(
                           'transition-all duration-500 ease-in-out',
-                          isActive ? 'max-h-[356px]' : 'max-h-[275px]',
-                          !slide.hasProductImage? "line-clamp-14" : null,
-                          slide.hasProductImage && isActive && 'line-clamp-5',
-                          slide.hasProductImage && !isActive && 'line-clamp-5',
+                          isActive ? 'max-h-[356px] line-clamp-9 md:text-[20px] md:line-clamp-10' : 'max-h-[275px] line-clamp-9 md:text-[20px] md:line-clamp-10',
+                          !slide.hasProductImage? "line-clamp-5" : null,
+                          // slide.hasProductImage && isActive && 'line-clamp-1',
+                          // slide.hasProductImage && !isActive && 'line-clamp-5',
                         )}
                       >
                         {slide.text}
@@ -116,7 +116,7 @@ export const ReviewSlider: FC<SliderProps> = ({ slides, classname, pagination, s
                         )
                     }
                       className={cn(
-                        'text-[20px] border-1 p-2 mt-5 mb-2 cursor-pointer hover:bg-black hover:text-white', isActive? "block" : "hidden",
+                        'text-[12px] md:text-[20px] border-1 p-2 mt-5 mb-2 cursor-pointer hover:bg-black hover:text-white', isActive? "block" : "hidden",
                       )}>Переглянути товар
                       </button>
 
