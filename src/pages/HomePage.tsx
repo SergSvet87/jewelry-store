@@ -14,6 +14,7 @@ import { useProductStore } from '@/store';
 import { getAllProducts } from '@/services';
 
 export const HomePage = () => {
+
   const {
     allProducts,
     setAllProducts,
