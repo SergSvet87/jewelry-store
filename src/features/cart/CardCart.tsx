@@ -7,6 +7,7 @@ import { IProductItem } from '@/types/';
 import { useModalStore } from '@/store';
 import { useSmartCart } from '@/lib/hooks/useSmartCart';
 import { calculateItemTotalPrice } from '@/utils/calculateItemTotal';
+import { useWindowWidth } from '@/lib/hooks/useWindowWidth';
 
 interface ICardCart {
   item: IProductItem;
@@ -16,6 +17,7 @@ interface ICardCart {
 }
 
 export const CardCart: FC<ICardCart> = ({ item, quantity }) => {
+  const {isTablet, isDesktop} = useWindowWidth();
   const [isHovering, setIsHovering] = useState(false);
   const { increaseQuantity, decreaseQuantity, removeFromCart } = useSmartCart();
 
@@ -35,26 +37,107 @@ export const CardCart: FC<ICardCart> = ({ item, quantity }) => {
   };
 
   return (
-    <article className="flex justify-between gap-5 h-[202px]">
-      <div className="w-[202px] h-auto">
-        {item.images.slice(0, 1).map((image, index) => (
-          <img
-            key={index}
-            src={image.url}
-            alt={item.name}
-            className="w-full h-full object-cover"
-          />
+  <>
+    {isTablet || isDesktop? (
+      <article>
+        <div className='flex gap-5'>
+          {item.images.slice(0,1).map((image, index) => (
+           <img 
+           key={index}
+           src={image.url} 
+           alt={item.name}
+           className='object-cover w-[202px] h-[202px]' />
+          ))}
+           
+          <div className='text-[16px] font-medium w-full pr-3'>
+            <div className='text-start flex justify-between'>
+              {item.categoryName} "{item.collectionName}"
+              <div>
+                <Button
+              variant="ghost"
+              className="!p-0 mt-[-15px]"
+              onClick={handleDeleteProduct}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              <DeleteIcon
+                classname={cn(
+                  'w-4 h-4 transition-all duration-300',
+                  isHovering ? 'text-brown-dark' : 'text-grey',
+                )}
+              />
+                </Button>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-end gap-5 pt-30">
+              <div className="ml-[-10px] flex items-center gap-1">
+              <Button
+                variant="ghost"
+                className="w-[20px] h-[20px] text-grey text-[30px] hover:text-brown-dark disabled:text-grey disabled:cursor-default transition-all duration-300"
+                disabled={quantity === 1}
+                onClick={handleDecrease}
+              >
+                -
+              </Button>
+
+              <span className="w-[30px] h-[30px] border border-grey flex items-center justify-center">
+                {quantity}
+              </span>
+
+              <Button
+                variant="ghost"
+                className="!w-[20px] h-[20px] text-grey text-[30px] hover:text-brown-dark transition-all duration-300"
+                onClick={() => increaseQuantity(item.id)}
+              >
+                +
+              </Button>
+                </div>
+              <div className="min-w-[120px] text-second font-[500] font-main text-button">
+                {calculateItemTotalPrice(quantity, item.price.discountedPrice ?? item.price.normalPrice).toFixed(2)} грн
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    ) : (
+      <article>
+      <div className='flex gap-5 mt-5 w-full h-full'>
+        {item.images.slice(0,1).map((image, index) => (
+          <img 
+          key={index}
+          src={image.url} 
+          alt={item.name}
+          className='object-cover w-[100px] h-[90px]' />
         ))}
+
+        <div className='w-full flex justify-between font-medium pr-2'>
+          <div>
+            {item.categoryName} "{item.collectionName}"
+          </div>
+          <div>
+              <Button
+            variant="ghost"
+            className="!p-0 mt-[-15px]"
+            onClick={handleDeleteProduct}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <DeleteIcon
+              classname={cn(
+                'w-4 h-4 transition-all duration-300',
+                isHovering ? 'text-brown-dark' : 'text-grey',
+              )}
+            />
+              </Button>
+          </div>
+        </div>
       </div>
-
-      <div className="flex flex-col justify-between pb-[53px] relative flex-1">
-        <div className="pr-[30px] flex-wrap text-left">{item.name}&nbsp;&quot;{item?.collectionName}&quot;</div>
-
-        <div className="flex items-center justify-end gap-5">
-          <div className="flex items-center gap-1 ">
+        <div className="flex items-center justify-between gap-5 pt-6">
+          <div className="ml-[-10px] flex items-center gap-1">
             <Button
               variant="ghost"
-              className="!w-[20px] h-[20px] text-grey text-[30px] hover:text-brown-dark disabled:text-grey disabled:cursor-default transition-all duration-300"
+              className="w-[20px] h-[20px] text-grey text-[30px] hover:text-brown-dark disabled:text-grey disabled:cursor-default transition-all duration-300"
               disabled={quantity === 1}
               onClick={handleDecrease}
             >
@@ -74,26 +157,13 @@ export const CardCart: FC<ICardCart> = ({ item, quantity }) => {
             </Button>
           </div>
 
-          <div className="min-w-[120px] text-second font-[500] font-main text-button">
+          <div className="min-w-[120px] text-second font-[500] font-main text-button pr-2">
             {calculateItemTotalPrice(quantity, item.price.discountedPrice ?? item.price.normalPrice).toFixed(2)} грн
           </div>
         </div>
-
-        <Button
-          variant="ghost"
-          className="absolute top-0 right-0 h-auto !p-0"
-          onClick={handleDeleteProduct}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
-          <DeleteIcon
-            classname={cn(
-              'w-5 h-5 transition-all duration-300',
-              isHovering ? 'text-brown-dark' : 'text-grey',
-            )}
-          />
-        </Button>
-      </div>
+        
     </article>
+    )  }  
+    </>
   );
 };

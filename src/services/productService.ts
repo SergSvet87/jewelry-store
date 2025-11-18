@@ -26,9 +26,9 @@ const getAllProducts = async (
     if (filters.materials && filters.materials.length > 0) {
         params.materials = filters.materials.join(',');
     }
-    
+
   return await request<IProducts>({
-    url: ApiEndpoint.PRODUCTS,
+    url: ApiEndpoint.PRODUCTS_SEARCH,
     method: HttpMethod.GET,
     params, 
     signal,

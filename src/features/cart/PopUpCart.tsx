@@ -30,15 +30,15 @@ export const PopUpCart = () => {
   );
 
   return (
-    <Dialog open={isOpen} onOpenChange={close}>
+    <Dialog open={isOpen} onOpenChange={close} >
       <DialogTrigger className="hidden" />
       <DialogContent
         className={cn(
-          'flex flex-col items-center p-7 !shadow-main',
-          cartItemsWithData.length > 0 ? 'max-w-[650px] gap-7' : 'max-w-[363px] gap-15',
+          'flex flex-col items-center p-5 !shadow-mainv',
+          cartItemsWithData.length > 0 ? 'w-full gap-7 h-full mt-20 md:max-w-[650px] md:max-h-[750px] md:m-0' : 'max-w-[363px] gap-15',
         )}
       >
-        <DialogTitle className="w-full text-center text-second font-[500] font-main">
+        <DialogTitle className="w-full text-center text-second font-[500] font-main mt-8">
           Кошик
         </DialogTitle>
 
@@ -47,7 +47,7 @@ export const PopUpCart = () => {
         <div className="w-full text-center">
           {cartItemsWithData && cartItemsWithData.length > 0 ? (
             <div className="w-full flex flex-col gap-1">
-              <div className="flex flex-col gap-7 overflow-y-auto max-h-[440px] pr-5 custom-scroll">
+              <div className="flex flex-col gap-7 overflow-y-auto max-h-[440px] custom-scroll">
                 {cartItemsWithData.map(({ product, quantity }) => {
 
                   if (!product) return null;
@@ -70,8 +70,8 @@ export const PopUpCart = () => {
 
         <DialogFooter className="w-full">
           {cartItemsWithData && cartItemsWithData.length > 0 ? (
-            <div className="flex items-center justify-between gap-5">
-              <Button variant="outline" className="w-[287px]" asChild onClick={() => close()}>
+            <div className="flex flex-col items-center gap-8 md:flex-row md:gap-5 md:mr-4">
+              <Button variant="outline" className="w-full order-2 md:order-0 md:flex-grow md:basis-1/2" asChild onClick={() => close()}>
                 <Link
                   to={`${AppRoute.PRODUCTS}${setQueryParams({
                     page,
@@ -84,7 +84,7 @@ export const PopUpCart = () => {
                 </Link>
               </Button>
 
-              <Button className="w-[287px]" asChild onClick={() => close()}>
+              <Button className="w-full md:flex-grow md:basis-1/2" asChild onClick={() => close()}>
                 <Link to={AppRoute.CHECKOUT}>Оформити замовлення</Link>
               </Button>
             </div>
