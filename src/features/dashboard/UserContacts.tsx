@@ -5,16 +5,16 @@ export const UserContacts = () => {
   const user = useUserStore((state) => state.currentUser);
 
   return (
-    <div className="flex items-center gap-5 pl-2 w-full mb-5">
+    <div className="text-[20px] flex items-center gap-5 pl-2 w-full mb-5 leading-[130%]">
       <UserIcon classname="text-[var(--brown-dark)]" />
 
       <div className="flex flex-col items-start justify-center gap-3">
-        <div className="text-[var(--button)] text-[length:var(--text)] font-[500] ">
+        <div className="text-[#5B242A] font-medium ">
           {user?.firstName} {user?.lastName}
         </div>
 
-        <div className="text-[var(--grey)] space-x-1">{user?.phone}</div>
-      </div>
+        <div className="text-[16px] text[#727272]">{user?.phone}</div>
+      </div> 
     </div>
   );
 };

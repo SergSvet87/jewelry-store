@@ -19,19 +19,21 @@ export const Sidebar = () => {
   };
 
   return (
-    <aside className="w-[426px] bg-transparent">
+    <aside className="flex flex-col h-[calc(100vh-100px)] w-full">
       <UserContacts />
 
+      <div className='border-1 border-gray-400 '/>
+
       <nav className="pl-[10px] py-4 mb-[98px]">
-        <ul className="flex flex-col items-start gap-8 p-0 w-full">
+        <ul className="flex flex-col items-start p-0 w-full">
           {menuItems.map((item, index) => {
             return (
-              <li key={index} className="w-full">
+              <li key={index} className="w-full h-15">
                 <NavLink
                   to={item.href}
                   end
                   className={({ isActive }) =>
-                    `${linkClass} ${isActive ? activeClass : 'text-grey'}`
+                    `${linkClass} text-[20px] font-medium md:${isActive ? activeClass : 'text-grey'}`
                   }
                 >
                   {({ isActive }) => (
@@ -52,7 +54,7 @@ export const Sidebar = () => {
       </nav>
 
       <button
-        className="btn text-grey hover:text-brown-dark"
+        className="btn mt-auto pl-6 mb-4 text-[16px] text-[#5B242A]"
         onClick={handleLogout}
       >
         Вийти

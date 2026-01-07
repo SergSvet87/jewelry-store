@@ -36,9 +36,9 @@ const addToCartService = async (
     url: `${ApiEndpoint.CART}/add`,
     method: HttpMethod.POST,
     data: {
-      userId,
       productId,
-      quantity
+      quantity,
+      userId,
     },
   });
 
@@ -53,7 +53,6 @@ const removeFromCartService = async (
     url: `${ApiEndpoint.CART}/items/${productId}`,
     method: HttpMethod.DELETE,
     params: {
-      productId,
       userId
     },
   });
@@ -62,23 +61,21 @@ const removeFromCartService = async (
 };
 
 const changeQuantityCartService = async (
-  cartId: number,
+  cartId: number, 
+  cartItemId: number, 
   productId: number,
   quantity: number,
-  userId: number,
+  userId: number
 ): Promise<ICartItem> => {
-  const res = await request<ICartItem>({
-    url: `${ApiEndpoint.CART}/cart/${cartId}/items/${productId}`,
-    method: HttpMethod.PUT,
+  return await request<ICartItem>({
+    url: `${ApiEndpoint.CART}/${cartId}/items/${cartItemId}`, 
+    method: HttpMethod.PUT, 
     data: {
-      cartId,
       productId,
       quantity,
       userId
     },
   });
-
-  return res;
 };
 
 const clearCartService = async (userId: number): Promise<ICartItem> => {

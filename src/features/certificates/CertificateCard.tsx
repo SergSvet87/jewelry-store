@@ -28,7 +28,7 @@ export const CertificateCard = ({ item }: { item: ICertificateItem }) => {
                 ) : (
                   <FavoriteIcon classname="w-5 h-5 text-brown-dark" />
                 )} */}
-                <FavoriteIcon classname="w-6 h-6 text-brown-dark" />
+                <FavoriteIcon />
               </button>
             </div>
 

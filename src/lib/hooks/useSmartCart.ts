@@ -9,6 +9,7 @@ export const useSmartCart = () => {
   const currentUser = useUserStore((state) => state.currentUser);
   const getProductById = useProductStore((state) => state.getProductById);
   const guestProducts = useGuestCartStore((state) => state.loadedProducts);
+  const { cartProducts } = useCartStore();
 
   const {
     addToCart: addUserToCart,
@@ -40,20 +41,20 @@ export const useSmartCart = () => {
   }, [guestCart, guestCartQuantity, isGuest]);
 
   const cartItemsWithData = useMemo(() => {
-    const rawItems = isGuest ? guestCart : userCart?.items || [];
+  const rawItems = isGuest ? guestCart : userCart?.items || [];
 
-    return rawItems
-      .map(({ productId, quantity }) => {
-        const product = isGuest
-          ? guestProducts.find(p => p.id === productId)
-          : getProductById(productId);
+  return rawItems
+    .map(({ productId, quantity }) => {
+      const product = isGuest
+        ? guestProducts.find(p => p.id === productId)
+        : cartProducts.find(p => p.id === productId) || getProductById(productId);
 
-        if (!product) return null;
+      if (!product) return null;
 
-        return { product, quantity };
-      })
-      .filter(Boolean) as { product: IProductItem; quantity: number }[];
-  }, [isGuest, guestCart, userCart, getProductById, guestProducts]);
+      return { product, quantity };
+    })
+    .filter(Boolean) as { product: IProductItem; quantity: number }[];
+}, [isGuest, guestCart, userCart, cartProducts, getProductById, guestProducts]);
 
   const cartTotalQuantity = isGuest ? guestCartQuantity : userCartQuantity;
 

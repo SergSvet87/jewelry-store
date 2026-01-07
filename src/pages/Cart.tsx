@@ -26,6 +26,7 @@ export const Cart = () => {
         >
           <h6 className="w-full text-center text-second  font-[500] font-main">Кошик</h6>
 
+            <h4 className='text-[100px]'>asdqwe</h4>
           <div className="w-full text-center pr-5 max-h-[440px] overflow-y-auto custom-scroll">
             {cartItemsWithData && cartItemsWithData.length > 0 ? (
               <div className="w-full flex flex-col gap-1">
@@ -47,6 +48,8 @@ export const Cart = () => {
             <div className="w-full pt-7 border-t border-brown-dark flex items-center justify-between">
               <span className="text-second  font-[500] font-main text-brown-dark">Разом</span>{' '}
               <span className="font-third text-[24px] text-button">{total?.toFixed(2)} грн</span>
+
+               
             </div>
           )}
 
@@ -57,14 +60,22 @@ export const Cart = () => {
                   <Link to={AppRoute.PRODUCTS}>Продовжити покупки</Link>
                 </Button>
 
+                 
+
                 <Button className="w-[287px]" asChild onClick={() => close()}>
                   <Link to={AppRoute.CHECKOUT}>Оформити замовлення</Link>
                 </Button>
+
+              
               </div>
+
+              
             ) : (
               <Button className="w-[307px]" asChild onClick={() => close()}>
                 <Link to={AppRoute.PRODUCTS}>Переглянути каталог</Link>
               </Button>
+
+
             )}
           </div>
         </div>

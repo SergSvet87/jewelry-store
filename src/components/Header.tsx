@@ -270,7 +270,7 @@ const Header = () => {
                       key={item.title}
                       to={AppRoute.USER_DATA}
                       onClick={() => setActiveButton(item.title)}
-                      className={cn('btn relative flex items-center', isActive && 'text-accent')}
+                      className={cn('btn relative flex items-center text-white', isActive && 'text-accent')}
                     >
                       <span className="text-second font-[500]">{user.firstName[0]}</span>
                     </Link>
@@ -279,7 +279,7 @@ const Header = () => {
                       key={item.title}
                       to={AppRoute.SIGN_IN}
                       onClick={() => setActiveButton(item.title)}
-                      className={cn('btn relative', isActive && 'text-accent')}
+                      className={cn('btn relative ', isActive && 'text-accent')}
                     >
                       <Icon classname={`text-${iconColor}`} />
                     </Link>
@@ -292,7 +292,7 @@ const Header = () => {
                       key={item.title}
                       to={user ? AppRoute.USER_SCALES : AppRoute.SIGN_IN}
                       onClick={() => setActiveButton(item.title)}
-                      className={cn('btn relative flex items-center', isActive && 'text-accent')}
+                      className={cn('btn relative flex items-center text-white', isActive && 'text-accent')}
                     >
                       <span className="text-second font-[500]">
                         <Icon classname={`text-${iconColor}`} />
@@ -307,12 +307,12 @@ const Header = () => {
                       key={item.title}
                       to={user ? AppRoute.USER_FAVORITES : AppRoute.SIGN_IN}
                       onClick={() => setActiveButton(item.title)}
-                      className={cn('btn relative', isActive && 'text-accent')}
+                      className={cn('btn relative ', isActive && 'text-accent')}
                     >
                       <Icon classname={`text-${iconColor}`} />
 
                       {favoriteCount > 0 && (
-                        <span className="absolute -top-1 -right-1 text-medium text-[10px] bg-accent text-main rounded-full w-3 h-3 flex items-center justify-center">
+                        <span className=" absolute -top-1 -right-1 text-medium text-[10px] bg-accent text-main rounded-full w-3 h-3 flex items-center justify-center">
                           {favoriteCount}
                         </span>
                       )}

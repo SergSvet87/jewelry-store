@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import axiosInstance from '@/api/axiosInstance';
 import { catchErrorCodes } from './errorService';
-import { useNotificationStore } from '@/store';
+
 
 interface RequestOptions<T = any> {
   url: string;
@@ -28,8 +28,6 @@ export const request = async <TResponse = any, TData = any>(
   } catch (error) {
     const description = catchErrorCodes(error);
     console.error('HTTP Request Error:', description, error);
-
-    useNotificationStore.getState().setNotification(description, 'error');
 
     throw new Error(description);
   }

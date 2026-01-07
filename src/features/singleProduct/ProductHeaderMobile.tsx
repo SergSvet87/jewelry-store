@@ -16,14 +16,14 @@ return (
         </h3>
             <div className="flex items-center gap-4">
               <button type="button" className="btn" onClick={() => {}}>
-                <ScalesIcon classname="text-brown-dark" />
+                <ScalesIcon />
               </button>
 
               <button type="button" className="btn" onClick={() => setFavorites(product.id)}>
                 {isFavorite ? (
                   <FavoriteFilledIcon classname="w-6 h-6" />
                 ) : (
-                  <FavoriteIcon classname="w-6 h-6 text-brown-dark" />
+                  <FavoriteIcon/>
                 )}
               </button>
             </div>
