@@ -36,7 +36,7 @@ export const CertificateCard = ({ certificate, isHidden }: CertificateCardProps)
             {isFavorite ? (
               <FavoriteFilledIcon classname="w-6 h-6" />
             ) : (
-              <FavoriteIcon classname="w-6 h-6 text-brown-dark" />
+              <FavoriteIcon/>
             )}
           </button>
 

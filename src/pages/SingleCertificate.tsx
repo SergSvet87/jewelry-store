@@ -39,7 +39,7 @@ export const SingleCertificate = () => {
               <h3 className="text-[24px]">Подарунковий <br/> сертифікат</h3>
               <div className="flex items-center gap-4">
                 <button type="button" className="btn" onClick={() => {}}>
-                  <FavoriteIcon classname="text-brown-dark" />
+                  <FavoriteIcon/>
                 </button>
              </div>
             </div>

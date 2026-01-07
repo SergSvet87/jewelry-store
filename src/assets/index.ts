@@ -32,6 +32,8 @@ import { PhoneIcon } from './icons/PhoneIcon';
 import { CheckboxCheckedIcon } from './icons/CheckboxCheckedIcon';
 import { DeleteIcon } from './icons/DeleteIcon';
 import { InfoIcon } from './icons/InfoIcon';
+import { OrderHistory } from './icons/OrderHistory';
+import { ReviewsIcon } from './icons/ReviewsIcon';
 
 import Confetti from './images/confetti.png';
 import HeroImage1 from './images/Hero-1.jpg';
@@ -97,6 +99,8 @@ export {
   LoyaltyIcon,
   HistoryIcon,
   MessageIcon,
+  OrderHistory,
+  ReviewsIcon,
   Confetti,
   HeroImage1,
   HeroImage2,

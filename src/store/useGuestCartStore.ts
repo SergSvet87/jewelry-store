@@ -53,21 +53,38 @@ export const useGuestCartStore = create<GuestCartState>((set, get) => {
     },
 
     fetchGuestCart: async () => {
+      const initialGuestId = localStorageService.getItem(LocalStorage.GUEST_ID) as string;
+
+      if (!initialGuestId) {
+        console.warn("Спроба завантажити гостьовий кошик без Guest ID");
+        set({ isLoading: false, guestCart: [], cartTotalQuantity: 0 });
+        return;
+      }
+
       set({ isLoading: true });
 
-      const initialGuestId = localStorageService.getItem(LocalStorage.GUEST_ID) as string;
-      const items = await getProductFromGuestCartService(initialGuestId);
-      const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
+      try {
+        const items = await getProductFromGuestCartService(initialGuestId);
+        
+        if (!items) {
+          set({ guestCart: [], cartTotalQuantity: 0, isLoading: false });
+          return;
+        }
 
-      const productPromises = items.map(item => fetchProductById(item.productId));
-      const resolvedProducts = await Promise.all(productPromises);
+        const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
+        const productPromises = items.map(item => fetchProductById(item.productId));
+        const resolvedProducts = await Promise.all(productPromises);
 
-      set({
-        guestCart: items,
-        cartTotalQuantity: totalQuantity,
-        loadedProducts: resolvedProducts,
-        isLoading: false
-      });
+        set({
+          guestCart: items,
+          cartTotalQuantity: totalQuantity,
+          loadedProducts: resolvedProducts,
+          isLoading: false
+        });
+      } catch (error) {
+        console.error("Помилка завантаження гостьового кошика:", error);
+        set({ isLoading: false });
+      }
     },
 
     isInCart: (productId) => {

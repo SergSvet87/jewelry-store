@@ -3,7 +3,8 @@ interface RegisterRequest {
   email: string;
 }
 interface RegisterResponse {
-  token: string;
+  isRegistered: boolean;
+  token : string;
 }
 
 interface VerifyRequest {
@@ -12,7 +13,7 @@ interface VerifyRequest {
 
 interface VerifyResponse {
   token: string;
-  // refresh_token: string;
+  refresh_token: string;
 }
 
 interface LoginRequest {
@@ -20,8 +21,8 @@ interface LoginRequest {
 }
 
 interface LoginResponse {
-  token: string;
-  // refresh_token: string;
+  isLogged : boolean;
+  token : string;
 }
 
 interface UpdateProfileRequest {

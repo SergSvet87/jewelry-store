@@ -4,10 +4,10 @@ import { Sidebar } from '@/features/dashboard/Sidebar';
 
 export const DashboardLayout = () => {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex ">
       <Sidebar />
 
-      <main className="flex-1 mt-[80px] p-2">
+      <main className="flex-1 mt-[80px]">
         <Outlet />
       </main>
     </div>

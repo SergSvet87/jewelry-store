@@ -79,7 +79,7 @@ export const Sale = ({
                       {isInFavoriteLast ? (
                         <FavoriteFilledIcon classname="w-6 h-6" />
                       ) : (
-                        <FavoriteIcon classname="w-6 h-6 text-brown-dark" />
+                        <FavoriteIcon />
                       )}
                     </button>
 

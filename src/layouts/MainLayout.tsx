@@ -1,11 +1,16 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 import { LocalStorage } from '@/enums';
 import { localStorageService } from '@/api';
+import { getUserProfile } from '@/services/authService';
 import { getQueryParams } from '@/utils/urlParams';
-import { getAllCategories, getAllCollections, getSearchProducts, getUserByToken } from '@/services';
+import { 
+  getAllCategories, 
+  getAllCollections, 
+  getSearchProducts, 
+} from '@/services';
 import {
   useUserStore,
   useAuthStore,
@@ -15,15 +20,17 @@ import {
   useGuestCartStore,
 } from '@/store';
 import Header from '@/components/Header';
-import Footer from '@/components/Footer';
 import { Notification } from '@/components/Notification';
 import { PopUpCart } from '@/features/cart/PopUpCart';
 import { PopUpDeleteFromCart } from '@/features/cart/PopUpDeleteFromCart';
 import { PopUpConfirmationPhone } from '@/features/auth/ConfirmationPhone';
 
 export const Layout = () => {
+
   const accessToken = useAuthStore((state) => state.accessToken);
+  const logout = useAuthStore((state) => state.logout);
   const setUser = useUserStore((state) => state.setUser);
+  
   const { setProducts, setLoading, setIsNew } = useProductStore();
   const {
     setCategories,
@@ -42,20 +49,19 @@ export const Layout = () => {
   const isNewFromUrl = searchParams.get('isNew') === 'true';
 
   const initUser = async () => {
-    if (!accessToken) return;
-
+    if (!accessToken) return null;
     try {
-      const user = await getUserByToken(accessToken);
+      const user = await getUserProfile(); 
       setUser(user);
+      return user;
     } catch (err) {
-      console.error('Не вдалося отримати юзера за токеном:', err);
-      localStorage.removeItem('access_token');
+      console.error('Сесія застаріла або невірна:', err);
+      logout(); 
+      return null;
     }
   };
 
-  const initCart = async () => {
-    const currentUser = useUserStore.getState().currentUser;
-
+  const initCart = async (currentUser: any) => {
     try {
       if (currentUser) {
         await useCartStore.getState().fetchCart();
@@ -72,7 +78,7 @@ export const Layout = () => {
     }
   };
 
-  const initFavorites = () => {
+  const initFavorites = useCallback(() => {
     const storedFavorites = localStorageService.getItem<number[]>(LocalStorage.FAVORITE_PRODUCTS);
     if (!storedFavorites) {
       localStorageService.setItem(LocalStorage.FAVORITE_PRODUCTS, []);
@@ -80,13 +86,12 @@ export const Layout = () => {
     } else {
       useProductStore.setState({ favorites: storedFavorites });
     }
-  };
+  }, []);
 
   useEffect(() => {
     const query = getQueryParams(searchParams);
 
     if (query.page) setPage(query.page);
-    if (query.size) setPage(query.size);
     if (query.query) setSearch(query.query);
     if (query.categories) setSelectedCategories(query.categories);
     if (query.collections) setSelectedCollections(query.collections);
@@ -95,9 +100,12 @@ export const Layout = () => {
     if (query.minPrice !== undefined && query.maxPrice !== undefined)
       setPriceRange([query.minPrice, query.maxPrice]);
 
-    const fetchInitialData = async () => {
+    const initializeApp = async () => {
       try {
         setLoading(true);
+        const user = await initUser();
+        await initCart(user);
+        initFavorites();
 
         const [products, categories, collections] = await Promise.all([
           getSearchProducts({
@@ -121,32 +129,25 @@ export const Layout = () => {
         setCollections(collections);
         setTotalPages(products.page.totalPages);
       } catch (err) {
-        console.error('Помилка завантаження даних', err);
+        console.error('Критична помилка ініціалізації:', err);
       } finally {
         setLoading(false);
       }
     };
 
-    initFavorites();
-    initCart();
-    initUser();
-    fetchInitialData();
-  }, [accessToken, searchParams]);
+    initializeApp();
+
+  }, [accessToken]); 
 
   return (
     <div className="flex flex-col min-h-screen overflow-hidden">
       <Header />
-
       <main className="flex-grow w-full h-full">
         <Outlet />
       </main>
-
-      <Footer />
-
       <PopUpConfirmationPhone />
       <PopUpDeleteFromCart />
       <PopUpCart />
-
       <Notification />
       <ToastContainer />
     </div>

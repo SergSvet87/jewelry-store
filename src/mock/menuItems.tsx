@@ -2,15 +2,15 @@ import { AppRoute } from '@/enums';
 import {
   CheckCircleIcon,
   FavoriteIcon,
-  HistoryIcon,
   // LoyaltyIcon,
   ScalesIcon,
-  MessageIcon
+  OrderHistory,
+  ReviewsIcon
 } from '@/assets';
 
 export const menuItems = [
   {
-    icon: <CheckCircleIcon stroke="var(--grey)" />,
+    icon: <CheckCircleIcon/>,
     text: 'Особисті дані',
     href: AppRoute.USER_DATA,
   },
@@ -20,22 +20,22 @@ export const menuItems = [
   //   href: AppRoute.USER_LOYALTY,
   // },
   {
-    icon: <HistoryIcon stroke="var(--grey)" />,
+    icon: <OrderHistory/>,
     text: 'Історія замовлень',
     href: AppRoute.USER_ORDERS,
   },
   {
-    icon: <MessageIcon stroke="var(--grey)" />,
+    icon: <ReviewsIcon/>,
     text: 'Відгуки',
     href: AppRoute.USER_REVIEWS,
   },
   {
-    icon: <FavoriteIcon classname="text-grey" />,
+    icon: <FavoriteIcon/>,
     text: 'Список бажань',
     href: AppRoute.USER_FAVORITES,
   },
   {
-    icon: <ScalesIcon classname="text-grey" />,
+    icon: <ScalesIcon/>,
     text: 'Список порівнянь',
     href: AppRoute.USER_SCALES,
   },

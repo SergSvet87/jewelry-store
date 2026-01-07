@@ -22,6 +22,7 @@ export const PopUpConfirmationPhone = () => {
   const { pathname } = useLocation();
 
   const { onVerifyPhoneCode, onVerifyPhoneCodeChange, onVerifyPhoneLogin } = useAuth();
+  const {payload} = useModalStore()
   const { openModal, error, close, phone, setError } = useModalStore();
 
   const isOpen = openModal === 'phoneVerification';
@@ -65,9 +66,9 @@ export const PopUpConfirmationPhone = () => {
 
     try {
       if (pathname === AppRoute.SIGN_UP) {
-        onVerifyPhoneCode({ code: joined });
+        onVerifyPhoneCode({ code: joined }, payload);
       } else {
-        onVerifyPhoneLogin({ code: joined });
+        onVerifyPhoneLogin({ code: joined }, payload);
       }
     } catch {
       setError('Невірний код');

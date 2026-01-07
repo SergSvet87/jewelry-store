@@ -1,11 +1,12 @@
 import { Reducer, useReducer } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { AppRoute, AuthAction, LocalStorage } from '@/enums';
+import { AppRoute, AuthAction } from '@/enums';
 import { LoginRequest, RegisterRequest, VerifyRequest } from '@/types/auth';
 import { login, registerUser, verifyPhoneLogin, verifyPhoneNumber } from '@/services/authService';
 import { useModalStore } from '@/store/useModalStore';
-import { localStorageService } from '@/api/localStorageService';
+import { useNotificationStore } from '@/store';
+import { useAuthStore } from '@/store';
 
 type Return = {
   loginFormValue: LoginRequest;
@@ -15,8 +16,8 @@ type Return = {
   onLoginFormChange: (loginFormValue: LoginRequest) => void;
   onRegisterFormChange: (value: RegisterRequest) => void;
   onRegisterFormSubmit: (registerFormValue: RegisterRequest) => void;
-  onVerifyPhoneCode: (code: VerifyRequest) => void;
-  onVerifyPhoneLogin: (code: VerifyRequest) => void;
+  onVerifyPhoneCode: (code: VerifyRequest, payload : string | null) => void;
+  onVerifyPhoneLogin: (code: VerifyRequest, payload : string | null) => void;
   onVerifyPhoneCodeChange: (code: VerifyRequest) => void;
 };
 
@@ -24,6 +25,7 @@ type State = {
   loginFormValue: LoginRequest;
   registerFormValue: RegisterRequest;
   verifyCodeValue: VerifyRequest;
+  token : string | null;
 };
 
 type ReducerAction =
@@ -41,7 +43,11 @@ type ReducerAction =
   }
   | {
     type: AuthAction.RESET_FORM;
-  };
+  }
+  | {
+    type: AuthAction.SET_SESSION_TOKEN;
+    payload : string | null;
+  }
 
 const LOGIN_FORM_INITIAL_VALUE: LoginRequest = {
   email: '',
@@ -60,6 +66,7 @@ const INITIAL_STATE: State = {
   loginFormValue: LOGIN_FORM_INITIAL_VALUE,
   registerFormValue: REGISTER_FORM_INITIAL_VALUE,
   verifyCodeValue: VERIFY_CODE_INITIAL_VALUE,
+  token : null,
 };
 
 const reducer: Reducer<State, ReducerAction> = (state, action) => {
@@ -77,6 +84,12 @@ const reducer: Reducer<State, ReducerAction> = (state, action) => {
         verifyCodeValue: action.payload,
       };
 
+    case AuthAction.SET_SESSION_TOKEN :
+      return {
+        ...state,
+        token : action.payload,
+      }
+
     case AuthAction.REGISTER_FORM:
       return {
         ...state,
@@ -86,6 +99,7 @@ const reducer: Reducer<State, ReducerAction> = (state, action) => {
     case AuthAction.RESET_FORM:
       return {
         ...state,
+        token : state.token,
         loginFormValue: LOGIN_FORM_INITIAL_VALUE,
         registerFormValue: REGISTER_FORM_INITIAL_VALUE,
         verifyCodeValue: VERIFY_CODE_INITIAL_VALUE,
@@ -113,57 +127,82 @@ const useAuth = (): Return => {
     dispatch({ type: AuthAction.REGISTER_FORM, payload: newValue });
   };
   
-  const onVerifyPhoneCode = async (code: VerifyRequest) => {
-    const res = await verifyPhoneNumber(code);
+  const onVerifyPhoneCode = async (code: VerifyRequest, token : string | null) => {
+    try{
+    const res = await verifyPhoneNumber(code, token);
 
-    if (res) {
+     if (res) {
       useModalStore.getState().close();
-      navigate(AppRoute.SUCCESS);
-
-      localStorageService.setItem(LocalStorage.ACCESS_TOKEN_KEY, res.token);
-      // localStorageService.setItem(LocalStorage.REFRESH_TOKEN_KEY, res.refresh_token);
-    }
+      useAuthStore.getState().setTokens(res.token, res.refresh_token);
+      navigate(AppRoute.ROOT);
+      }
 
     dispatch({ type: AuthAction.RESET_FORM })
+    }catch (error) {
+      const errorMessage = (error as Error).message;
+
+      useNotificationStore.getState().setNotification(errorMessage, "error")
+    }
   };
 
-  const onVerifyPhoneLogin = async (code: VerifyRequest) => {
-    const res = await verifyPhoneLogin(code);
+  const onVerifyPhoneLogin = async (code: VerifyRequest, token : string | null) => {
+
+    try{
+      console.log('Токен при виклику верифікації:', token);
+      const res = await verifyPhoneLogin(code, token);
 
     if (res) {
       useModalStore.getState().close();
+      useAuthStore.getState().setTokens(res.token, res.refresh_token);
       navigate(AppRoute.ROOT);
-
-      localStorageService.setItem(LocalStorage.ACCESS_TOKEN_KEY, res.token);
-      // localStorageService.setItem(LocalStorage.REFRESH_TOKEN_KEY, res.refresh_token);
-    }
+      }
 
     dispatch({ type: AuthAction.RESET_FORM })
+    
+    }catch(error) {
+      const errorMessage = (error as Error).message;
+      useNotificationStore.getState().setNotification(errorMessage, "error")
+    }
   };
 
   const onLoginFormSubmit = async (loginFormValue: LoginRequest) => {
-
-    const res = await login(loginFormValue);
-    if (res) {
-      useModalStore.getState().open('phoneVerification');
-
-      localStorageService.setItem(LocalStorage.ACCESS_TOKEN_KEY, res.token);
-      // localStorageService.setItem(LocalStorage.REFRESH_TOKEN_KEY, res.refresh_token);
+    try{
+      const res = await login(loginFormValue);
+      if (res) {
+        dispatch({
+          type : AuthAction.SET_SESSION_TOKEN,
+          payload : res.token,
+        })
+        useModalStore.getState().open('phoneVerification', res.token);
     }
 
-    dispatch({ type: AuthAction.RESET_FORM });
+    // dispatch({ type: AuthAction.RESET_FORM });
+
+    }catch(error) {
+      const somethingErorr = (error as Error).message;
+      useNotificationStore.getState().setNotification(somethingErorr, "error")
+    }
+
   };
 
   const onRegisterFormSubmit = async (registerFormValue: RegisterRequest) => {
-    const res = await registerUser(registerFormValue);
+    try{
+      const res = await registerUser(registerFormValue);
 
-    if (res) {
-      useModalStore.getState().open('phoneVerification');
+      if (res) {
+        console.log(res)
+        dispatch({
+          type : AuthAction.SET_SESSION_TOKEN,
+          payload : res.token,
+        })
+        useModalStore.getState().open('phoneVerification', res.token);
+      }
 
-      localStorageService.setItem(LocalStorage.ACCESS_TOKEN_KEY, res.token);
+      // dispatch({ type: AuthAction.RESET_FORM });
+    }catch(error) {
+      const somethingError = (error as Error).message;
+      useNotificationStore.getState().setNotification(somethingError, "error")
     }
-
-    dispatch({ type: AuthAction.RESET_FORM });
   };
 
   return {

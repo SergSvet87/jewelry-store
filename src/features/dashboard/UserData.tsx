@@ -1,5 +1,4 @@
-import { useState } from 'react';
-
+import { useState, useEffect } from 'react';
 import {
   Input,
   Label,
@@ -20,15 +19,29 @@ export const UserData = () => {
 
   const [editMain, setEditMain] = useState(false);
   const [editAdditional, setEditAdditional] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
-    firstName: user?.firstName || '',
-    lastName: user?.lastName || '',
-    phone: user?.phone || '',
-    email: user?.email || '',
-    gender: user?.gender || '',
-    birthdate: user?.birthdate || '',
+    firstName: '',
+    lastName: '',
+    phone: '',
+    email: '',
+    gender: '',
+    birthdate: '',
   });
+
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        firstName: user.firstName || '',
+        lastName: user.lastName || '',
+        phone: user.phone || '',
+        email: user.email || '',
+        gender: user.gender || '',
+        birthdate: user.birthdate || '',
+      });
+    }
+  }, [user]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -40,6 +53,7 @@ export const UserData = () => {
   };
 
   const handleSave = async () => {
+    setIsLoading(true);
     try {
       const updatedUser = await updateUser(formData, token);
       setUser(updatedUser);
@@ -47,128 +61,140 @@ export const UserData = () => {
       setEditAdditional(false);
     } catch (error) {
       console.error('Помилка при оновленні:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
+
+const handleCancelMain = () => {
+  if (user) {
+    setFormData((prev) => ({
+      ...prev,
+      firstName: user.firstName || '',
+      lastName: user.lastName || '',
+      phone: user.phone || '',
+      email: user.email || '', 
+    }));
+  }
+  setEditMain(false);
+};
 
   if (!user) return null;
 
   return (
-    <div className="flex gap-4 w-full h-auto justify-between">
+    <div className=" hidden md:flex flex-wrap gap-4 w-full h-auto justify-between ">
       <Card className="flex-1 min-w-[350px]">
-        <CardContent className="flex flex-col gap-7 p-2 h-full">
-          <h4 className="mt-2">Основні дані</h4>
+        <CardContent className="flex flex-col gap-7 p-6 h-full">
+          <h4 className="font-semibold text-lg">Основні дані</h4>
 
-          <div className="flex flex-col gap-7 w-full">
-            <div className="flex flex-wrap justify-between gap-4 w-full">
-              <div className="flex flex-col gap-1 min-w-[100px] flex-1">
-                <Label className="label mb-1">Ім&apos;я</Label>
+          <div className="flex flex-col gap-5 w-full">
+            <div className="flex flex-wrap gap-4 w-full">
+              <div className="flex flex-col gap-1 flex-1 min-w-[140px]">
+                <Label className="opacity-70">Ім'я</Label>
                 <Input
                   name="firstName"
-                  className="h-10"
                   readOnly={!editMain}
                   value={formData.firstName}
                   onChange={handleChange}
+                  className={!editMain ? "bg-gray-50 cursor-default" : ""}
                 />
               </div>
-
-              <div className="flex flex-col gap-1 min-w-[180px] flex-1">
-                <Label className="label mb-1">Прізвище</Label>
+              <div className="flex flex-col gap-1 flex-1 min-w-[140px]">
+                <Label className="opacity-70">Прізвище</Label>
                 <Input
                   name="lastName"
-                  className="h-10"
                   readOnly={!editMain}
                   value={formData.lastName}
                   onChange={handleChange}
+                  className={!editMain ? "bg-gray-50 cursor-default" : ""}
                 />
               </div>
             </div>
 
             <div className="flex flex-col gap-1 w-full">
-              <Label className="label mb-1">Номер телефону</Label>
+              <Label className="opacity-70">Номер телефону</Label>
               <Input
                 name="phone"
-                className="h-10"
                 readOnly={!editMain}
                 value={formData.phone}
                 onChange={handleChange}
+                className={!editMain ? "bg-gray-50 cursor-default" : ""}
               />
             </div>
 
             <div className="flex flex-col gap-1 w-full">
-              <Label className="label mb-1">Електронна пошта</Label>
+              <Label className="opacity-70">Електронна пошта</Label>
               <Input
                 name="email"
                 type="email"
-                className="h-10"
                 readOnly={!editMain}
                 value={formData.email}
                 onChange={handleChange}
+                className={!editMain ? "bg-gray-50 cursor-default" : ""}
               />
             </div>
           </div>
 
-          <div className="flex gap-4">
-            <Button
-              variant="outline"
-              className="w-[212px]"
-              onClick={() => setEditMain((prev) => !prev)}
-            >
-              {editMain ? null : 'Редагувати'}
-            </Button>
-            {editMain && (
-              <Button variant="outline" className="w-[212px]" onClick={handleSave}>
-                Зберегти
+          <div className="flex gap-3 mt-auto pt-4">
+            {!editMain ? (
+              <Button variant="outline" className="w-full" onClick={() => setEditMain(true)}>
+                Редагувати
               </Button>
+            ) : (
+              <>
+                <Button variant="ghost" className="flex-1" onClick={handleCancelMain}>
+                  Скасувати
+                </Button>
+                <Button className="flex-1" onClick={handleSave} disabled={isLoading}>
+                  {isLoading ? 'Збереження...' : 'Зберегти'}
+                </Button>
+              </>
             )}
           </div>
         </CardContent>
       </Card>
 
-      <Card className="min-w-[300px] bg-main">
-        <CardContent className="flex flex-col justify-between h-full p-2">
+      {/* Картка додаткових даних */}
+      <Card className="flex-1 min-w-[350px] bg-main/10">
+        <CardContent className="flex flex-col justify-between h-full p-6">
           <div className="flex flex-col gap-7">
-            <h4 className="mt-2">Додаткові дані</h4>
+            <h4 className="font-semibold text-lg">Додаткові дані</h4>
 
-            <div className="flex flex-col gap-7 pl-3">
-              <div className="flex flex-col gap-1">
-                <Label className="label mb-1">Стать</Label>
+            <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-2">
+                <Label className="opacity-70">Стать</Label>
                 {!editAdditional ? (
-                  <Input className="h-10" readOnly value={formData.gender} />
+                  <div className="h-10 flex items-center px-3 bg-gray-50 rounded-md border text-sm capitalize">
+                    {formData.gender || 'Не вказано'}
+                  </div>
                 ) : (
                   <RadioGroup
-                    defaultValue={formData.gender}
-                    className="flex justify-between h-10 items-center"
+                    value={formData.gender}
+                    className="flex gap-6 h-10 items-center"
                     onValueChange={handleGenderChange}
                   >
                     <div className="flex items-center gap-2">
-                      <RadioGroupItem
-                        value="female"
-                        id="female"
-                        className="w-5 h-5"
-                      />
-                      <Label htmlFor="female">Жіноча</Label>
+                      <RadioGroupItem value="female" id="female" />
+                      <Label htmlFor="female" className="cursor-pointer">Жіноча</Label>
                     </div>
                     <div className="flex items-center gap-2">
-                      <RadioGroupItem
-                        value="male"
-                        id="male"
-                        className="w-5 h-5"
-                      />
-                      <Label htmlFor="male">Чоловіча</Label>
+                      <RadioGroupItem value="male" id="male" />
+                      <Label htmlFor="male" className="cursor-pointer">Чоловіча</Label>
                     </div>
                   </RadioGroup>
                 )}
               </div>
 
-              <div className="flex flex-col gap-1">
-                <Label className="label mb-1">День народження</Label>
+              <div className="flex flex-col gap-2">
+                <Label className="opacity-70">День народження</Label>
                 {!editAdditional ? (
-                  <div>{formData.birthdate || '-'}</div>
+                  <div className="h-10 flex items-center px-3 bg-gray-50 rounded-md border text-sm">
+                    {formData.birthdate || '-'}
+                  </div>
                 ) : (
                   <Input
                     name="birthdate"
                     type="date"
-                    className="h-10"
                     value={formData.birthdate}
                     onChange={handleChange}
                   />
@@ -177,14 +203,20 @@ export const UserData = () => {
             </div>
           </div>
 
-          <div className="flex gap-4 mt-4">
-            <Button variant="outline" className="w-[212px]" onClick={() => setEditAdditional((prev) => !prev)}>
-              {editAdditional ? null : 'Редагувати'}
-            </Button>
-            {editAdditional && (
-              <Button variant="outline" className="w-[212px]" onClick={handleSave}>
-                Зберегти
+          <div className="flex gap-3 mt-8">
+            {!editAdditional ? (
+              <Button variant="outline" className="w-full" onClick={() => setEditAdditional(true)}>
+                Редагувати
               </Button>
+            ) : (
+              <>
+                <Button variant="ghost" className="flex-1" onClick={() => setEditAdditional(false)}>
+                  Скасувати
+                </Button>
+                <Button className="flex-1" onClick={handleSave} disabled={isLoading}>
+                  {isLoading ? 'Збереження...' : 'Зберегти'}
+                </Button>
+              </>
             )}
           </div>
         </CardContent>
