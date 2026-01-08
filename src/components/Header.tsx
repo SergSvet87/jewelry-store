@@ -47,7 +47,7 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
-    const matched = headerButtons.find((btn) => btn.href === pathname);
+    const matched = headerButtons.find((item) => item.activePath?.includes(pathname as any) || item.href === pathname);
 
     if (matched) {
       setActiveButton(matched.title);
@@ -270,16 +270,18 @@ const Header = () => {
                       key={item.title}
                       to={AppRoute.USER_DATA}
                       onClick={() => setActiveButton(item.title)}
-                      className={cn('btn relative flex items-center text-white', isActive && 'text-accent')}
+                      className={cn('btn relative flex items-center text-white', isActive ? 'text-accent' 
+                        : "text-white"
+                      )}
                     >
-                      <span className="text-second font-[500]">{user.firstName[0]}</span>
+                      <span className={cn(isActive ? 'text-accent text-2xl' : "text-white font-light text-2xl" )} >{user.firstName[0]}</span>
                     </Link>
                   ) : (
                     <Link
                       key={item.title}
                       to={AppRoute.SIGN_IN}
                       onClick={() => setActiveButton(item.title)}
-                      className={cn('btn relative ', isActive && 'text-accent')}
+                      className={cn('btn relative flex items-center', isActive ? 'text-accent' : 'text-white')}
                     >
                       <Icon classname={`text-${iconColor}`} />
                     </Link>
@@ -292,11 +294,9 @@ const Header = () => {
                       key={item.title}
                       to={user ? AppRoute.USER_SCALES : AppRoute.SIGN_IN}
                       onClick={() => setActiveButton(item.title)}
-                      className={cn('btn relative flex items-center text-white', isActive && 'text-accent')}
+                      className={cn('btn relative flex items-center', isActive ? 'text-accent' : 'text-white')}
                     >
-                      <span className="text-second font-[500]">
                         <Icon classname={`text-${iconColor}`} />
-                      </span>
                     </Link>
                   );
                 }
@@ -307,12 +307,12 @@ const Header = () => {
                       key={item.title}
                       to={user ? AppRoute.USER_FAVORITES : AppRoute.SIGN_IN}
                       onClick={() => setActiveButton(item.title)}
-                      className={cn('btn relative ', isActive && 'text-accent')}
+                      className={cn('btn relative', isActive? 'text-accent' : "text-white")}
                     >
                       <Icon classname={`text-${iconColor}`} />
 
                       {favoriteCount > 0 && (
-                        <span className=" absolute -top-1 -right-1 text-medium text-[10px] bg-accent text-main rounded-full w-3 h-3 flex items-center justify-center">
+                        <span className="absolute -top-1 -right-1 text-medium text-[10px] bg-accent text-main rounded-full w-3 h-3 flex items-center justify-center">
                           {favoriteCount}
                         </span>
                       )}

@@ -10,7 +10,8 @@ export const headerButtons = [
   },
   {
     title: 'user',
-    href: AppRoute.SIGN_IN,
+    href: AppRoute.USER_DATA,
+    activePath : [AppRoute.USER_DATA, AppRoute.SIGN_IN, AppRoute.SIGN_UP],
     icon: UserIcon,
     type: 'fill',
   },
@@ -58,7 +59,7 @@ export const headerButtonsMobile = [
 export const burgerButtons = [
   {
     title: 'user',
-    href: AppRoute.SIGN_IN,
+    href: AppRoute.USER_DATA,
     icon: UserIcon,
     type: 'fill',
   },
