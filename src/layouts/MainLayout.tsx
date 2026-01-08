@@ -20,6 +20,7 @@ import {
   useGuestCartStore,
 } from '@/store';
 import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 import { Notification } from '@/components/Notification';
 import { PopUpCart } from '@/features/cart/PopUpCart';
 import { PopUpDeleteFromCart } from '@/features/cart/PopUpDeleteFromCart';
@@ -150,6 +151,7 @@ export const Layout = () => {
       <PopUpCart />
       <Notification />
       <ToastContainer />
+      <Footer/>
     </div>
   );
 };
