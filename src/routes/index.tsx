@@ -77,6 +77,10 @@ export const routes = createBrowserRouter([
             element: <UserFavorites />,
           },
           {
+            path: AppRoute.USER_PROFILE,
+            element : <UserData />
+          },
+          {
             path: AppRoute.USER_ORDERS,
             element: <UserOrders />,
           },

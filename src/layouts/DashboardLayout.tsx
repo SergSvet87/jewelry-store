@@ -1,15 +1,46 @@
 import { Outlet } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useWindowWidth } from '@/lib/hooks/useWindowWidth';
 
 import { Sidebar } from '@/features/dashboard/Sidebar';
+import { ArrowLeft } from '@/assets/icons/ArrowLeft';
+
 
 export const DashboardLayout = () => {
-  return (
-    <div className="flex ">
-      <Sidebar />
 
-      <main className="flex-1 mt-[80px]">
-        <Outlet />
-      </main>
-    </div>
+  const location = useLocation()
+  const isMenuPage = location.pathname === '/dashboard';
+  const navigate = useNavigate()
+
+  const {isDesktop, isTablet} = useWindowWidth();
+
+  return (
+    <>
+      {isDesktop || isTablet ? (
+        <div className="flex ">
+          <Sidebar />
+          <main className="flex-1 mt-[80px]">
+            <Outlet />
+          </main>
+        </div>
+      ) : (
+        <>
+        {isMenuPage ?
+        (<Sidebar />) : 
+        (
+          <div>
+              <button
+                onClick={() => navigate(-1)}
+                className='pl-4 flex items-center leading-none gap-1 text-[16px] font-medium'>
+                  <ArrowLeft />
+                <span>Назад</span>
+              </button>
+            <Outlet />
+          </div>
+        )
+        }
+        </>
+      )}
+    </>
   );
 };
