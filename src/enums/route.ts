@@ -5,6 +5,7 @@ const AppRoute = {
   CHECKOUT: '/checkout',
   ADMIN: '/admin',
   USER_DATA: '/dashboard',
+  USER_PROFILE : '/dashboard/personal-data',
   USER_CART: '/dashboard/cart',
   USER_LOYALTY: '/dashboard/loyalty',
   USER_ORDERS: '/dashboard/orders',

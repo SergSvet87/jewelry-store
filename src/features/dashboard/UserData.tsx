@@ -11,6 +11,7 @@ import {
 import { useUserStore } from '@/store/useUserStore';
 import { updateUser } from '@/services/userService';
 import { useAuthStore } from '@/store/useAuthStore';
+import { useWindowWidth } from '@/lib/hooks/useWindowWidth';
 
 export const UserData = () => {
   const user = useUserStore((state) => state.currentUser);
@@ -20,6 +21,9 @@ export const UserData = () => {
   const [editMain, setEditMain] = useState(false);
   const [editAdditional, setEditAdditional] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const {isMobile} = useWindowWidth()
+
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -82,47 +86,57 @@ const handleCancelMain = () => {
   if (!user) return null;
 
   return (
-    <div className=" hidden md:flex flex-wrap gap-4 w-full h-auto justify-between ">
+    <div className=" md:flex flex-wrap gap-4 w-full justify-between leading-[130%]">
       <Card className="flex-1 min-w-[350px]">
-        <CardContent className="flex flex-col gap-7 p-6 h-full">
-          <h4 className="font-semibold text-lg">Основні дані</h4>
+        {isMobile && 
+        (
+        <h3 className='text-[20px] leading-[130%] text-center text-[#5B242A] pt-8'>Особисті дані</h3>
+        )}
+        <CardContent className="flex flex-col gap-4 p-4 h-full">
+          <h4 className="text-black text-[20px] pt-4">Основні дані</h4>
 
-          <div className="flex flex-col gap-5 w-full">
-            <div className="flex flex-wrap gap-4 w-full">
-              <div className="flex flex-col gap-1 flex-1 min-w-[140px]">
+          <div className="flex flex-col text-[16px] gap-4">
+            
+              <div className="flex flex-col flex-1 min-w-[140px] gap-3 pl-3">
                 <Label className="opacity-70">Ім'я</Label>
                 <Input
                   name="firstName"
                   readOnly={!editMain}
                   value={formData.firstName}
                   onChange={handleChange}
-                  className={!editMain ? "bg-gray-50 cursor-default" : ""}
+                  autoComplete='given-name'
+                  // className={!editMain ? "bg-gray-50 cursor-default" : ""}
+                  className='font-medium'
                 />
               </div>
-              <div className="flex flex-col gap-1 flex-1 min-w-[140px]">
+              <div className="flex flex-col flex-1 min-w-[140px] gap-3 pl-3">
                 <Label className="opacity-70">Прізвище</Label>
                 <Input
                   name="lastName"
                   readOnly={!editMain}
                   value={formData.lastName}
                   onChange={handleChange}
-                  className={!editMain ? "bg-gray-50 cursor-default" : ""}
+                  autoComplete='family-name'
+                  // className={!editMain ? "bg-gray-50 cursor-default" : ""}
+                  className='font-medium'
                 />
               </div>
-            </div>
 
-            <div className="flex flex-col gap-1 w-full">
+            <div className="flex flex-col w-full  gap-3 pl-3">
               <Label className="opacity-70">Номер телефону</Label>
               <Input
                 name="phone"
                 readOnly={!editMain}
                 value={formData.phone}
                 onChange={handleChange}
-                className={!editMain ? "bg-gray-50 cursor-default" : ""}
+                type='tel'
+                autoComplete='tel'
+                // className={!editMain ? "bg-gray-50 cursor-default" : ""}
+                className='font-medium'
               />
             </div>
 
-            <div className="flex flex-col gap-1 w-full">
+            <div className="flex flex-col w-full  gap-3 pl-3">
               <Label className="opacity-70">Електронна пошта</Label>
               <Input
                 name="email"
@@ -130,14 +144,16 @@ const handleCancelMain = () => {
                 readOnly={!editMain}
                 value={formData.email}
                 onChange={handleChange}
-                className={!editMain ? "bg-gray-50 cursor-default" : ""}
+                autoComplete='email'
+                // className={!editMain ? "bg-gray-50 cursor-default" : ""}
+                className='font-medium'
               />
             </div>
           </div>
 
-          <div className="flex gap-3 mt-auto pt-4">
+          <div className="flex gap-3">
             {!editMain ? (
-              <Button variant="outline" className="w-full" onClick={() => setEditMain(true)}>
+              <Button variant="outline" className="w-full font-medium text-[16px]" onClick={() => setEditMain(true)}>
                 Редагувати
               </Button>
             ) : (
@@ -154,23 +170,23 @@ const handleCancelMain = () => {
         </CardContent>
       </Card>
 
-      {/* Картка додаткових даних */}
-      <Card className="flex-1 min-w-[350px] bg-main/10">
-        <CardContent className="flex flex-col justify-between h-full p-6">
-          <div className="flex flex-col gap-7">
-            <h4 className="font-semibold text-lg">Додаткові дані</h4>
+      <Card className="flex-1 min-w-[350px] bg-main/10 leading-[130%]">
+        <CardContent className="flex flex-col justify-between h-full p-4">
+          <div className="flex flex-col">
+            <h4 className="text-black font-semibold text-[20px]">Додаткові дані</h4>
 
-            <div className="flex flex-col gap-6">
-              <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-6 pt-4 text-[16px]">
+              <div className="flex flex-col gap-4 pl-3">
                 <Label className="opacity-70">Стать</Label>
                 {!editAdditional ? (
-                  <div className="h-10 flex items-center px-3 bg-gray-50 rounded-md border text-sm capitalize">
+                  <div className='font-medium'>
+                  {/* <div className="h-10 flex items-center px-3  rounded-md border text-sm capitalize"> */}
                     {formData.gender || 'Не вказано'}
                   </div>
                 ) : (
                   <RadioGroup
                     value={formData.gender}
-                    className="flex gap-6 h-10 items-center"
+                    className="flex gap-6 h-10 items-center font-medium"
                     onValueChange={handleGenderChange}
                   >
                     <div className="flex items-center gap-2">
@@ -185,10 +201,11 @@ const handleCancelMain = () => {
                 )}
               </div>
 
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-4 pl-3 font-[16px] leading-[130%]">
                 <Label className="opacity-70">День народження</Label>
                 {!editAdditional ? (
-                  <div className="h-10 flex items-center px-3 bg-gray-50 rounded-md border text-sm">
+                  <div className='font-medium'>
+                    {/* <div className="h-10 flex items-center px-3 bg-gray-50 rounded-md border text-sm"> */}
                     {formData.birthdate || '-'}
                   </div>
                 ) : (
@@ -197,15 +214,16 @@ const handleCancelMain = () => {
                     type="date"
                     value={formData.birthdate}
                     onChange={handleChange}
+                    className='font-medium'
                   />
                 )}
               </div>
             </div>
           </div>
 
-          <div className="flex gap-3 mt-8">
+          <div className="flex gap-3 mt-8 pb-16">
             {!editAdditional ? (
-              <Button variant="outline" className="w-full" onClick={() => setEditAdditional(true)}>
+              <Button variant="outline" className="w-full text-[16px] font-medium" onClick={() => setEditAdditional(true)}>
                 Редагувати
               </Button>
             ) : (

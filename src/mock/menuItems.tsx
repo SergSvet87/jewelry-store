@@ -2,7 +2,6 @@ import { AppRoute } from '@/enums';
 import {
   CheckCircleIcon,
   FavoriteIcon,
-  // LoyaltyIcon,
   ScalesIcon,
   OrderHistory,
   ReviewsIcon
@@ -12,13 +11,8 @@ export const menuItems = [
   {
     icon: <CheckCircleIcon/>,
     text: 'Особисті дані',
-    href: AppRoute.USER_DATA,
+    href: AppRoute.USER_PROFILE,
   },
-  // {
-  //   icon: <LoyaltyIcon fill="var(--grey)" />,
-  //   text: 'Програма лояльності',
-  //   href: AppRoute.USER_LOYALTY,
-  // },
   {
     icon: <OrderHistory/>,
     text: 'Історія замовлень',
