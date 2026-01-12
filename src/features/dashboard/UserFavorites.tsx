@@ -3,6 +3,9 @@ import cn from 'classnames';
 import { DeleteIcon } from '@/assets';
 import { useProductStore } from '@/store';
 import { Card, CardContent, CardFooter } from '@/components/ui';
+import { AppRoute } from '@/enums';
+
+import { Link } from 'react-router-dom';
 
 export const UserFavorites = () => {
   const favorites = useProductStore((state) => state.favorites);
@@ -14,16 +17,16 @@ export const UserFavorites = () => {
     .filter((p): p is NonNullable<typeof p> => p !== undefined);
 
   return (
-    <div className="flex flex-col gap-7 w-full h-auto">
-      <h4 className="mt-2">Улюблені товари</h4>
+    <div className="flex flex-col gap-12 w-full h-auto leading-[130%]">
+      <h4 className="mt-8 text-[20px] text-[#5B242A] text-center">Список бажань</h4>
 
-      <div className="flex flex-wrap gap-12">
+      <div className="grid grid-cols-2 px-3 gap-2 pb-12">
         {products.length > 0 ? (
           products.map((product) => (
-            <Card className={cn('min-w-[259px] min-h-[297px] group rounded-none')}>
+            <Card className="relative">
               <CardContent className={cn('relative w-full overflow-hidden')}>
                 <div className="w-full h-full relative bg-cover bg-center">
-                  <div className="absolute w-full h-auto  inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
+                  <div className="absolute w-full h-auto  inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pyx" />
 
                   {product.images
                     .map((image, index) => (
@@ -32,28 +35,40 @@ export const UserFavorites = () => {
                         src={image.url}
                         alt={product.name}
                         className={cn(
-                          'absolute w-full h-full object-cover scale-100 group-hover:scale-107 transition-all duration-300',
+                          'object-cover h-[244px] w-177px',
                         )}
                       />
                     ))
                     .slice(0, 1)}
+                
+                  <div className='absolute bottom-2 left-0 right-0 flex justify-center z-20'>
+                    <Link to={`${AppRoute.PRODUCTS}/${product.id}/${product.categoryName}/${product.collectionName}/${product.name}`}>
+                      <button
+                        className="btn-buy"
+                        type='button'
+                      >
+                        Купити
+                      </button>
+                    </Link>
+                  </div>
 
+                    
                   <div className="absolute top-5 right-5 flex gap-2 z-20 ">
                     <button className="btn" onClick={() => setFavorites(product.id)}>
                       <DeleteIcon classname="w-5 h-5 text-grey" />
                     </button>
-                  </div>
+                  </div>        
                 </div>
               </CardContent>
 
-              <CardFooter className="flex items-center justify-between">
+              <CardFooter className="flex items-center justify-between pt-1 pb-2 text-md">
                 <div className="flex items-center gap-1">
-                  <span className="font-medium text-lg">{product.categoryName}</span>
+                  <span className="font-medium">{product.categoryName}</span>
 
-                  <span className="text-sm text-gray-500">{product.collectionName}</span>
+                  <span className="text-md text-gray-500">"{product.collectionName}"</span>
                 </div>
 
-                <span className="font-semibold text-md">{product.price.discountedPrice ?? product.price.normalPrice} грн</span>
+                <span className="font-semibold ">{product.price.discountedPrice ?? product.price.normalPrice} грн</span>
               </CardFooter>
             </Card>
           ))

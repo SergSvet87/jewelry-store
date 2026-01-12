@@ -52,7 +52,7 @@ export const UserOrders = () => {
             </Card>
           )})
         ) : (
-          <div>У вас немає успішних замовлень</div>
+          <div className='text-center text-xl font-medium'>У вас немає успішних замовлень</div>
         )}
       </div>
     </div>

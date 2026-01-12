@@ -15,9 +15,13 @@ return (
             {product?.name}&nbsp;&quot;{product?.collectionName}&quot;
         </h3>
             <div className="flex items-center gap-4">
-              <button type="button" className="btn" onClick={() => {}}>
-                <ScalesIcon />
-              </button>
+             
+                <button 
+                type="button" 
+                className="btn" 
+                onClick={() => {}}>
+                  <ScalesIcon />
+                </button>
 
               <button type="button" className="btn" onClick={() => setFavorites(product.id)}>
                 {isFavorite ? (

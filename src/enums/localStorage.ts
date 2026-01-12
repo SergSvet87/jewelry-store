@@ -5,6 +5,7 @@ const LocalStorage = {
   CART_TOTAL_AMOUNT: 'cart_total_amount',
   CART_QUANTITY: 'cart_quantity',
   FAVORITE_PRODUCTS: 'favorites',
+  SCALES_PRODUCTS : "scales",
   FAVORITE_CERTIFICATES: 'favorites_certificates',
   GUEST_ID: 'guest_id',
   GUEST_CART_ID: 'guest_cart_id',
