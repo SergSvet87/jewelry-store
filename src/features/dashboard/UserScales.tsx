@@ -53,7 +53,7 @@ export const UserScales = () => {
           </Card>
         ))
       ) : (
-        <div>У вас немає товарів для порівняння</div>
+        <div className='text-center text-xl font-medium'>У вас немає товарів для порівняння</div>
       )}
     </div>
   );

@@ -4,9 +4,11 @@ import { AppRoute } from '@/enums';
 import { menuItems } from '@/mock/menuItems';
 import { UserContacts } from './UserContacts';
 import { useAuthStore } from '@/store/useAuthStore';
+import { useWindowWidth } from '@/lib/hooks/useWindowWidth';
 
 export const Sidebar = () => {
   const navigate = useNavigate();
+  const {isMobile} = useWindowWidth();
   const logout = useAuthStore((state) => state.logout);
 
   const linkClass = 'flex gap-5 p-0 w-full items-center transition-all duration-200';
@@ -19,13 +21,16 @@ export const Sidebar = () => {
   };
 
   return (
-    <aside className="flex flex-col h-[calc(100vh-100px)] w-full">
+    <aside className="flex flex-col h-[calc(100vh-100px)] w-full md:pl-15 md:pt-10">
       <UserContacts />
 
-      <div className='border-1 border-gray-400 '/>
-
+    {isMobile && (
+      <>
+        <div className='border-1 border-gray-400 '/>
+      </>
+    )}
       <nav className="pl-[10px] py-4 mb-[98px]">
-        <ul className="flex flex-col items-start p-0 w-full">
+        <ul className="flex flex-col p-0 w-fit">
           {menuItems.map((item, index) => {
             return (
               <li key={index} className="w-full h-15">
@@ -54,7 +59,7 @@ export const Sidebar = () => {
       </nav>
 
       <button
-        className="btn mt-auto pl-6 mb-4 text-[16px] text-[#5B242A]"
+        className="btn mt-auto pl-6 mb-4 text-[16px] text-[#5B242A] md:pl-0 md:pb-16"
         onClick={handleLogout}
       >
         Вийти

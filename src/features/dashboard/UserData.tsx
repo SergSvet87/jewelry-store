@@ -86,7 +86,7 @@ const handleCancelMain = () => {
   if (!user) return null;
 
   return (
-    <div className=" md:flex flex-wrap gap-4 w-full justify-between leading-[130%]">
+    <div className="leading-[130%]">
       <Card className="flex-1 min-w-[350px]">
         {isMobile && 
         (
@@ -96,8 +96,8 @@ const handleCancelMain = () => {
           <h4 className="text-black text-[20px] pt-4">Основні дані</h4>
 
           <div className="flex flex-col text-[16px] gap-4">
-            
-              <div className="flex flex-col flex-1 min-w-[140px] gap-3 pl-3">
+            <div className='grid grid-cols-2'>
+                <div className="flex flex-col flex-1 min-w-[140px] gap-3 pl-3">
                 <Label className="opacity-70">Ім'я</Label>
                 <Input
                   name="firstName"
@@ -121,6 +121,8 @@ const handleCancelMain = () => {
                   className='font-medium'
                 />
               </div>
+            </div>
+              
 
             <div className="flex flex-col w-full  gap-3 pl-3">
               <Label className="opacity-70">Номер телефону</Label>

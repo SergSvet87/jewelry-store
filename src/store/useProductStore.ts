@@ -29,6 +29,7 @@ interface ProductState {
   setSelectedProduct: (product: IProductItem) => void,
   filterByCategory: (category: string) => IProductItem[];
   setFavorites: (id: number) => void;
+  setScale : (id:number) => void;
   setLoading: (value: boolean) => void;
   setHasFetched: (value: boolean) => void;
   fetchProducts: (signal: AbortSignal) => Promise<void>;
@@ -57,7 +58,9 @@ export const useProductStore = create<ProductState>()(devtools((set, get) => ({
   favorites: localStorageService.getItem<number[]>(
     LocalStorage.FAVORITE_PRODUCTS
   ) ?? [],
-  scales: [],
+  scales: localStorageService.getItem<number[]>(
+    LocalStorage.SCALES_PRODUCTS
+  ) ?? [],
   selectedProduct: null,
 
   loading: false,
@@ -80,11 +83,22 @@ export const useProductStore = create<ProductState>()(devtools((set, get) => ({
     const { favorites } = get();
     const isFav = favorites.includes(id);
     const updated = isFav
-      ? favorites.filter((fid) => fid !== id)
+      ? favorites.filter((item) => item !== id)
       : [...favorites, id];
 
     set({ favorites: updated });
     localStorageService.setItem(LocalStorage.FAVORITE_PRODUCTS, updated);
+  },
+
+  setScale : (id) => {
+    const {scales} = get();
+    const isScale = scales.includes(id);
+    const updated = isScale 
+    ? scales.filter((item) => item !== id)
+    : [...scales, id]
+
+    set({scales : updated});
+    localStorageService.setItem(localStorage.SCALES_PRODUCTS, updated);
   },
 
   setLoading: (value) => set({ loading: value }),
