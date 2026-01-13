@@ -3,6 +3,7 @@ import cn from 'classnames';
 import { useProductStore } from '@/store/useProductStore';
 import { Card, CardContent, CardFooter } from '@/components/ui';
 import { X } from '@/assets';
+// import { groupProductsByCategory } from '@/utils/groupProducts';
 
 export const UserScales = () => {
   const scales = useProductStore((state) => state.scales);

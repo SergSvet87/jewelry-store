@@ -20,13 +20,12 @@ export const Catalog: FC<ICatalogProps> = ({ data }) => {
       >
         {loading
           ? Array.from({ length: 12 }).map((_, index) => (
-              <CardSkeleton key={index} size="small" className="col-span-1 row-span-1" />
+              <CardSkeleton key={index} className="col-span-1 row-span-1" />
             ))
           : data.map((product) => (
               <ProductCard
                 key={product.id}
                 product={product}
-                size="small"
                 className="col-span-1 row-span-1"
               />
             ))}

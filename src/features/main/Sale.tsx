@@ -36,13 +36,12 @@ export const Sale = ({
         <h2 className="text-center xl:mb-[61px] mb-[36px]">Розпродаж минулої колекції</h2>
 
         <div className="grid grid-cols-1 sm:grid sm:grid-cols-2 xl:grid xl:grid-cols-2 gap-4">
-          <div className="flex flex-col gap-4 w-full order-2 xl:w-[650px] xl:order-1 sm:order-1">
+          <div className="flex flex-col gap-4 w-full order-2 xl:w-full xl:order-1 sm:order-1">
             <div className="flex flex-row justify-between xl:gap-4 gap-2">
               {visibleProducts.slice(0, 2).map((product) => (
                 <ProductCard
                   key={product.id}
                   product={product}
-                  size="small"
                   className="h-[244px] w-full sm:w-full sm:h-[221px] xl:h-[438px] xl:w-full"
                   discounted={discounted}
                 />
@@ -111,15 +110,15 @@ export const Sale = ({
 
               <CardFooter className="flex items-center justify-between">
                 <div className="font-medium text-brown-dark">
-                  <span className="">{lastProduct.name} </span>
-                  <span className="text-grey">{lastProduct.collectionName}</span>
+                  <span>{lastProduct.name} </span>
+                  <span className="text-grey text-[12px]">"{lastProduct.collectionName}"</span>
                 </div>
 
                 <div className="flex flex-col items-end gap-1 xl:text-second text-mobile">
-                  <div className="text-grey line-through whitespace-nowrap">
+                  <div className="text-grey line-through whitespace-nowrap text-[12px]">
                     {lastProduct.price.normalPrice}&nbsp;грн
                   </div>
-                  <div className="text-brown-dark">
+                  <div className="text-brown-dark text-[12px]">
                     {lastProduct.price.discountedPrice}&nbsp;грн
                   </div>
                 </div>

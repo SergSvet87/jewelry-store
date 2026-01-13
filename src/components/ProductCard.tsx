@@ -3,15 +3,18 @@ import { cn } from '@/lib/utils';
 
 import { AppRoute } from '@/enums';
 import { useProductStore } from '@/store';
-import { ICertificateItem, IProductItem } from '../types/';
+import { IProductItem } from '../types/';
 import { Card, CardContent, CardFooter } from './ui';
 import { useSmartCart } from '@/lib/hooks/useSmartCart';
-import { FavoriteFilledIcon, FavoriteIcon, ShoppingBagFilledIcon, ShoppingBagIcon } from '@/assets';
+import { 
+  FavoriteFilledIcon, 
+  FavoriteIcon, 
+  ShoppingBagFilledIcon, 
+  ShoppingBagIcon 
+} from '@/assets';
 
 interface ProductCardProps {
   product: IProductItem;
-  certificate?: ICertificateItem;
-  size?: 'small' | 'medium' | 'large';
   className?: string;
   isHidden?: boolean;
   discounted?: boolean;
@@ -19,26 +22,18 @@ interface ProductCardProps {
 
 export const ProductCard = ({
   product,
-  size = "small",
-  className,
-  isHidden,
   discounted,
 }: ProductCardProps) => {
   const { addToCart, removeFromCart, isInCart } = useSmartCart();
-  const setFavorites = useProductStore((state) => state.setFavorites);
-  const favorites = useProductStore((state) => state.favorites);
+  const { setFavorites, favorites} = useProductStore();
 
   const isFavorite = favorites.includes(product.id);
+  const inCart = isInCart(product.id);
 
-  const handleCartClick = () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    isInCart(product.id) ? removeFromCart(product.id) : addToCart(product);
-  };
-
-  const isLarge = size === 'large';
-  const isMedium = size === 'medium';
+  const mainImg = product.images.find((img) => img.isMainImage)?.url || product.images[0]?.url;
 
   return (
+<<<<<<< Updated upstream
     <Card
       className={cn(
         'group relative overflow-hidden flex flex-col justify-between transition-all',
@@ -81,54 +76,53 @@ export const ProductCard = ({
             ) : (
               <FavoriteIcon classname="w-6 h-6 text-brown-dark" />
             )}
+=======
+    <Card className={cn("group flex flex-col h-full border-0 shadow-none w-full")}>
+      <CardContent className="relative overflow-hidden aspect-[3/4] ">
+        <img 
+          src={mainImg}
+          alt={product.name} 
+          className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+        />
+          <div className="flex flex-col md:flex-row absolute top-2 right-2 gap-1 z-10">
+          <button className="p-1.5  rounded-full transition-colors cursor-pointer" onClick={() => setFavorites(product.id)}>
+            {isFavorite ? <FavoriteFilledIcon/> : <FavoriteIcon />}
+>>>>>>> Stashed changes
           </button>
 
-          <button className="btn w-6 h-6" onClick={handleCartClick}>
-            {isInCart(product.id) ? (
-              <ShoppingBagFilledIcon classname="w-6 h-6" />
-            ) : (
-              <ShoppingBagIcon classname="w-6 h-6" />
-            )}
+          <button className="p-1.5  rounded-full  transition-colors cursor-pointer" onClick={() => inCart ? removeFromCart(product.id) : addToCart(product)}>
+            {inCart ? <ShoppingBagFilledIcon classname="w-5 h-5" /> : <ShoppingBagIcon classname="w-5 h-5" />}
           </button>
         </div>
-
-        <Link
-          to={AppRoute.PRODUCT.replace(':id', product.id.toString())
-            .replace(':category', product.categoryName)
-            .replace(':collection', product.collectionName)
-            .replace(':title', `${product.name}`)}
-          className="absolute bottom-2 z-5 xl:bottom-5 xl:opacity-0 xl:group-hover:opacity-100 xl:transition-all xl:duration-300"
+        <Link 
+          to={AppRoute.PRODUCT.replace(':id', product.id.toString())}
+          className='flex justify-center lg:invisible lg:group-hover:visible'
         >
-          <button className="btn-buy">Купити</button>
+        <button 
+          className="btn-buy absolute bottom-5"
+          >
+            Купити
+        </button>
         </Link>
       </CardContent>
-
-       
-      {isHidden ? null : (
-        <CardFooter className="items-center justify-between ">
-
-          <div className="flex justify-between font-medium text-brown-dark ">
-            <span>{product.name.split(' ')[0]} </span>
-
-            <span className="text-grey">{`"${product.collectionName}"`}</span>
-
-          </div>
-
-          <div className="text-right lg:text-text text-mobile text-brown-dark">
-            {product.price.discountPercentage && discounted ? (
-              <>
-                <div className="line-through text-grey mb-1">
-                  {product.price.normalPrice}&nbsp;грн
-                </div> 
-                 <div>{product.price.discountedPrice}&nbsp;грн</div> 
-              </>
-            ) : (
-              <div>{product.price.normalPrice}&nbsp;грн</div>
-            )}
-          </div>
-          
-        </CardFooter>
-      )}
+      <CardFooter className="flex justify-between">
+        <section className='flex flex-row gap-1'>
+          <h3 className="text-[12px] md:text-[16px]">{product.name}</h3>
+          <span className="md:text-[16px]">"{product.collectionName}"</span>
+        </section>
+        
+        
+        <div className="mt-auto font-bold text-brown-dark">
+          {product.price.discountPercentage && discounted ? (
+            <div className="flex flex-col">
+              <span className="text-xs line-through text-grey font-normal">{product.price.normalPrice} грн</span>
+              <span className="text-[12px] font-normal">{product.price.discountedPrice} грн</span>
+            </div>
+          ) : (
+            <span>{product.price.normalPrice} грн</span>
+          )}
+        </div>
+      </CardFooter>
     </Card>
   );
 };

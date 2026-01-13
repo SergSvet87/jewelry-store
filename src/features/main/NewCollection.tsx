@@ -18,7 +18,11 @@ export const NewCollection = ({
   discounted: boolean;
   products: IProductItem[];
 }) => {
+<<<<<<< Updated upstream
   const newCol = products.filter((p) => p.isNew === true);
+=======
+
+>>>>>>> Stashed changes
   const { addToCart, removeFromCart, isInCart } = useSmartCart();
   const setFavorites = useProductStore((state) => state.setFavorites);
 
@@ -37,9 +41,9 @@ export const NewCollection = ({
 
       <div className="container grid grid-cols-1 sm:grid sm:grid-cols-2 sm:gap-5">
         {firstProduct && (
-          <Card className="w-full xl:w-[650px] group border-0">
+          <Card className="w-full xl:w-full group border-0">
             <CardContent className="relative mb-3 overflow-hidden border-0">
-              <div className="flex flex-col h-[429px] w-full xl:h-[790px] xl:w-full sm:h-[456px] sm:w-full  items-center justify-end gap-2.5 relative bg-cover bg-center">
+              <div className="flex flex-col h-[429px] w-full xl:h-[790px] xl:w-full sm:h-[456px] sm:w-full items-center justify-end gap-2.5 relative bg-cover bg-center">
                 <div className="absolute inset-0 bg-black/20 opacity-0 xl:group-hover:opacity-100 transition-opacity duration-500 z-2" />
 
                 {firstProduct.images
@@ -101,13 +105,12 @@ export const NewCollection = ({
           </Card>
         )}
         <div className="grid grid-cols-1">
-          <div className="flex flex-row justify-between xl:gap-4 gap-2 mt-2 sm:mt-0 xl:mt-0">
+          <div className="grid grid-cols-2 justify-between xl:gap-4 gap-2 mt-2 sm:mt-0 xl:mt-0">
             {visibleProducts.slice(1).map((product) => (
               <ProductCard
                 key={product.id}
                 product={product}
-                size="small"
-                className="xl:h-[438px] xl:w-full sm:h-[221px] sm:w-full h-[244px] w-full transition-transform duration-500 ease-in-out hover:scale-105"
+                className="xl:h-[438px] xl:w-full  sm:h-[221px] sm:w-full h-[244px] w-full transition-transform duration-500 ease-in-out hover:scale-105"
                 discounted={discounted}
               />
             ))}

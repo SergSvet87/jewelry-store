@@ -84,4 +84,45 @@ export const useProductStore = create<ProductState>()(devtools((set, get) => ({
   },
 
   setLoading: (value) => set({ loading: value }),
+<<<<<<< Updated upstream
+=======
+
+  fetchProducts: async (signal: AbortSignal) => {
+    const { 
+      page, 
+      sortBy, 
+      selectedCategories, 
+      selectedCollections, 
+      selectedMaterials, 
+      priceRange 
+    } = useCatalogStore.getState(); 
+
+    try {
+      set({ loading: true, error: null });
+
+      const filters:IFilterParams = {
+        page: page - 1, 
+        size: 12, 
+        sortBy: sortBy,
+        categories: selectedCategories,
+        collections: selectedCollections,
+        materials: selectedMaterials,
+        minPrice: priceRange[0],
+        maxPrice: priceRange[1],
+      };
+
+      const res = await getAllProducts(filters, signal); 
+
+      set({ products: res, loading: false });
+
+    } catch (err) {
+      if (err instanceof Error && err.name !== 'AbortError') {
+        set({ error: (err as Error).message, loading: false });
+      } else {
+        set({ loading: false });
+      }
+    }
+  },
+
+>>>>>>> Stashed changes
 })));

@@ -1,4 +1,3 @@
-export type { IProductItem } from './product';
 export type { IProducts } from './products';
 export type { IReviewItem } from './review';
 export type { ICartItem } from './cart';
@@ -9,6 +8,7 @@ export type { ICollectionItem } from './collection';
 export type { IMaterialItem } from './material'
 export type { ICertificateItem } from './certificate';
 export type { IFilterParams } from './filter';
+export type { IProductItem } from './product'
 export type { ISortParams } from './sort';
 export type { ISearchParams } from './searchParams';
 export type { IDeliveryInfo } from './deliveryInfo';

@@ -48,10 +48,15 @@ axiosInstance.interceptors.response.use(
           localStorageService.setItem(LocalStorage.ACCESS_TOKEN_KEY, newAccessToken);
           return axiosInstance(originalRequest);
         }
+<<<<<<< Updated upstream
       } catch (refreshError) {
         console.error('Failed to refresh token:', refreshError);
 
         logout();
+=======
+      } catch (err) {
+        console.error("Помилка автоматичного оновлення сесії:", err);
+>>>>>>> Stashed changes
       }
     }
     return Promise.reject(error);
