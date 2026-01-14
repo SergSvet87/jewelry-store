@@ -30,14 +30,16 @@ export const UserFavorites = () => {
 
                   {product.images
                     .map((image, index) => (
-                      <img
-                        key={index}
-                        src={image.url}
-                        alt={product.name}
-                        className={cn(
-                          'object-cover h-[244px] w-177px',
-                        )}
-                      />
+                      <div className='w-full aspect-[4/5] overflow-hidden'>
+                        <img
+                          key={index}
+                          src={image.url}
+                          alt={product.name}
+                          className={cn(
+                            'object-cover h-full w-full',
+                          )}
+                        />
+                      </div>
                     ))
                     .slice(0, 1)}
                 
