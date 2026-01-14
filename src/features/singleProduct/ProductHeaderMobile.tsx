@@ -5,8 +5,10 @@ import { FavoriteFilledIcon, FavoriteIcon, ScalesIcon } from '@/assets';
 export const ProductHeaderMobile = ({ product }: { product: IProductItem }) => { 
 
   const setFavorites = useProductStore((state) => state.setFavorites);
-  const favorites = useProductStore((state) => state.favorites);
-  const isFavorite = favorites.includes(product.id);
+  const isFavorite = useProductStore((state) => state.favorites.includes(product.id))
+
+  const setScales = useProductStore((state) => state.setScale)  
+  const isScale = useProductStore((state) => state.scales.includes(product.id));
 
 return (
     <>
@@ -17,10 +19,14 @@ return (
             <div className="flex items-center gap-4">
              
                 <button 
-                type="button" 
-                className="btn" 
-                onClick={() => {}}>
-                  <ScalesIcon />
+                  type="button" 
+                  className="btn" 
+                  onClick={() => setScales(product.id)}>
+                    {isScale ? (
+                      <div className='text-[#5B242A]'><ScalesIcon /></div>
+                    ):(
+                      <ScalesIcon />
+                    )}
                 </button>
 
               <button type="button" className="btn" onClick={() => setFavorites(product.id)}>
