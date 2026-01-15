@@ -1,20 +1,47 @@
-import cn from 'classnames';
+import { useMemo, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
+import cn from 'classnames';
 import { DeleteIcon } from '@/assets';
+import { getAllProducts } from '@/services';
 import { useProductStore } from '@/store';
 import { Card, CardContent, CardFooter } from '@/components/ui';
 import { AppRoute } from '@/enums';
-
-import { Link } from 'react-router-dom';
+import { IProductItem } from '@/types/product';
 
 export const UserFavorites = () => {
   const favorites = useProductStore((state) => state.favorites);
   const setFavorites = useProductStore((state) => state.setFavorites);
+  const allProducts = useProductStore((state) => state.allProducts)
   const getProductById = useProductStore((state) => state.getProductById);
+  const setAllProducts = useProductStore((state) => state.setAllProducts);
 
-  const products = favorites
-    .map((id) => getProductById(id))
-    .filter((p): p is NonNullable<typeof p> => p !== undefined);
+
+ const products = useMemo(() => {
+   return favorites
+     .map((id) => getProductById(id))
+     .filter((product): product is IProductItem => Boolean(product));
+ }, [favorites, allProducts.content, getProductById]);
+
+ useEffect(() => {
+  const fetchProducts = async () => {
+    if (allProducts.content.length === 0) {
+      try {
+        const res = await getAllProducts({ 
+          page: 0, 
+          size: 100 
+        });
+        
+        setAllProducts(res); 
+        
+      } catch (err) {
+        console.error("Помилка при завантаженні товарів:", err);
+      }
+    }
+  };
+
+  fetchProducts();
+}, [allProducts.content.length, setAllProducts]);
 
   return (
     <div className="flex flex-col gap-12 w-full h-auto leading-[130%]">
@@ -23,16 +50,17 @@ export const UserFavorites = () => {
       <div className="grid grid-cols-2 px-3 gap-2 pb-12">
         {products.length > 0 ? (
           products.map((product) => (
-            <Card className="relative">
+            <Card key={product.id} className="relative">
               <CardContent className={cn('relative w-full overflow-hidden')}>
                 <div className="w-full h-full relative bg-cover bg-center">
                   <div className="absolute w-full h-auto  inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pyx" />
 
                   {product.images
                     .map((image, index) => (
-                      <div className='w-full aspect-[4/5] overflow-hidden'>
+                      <div 
+                      key={index} 
+                      className='w-full aspect-[4/5] overflow-hidden'>
                         <img
-                          key={index}
                           src={image.url}
                           alt={product.name}
                           className={cn(

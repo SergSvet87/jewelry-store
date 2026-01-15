@@ -36,6 +36,7 @@ interface ProductState {
 }
 
 export const useProductStore = create<ProductState>()(devtools((set, get) => ({
+  
   products: {
     content: [],
     page: {
@@ -61,6 +62,7 @@ export const useProductStore = create<ProductState>()(devtools((set, get) => ({
   scales: localStorageService.getItem<number[]>(
     LocalStorage.SCALES_PRODUCTS
   ) ?? [],
+  
   selectedProduct: null,
 
   loading: false,
@@ -97,8 +99,11 @@ export const useProductStore = create<ProductState>()(devtools((set, get) => ({
     ? scales.filter((item) => item !== id)
     : [...scales, id]
 
+    console.log("Ключ для запису:", LocalStorage.SCALES_PRODUCTS);
+    console.log("Дані для запису:", updated);
+
     set({scales : updated});
-    localStorageService.setItem(localStorage.SCALES_PRODUCTS, updated);
+    localStorageService.setItem(LocalStorage.SCALES_PRODUCTS, updated);
   },
 
   setLoading: (value) => set({ loading: value }),
@@ -128,8 +133,6 @@ export const useProductStore = create<ProductState>()(devtools((set, get) => ({
       };
 
       const res = await getAllProducts(filters, signal); 
-
-      // 4. Оновлення стану
       set({ products: res, loading: false });
 
     } catch (err) {
