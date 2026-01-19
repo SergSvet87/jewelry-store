@@ -7,15 +7,15 @@ export const personalFields = [
 ];
 
 export const deliveryMethods = [
-  { id: 'courier', label: "Кур'єр Нова Пошта", price: 'Безкоштовно' },
-  { id: 'postamat', label: 'Поштомат Нова Пошта', price: 'Безкоштовно' },
-  { id: 'office', label: 'Відділення Нова Пошта', price: 'Безкоштовно' },
+  { id: 'NOVA_POST_COURIER', label: "Кур'єр Нова Пошта", price: 'Безкоштовно' },
+  { id: 'NOVA_POST_PARCEL_LOCKER', label: 'Поштомат Нова Пошта', price: 'Безкоштовно' },
+  { id: 'NOVA_POST_DEPARTMENT', label: 'Відділення Нова Пошта', price: 'Безкоштовно' },
 ];
 
 export const paymentMethods = [
-  { id: 'onDelivery', label: 'Оплата при отриманні' },
-  { id: 'card', label: 'Оплата платіжною картою VISA/Mastercard' },
-  { id: 'privatbank', label: 'Оплата частинами ПриватБанк' },
-  { id: 'monobank', label: 'Оплата частинами Monobank' },
-  { id: 'gift', label: 'Подарунковий сертифікат' },
+  { id: 'ON_DELIVERY', label: 'Оплата при отриманні' },
+  { id: 'BY_CARD', label: 'Оплата платіжною картою VISA/Mastercard' },
+  { id: 'IN_INSTALLMENTS_PRIVATBANK', label: 'Оплата частинами ПриватБанк' },
+  { id: 'IN_INSTALLMENTS_MONOBANK', label: 'Оплата частинами Monobank' },
+  { id: 'GIFT_CERTIFICATE', label: 'Подарунковий сертифікат' },
 ];

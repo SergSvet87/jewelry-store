@@ -30,3 +30,15 @@ export const localStorageService = {
     localStorage.removeItem(key);
   },
 };
+
+export const getOrInitSessionId = () => {
+  let id = localStorage.getItem("SESSION_ID");
+  
+  if (!id) {
+    id = crypto.randomUUID();
+    localStorage.setItem("SESSION_ID", id);
+    document.cookie = `guest_id=${id}; path=/; max-age=31536000`;
+  }
+  
+  return id;
+};

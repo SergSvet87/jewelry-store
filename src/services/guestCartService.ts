@@ -18,19 +18,15 @@ const addToGuestCartService = async (
   productId: number,
   quantity: number,
   guestId: string,
-): Promise<IGuestCartResponse> => {
-  const res = await request<IGuestCartResponse>({
-    url: `${ApiEndpoint.GUEST_CART}/add`,
+) => {
+  return await request<IGuestCartResponse>({
+    url: `/api/guest-cart/add?guestId=${encodeURIComponent(guestId)}`,
     method: HttpMethod.POST,
-    params:
-      { guestId },
     data: {
       productId,
       quantity
     },
   });
-
-  return res;
 };
 
 const removeFromGuestCartService = async (

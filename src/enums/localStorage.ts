@@ -8,8 +8,8 @@ const LocalStorage = {
   SCALES_PRODUCTS : "scales",
   FAVORITE_CERTIFICATES: 'favorites_certificates',
   GUEST_ID: 'guest_id',
-  GUEST_CART_ID: 'guest_cart_id',
-  SESSION_ID: 'session_id',
+  GUEST_CART_ID: 'GUEST_CART_ID',
+  SESSION_ID: 'SESSION_ID',
   CARDS: 'cards',
 } as const;
 

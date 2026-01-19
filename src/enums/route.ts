@@ -24,6 +24,7 @@ const AppRoute = {
   PRIVACY: '/privacy-policy',
   USER_AGREEMENT: '/user-agreement',
   SUCCESS: '/auth/success',
+  ORDER_SUCCESS : '/checkout/success',
 } as const;
 
 export type RoutePath = (typeof AppRoute)[keyof typeof AppRoute];

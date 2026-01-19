@@ -4,7 +4,7 @@ export const personalInfoSchema = z.object({
   firstName: z.string().min(2),
   lastName: z.string().min(2),
   fatherName: z.string().min(2),
-  phone: z.string().regex(/^\+380\d{9}$/, 'Некоректний номер'),
+  phone: z.string().min(10, 'Занадто короткий номер').max(15, 'Занадто довгий номер').regex(/^\d+$/, 'Номер має містити лише цифри'),
   email: z.string().email(),
   isGift: z.boolean(),
 });
@@ -16,29 +16,15 @@ export const deliveryInfoSchema = z.object({
 
 export const paymentInfoSchema = z.object({
   method: z.string(),
-  cardType: z.enum(['savedCard', 'newCard']).optional(),
+  cardType: z.string().optional(),
   cardData: z
     .object({
-      number: z.string().min(16, 'Мінімум 16 цифр'),
-      expiry: z.string().regex(/^\d{2}\/\d{2}$/, 'MM/YY'),
-      cvv: z.string().length(3, 'CVV має бути 3 цифри'),
+      number: z.string().optional().or(z.literal('')), 
+      expiry: z.string().optional().or(z.literal('')),
+      cvv: z.string().optional().or(z.literal('')),
     })
     .optional(),
-}).refine(
-  (data) => {
-    if (data.method === 'card') {
-      return !!data.cardData &&
-        data.cardData.number.length >= 16 &&
-        /^\d{2}\/\d{2}$/.test(data.cardData.expiry) &&
-        data.cardData.cvv.length === 3;
-    }
-    return true;
-  },
-  {
-    message: 'Заповніть дані картки',
-    path: ['cardData'],
-  }
-);
+}).refine(() => true);
 
 export const checkoutSchema = z.object({
   personalInfo: personalInfoSchema,

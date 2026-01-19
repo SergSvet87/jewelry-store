@@ -6,10 +6,10 @@ import { PaymentForm } from './PaymentForm';
 
 export const Details = () => {
   return (
-    <div className="flex flex-col gap-12 w-full max-w-[538px]">
-      <Card className="bg-main shadow-main rounded-none font-main">
-        <CardContent className="p-6 flex flex-col items-start gap-7">
-          <h2 className="font-body text-brown-dark font-medium text-second">Ваші дані</h2>
+    <div className="flex flex-col w-full">
+      <Card className="bg-main font-main">
+        <CardContent className="flex flex-col items-start gap-7">
+          <h2 className="font-medium text-[20px]">Ваші дані</h2>
 
           <ContactsForm />
 
@@ -17,9 +17,9 @@ export const Details = () => {
         </CardContent>
       </Card>
 
-      <Card className="bg-main shadow-main rounded-none">
-        <CardContent className="p-6 flex flex-col items-start gap-9">
-          <div className="flex flex-col items-start gap-7 w-full">
+      <Card className="bg-main">
+        <CardContent className="flex flex-col items-start gap-9">
+          <div className="flex flex-col items-start gap-7 w-full pt-12">
             <h2 className="font-body text-brown-dark font-medium text-second">Доставка</h2>
 
             <DeliveryForm />
@@ -27,8 +27,8 @@ export const Details = () => {
         </CardContent>
       </Card>
 
-      <Card className="bg-main shadow-main rounded-none">
-        <CardContent className="p-6 flex flex-col items-start gap-9">
+      <Card className="bg-main">
+        <CardContent className="pt-12 flex flex-col items-start gap-9">
           <h2 className="font-body text-brown-dark font-medium text-second">Оплата</h2>
           
           <PaymentForm />

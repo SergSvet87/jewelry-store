@@ -1,12 +1,19 @@
 import { useEffect, useMemo } from 'react';
-
-import { LocalStorage } from '@/enums';
-import { IProductItem } from '@/types/';
+import { LocalStorage } from '@/enums'
+import { IProductItem, IFormSchema } from '@/types/';
 import { localStorageService } from '@/api';
 import { useCartStore, useGuestCartStore, useProductStore, useUserStore } from '@/store';
+import { 
+  addToGuestCartService, 
+  removeFromGuestCartService,
+  changeQuantityGuestCartService,
+  createOrderService,
+  createOrderGuestService} from '@/services';
 
 export const useSmartCart = () => {
   const currentUser = useUserStore((state) => state.currentUser);
+  const sessionId = localStorage.getItem(LocalStorage.SESSION_ID) || '';
+
   const getProductById = useProductStore((state) => state.getProductById);
   const guestProducts = useGuestCartStore((state) => state.loadedProducts);
   const { cartProducts } = useCartStore();
@@ -34,44 +41,131 @@ export const useSmartCart = () => {
   const isGuest = !currentUser;
 
   useEffect(() => {
-    if (!isGuest) return;
-
+    if (!isGuest) return
     localStorageService.setItem(LocalStorage.CART_PRODUCTS, guestCart);
     localStorageService.setItem(LocalStorage.CART_QUANTITY, guestCartQuantity);
   }, [guestCart, guestCartQuantity, isGuest]);
 
   const cartItemsWithData = useMemo(() => {
-  const rawItems = isGuest ? guestCart : userCart?.items || [];
+    const rawItems = isGuest ? guestCart : userCart?.items || [];
 
-  return rawItems
-    .map(({ productId, quantity }) => {
-      const product = isGuest
-        ? guestProducts.find(p => p.id === productId)
-        : cartProducts.find(p => p.id === productId) || getProductById(productId);
+    return rawItems
+      .map(({ productId, quantity }) => {
+        const product = isGuest
+          ? guestProducts.find(p => p.id === productId)
+          : cartProducts.find(p => p.id === productId) || getProductById(productId);
 
-      if (!product) return null;
+        if (!product) return null;
+        return { product, quantity };
+      })
+      .filter(Boolean) as { product: IProductItem; quantity: number }[];
+  }, [isGuest, guestCart, userCart, cartProducts, getProductById, guestProducts]);
 
-      return { product, quantity };
-    })
-    .filter(Boolean) as { product: IProductItem; quantity: number }[];
-}, [isGuest, guestCart, userCart, cartProducts, getProductById, guestProducts]);
+  const createOrder = async (formData: IFormSchema) => {
+    try {
+      if (currentUser) {
+        
+        const authItems = userCart?.items.map((item) => ({
+          id: item.id,
+          cartId: item.cartId,
+          productId: item.productId,
+          quantity: item.quantity,
+        })) || [];
+
+        console.log("🚀 ВІДПРАВКА ЗАМОВЛЕННЯ (АВТОРИЗОВАНИЙ):", {
+        userId: currentUser.id,
+        paymentMethod: formData.paymentInfo.method,
+        deliveryMethod: formData.deliveryInfo.method,
+        items: authItems 
+      });
+
+        return await createOrderService(
+          {
+            userId: currentUser.id,
+            items: authItems,
+          },
+          formData.paymentInfo.method,
+          formData.deliveryInfo.method
+        );
+      } else {
+        const guestItems = guestCart.map((item) => ({
+          productId: item.productId,
+          quantity: item.quantity,
+        }));
+
+        return await createOrderGuestService(
+          {
+            ...formData.personalInfo,
+            items: guestItems,
+          },
+          sessionId,
+          formData.paymentInfo.method,
+          formData.deliveryInfo.method
+        );
+      }
+      
+    } catch (error) {
+      console.error('Помилка при створенні замовлення:', error);
+      throw error;
+    }
+  };
 
   const cartTotalQuantity = isGuest ? guestCartQuantity : userCartQuantity;
 
   return {
-    addToCart: (product: IProductItem) =>
-      isGuest ? addGuestToCart(product) : addUserToCart(product),
-    removeFromCart: (productId: number) =>
-      isGuest ? removeGuestFromCart(productId) : removeUserFromCart(productId),
-    increaseQuantity: (productId: number) =>
-      isGuest ? increaseGuestQuantity(productId) : increaseUserQuantity(productId),
-    decreaseQuantity: (productId: number) =>
-      isGuest ? decreaseGuestQuantity(productId) : decreaseUserQuantity(productId),
-    isInCart: (productId: number) =>
-      isGuest ? isGuestInCart(productId) : isUserInCart(productId),
-
+    addToCart: async (product: IProductItem) => {
+      const currentSessionId = localStorage.getItem(LocalStorage.SESSION_ID) || '';
+      if (isGuest) {
+        const existingItem = guestCart.find((item) => item.productId === product.id);
+        try {
+          if (existingItem) {
+            await changeQuantityGuestCartService(product.id, existingItem.quantity + 1, currentSessionId);
+            increaseGuestQuantity(product.id);
+          } else {
+            await addToGuestCartService(product.id, 1, currentSessionId);
+            addGuestToCart(product);
+          }
+        } catch (error) {
+          console.error("Помилка при додаванні до гостьового кошика:", error);
+        }
+      } else {
+        addUserToCart(product);
+      }
+    },
+    increaseQuantity: async (productId: number) => {
+      if (isGuest) {
+        const currentItem = guestCart.find(item => item.productId === productId);
+        if (currentItem) {
+          await changeQuantityGuestCartService(productId, currentItem.quantity + 1, sessionId);
+          increaseGuestQuantity(productId);
+        }
+      } else {
+        increaseUserQuantity(productId);
+      }
+    },
+    decreaseQuantity: async (productId: number) => {
+      if (isGuest) {
+        const currentItem = guestCart.find(item => item.productId === productId);
+        if (currentItem && currentItem.quantity > 1) {
+          await changeQuantityGuestCartService(productId, currentItem.quantity - 1, sessionId);
+          decreaseGuestQuantity(productId);
+        }
+      } else {
+        decreaseUserQuantity(productId);
+      }
+    },
+    removeFromCart: async (productId: number) => {
+      if (isGuest) {
+        await removeFromGuestCartService(productId, sessionId);
+        removeGuestFromCart(productId);
+      } else {
+        removeUserFromCart(productId);
+      }
+    },
+    isInCart: (productId: number) => isGuest ? isGuestInCart(productId) : isUserInCart(productId),
+    createOrder,
     cartItems: isGuest ? guestCart : userCart?.items || [],
     cartItemsWithData,
     cartTotalQuantity,
   };
-};
+}

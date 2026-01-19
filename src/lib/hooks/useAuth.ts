@@ -148,7 +148,6 @@ const useAuth = (): Return => {
   const onVerifyPhoneLogin = async (code: VerifyRequest, token : string | null) => {
 
     try{
-      console.log('Токен при виклику верифікації:', token);
       const res = await verifyPhoneLogin(code, token);
 
     if (res) {
@@ -176,8 +175,6 @@ const useAuth = (): Return => {
         useModalStore.getState().open('phoneVerification', res.token);
     }
 
-    // dispatch({ type: AuthAction.RESET_FORM });
-
     }catch(error) {
       const somethingErorr = (error as Error).message;
       useNotificationStore.getState().setNotification(somethingErorr, "error")
@@ -198,7 +195,7 @@ const useAuth = (): Return => {
         useModalStore.getState().open('phoneVerification', res.token);
       }
 
-      // dispatch({ type: AuthAction.RESET_FORM });
+      
     }catch(error) {
       const somethingError = (error as Error).message;
       useNotificationStore.getState().setNotification(somethingError, "error")
