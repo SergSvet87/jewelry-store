@@ -5,8 +5,13 @@ import { IFormSchema } from '@/types/';
 import { checkoutSchema } from '@/schemas';
 import { DeliveryMethod, PaymentMethod } from '@/enums';
 import { CheckoutForm } from '@/features/checkout/CheckoutForm';
+import { ArrowLeft } from '@/assets/icons/ArrowLeft';
+import { useNavigate } from 'react-router-dom';
 
 export const Checkout = () => {
+
+  const navigate = useNavigate()
+
   const methods = useForm<IFormSchema>({
     resolver: zodResolver(checkoutSchema),
     mode: 'onChange',
@@ -35,8 +40,16 @@ export const Checkout = () => {
   });
 
   return (
-    <div className="container flex flex-col items-start mt-[100px] py-10  section-indent">
-      <h2 className="  mb-[65px]">Оформлення замовлення</h2>
+    <div className="container flex flex-col mt-[100px] section-indent leading-[130%]">
+
+      <button
+        onClick={() => navigate(-1)}
+        className='flex items-center leading-none gap-1 text-[16px] font-medium'>
+          <ArrowLeft />
+          <span>Назад</span>
+      </button>
+
+      <h2 className="pt-8 text-center text-[#5B242A] text-[20px] font-medium">Оформлення замовлення</h2>
 
       <div className="w-full">
         <FormProvider {...methods}>

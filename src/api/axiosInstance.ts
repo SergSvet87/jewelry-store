@@ -3,9 +3,8 @@ import axios, {
   AxiosError,
 } from 'axios';
 
-import { ContentType, LocalStorage } from '@/enums';
+import { ContentType } from '@/enums';
 import { refreshAccessToken } from '@/services/authService';
-import { localStorageService } from '@/api/localStorageService';
 import { useAuthStore } from '@/store/useAuthStore';
 
 const axiosInstance = axios.create({
@@ -19,11 +18,18 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
-    const token = localStorageService.getItem(LocalStorage.ACCESS_TOKEN_KEY);
+    const { accessToken } = useAuthStore.getState();
 
-    if (token && config.headers) {
-      config.headers.Authorization = `Bearer ${token}`;
+    const hasManualAuth = config.headers?.Authorization;
+
+    if (accessToken && config.headers) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    } 
+
+    else if (config.headers && !hasManualAuth) {
+      delete config.headers.Authorization;
     }
+    
     return config;
   },
 );
@@ -42,7 +48,7 @@ axiosInstance.interceptors.response.use(
           return axiosInstance(originalRequest);
         }
       } catch (err) {
-        console.error("Помилка автоматичного оновлення сесії");
+        console.error("Помилка автоматичного оновлення сесії", err);
       }
       useAuthStore.getState().logout();
     }

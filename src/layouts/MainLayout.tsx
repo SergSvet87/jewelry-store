@@ -90,6 +90,17 @@ export const Layout = () => {
   }, []);
 
   useEffect(() => {
+
+   let currentSession = localStorage.getItem(LocalStorage.SESSION_ID);
+
+    if (!currentSession) {
+      currentSession = crypto.randomUUID();
+      localStorage.setItem(LocalStorage.SESSION_ID, currentSession);
+      document.cookie = `guest_id=${currentSession}; path=/; max-age=31536000; SameSite=Lax`;
+    }
+    
+    localStorage.setItem(LocalStorage.GUEST_CART_ID, currentSession);
+
     const query = getQueryParams(searchParams);
 
     if (query.page) setPage(query.page);

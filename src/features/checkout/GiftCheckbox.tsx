@@ -14,7 +14,7 @@ export const GiftCheckbox = () => {
         render={({ field }) => (
           <div className="flex items-center gap-2">
             <Checkbox id="isGift" checked={field.value} onCheckedChange={field.onChange} />
-            <Label htmlFor="isGift">Оформити замовлення в подарунок</Label>
+            <Label htmlFor="isGift">Загорнути в подарункову упаковку</Label>
           </div>
         )}
       />

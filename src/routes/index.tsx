@@ -29,6 +29,7 @@ import {
   UserScales,
 } from '@/features/dashboard';
 import { SingleCertificate } from '@/pages/SingleCertificate';
+import { OrderCreatedSuccess } from '@/pages/OrderCreatedSuccess';
 
 export const routes = createBrowserRouter([
   {
@@ -101,6 +102,10 @@ export const routes = createBrowserRouter([
       {
         path: AppRoute.CHECKOUT,
         element: <Checkout />,
+      },
+      {
+            path : AppRoute.ORDER_SUCCESS,
+            element : <OrderCreatedSuccess/>
       },
       // {
       //   path: AppRoute.ADMIN,

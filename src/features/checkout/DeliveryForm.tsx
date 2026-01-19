@@ -13,7 +13,7 @@ export const DeliveryForm = () => {
 
   return (
     <>
-      <div className="w-full relative flex items-center gap-2 border-b-2 border-grey bg-transparent rounded-none focus-within:border-brown-dark focus-within:text-brown-dark">
+      <div className="w-full relative flex items-center border-b-2 border-grey bg-transparent rounded-none leading-[130%] focus-within:border-brown-dark focus-within:text-brown-dark">
         <Input
           id='city'
           className="h-10 w-full bg-transparent border-none rounded-none px-3 pt-2.5"
@@ -25,7 +25,7 @@ export const DeliveryForm = () => {
         )}
       </div>
 
-      <fieldset className="flex flex-col gap-4">
+      <fieldset className="flex flex-col gap-4 w-full">
         <h2 className="font-body text-brown-dark font-medium text-second mb-5">Способи доставки</h2>
 
         <Controller
@@ -38,14 +38,21 @@ export const DeliveryForm = () => {
               onValueChange={field.onChange}
             >
               {deliveryMethods.map((method) => (
-                <div key={method.id} className="flex items-center space-x-2">
+                <div key={method.id} className="flex items-center space-x-2 ">
                   <RadioGroupItem
                     value={method.id}
                     id={method.id}
                     className="w-5 h-5 rounded-[10px] border-[0.5px] border-grey"
                   />
-                  <label htmlFor={method.id} className=" text-brown-dark">
-                    {method.label} — {method.price}
+                  <label 
+                    htmlFor={method.id} 
+                    className=" text-brown-dark text-[16px] w-full flex justify-between">
+                    <span>
+                      {method.label}
+                    </span>
+                    <span className='text-[#727272]'> 
+                      {method.price}
+                    </span>
                   </label>
                 </div>
               ))}

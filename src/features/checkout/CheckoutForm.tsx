@@ -1,27 +1,33 @@
 import { useCheckoutHandler } from '@/lib/hooks/useCheckoutHandler';
 import { Details } from '@/features/checkout/Details';
 import { Summary } from '@/features/checkout/Summary';
+import { HeaderCheckout } from './HeaderCheckout';
+import { FieldErrors } from 'react-hook-form';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const CheckoutForm = ({ methods }: { methods: any }) => {
-  
+
+  const {handleSubmit : handleFormSubmit} = methods;
+
   const { getValues, formState } = methods;
 
-  const { onOrderConfirmed, isOrderReady } = useCheckoutHandler({
+  const { onOrderConfirmed } = useCheckoutHandler({
     getValues,
     formState
   });
-  const handleSubmit = async () => {
-    await onOrderConfirmed();
-  };
 
   return (
-    <div className="container flex flex-col items-start mt-[100px] py-10  section-indent">
-      <h2 className="mb-[65px]">Оформлення замовлення</h2>
+    <div className="flex flex-col items-start section-indent">
 
-      <form className="w-full flex flex-col items-start justify-between md:flex-row gap-8">
+      <form 
+        className="w-full flex flex-col items-start justify-between md:flex-row gap-8"
+        onSubmit={handleFormSubmit(onOrderConfirmed, (errors : FieldErrors) => {
+        console.log("Помилки валідації:", errors);
+      })}
+        >
+        <HeaderCheckout/>
         <Details />
-        <Summary handleSubmit={handleSubmit} isOrderReady={isOrderReady} />
+        <Summary />
       </form>
     </div>
   );

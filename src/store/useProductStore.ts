@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 import { LocalStorage } from '@/enums';
-import { IFilterParams, IProductItem } from '@/types/';
+import { IFilterParams , IProductItem } from '@/types/';
 import { localStorageService } from '@/api';
 import { IProducts } from '@/types/products';
 
@@ -36,7 +36,7 @@ interface ProductState {
 }
 
 export const useProductStore = create<ProductState>()(devtools((set, get) => ({
-  
+
   products: {
     content: [],
     page: {

@@ -1,42 +1,43 @@
-interface IOrderRequest {
-  userId: number;
-  paymentMethod: string;
-  deliveryMethod: string;
-  items: {
-    id: number;
-    cartId: number;
-    productId: number;
-    quantity: number;
-  }[];
+interface IOrderItemRequest {
+  productId: number;
+  quantity: number;
 }
 
+interface IAuthOrderItemRequest {
+  id: number;        
+  cartId: number;    
+  productId: number;
+  quantity: number;
+}
 
-interface IOrderResponse {
-  id: number,
-  userId: number,
-  items: [
-    {
-      id: number,
-      productId: number,
-      orderId: number,
-      priceAtPurchase: number,
-      quantity: number
-    }
-  ],
-  status: string,
-  totalPrice: number,
-  createdAt: string,
+interface IAuthOrderRequest {
+  id? : number;
+  userId: number;
+  items: IAuthOrderItemRequest[];
 }
 
 interface IGuestOrderRequest {
-  sessionId: string;
-  paymentMethod: string;
-  deliveryMethod: string;
-  firstName: string,
-  lastName: string,
-  fatherName: string,
-  phone: string,
-  email: string
+  firstName: string;
+  lastName: string;
+  fatherName: string;
+  phone: string;
+  email: string;
+  items: IOrderItemRequest[];
 }
 
-export type { IOrderRequest, IOrderResponse, IGuestOrderRequest }
+interface IOrderResponse {
+  id: number;
+  userId: number | null;
+  items: IAuthOrderItemRequest[]; 
+  status: string;
+  totalPrice: number;
+  createdAt: string;
+}
+
+export type { 
+  IOrderResponse, 
+  IGuestOrderRequest, 
+  IOrderItemRequest, 
+  IAuthOrderRequest,
+  IAuthOrderItemRequest 
+};

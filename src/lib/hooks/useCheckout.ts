@@ -4,9 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '@/store';
 import { localStorageService } from '@/api';
 import { createOrderGuestService, createOrderService } from '@/services';
-import { IPersonalInfo, IPaymentInfo, IDeliveryInfo, IOrderRequest, IGuestOrderRequest } from '@/types/';
+import { IPersonalInfo, IPaymentInfo, IDeliveryInfo, IGuestOrderRequest } from '@/types/';
 import { AppRoute, DeliveryMethod, LocalStorage, OrderAction, OrderStage, PaymentMethod } from '@/enums';
 import { useSmartCart } from './useSmartCart';
+import { IAuthOrderRequest } from '@/types/order';
 
 type Return = {
   orderProcessStage: OrderStage;
@@ -174,14 +175,10 @@ const useCheckout = (): Return => {
     }));
 
     const userOrderFields = {
-      deliveryMethod: deliveryFormValue.method,
-      paymentMethod: paymentFormValue.method,
       items,
     };
 
     const guestOrderFields = {
-      deliveryMethod: deliveryFormValue.method,
-      paymentMethod: paymentFormValue.method,
       firstName: contactsFormValue.firstName,
       lastName: contactsFormValue.lastName,
       fatherName: contactsFormValue.fatherName,
@@ -190,13 +187,14 @@ const useCheckout = (): Return => {
     };
 
     if (currentUser?.id) {
-      const orderData: IOrderRequest = {
+      const orderData: IAuthOrderRequest = {
+        id : currentUser.id,
         userId: currentUser.id,
         ...userOrderFields,
-      };
+    };
 
       try {
-        const result = await createOrderService(orderData);
+        const result = await createOrderService(orderData, paymentFormValue.method, deliveryFormValue.method, );
         dispatch({ type: OrderAction.CONFIRM_ORDER, payload: { orderId: result.id } });
         navigate(AppRoute.PRODUCTS);
       } catch (err) {
@@ -204,15 +202,14 @@ const useCheckout = (): Return => {
       }
     }
 
-    // гостьовий користувач
     else if (sessionId) {
       const guestOrderData: IGuestOrderRequest = {
-        sessionId: sessionId.toString(),
         ...guestOrderFields,
+        items,
       };
 
       try {
-        const result = await createOrderGuestService(guestOrderData);
+        const result = await createOrderGuestService(guestOrderData, sessionId, paymentFormValue.method, deliveryFormValue.method);
         dispatch({ type: OrderAction.CONFIRM_ORDER, payload: { orderId: result.id } });
         navigate(AppRoute.PRODUCTS);
       } catch (err) {

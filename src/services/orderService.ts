@@ -1,59 +1,48 @@
 import { request } from "@/api";
 import { ApiEndpoint, HttpMethod } from "@/enums";
-import { IGuestOrderRequest, IOrderRequest, IOrderResponse } from "../types/";
+import { 
+  IOrderResponse, 
+  IGuestOrderRequest, 
+} from "../types/";
 
-const createOrderService = async ({
-  userId,
-  paymentMethod,
-  deliveryMethod,
-  items,
-}: IOrderRequest) => {
-  const res = await request<IOrderResponse>({
+import { IAuthOrderRequest } from "@/types/order";
+
+const createOrderService = async (
+  orderData: IAuthOrderRequest, 
+  paymentMethod: string, 
+  deliveryMethod: string
+) => {
+  return await request<IOrderResponse>({
     url: `${ApiEndpoint.ORDERS}/create`,
     method: HttpMethod.POST,
     params: {
-      deliveryMethod,
-      paymentMethod
+      paymentMethod: paymentMethod.toUpperCase(),
+      deliveryMethod: deliveryMethod.toUpperCase(),
     },
     data: {
-      userId,
-      items
-    }
+      id: orderData.userId,
+      userId: orderData.userId,
+      items: orderData.items,
+}
   });
-
-
-  return res;
 };
 
-const createOrderGuestService = async ({
-  sessionId,
-  paymentMethod,
-  deliveryMethod,
-  firstName,
-  lastName,
-  fatherName,
-  phone,
-  email,
-}: IGuestOrderRequest) => {
-  const res = await request<IOrderResponse>({
+const createOrderGuestService = async (
+  orderData: IGuestOrderRequest,
+  sessionId: string,
+  paymentMethod: string,
+  deliveryMethod: string
+) => {
+  return await request<IOrderResponse>({
     url: `${ApiEndpoint.ORDERS}/guest/create`,
     method: HttpMethod.POST,
     params: {
       sessionId,
-      paymentMethod,
-      deliveryMethod,
+      paymentMethod: paymentMethod.toUpperCase(),
+      deliveryMethod: deliveryMethod.toUpperCase(),
     },
-    data: {
-      firstName,
-      lastName,
-      fatherName,
-      phone,
-      email
-    }
+    data: orderData
   });
-
-
-  return res;
 };
 
-export { createOrderService, createOrderGuestService }
+export { createOrderService, createOrderGuestService };
