@@ -1,11 +1,12 @@
-import { useNavigate } from 'react-router-dom';
 import { UseFormReturn } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 import { useSmartCart } from '@/lib/hooks/useSmartCart';
 import { AppRoute } from '@/enums';
 import { IFormSchema } from '@/schemas/formSchema';
 import { LocalStorage } from '@/enums';
 import { localStorageService } from '@/api';
+import { useCartStore, useGuestCartStore, useUserStore } from '@/store';
 
 export const useCheckoutHandler = ({
   formState,
@@ -13,6 +14,12 @@ export const useCheckoutHandler = ({
   getValues: UseFormReturn<IFormSchema>['getValues'];
   formState: UseFormReturn<IFormSchema>['formState'];
 }) => {
+
+  const {clearCart : clearUserCart} = useCartStore();
+  const {clearCart : clearGuestCart} = useGuestCartStore()
+  const { currentUser } = useUserStore();
+  const isAuth = !!currentUser;
+
   const navigate = useNavigate();
   const { createOrder } = useSmartCart();
 
@@ -29,6 +36,11 @@ export const useCheckoutHandler = ({
 
     if (result) {
       console.log('Замовлення створено:', result);
+      if (isAuth) {
+        await clearUserCart()
+      }else {
+        await clearGuestCart()
+      };
       navigate(AppRoute.ORDER_SUCCESS, { 
         state: result, 
         replace: true

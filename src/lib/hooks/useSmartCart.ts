@@ -4,7 +4,6 @@ import { IProductItem, IFormSchema } from '@/types/';
 import { localStorageService } from '@/api';
 import { useCartStore, useGuestCartStore, useProductStore, useUserStore } from '@/store';
 import { 
-  addToGuestCartService, 
   removeFromGuestCartService,
   changeQuantityGuestCartService,
   createOrderService,
@@ -29,7 +28,6 @@ export const useSmartCart = () => {
   } = useCartStore();
 
   const {
-    addToCart: addGuestToCart,
     removeFromCart: removeGuestFromCart,
     increaseQuantity: increaseGuestQuantity,
     decreaseQuantity: decreaseGuestQuantity,
@@ -114,24 +112,13 @@ export const useSmartCart = () => {
 
   return {
     addToCart: async (product: IProductItem) => {
-      const currentSessionId = localStorage.getItem(LocalStorage.SESSION_ID) || '';
-      if (isGuest) {
-        const existingItem = guestCart.find((item) => item.productId === product.id);
-        try {
-          if (existingItem) {
-            await changeQuantityGuestCartService(product.id, existingItem.quantity + 1, currentSessionId);
-            increaseGuestQuantity(product.id);
-          } else {
-            await addToGuestCartService(product.id, 1, currentSessionId);
-            addGuestToCart(product);
-          }
-        } catch (error) {
-          console.error("Помилка при додаванні до гостьового кошика:", error);
-        }
-      } else {
-        addUserToCart(product);
-      }
-    },
+  if (isGuest) {
+    await useGuestCartStore.getState().addToCart(product);
+  } else {
+    
+    addUserToCart(product);
+  }
+},
     increaseQuantity: async (productId: number) => {
       if (isGuest) {
         const currentItem = guestCart.find(item => item.productId === productId);
