@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-
 import {
   addToGuestCartService,
   changeQuantityGuestCartService,
@@ -10,7 +9,6 @@ import {
   removeFromGuestCartService
 } from '@/services';
 import { LocalStorage } from '@/enums';
-import { localStorageService } from '@/api';
 import { IGuestCartItem, IProductItem } from '@/types/';
 
 interface GuestCartState {
@@ -22,7 +20,6 @@ interface GuestCartState {
 
   fetchGuestCart: () => Promise<void>;
   createGuestCart: () => Promise<void>;
-
   isInCart: (productId: number) => boolean;
   addToCart: (product: IProductItem) => Promise<void>;
   increaseQuantity: (productId: number) => Promise<void>;
@@ -31,159 +28,112 @@ interface GuestCartState {
   clearCart: () => Promise<void>;
 }
 
-export const useGuestCartStore = create<GuestCartState>((set, get) => {
+export const useGuestCartStore = create<GuestCartState>((set, get) => ({
+  guestCart: [],
+  cartTotalQuantity: 0,
+  isLoading: false,
+  guestId: getOrCreateGuestId(),
+  loadedProducts: [],
 
-  return {
-    guestCart: [],
-    cartTotalQuantity: 0,
-    isLoading: false,
-    guestId: localStorageService.getItem(LocalStorage.GUEST_ID) || getOrCreateGuestId(),
+  fetchGuestCart: async () => {
+    const { guestId } = get();
+    if (!guestId) return;
 
-    loadedProducts: [] as IProductItem[],
-    setLoadedProducts: (products: IProductItem[]) => set({ loadedProducts: products }),
-
-    createGuestCart: async () => {
-      const guestId = get().guestId;
-      localStorage.setItem(LocalStorage.GUEST_CART_ID, guestId);
-
-      set({
-        guestCart: [],
-        cartTotalQuantity: 0,
-      });
-    },
-
-    fetchGuestCart: async () => {
-      const initialGuestId = localStorageService.getItem(LocalStorage.GUEST_ID) as string;
-
-      if (!initialGuestId) {
-        console.warn("Спроба завантажити гостьовий кошик без Guest ID");
-        set({ isLoading: false, guestCart: [], cartTotalQuantity: 0 });
+    set({ isLoading: true });
+    try {
+      const items = await getProductFromGuestCartService(guestId);
+      
+      if (!items || items.length === 0) {
+        set({ guestCart: [], cartTotalQuantity: 0, loadedProducts: [], isLoading: false });
         return;
       }
 
-      set({ isLoading: true });
+      const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
+      
+      const productPromises = items.map(item => fetchProductById(item.productId));
+      const resolvedProducts = await Promise.all(productPromises);
 
-      try {
-        const items = await getProductFromGuestCartService(initialGuestId);
-        
-        if (!items) {
-          set({ guestCart: [], cartTotalQuantity: 0, isLoading: false });
-          return;
-        }
+      set({
+        guestCart: items,
+        cartTotalQuantity: totalQuantity,
+        loadedProducts: resolvedProducts,
+        isLoading: false
+      });
+    } catch (error) {
+      console.error("Помилка завантаження гостьового кошика:", error);
+      set({ isLoading: false });
+    }
+  },
 
-        const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
-        const productPromises = items.map(item => fetchProductById(item.productId));
-        const resolvedProducts = await Promise.all(productPromises);
+  createGuestCart: async () => {
+    const { guestId } = get();
+    localStorage.setItem(LocalStorage.GUEST_CART_ID, guestId);
+    set({ guestCart: [], cartTotalQuantity: 0, loadedProducts: [] });
+  },
 
-        set({
-          guestCart: items,
-          cartTotalQuantity: totalQuantity,
-          loadedProducts: resolvedProducts,
-          isLoading: false
-        });
-      } catch (error) {
-        console.error("Помилка завантаження гостьового кошика:", error);
-        set({ isLoading: false });
-      }
-    },
+  isInCart: (productId) => {
+    return get().guestCart.some((i) => i.productId === productId);
+  },
 
-    isInCart: (productId) => {
-      return get().guestCart.some((i) => i.productId === productId);
-    },
 
-    addToCart: async (product) => {
-      const initialGuestId = localStorageService.getItem(LocalStorage.GUEST_ID) as string;
+  addToCart: async (product) => {
+    const { guestId, guestCart, fetchGuestCart, isLoading } = get();
+    if (!guestId || isLoading) return;
+    const existingItem = guestCart.find((i) => i.productId === product.id);
+    const newQuantity = existingItem ? existingItem.quantity + 1 : 1;
 
-      if (!initialGuestId) return;
+    set({ isLoading: true });
 
-      const existing = get().guestCart.find((i) => i.productId === product.id);
-      const newQuantity = existing ? existing.quantity + 1 : 1;
+    try {
+      await addToGuestCartService(product.id, newQuantity, guestId); 
+      await fetchGuestCart();
+    } catch (error) {
+      console.error("Помилка:", error);
+    } finally {
+      set({ isLoading: false });
+    }
+  },
 
-      await addToGuestCartService(product.id, newQuantity, initialGuestId);
+  increaseQuantity: async (productId) => {
+    const { guestId, guestCart, fetchGuestCart } = get();
+    const item = guestCart.find((i) => i.productId === productId);
+    if (!guestId || !item) return;
 
-      const updatedCart = [...get().guestCart];
-      const index = updatedCart.findIndex((i) => i.productId === product.id);
-      if (index > -1) {
-        updatedCart[index].quantity = newQuantity;
-      } else {
-        updatedCart.push({ productId: product.id, quantity: newQuantity });
-      }
+    await changeQuantityGuestCartService(productId, item.quantity + 1, guestId);
+    await fetchGuestCart();
+  },
 
-      const updatedQuantity = updatedCart.reduce((sum, i) => sum + i.quantity, 0);
+  decreaseQuantity: async (productId) => {
+    const { guestId, guestCart, fetchGuestCart } = get();
+    const item = guestCart.find((i) => i.productId === productId);
+    if (!guestId || !item || item.quantity <= 1) return;
 
-      set({ guestCart: updatedCart, cartTotalQuantity: updatedQuantity });
-      await get().fetchGuestCart();
-    },
+    await changeQuantityGuestCartService(productId, item.quantity - 1, guestId);
+    await fetchGuestCart();
+  },
 
-    increaseQuantity: async (productId) => {
-      const initialGuestId = localStorageService.getItem(LocalStorage.GUEST_ID) as string;
+  removeFromCart: async (productId) => {
+  const { guestId, fetchGuestCart } = get();
 
-      if (!initialGuestId) return;
+  if (!guestId) {
+    console.error("ЗАПИТ НЕ ВІДПРАВЛЕНО: guestId відсутній у сторі");
+    return;
+  }
 
-      const cart = get().guestCart;
-      const index = cart.findIndex((i) => i.productId === productId);
-      if (index === -1) return;
+  try {
+    await removeFromGuestCartService(productId, guestId);
+    await fetchGuestCart();
+  } catch (error) {
+    console.error("Помилка в removeFromCartService:", error);
+    throw error; 
+  }
+},
 
-      const item = cart[index];
-      const newQuantity = item.quantity + 1;
+  clearCart: async () => {
+    const { guestId } = get();
+    if (!guestId) return;
 
-      await changeQuantityGuestCartService(productId, newQuantity, initialGuestId);
-
-      const updatedCart = [...cart];
-      updatedCart[index] = { ...item, quantity: newQuantity };
-
-      const updatedQuantity = updatedCart.reduce((sum, i) => sum + i.quantity, 0);
-      set({ guestCart: updatedCart, cartTotalQuantity: updatedQuantity });
-      await get().fetchGuestCart();
-    },
-
-    decreaseQuantity: async (productId) => {
-      const initialGuestId = localStorageService.getItem(LocalStorage.GUEST_ID) as string;
-
-      if (!initialGuestId) return;
-
-      const cart = get().guestCart;
-      const index = cart.findIndex((i) => i.productId === productId);
-      if (index === -1) return;
-
-      const item = cart[index];
-      const newQuantity = item.quantity - 1;
-
-      if (newQuantity < 1) return;
-
-      await changeQuantityGuestCartService(productId, newQuantity, initialGuestId);
-
-      const updatedCart = [...cart];
-      updatedCart[index] = { ...item, quantity: newQuantity };
-
-      const updatedQuantity = updatedCart.reduce((sum, i) => sum + i.quantity, 0);
-      set({ guestCart: updatedCart, cartTotalQuantity: updatedQuantity });
-      await get().fetchGuestCart();
-    },
-
-    removeFromCart: async (productId) => {
-      const initialGuestId = localStorageService.getItem(LocalStorage.GUEST_ID) as string;
-
-      if (!initialGuestId) return;
-
-      await removeFromGuestCartService(productId, initialGuestId);
-
-      const updatedCart = get().guestCart.filter((i) => i.productId !== productId);
-      const updatedQuantity = updatedCart.reduce((sum, i) => sum + i.quantity, 0);
-
-      set({ guestCart: updatedCart, cartTotalQuantity: updatedQuantity });
-      await get().fetchGuestCart();
-    },
-
-    clearCart: async () => {
-
-      const initialGuestId = localStorageService.getItem(LocalStorage.GUEST_ID) as string;
-
-      if (!initialGuestId) return;
-
-      await clearGuestCartService(initialGuestId);
-      set({ guestCart: [], cartTotalQuantity: 0 });
-      await get().fetchGuestCart();
-    },
-  };
-});
+    await clearGuestCartService(guestId);
+    set({ guestCart: [], cartTotalQuantity: 0, loadedProducts: [] });
+  },
+}));

@@ -7,20 +7,39 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui';
-import { useCartStore, useModalStore } from '@/store';
+
+import {
+  useCartStore,
+  useModalStore, 
+  useGuestCartStore, 
+  useUserStore
+} from '@/store';
 
 export const PopUpDeleteFromCart = () => {
   const { openModal, deleteProductId, backToCart } = useModalStore();
-  const removeFromCart = useCartStore((state) => state.removeFromCart);
 
   const isOpen = openModal === 'deleteFromCart';
 
-  const handleRemove = () => {
-    if (deleteProductId !== null) {
-      removeFromCart(deleteProductId);
+const isAuth = useUserStore((state) => !!state.currentUser);
+
+const removeFromAuthCart = useCartStore((state) => state.removeFromCart);
+const removeFromGuestCart = useGuestCartStore((state) => state.removeFromCart);
+
+const handleRemove = async () => {
+  if (deleteProductId !== null) {
+    try {
+      if (isAuth) {
+        await removeFromAuthCart(deleteProductId);
+      } else {
+        await removeFromGuestCart(deleteProductId);
+      }
+      
       backToCart();
+    } catch (error) {
+      console.error("Помилка при видаленні:", error);
     }
-  };
+  }
+};
 
   return (
     <Dialog open={isOpen} onOpenChange={() => backToCart()}>
@@ -32,16 +51,26 @@ export const PopUpDeleteFromCart = () => {
 
         <DialogDescription className="hidden" />
 
-        <DialogFooter className="w-full">
-          <div className="flex items-center justify-between gap-5">
-            <Button variant="outline" className="w-[143px]" onClick={backToCart}>
-              Ні
-            </Button>
-
-            <Button className="w-[143px]" onClick={handleRemove}>
-              Так
-            </Button>
-          </div>
+       <DialogFooter className="w-full pointer-events-auto relative z-50"> {/* Додали pointer-events-auto */}
+        <div className="flex items-center justify-between gap-5 pointer-events-auto">
+          <Button 
+            variant="outline" 
+            className="w-[143px] pointer-events-auto" 
+            onClick={() => {
+              backToCart();
+            }}
+          >
+            Ні
+          </Button>
+          <Button 
+            className="w-[143px] pointer-events-auto" 
+            onClick={() => {
+              handleRemove();
+            }}
+          >
+            Так
+          </Button>
+         </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>
