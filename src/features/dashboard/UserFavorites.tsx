@@ -45,9 +45,9 @@ export const UserFavorites = () => {
 
   return (
     <div className="flex flex-col gap-12 w-full h-auto leading-[130%]">
-      <h4 className="mt-8 text-[20px] text-[#5B242A] text-center">Список бажань</h4>
+      <h4 className="mt-8 text-[20px] text-[#5B242A] text-center md:text-left md:text-black font-normal">Список бажань</h4>
 
-      <div className="grid grid-cols-2 px-3 gap-2 pb-12">
+      <div className="grid grid-cols-2 px-3 gap-2 pb-12 md:px-0 md:pr-20 md:gap-10">
         {products.length > 0 ? (
           products.map((product) => (
             <Card key={product.id} className="relative">

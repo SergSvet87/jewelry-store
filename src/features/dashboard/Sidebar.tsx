@@ -7,13 +7,13 @@ import { useAuthStore } from '@/store/useAuthStore';
 import { useWindowWidth } from '@/lib/hooks/useWindowWidth';
 
 export const Sidebar = () => {
+
   const navigate = useNavigate();
   const {isMobile} = useWindowWidth();
   const logout = useAuthStore((state) => state.logout);
 
-  const linkClass = 'flex gap-5 p-0 w-full items-center transition-all duration-200';
+  const linkClass = 'flex gap-5 md:gap-2 p-0 w-full items-center transition-all duration-200';
 
-  const activeClass = 'text-brown-dark';
 
   const handleLogout = () => {
     logout();
@@ -21,7 +21,7 @@ export const Sidebar = () => {
   };
 
   return (
-    <aside className="flex flex-col h-[calc(100vh-100px)] w-full md:pl-15 md:pt-10">
+    <aside className="flex flex-col h-[calc(100vh-100px)] md:h-0 w-full md:pl-16 md:pt-9">
       <UserContacts />
 
     {isMobile && (
@@ -29,16 +29,16 @@ export const Sidebar = () => {
         <div className='border-1 border-gray-400 '/>
       </>
     )}
-      <nav className="pl-[10px] py-4 mb-[98px]">
-        <ul className="flex flex-col p-0 w-fit">
+      <nav className="pl-2.5 md:pl-0 py-4 md:py-0 md:mb-[150px]">
+        <ul className="flex gap-8 md:gap-6 flex-col p-0 w-fit">
           {menuItems.map((item, index) => {
             return (
-              <li key={index} className="w-full h-15">
+              <li key={index} className="w-full font-normal text-[20px] md:text-[16px]">
                 <NavLink
                   to={item.href}
                   end
                   className={({ isActive }) =>
-                    `${linkClass} text-[20px] font-medium md:${isActive ? activeClass : 'text-grey'}`
+                    `${linkClass} ${isActive ? 'md:text-brown-dark font-normal' : 'md:text-grey'}`
                   }
                 >
                   {({ isActive }) => (
@@ -59,7 +59,7 @@ export const Sidebar = () => {
       </nav>
 
       <button
-        className="btn mt-auto pl-6 mb-4 text-[16px] text-[#5B242A] md:pl-0 md:pb-16"
+        className="btn mt-auto md:mt-0 pl-6 mb-4 text-[16px] text-[#5B242A] md:pl-0 md:pb-16"
         onClick={handleLogout}
       >
         Вийти

@@ -17,11 +17,11 @@ export const DashboardLayout = () => {
   return (
     <>
       {isDesktop || isTablet ? (
-        <div className="grid grid-cols-[600px_1fr]">
+        <div className="grid grid-cols-[300px_1fr]">
           <nav>
             <Sidebar />
           </nav>
-          <main className="flex-1 mt-[80px]">
+          <main className='grid grid-cols'>
             <Outlet />
           </main>
         </div>
