@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { AppRoute } from '@/enums';
 import { ArrowUp } from '@/assets';
@@ -6,7 +6,7 @@ import { categories, footerLinks, socialLinks } from '@/mock';
 // import { useCatalogStore } from '@/store';
 
 const Footer = () => {
-  const { pathname } = useLocation();
+  // const { pathname } = useLocation();
   // const categories = useCatalogStore((state) => state.category);
 
   const handleScrollClick = (e: React.MouseEvent<HTMLAnchorElement>, el: string) => {
@@ -17,8 +17,8 @@ const Footer = () => {
   };
 
   return (
-    <footer id="footer" className="w-full bg-brown-dark lg:py-16 py-12 text-main relative">
-      <div className="container grid grid-cols-1  xl:flex">
+    <footer id="footer" className="w-full bg-brown-dark py-12 md:py-14 lg:py-16 text-main relative">
+      <div className="container grid grid-cols-1 xl:flex">
         <div
           className="hidden justify-center items-center cursor-pointer sm:flex sm:hidden xl:block pr-[165px]"
           onClick={() => AppRoute.ROOT}
@@ -26,9 +26,9 @@ const Footer = () => {
           <div className="text-accent text-[54px] [font-family:'Aboreto'] font-normal">JEMMA</div>
         </div>
 
-        <div className="w-full gap-2 mb-4 text-[10px] grid grid-cols-[1fr_1fr_1fr] sm:grid-cols-[0.8fr_1fr_0.2fr] sm:px-3 sm:gap-10 xl:grid-cols-[0.8fr_1.2fr_1fr] md:text-text">
+        <div className="w-full gap-2 mb-4 md:mb-8 text-[10px] grid grid-cols-[1fr_1fr_1fr]  sm:grid-cols-[0.8fr_1fr_0.2fr] sm:px-3 sm:gap-10 xl:grid-cols-[0.8fr_1.2fr_1fr] md:text-text">
           <div className="">
-            <ul className="flex flex-col gap-4 sm:items-start">
+            <ul className="flex flex-col gap-4 md:gap-4.5 sm:items-start">
               {categories.map((category) => (
                 <li key={`product-${category.id}`}>
                   <Link
@@ -42,17 +42,8 @@ const Footer = () => {
             </ul>
           </div>
 
-          <nav className="flex flex-col gap-4">
+          <nav className="flex flex-col gap-4 md:gap-4.5">
             {footerLinks
-              .filter((item) => {
-                if (
-                  (item.href === '#about-us' || item.href === '#certificate') &&
-                  pathname !== AppRoute.ROOT
-                ) {
-                  return false;
-                }
-                return true;
-              })
               .map((item, index) =>
                 item.href.startsWith('#') ? (
                   <a
@@ -73,7 +64,7 @@ const Footer = () => {
               )}
           </nav>
 
-          <ul className="flex flex-col gap-4 items-end sm:items-start lg:items-start ">
+          <ul className="flex flex-col gap-4 md:gap-4.5 items-end sm:items-start lg:items-start ">
             {socialLinks.map((link, index) => (
               <li key={`social-${index}`}>
                 <a href="#" className="">
@@ -85,7 +76,7 @@ const Footer = () => {
         </div>
 
         <div
-          className="w-full flex justify-center items-center sm:mt-5 xl:hidden"
+          className="w-full flex justify-center items-center sm:mt-5 xl:hidden "
           onClick={() => AppRoute.ROOT}
         >
           <div className="text-accent text-[51px] [font-family:'Aboreto'] font-normal">JEMMA</div>

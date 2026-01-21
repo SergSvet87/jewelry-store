@@ -56,14 +56,14 @@ useEffect(() => {
 
 return (
   <div className="flex flex-col gap-12 w-full h-auto leading-[130%]">
-    <h4 className="mt-8 text-[20px] text-[#5B242A] text-center font-medium">Списки порівнянь</h4>
+    <h4 className="mt-8 text-[20px] text-[#5B242A] text-center font-medium md:text-left md:text-black">Списки порівнянь</h4>
     
-    <div className="flex flex-col gap-10 px-3 pb-12">
+    <div className="flex flex-col gap-10 px-3 pb-12 md:px-0 md:pr-20 ">
       {Object.entries(groupedProducts).length > 0 ? (
         Object.entries(groupedProducts).map(([category, items]) => (
           <div key={category} className="flex flex-col gap-4">
               <h5 className="font-medium text-[20px]">{category}</h5>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-2 md:gap-10">
               {items.map((product) => (
                 <Card key={product.id} className="relative">
                   <CardContent className={cn('relative w-full overflow-hidden')}>
@@ -111,7 +111,7 @@ return (
 
                     {items.length > 1 ? (
                     <button 
-                      className="text-sm text-black border-1 font-medium w-full py-2 hover:bg-[#7a3138] transition-colors"
+                      className="text-sm text-black border-1 font-medium w-full py-2 hover:bg-[#7a3138] transition-colors md:w-1/2 md:flex-col md:mx-auto"
                       onClick={() => console.log(`Порівнюємо ${category}`)}
                     >
                       Порівняти {category}
@@ -119,7 +119,6 @@ return (
                   ):(
                     <div className='text-center text-xl text-red-400 font-medium'>Для порівняння потрібно мінімум два товара</div>
                   )}
-              <div className="flex items-center justify-between border-b border-[#5B242A]/20 pt-5"/>
           </div>
 
         ))

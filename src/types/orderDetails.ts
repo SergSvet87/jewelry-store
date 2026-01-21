@@ -1,10 +1,11 @@
 export interface IOrderDetails {
     id : number,
-    orderNumber : string,
+    orderNumber : string | number,
     userId : number,
     guestUserId : number | null,
     createdAt : string,
     totalPrice : number,
+    status : string,
     items : {
         id : number,
         orderId : number,

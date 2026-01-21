@@ -1,33 +1,27 @@
 export const CheckCircleIcon = () => {
   return (
     <svg
-      width="20"
-      height="20"
-      viewBox="0 0 20 20"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clipPath="url(#clip0_3690_7710)">
-        <path
-          d="M18.3332 9.23324V9.99991C18.3321 11.7969 17.7503 13.5455 16.6743 14.9848C15.5983 16.4241 14.0859 17.477 12.3626 17.9865C10.6394 18.496 8.79755 18.4348 7.1119 17.8121C5.42624 17.1893 3.98705 16.0383 3.00897 14.5308C2.03089 13.0233 1.56633 11.24 1.68457 9.44684C1.80281 7.65371 2.49751 5.94685 3.66507 4.5808C4.83263 3.21476 6.41049 2.26273 8.16333 1.8667C9.91617 1.47067 11.7501 1.65185 13.3915 2.38324"
-          stroke="#1D110A"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M18.3333 3.33331L10 11.675L7.5 9.17498"
-          stroke="#1D110A"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </g>
-      <defs>
-        <clipPath id="clip0_3690_7710">
-          <rect width="20" height="20" fill="white" />
-        </clipPath>
-      </defs>
+      <path
+        d="M22 11.0799V11.9999C21.9988 14.1563 21.3005 16.2545 20.0093 17.9817C18.7182 19.7088 16.9033 20.9723 14.8354 21.5838C12.7674 22.1952 10.5573 22.1218 8.53447 21.3744C6.51168 20.6271 4.78465 19.246 3.61096 17.4369C2.43727 15.6279 1.87979 13.4879 2.02168 11.3362C2.16356 9.18443 2.99721 7.13619 4.39828 5.49694C5.79935 3.85768 7.69279 2.71525 9.79619 2.24001C11.8996 1.76477 14.1003 1.9822 16.07 2.85986"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M22 4L12 14.01L9 11.01"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
+
