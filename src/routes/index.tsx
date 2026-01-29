@@ -23,7 +23,7 @@ import {
 import {
   UserData,
   UserFavorites,
-  UserLoyalty,
+  UserCompareProducts,
   UserOrders,
   UserReviews,
   UserScales,
@@ -90,8 +90,8 @@ export const routes = createBrowserRouter([
             element: <UserReviews />,
           },
           {
-            path: AppRoute.USER_LOYALTY,
-            element: <UserLoyalty />,
+            path: AppRoute.USER_COMPARE,
+            element: <UserCompareProducts />,
           },
           {
             path: AppRoute.USER_SCALES,
