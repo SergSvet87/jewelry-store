@@ -8,6 +8,7 @@ import { Card, CardContent, CardFooter } from '@/components/ui';
 import { AppRoute } from '@/enums';
 import { IProductItem } from '@/types/product';
 import { DeleteIcon } from '@/assets';
+import { useCompareStore } from '@/store/useCompareStore';
 
 export const UserScales = () => {
 
@@ -16,6 +17,8 @@ export const UserScales = () => {
   const allProducts = useProductStore((state) => state.allProducts);
   const getProductById = useProductStore((state) => state.getProductById);
   const setAllProducts = useProductStore((state) => state.setAllProducts);
+
+  const {setCompareItems} = useCompareStore()
 
   const products = useMemo(() => {
   return scales
@@ -110,12 +113,15 @@ return (
             </div>
 
                     {items.length > 1 ? (
-                    <button 
-                      className="text-sm text-black border-1 font-medium w-full py-2 hover:bg-[#7a3138] transition-colors md:w-1/2 md:flex-col md:mx-auto"
-                      onClick={() => console.log(`Порівнюємо ${category}`)}
-                    >
-                      Порівняти {category}
-                    </button>
+                      <Link to={AppRoute.USER_COMPARE}>
+                        <button 
+                          className="text-sm text-black border-1 font-medium w-full py-2 hover:bg-[#7a3138] transition-colors md:w-1/2 md:flex-col md:mx-auto"
+                          onClick={() => setCompareItems(items)}
+                        >
+                          Порівняти {category}
+                        </button>
+                      </Link>
+                    
                   ):(
                     <div className='text-center text-xl text-red-400 font-medium'>Для порівняння потрібно щонайменше два товара</div>
                   )}

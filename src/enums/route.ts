@@ -7,7 +7,7 @@ const AppRoute = {
   USER_DATA: '/dashboard',
   USER_PROFILE : '/dashboard/personal-data',
   USER_CART: '/dashboard/cart',
-  USER_LOYALTY: '/dashboard/loyalty',
+  USER_COMPARE: '/dashboard/compare-products',
   USER_ORDERS: '/dashboard/orders',
   USER_REVIEWS: '/dashboard/reviews',
   USER_FAVORITES: '/dashboard/favorites',
