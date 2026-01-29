@@ -4,5 +4,5 @@ export interface IPersonalInfo {
   fatherName: string;
   phone: string;
   email: string;
-  isGift?: boolean;
+  isGift: boolean;
 }

@@ -3,12 +3,12 @@ import { useLocation, Link } from "react-router-dom"
 
 import { deliveryMethods, paymentMethods } from "@/constants/checkoutOptions";
 
-import { IOrderDetails } from "@/types/orderDetails";
+import { IFullOrderDetails } from "@/types/orderDetails";
 
 export const OrderCreatedSuccess = () => {
 
     const location = useLocation();
-    const orderData = location.state as IOrderDetails;
+    const orderData = location.state as IFullOrderDetails;
 
     const deliveryMethodIdFromServer = orderData.orderDetails.deliveryMethod;
     const paymentMethodIdFromServer = orderData.orderDetails.paymentMethod;

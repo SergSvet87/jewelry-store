@@ -1,65 +1,94 @@
-// import cn from 'classnames';
-
-// import { Button, Card, CardContent } from '@/components/ui';
-// import { useOrderStore, useProductStore } from '@/store';
+import { useEffect } from "react";
+import { useOrderStore } from "@/store";
 
 export const UserOrders = () => {
+
+  const { orders, fetchOrders } = useOrderStore() 
+
+  const dateChanger = (date :string) => {
+    const dataObj = new Date(date).toLocaleDateString('uk-UA', {
+      day : "numeric",
+      month : "long",
+      year : "numeric"
+    })
+    return dataObj.replace(/\s*р\.?$/, "");
+  }
+  
+  useEffect(() => {
+    fetchOrders();
+  }, [fetchOrders])
+
+  const orderStatusMap: Record<string, string> = {
+  PENDING: 'В очікуванні',
+  DONE: 'Виконано',
+  CANCELLED: 'Скасовано',
+  SHIPPED: 'Відправлено',
+};
+
+const getStatusLabel = (status: string) => {
+  return orderStatusMap[status] || status;
+};
+
+  console.log("Дані замовлень у сторі:", orders);
+
   return (
     <>
-    
+      <h2 className="text-button text-[20px] text-center p-8">Історія Замовлень</h2>
+      {orders.map((item) => (
+        <div key={item.id} className="container">
+          <div className="flex justify-between items-baseline pb-3">
+            <span className="text-[20px] font-normal">
+              Замовлення № {item.orderNumber.slice(-4)}
+            </span>
+            <span className="text-[16px] text-[#727272]">
+              {dateChanger(item.createdAt)}
+            </span>
+          </div>
+          
+          <span className="text-[16px] text-button">
+            {getStatusLabel(item.status)}
+          </span>
+
+          <img 
+            src={item.items[0].product.images[0].url} 
+            alt="Замовлений товар"
+            className="w-2/5 pt-3"
+            />
+
+          <div className="flex gap-1 py-1">
+            <span>{item.items[0].product.categoryName}</span>
+            <span>"{item.items[0].product.collectionName}"</span>
+          </div>
+
+          <span className="text-button text-[16px]">
+            {item.items[0].product.price.normalPrice} грн
+          </span>
+
+          <div className=" flex flex-col gap-4 pt-5 pb-16">
+            
+              {item.isGift && (  
+                <div className="flex justify-between">
+                  <span>Подарункове пакування</span>
+                  <span className="text-button">{"240 грн"}</span>
+                </div>
+              )}
+
+            <div className="flex justify-between">
+              <span>Послуги доставки </span>
+              <span className="text-button">0 грн</span>
+            </div>
+
+            <div className="flex justify-between text-[16px] font-medium">
+              <span>Разом </span>
+              <span className="text-button">{item.isGift ? item.totalPrice + 240 + " грн" : item.totalPrice + ' грн'}</span>
+            </div>
+          </div>
+
+        <button className="w-full border-1 p-3 text-[16px] mb-21">Залишити відгук</button>
+          
+        </div>
+      ))}
     </>
   )
-  // const { order, status } = useOrderStore();
-  // const getProductById = useProductStore((state) => state.getProductById);
 
-  // return (
-  //   <div className="flex flex-col gap-7 w-full h-auto">
-  //     <h4 className="mt-2">Замовлення</h4>
-
-  //     <div className="flex flex-col gap-4">
-  //       {order ? (
-  //         order.items.map((item) => {
-  //           const product = getProductById(item.productId);
-
-  //           return (
-  //           <Card className={cn('w-full h-[202px] rounded-none')}>
-  //             <CardContent
-  //               className={cn(
-  //                 'relative w-full overflow-hidden flex items-start justify-between gap-6',
-  //               )}
-  //             >
-  //               <div className="w-[202px] h-[202px]">
-  //                 {product?.images.map((image, index) => (
-  //                     <img
-  //                       key={index}
-  //                       src={image.url}
-  //                       alt={product.name}
-  //                       className="w-full h-full object-cover"
-  //                     />
-  //                   ))
-  //                   .slice(0, 1)}
-  //               </div>
-
-  //               <div className="flex flex-col gap-1">
-  //                 <span className="">№ {order?.id}</span>
-
-  //                 <span className="text-grey">{product?.name}</span>
-  //               </div>
-
-  //               <div className="flex flex-col h-[202px] items-end justify-between">
-  //                 <span className="text-button">{status}</span>
-
-  //                 <Button variant="outline" className="w-[259px]">
-  //                   Залишити відгук
-  //                 </Button>
-  //               </div>
-  //             </CardContent>
-  //           </Card>
-  //         )})
-  //       ) : (
-  //         <div className='text-center text-xl font-medium'>У вас немає успішних замовлень</div>
-  //       )}
-  //     </div>
-  //   </div>
-  // );
 };

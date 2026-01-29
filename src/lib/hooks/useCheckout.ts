@@ -194,7 +194,7 @@ const useCheckout = (): Return => {
     };
 
       try {
-        const result = await createOrderService(orderData, paymentFormValue.method, deliveryFormValue.method, );
+        const result = await createOrderService(orderData, paymentFormValue.method, deliveryFormValue.method, contactsFormValue.isGift );
         dispatch({ type: OrderAction.CONFIRM_ORDER, payload: { orderId: result.id } });
         navigate(AppRoute.PRODUCTS);
       } catch (err) {
@@ -204,12 +204,13 @@ const useCheckout = (): Return => {
 
     else if (sessionId) {
       const guestOrderData: IGuestOrderRequest = {
+        
         ...guestOrderFields,
         items,
       };
 
       try {
-        const result = await createOrderGuestService(guestOrderData, sessionId, paymentFormValue.method, deliveryFormValue.method);
+        const result = await createOrderGuestService(guestOrderData, sessionId, paymentFormValue.method, deliveryFormValue.method, contactsFormValue.isGift );
         dispatch({ type: OrderAction.CONFIRM_ORDER, payload: { orderId: result.id } });
         navigate(AppRoute.PRODUCTS);
       } catch (err) {

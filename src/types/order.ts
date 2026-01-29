@@ -25,17 +25,28 @@ interface IGuestOrderRequest {
   items: IOrderItemRequest[];
 }
 
-interface IOrderResponse {
-  id: number;
-  userId: number | null;
-  items: IAuthOrderItemRequest[]; 
-  status: string;
-  totalPrice: number;
-  createdAt: string;
-}
+// interface IOrderResponse {
+//   id: number;
+//   orderNumber: string;
+//   createdAt: string;
+//   userId: number | null;
+//   items: IAuthOrderItemRequest[]; 
+//   status: string;
+//   totalPrice: number;
+//   isGift: boolean | null;
+
+//   orderDetails: {
+//     firstName: string;
+//     lastName: string;
+//     email: string;
+//     phone: string;
+//     deliveryMethod: string;
+//     paymentMethod: string;
+//   };
+// }
 
 export type { 
-  IOrderResponse, 
+  // IOrderResponse, 
   IGuestOrderRequest, 
   IOrderItemRequest, 
   IAuthOrderRequest,

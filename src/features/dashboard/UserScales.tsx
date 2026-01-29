@@ -117,7 +117,7 @@ return (
                       Порівняти {category}
                     </button>
                   ):(
-                    <div className='text-center text-xl text-red-400 font-medium'>Для порівняння потрібно мінімум два товара</div>
+                    <div className='text-center text-xl text-red-400 font-medium'>Для порівняння потрібно щонайменше два товара</div>
                   )}
           </div>
 

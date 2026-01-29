@@ -3,7 +3,7 @@ import { LocalStorage } from '@/enums'
 import { IProductItem, IFormSchema } from '@/types/';
 import { localStorageService } from '@/api';
 import { useCartStore, useGuestCartStore, useProductStore, useUserStore } from '@/store';
-import { 
+import {  
   removeFromGuestCartService,
   changeQuantityGuestCartService,
   createOrderService,
@@ -68,6 +68,7 @@ export const useSmartCart = () => {
           cartId: item.cartId,
           productId: item.productId,
           quantity: item.quantity,
+          formData : formData.personalInfo.isGift
         })) || [];
 
         console.log("🚀 ВІДПРАВКА ЗАМОВЛЕННЯ (АВТОРИЗОВАНИЙ):", {
@@ -83,7 +84,8 @@ export const useSmartCart = () => {
             items: authItems,
           },
           formData.paymentInfo.method,
-          formData.deliveryInfo.method
+          formData.deliveryInfo.method,
+          formData.personalInfo.isGift,
         );
       } else {
         const guestItems = guestCart.map((item) => ({
@@ -98,7 +100,9 @@ export const useSmartCart = () => {
           },
           sessionId,
           formData.paymentInfo.method,
-          formData.deliveryInfo.method
+          formData.deliveryInfo.method,
+          formData.personalInfo.isGift,
+
         );
       }
       

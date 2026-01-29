@@ -16,7 +16,7 @@ export type { IPaymentInfo } from './paymentInfo';
 export type { IPersonalInfo } from './personalInfo';
 export type { IFormSchema } from '../schemas/formSchema';
 export type { ICardData } from './card';
-export type { IOrderResponse, IGuestOrderRequest } from './order';
+export type { IGuestOrderRequest } from './order';
 
 export type {
   RegisterRequest,

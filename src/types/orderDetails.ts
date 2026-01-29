@@ -1,25 +1,41 @@
-export interface IOrderDetails {
-    id : number,
-    orderNumber : string | number,
-    userId : number,
-    guestUserId : number | null,
-    createdAt : string,
-    totalPrice : number,
-    status : string,
-    items : {
-        id : number,
-        orderId : number,
-        priceAtPurchase : number,
-        productId : number,
-        quantity : number,
-    }
-    orderDetails : {
-        deliveryMethod : string,
-        email : string,
-        fatherName : string,
-        firstName : string,
-        lastName : string,
-        paymentMethod : string,
-        phone : string,
-    }
+export interface IOrderProduct {
+    id: number;
+    name: string;
+    sku: string;
+    categoryName: string;
+    collectionName: string;
+    price: {
+        normalPrice: number;
+        discountPercentage: number;
+        discountedPrice: number;
+    };
+    images: {
+        url: string;
+        isMainImage: boolean;
+    }[];
+}
+
+export interface IOrderItem {
+    id: number;
+    product: IOrderProduct; 
+}
+
+export interface IFullOrderDetails {
+    id: number; 
+    orderNumber: string;
+    userId: number | null; 
+    status: string;
+    totalPrice: number;
+    createdAt: string; 
+    items: IOrderItem[]; 
+    orderDetails: {
+        firstName: string;
+        lastName: string;
+        email: string;
+        phone: string;
+        deliveryMethod: string;
+        paymentMethod: string;
+        fatherName?: string;  
+    };
+    isGift: boolean | null;
 }

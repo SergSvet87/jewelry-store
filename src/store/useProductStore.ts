@@ -26,45 +26,30 @@ interface ProductState {
   setProducts: (products: IProducts) => void;
   setCollectionProducts: (collectionProducts: IProductItem[]) => void;
   setAllProducts: (products: IProducts) => void;
-  setSelectedProduct: (product: IProductItem) => void,
+  setSelectedProduct: (product: IProductItem) => void;
   filterByCategory: (category: string) => IProductItem[];
   setFavorites: (id: number) => void;
   setScale : (id:number) => void;
   setLoading: (value: boolean) => void;
   setHasFetched: (value: boolean) => void;
   fetchProducts: (signal: AbortSignal) => Promise<void>;
+  addProductsToAll: (newProducts: IProductItem[]) => void;
 }
 
 export const useProductStore = create<ProductState>()(devtools((set, get) => ({
 
   products: {
     content: [],
-    page: {
-      size: 0,
-      number: 0,
-      totalElements: 0,
-      totalPages: 0
-    }
+    page: { size: 0, number: 0, totalElements: 0, totalPages: 0 }
   },
   allProducts: {
     content: [],
-    page: {
-      size: 0,
-      number: 0,
-      totalElements: 0,
-      totalPages: 0
-    }
+    page: { size: 0, number: 0, totalElements: 0, totalPages: 0 }
   },
   collectionProducts: [],
-  favorites: localStorageService.getItem<number[]>(
-    LocalStorage.FAVORITE_PRODUCTS
-  ) ?? [],
-  scales: localStorageService.getItem<number[]>(
-    LocalStorage.SCALES_PRODUCTS
-  ) ?? [],
-  
+  favorites: localStorageService.getItem<number[]>(LocalStorage.FAVORITE_PRODUCTS) ?? [],
+  scales: localStorageService.getItem<number[]>(LocalStorage.SCALES_PRODUCTS) ?? [],
   selectedProduct: null,
-
   loading: false,
   hasFetched: false,
   error: null,
@@ -83,8 +68,7 @@ export const useProductStore = create<ProductState>()(devtools((set, get) => ({
 
   setFavorites: (id) => {
     const { favorites } = get();
-    const isFav = favorites.includes(id);
-    const updated = isFav
+    const updated = favorites.includes(id)
       ? favorites.filter((item) => item !== id)
       : [...favorites, id];
 
@@ -94,13 +78,9 @@ export const useProductStore = create<ProductState>()(devtools((set, get) => ({
 
   setScale : (id) => {
     const {scales} = get();
-    const isScale = scales.includes(id);
-    const updated = isScale 
-    ? scales.filter((item) => item !== id)
-    : [...scales, id]
-
-    console.log("Ключ для запису:", LocalStorage.SCALES_PRODUCTS);
-    console.log("Дані для запису:", updated);
+    const updated = scales.includes(id)
+      ? scales.filter((item) => item !== id)
+      : [...scales, id];
 
     set({scales : updated});
     localStorageService.setItem(LocalStorage.SCALES_PRODUCTS, updated);
@@ -108,20 +88,31 @@ export const useProductStore = create<ProductState>()(devtools((set, get) => ({
 
   setLoading: (value) => set({ loading: value }),
 
+  addProductsToAll: (newProducts) => {
+    const { allProducts } = get();
+    const mergedMap = new Map([
+      ...allProducts.content.map(p => [p.id, p] as [number, IProductItem]),
+      ...newProducts.map(p => [p.id, p] as [number, IProductItem])
+    ]);
+
+    set({
+      allProducts: {
+        ...allProducts,
+        content: Array.from(mergedMap.values())
+      }
+    });
+  },
+
   fetchProducts: async (signal: AbortSignal) => {
     const { 
-      page, 
-      sortBy, 
-      selectedCategories, 
-      selectedCollections, 
-      selectedMaterials, 
-      priceRange 
+      page, sortBy, selectedCategories, selectedCollections, 
+      selectedMaterials, priceRange 
     } = useCatalogStore.getState(); 
 
     try {
       set({ loading: true, error: null });
 
-      const filters:IFilterParams = {
+      const filters: IFilterParams = {
         page: page - 1, 
         size: 12, 
         sortBy: sortBy,
@@ -133,7 +124,22 @@ export const useProductStore = create<ProductState>()(devtools((set, get) => ({
       };
 
       const res = await getAllProducts(filters, signal); 
-      set({ products: res, loading: false });
+
+      set((state) => {
+        const mergedMap = new Map([
+          ...state.allProducts.content.map(p => [p.id, p] as [number, IProductItem]),
+          ...res.content.map(p => [p.id, p] as [number, IProductItem])
+        ]);
+
+        return {
+          products: res,
+          allProducts: {
+            ...state.allProducts,
+            content: Array.from(mergedMap.values())
+          },
+          loading: false
+        };
+      });
 
     } catch (err) {
       if (err instanceof Error && err.name !== 'AbortError') {
@@ -143,5 +149,4 @@ export const useProductStore = create<ProductState>()(devtools((set, get) => ({
       }
     }
   },
-
-})));
+})))

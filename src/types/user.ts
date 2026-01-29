@@ -1,5 +1,5 @@
 import { ICartItem } from "./cart";
-import { IOrderResponse } from "./order";
+import { IFullOrderDetails } from "./orderDetails";
 
 export interface IUserItem {
   id: number;
@@ -21,6 +21,6 @@ export interface IUserItem {
     addressLine?: string;
   };
   password?: string;
-  orders?: IOrderResponse[];
+  orders?: IFullOrderDetails[];
   cart?: ICartItem[];
 }
