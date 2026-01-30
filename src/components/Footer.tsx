@@ -17,7 +17,7 @@ const Footer = () => {
   };
 
   return (
-    <footer id="footer" className="w-full bg-brown-dark py-12 md:py-14 lg:py-16 text-main relative">
+    <footer id="footer" className="w-full bg-brown-dark md:mt-15 py-12 md:py-14 lg:py-16 text-main relative">
       <div className="container grid grid-cols-1 xl:flex">
         <div
           className="hidden justify-center items-center cursor-pointer sm:flex sm:hidden xl:block pr-[165px]"

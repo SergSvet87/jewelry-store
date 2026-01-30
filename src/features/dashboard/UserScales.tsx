@@ -9,7 +9,6 @@ import { AppRoute } from '@/enums';
 import { IProductItem } from '@/types/product';
 import { DeleteIcon } from '@/assets';
 import { useCompareStore } from '@/store/useCompareStore';
-
 export const UserScales = () => {
 
   const scales = useProductStore((state) => state.scales);
@@ -17,7 +16,6 @@ export const UserScales = () => {
   const allProducts = useProductStore((state) => state.allProducts);
   const getProductById = useProductStore((state) => state.getProductById);
   const setAllProducts = useProductStore((state) => state.setAllProducts);
-
   const {setCompareItems} = useCompareStore()
 
   const products = useMemo(() => {
@@ -58,15 +56,16 @@ useEffect(() => {
 }, [allProducts.content.length, setAllProducts]);
 
 return (
-  <div className="flex flex-col gap-12 w-full h-auto leading-[130%]">
-    <h4 className="mt-8 text-[20px] text-[#5B242A] text-center font-medium md:text-left md:text-black">Списки порівнянь</h4>
+  <div className="flex flex-col gap-12 w-full h-auto leading-[130%] mt-8  md:mt-10">
+    
+      <h4 className="text-[20px] text-[#5B242A] text-center font-medium md:text-left md:text-black">Список порівнянь</h4>
     
     <div className="flex flex-col gap-10 px-3 pb-12 md:px-0 md:pr-20 ">
       {Object.entries(groupedProducts).length > 0 ? (
         Object.entries(groupedProducts).map(([category, items]) => (
-          <div key={category} className="flex flex-col gap-4">
-              <h5 className="font-medium text-[20px]">{category}</h5>
-            <div className="grid grid-cols-2 gap-2 md:gap-10">
+          <div key={category} className="flex flex-col gap-4 md:gap-9">
+              <h5 className="font-medium text-[20px] text-button">{category}</h5>
+            <div className="grid grid-cols-2 gap-2 md:gap-15 lg:grid-cols-3">
               {items.map((product) => (
                 <Card key={product.id} className="relative">
                   <CardContent className={cn('relative w-full overflow-hidden')}>
@@ -112,19 +111,19 @@ return (
               ))}
             </div>
 
-                    {items.length > 1 ? (
-                      <Link to={AppRoute.USER_COMPARE}>
-                        <button 
-                          className="text-sm text-black border-1 font-medium w-full py-2 hover:bg-[#7a3138] transition-colors md:w-1/2 md:flex-col md:mx-auto"
-                          onClick={() => setCompareItems(items)}
-                        >
-                          Порівняти {category}
-                        </button>
-                      </Link>
+            {items.length > 1 ? (
+              <Link to={AppRoute.USER_COMPARE}>
+                <button 
+                  className="text-sm text-black border-1 font-medium w-full py-2 hover:bg-[#7a3138] transition-colors md:w-1/2 md:flex-col md:flex md:mx-auto"
+                  onClick={() => setCompareItems(items)}
+                >
+                  Порівняти {category}
+                </button>
+              </Link>
                     
-                  ):(
-                    <div className='text-center text-xl text-red-400 font-medium'>Для порівняння потрібно щонайменше два товара</div>
-                  )}
+              ):(
+                <span className='text-center text-xl text-red-400 font-medium'>Для порівняння потрібно щонайменше два товара</span>
+              )}
           </div>
 
         ))

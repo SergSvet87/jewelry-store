@@ -44,10 +44,10 @@ export const UserFavorites = () => {
 }, [allProducts.content.length, setAllProducts]);
 
   return (
-    <div className="flex flex-col gap-12 w-full h-auto leading-[130%]">
-      <h4 className="mt-8 text-[20px] text-[#5B242A] text-center md:text-left md:text-black font-normal">Список бажань</h4>
+    <div className="flex flex-col gap-12 md:gap-8 w-full h-auto leading-[130%]">
+      <h4 className="mt-8 text-[20px] text-[#5B242A] text-center md:mt-10 md:text-left md:text-black font-normal lg:pt-25">Список бажань</h4>
 
-      <div className="grid grid-cols-2 px-3 gap-2 pb-12 md:px-0 md:pr-20 md:gap-10">
+      <div className="grid grid-cols-2 px-3 gap-2 pb-12 md:px-0 md:pr-20 md:gap-10 lg:grid-cols-3 ">
         {products.length > 0 ? (
           products.map((product) => (
             <Card key={product.id} className="relative">
@@ -59,7 +59,7 @@ export const UserFavorites = () => {
                     .map((image, index) => (
                       <div 
                       key={index} 
-                      className='w-full aspect-[4/5] overflow-hidden'>
+                      className='w-full  overflow-hidden'>
                         <img
                           src={image.url}
                           alt={product.name}
