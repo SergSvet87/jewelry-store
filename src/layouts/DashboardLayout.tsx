@@ -17,8 +17,8 @@ export const DashboardLayout = () => {
   return (
     <>
       {isDesktop || isTablet ? (
-        <div className="flex w-full whitespace-nowrap gap-15  lg:gap-55">
-          <nav>
+        <div className="flex w-full whitespace-nowrap gap-10 lg:gap-15 xl:gap-30 ">
+          <nav className='h-full'>
             <Sidebar />
           </nav>
           <main className='lg:w-full'>

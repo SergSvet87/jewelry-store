@@ -7,7 +7,7 @@ import {
   Favorite,
   HomePage,
   Catalog,
-  Scale,
+  CompareProductsPage,
   PublicAgreement,
   SingleProduct,
   PrivacyPolicy,
@@ -23,13 +23,13 @@ import {
 import {
   UserData,
   UserFavorites,
-  UserCompareProducts,
   UserOrders,
   UserReviews,
   UserScales,
 } from '@/features/dashboard';
 import { SingleCertificate } from '@/pages/SingleCertificate';
 import { OrderCreatedSuccess } from '@/pages/OrderCreatedSuccess';
+import AdminPage from '@/pages/AdminPage';
 
 export const routes = createBrowserRouter([
   {
@@ -40,11 +40,12 @@ export const routes = createBrowserRouter([
       { path: AppRoute.PRODUCTS, element: <Catalog /> },
       { path: AppRoute.PRODUCT, element: <SingleProduct /> },
       { path: AppRoute.FAVORITE, element: <Favorite /> },
-      { path: AppRoute.SCALE, element: <Scale /> },
+      { path: AppRoute.SCALE, element: <CompareProductsPage /> },
       { path: AppRoute.PUBLIC, element: <PublicAgreement /> },
       { path: AppRoute.PRIVACY, element: <PrivacyPolicy /> },
       { path: AppRoute.USER_AGREEMENT, element: <UserAgreement /> },
       { path: AppRoute.SUCCESS, element: <SuccessfulRegister /> },
+      { path: AppRoute.ADMIN, element : <AdminPage />},
       {
         path: AppRoute.SIGN_IN,
         element: <AuthLogin />,
@@ -90,14 +91,14 @@ export const routes = createBrowserRouter([
             element: <UserReviews />,
           },
           {
-            path: AppRoute.USER_COMPARE,
-            element: <UserCompareProducts />,
-          },
-          {
             path: AppRoute.USER_SCALES,
             element: <UserScales />,
           },
         ],
+      },
+      {
+            path: AppRoute.USER_COMPARE,
+            element: <CompareProductsPage />,
       },
       {
         path: AppRoute.CHECKOUT,

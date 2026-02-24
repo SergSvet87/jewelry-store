@@ -21,7 +21,7 @@ export const Sidebar = () => {
   };
 
   return (
-    <aside className="flex flex-col h-[calc(100vh-100px)] md:h-0 w-full md:pl-16 md:pt-9">
+    <aside className="flex flex-col h-[calc(100vh-100px)] md:h-full w-full md:pl-16 md:pt-9">
       <UserContacts />
 
     {isMobile && (
@@ -56,14 +56,17 @@ export const Sidebar = () => {
             );
           })}
         </ul>
-      </nav>
 
-      <button
-        className="btn mt-auto md:mt-0 pl-6 mb-4 text-[16px] text-[#5B242A] md:pl-0 md:pb-16"
+        
+      </nav>
+     <button
+        className="mt-auto self-start pl-6 mb-4 text-[16px] text-[#5B242A] md:pl-0"
         onClick={handleLogout}
+        // className="btn mt-auto md:mt-0 pl-6 mb-4 text-[16px] text-[#5B242A] md:pl-0 md:pb-16"
       >
         Вийти
       </button>
+    
     </aside>
   );
 };

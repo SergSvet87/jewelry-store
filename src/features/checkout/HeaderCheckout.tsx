@@ -8,9 +8,9 @@ export const HeaderCheckout = () => {
 
     return (
         <div>
-            <h2 className='pt-12 pb-2 text-[20px] '>Замовлення</h2>
-            <span className='text-[12px]'>1 товар</span>
-            <div className="flex w-full flex-col gap-7 ">
+            <h2 className='pt-12 pb-2 text-[20px] md:hidden'>Замовлення</h2>
+            <span className='text-[12px] md:hidden'>1 товар</span>
+            <div className="flex flex-col w-full gap-7 md:p-5">
                 {cartItemsWithData.map(({ product, quantity }) => {
                     if (!product) return null;
                     return <CardCheckout 
@@ -18,7 +18,7 @@ export const HeaderCheckout = () => {
                         item={product} 
                         quantity={quantity} />;
                 })}
-                </div>
+            </div>
         </div>
        
     )
