@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
-const SM_MIN = 640;   // min-width: 640px 
-// const MD_MIN = 768;   // min-width: 768px
+// const SM_MIN = 640;   // min-width: 640px 
+const MD_MIN = 768;   // min-width: 768px
 const LG_MIN = 1024;  // min-width: 1024px
 // const XL_MIN = 1280;  // min-width: 1280px
 
@@ -28,8 +28,8 @@ export const useWindowWidth = () => {
         return { width: 0, isMobile: false, isTablet: false, isDesktop: false };
     }
 
-    const isMobile = width < SM_MIN;
-    const isTablet = width >= SM_MIN  && width <= LG_MIN; 
+    const isMobile = width < MD_MIN;
+    const isTablet = width >= MD_MIN && width <= LG_MIN; 
     const isDesktop = width > LG_MIN;
 
     return { 

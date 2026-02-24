@@ -56,24 +56,24 @@ useEffect(() => {
 }, [allProducts.content.length, setAllProducts]);
 
 return (
-  <div className="flex flex-col gap-12 w-full h-auto leading-[130%] mt-8  md:mt-10">
+  <div className="flex flex-col gap-12 w-full h-auto leading-[130%] mt-8 md:mt-10">
     
       <h4 className="text-[20px] text-[#5B242A] text-center font-medium md:text-left md:text-black">Список порівнянь</h4>
     
-    <div className="flex flex-col gap-10 px-3 pb-12 md:px-0 md:pr-20 ">
+    <div className="flex flex-col gap-10 px-3 pb-12 md:px-0 md:pl-0 md:pr-12">
       {Object.entries(groupedProducts).length > 0 ? (
         Object.entries(groupedProducts).map(([category, items]) => (
-          <div key={category} className="flex flex-col gap-4 md:gap-9">
+          <div key={category} className="grid grid-cols-1 gap-4 md:gap-9 lg:gap-7">
               <h5 className="font-medium text-[20px] text-button">{category}</h5>
             <div className="grid grid-cols-2 gap-2 md:gap-15 lg:grid-cols-3">
               {items.map((product) => (
-                <Card key={product.id} className="relative">
-                  <CardContent className={cn('relative w-full overflow-hidden')}>
-                    <div className="w-full h-full relative bg-cover bg-center">
+                <Card key={product.id} >
+                  <CardContent className={cn('relative w-full overflow-hidden aspect-square')}>
+                    <div className="w-full h-full">
                         {product?.images.slice(0, 1).map((image, index) => (
                             <div 
                             key={index} 
-                            className='w-full aspect-[4/5] overflow-hidden'>
+                            className='w-full h-full overflow-hidden'>
                                 <img
                                   src={image.url}
                                   alt={product.name}
@@ -96,7 +96,7 @@ return (
                     </div>
                   </CardContent>
                   
-                  <CardFooter className="flex justify-between pt-1 pb-2 text-[12px]">
+                  <CardFooter className="flex justify-between pt-1 pb-2 md:pb-0 text-[12px]">
                     <div className='flex gap-1'>
                       <span>{product.categoryName}</span>
                       <span className="text-[#727272]">"{product.collectionName}"</span>
@@ -112,12 +112,16 @@ return (
             </div>
 
             {items.length > 1 ? (
-              <Link to={AppRoute.USER_COMPARE}>
+              <Link 
+              to={AppRoute.USER_COMPARE}
+              className='lg:flex lg:justify-end'>
                 <button 
-                  className="text-sm text-black border-1 font-medium w-full py-2 hover:bg-[#7a3138] transition-colors md:w-1/2 md:flex-col md:flex md:mx-auto"
+                  className="text-sm text-black border-1 font-medium w-full py-2 hover:bg-[#7a3138] transition-colors 
+                  md:w-1/2 md:flex-col md:flex md:mx-auto 
+                  lg:w-1/3 lg:mx-0"
                   onClick={() => setCompareItems(items)}
                 >
-                  Порівняти {category}
+                  Порівняти товари
                 </button>
               </Link>
                     

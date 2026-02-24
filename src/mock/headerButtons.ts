@@ -33,6 +33,12 @@ export const headerButtons = [
     href: AppRoute.CART,
     type: 'stroke',
   },
+  {
+    title : "admin",
+    href : AppRoute.ADMIN,
+    icon : UserIcon,
+    type : "fill"
+  }
 ];
 
 export const headerButtonsMobile = [
@@ -54,6 +60,12 @@ export const headerButtonsMobile = [
     href: AppRoute.CART,
     type: 'stroke',
   },
+    {
+    title : "admin",
+    href : AppRoute.ADMIN,
+    icon : UserIcon,
+    type : "fill"
+  }
 ];
 
 export const burgerButtons = [
@@ -75,4 +87,10 @@ export const burgerButtons = [
     icon: ScalesIcon,
     type: 'fill',
   },
+    {
+    title : "admin",
+    href : AppRoute.ADMIN,
+    icon : UserIcon,
+    type : "fill"
+  }
 ]

@@ -25,20 +25,20 @@ export const DeliveryForm = () => {
         )}
       </div>
 
-      <fieldset className="flex flex-col gap-4 w-full">
-        <h2 className="font-body text-brown-dark font-medium text-second mb-5">Способи доставки</h2>
+      <fieldset className="flex flex-col w-full">
+        <h2 className="font-body text-brown-dark font-medium text-second pb-8">Способи доставки</h2>
 
         <Controller
           name="deliveryInfo.method"
           control={control}
           render={({ field }) => (
             <RadioGroup
-              className="w-full space-y-7"
+              className="w-full space-y-7 "
               value={field.value}
               onValueChange={field.onChange}
             >
               {deliveryMethods.map((method) => (
-                <div key={method.id} className="flex items-center space-x-2 ">
+                <div key={method.id} className="flex items-center space-x-2">
                   <RadioGroupItem
                     value={method.id}
                     id={method.id}

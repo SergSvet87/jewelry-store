@@ -4,7 +4,7 @@ export { Cart } from './Cart';
 export { AuthLogin } from './AuthLogin';
 export { AuthRegister } from './AuthRegister';
 export { Favorite } from './Favorite';
-export { Scale } from './Scale';
+export { CompareProductsPage } from './CompareProductsPage';
 export { SingleProduct } from './SingleProduct';
 export { PublicAgreement } from './PublicAgreement';
 export { PrivacyPolicy } from './PrivacyPolicy';

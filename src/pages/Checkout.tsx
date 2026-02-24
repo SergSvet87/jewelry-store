@@ -40,16 +40,16 @@ export const Checkout = () => {
   });
 
   return (
-    <div className="container flex flex-col mt-[100px] section-indent leading-[130%]">
+    <div className="container md:px-14 flex flex-col mt-[100px] section-indent leading-[130%]">
 
       <button
         onClick={() => navigate(-1)}
-        className='flex items-center leading-none gap-1 text-[16px] font-medium'>
+        className='flex items-center leading-none gap-1 text-[16px] font-medium md:hidden'>
           <ArrowLeft />
           <span>Назад</span>
       </button>
 
-      <h2 className="pt-8 text-center text-[#5B242A] text-[20px] font-medium">Оформлення замовлення</h2>
+      <h2 className="pt-8 text-center text-[20px] font-normal md:text-start lg:pt-10 lg:text-[54px]">Оформлення замовлення</h2>
 
       <div className="w-full">
         <FormProvider {...methods}>

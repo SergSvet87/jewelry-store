@@ -24,6 +24,7 @@ export const UserData = () => {
 
   const {isMobile, isTablet, isDesktop} = useWindowWidth()
 
+  // const isEditingNow = isTablet ? (editMain || editAdditional) : editAdditional;
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -56,6 +57,21 @@ export const UserData = () => {
     setFormData((prev) => ({ ...prev, gender: value }));
   };
 
+  const handleEditToggle = (section : string) => {
+    if(isTablet) {
+      setEditMain(true);
+      setEditAdditional(true);
+    }
+    else {
+      if(section === 'main') {  
+        setEditMain(true)
+    }
+    if(section === 'additional') {
+      setEditAdditional(true)
+    }
+    };
+  }
+
   const handleSave = async () => {
     setIsLoading(true);
     try {
@@ -87,13 +103,13 @@ const handleCancelMain = () => {
 
   return (
      <>
-      <div className="leading-[130%] md:grid md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-4 lg:grid-cols-3 lg:pt-25 pb-20 ">
+      <div className="leading-[130%] md:grid md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-4 lg:grid-cols-[1fr_0.5fr_1fr] lg:pt-25 lg:pb-20 ">
         <Card>
           {isMobile && 
           (
             <h3 className='text-[20px] leading-[130%] text-center text-[#5B242A] pt-8'>Особисті дані</h3>
           )}
-          <CardContent className="flex flex-col gap-6 pt-4 h-full px-4 md:px-0 ">       
+          <CardContent className="flex flex-col gap-6 lg:gap-9 pt-4 h-full px-4 md:px-0 "> 
             <div className="flex flex-col text-[16px] gap-4.5 md:gap-8">
               <h4 className="text-[#1D110A] font-normal text-[20px] pt-4">Основні дані</h4>
               <div className='flex flex-col gap-4 pl-3 text-[16px] font-normal md:pl-0'>
@@ -137,7 +153,7 @@ const handleCancelMain = () => {
                       className='md:pl-3 lg:p-0'
                     />
               </div>
-              <div className="flex flex-col gap-4 text-[16px] font-normal pl-3  md:pl-0">
+              <div className="flex flex-col gap-4 text-[16px] font-normal pl-3  md:pl-0 md:w-70">
                 <Label className="opacity-70">Електронна пошта</Label>
                   <Input
                     name="email"
@@ -155,7 +171,7 @@ const handleCancelMain = () => {
           {!isTablet && (
             <>
             {!editMain ? (
-                <Button variant="outline" className="w-full font-normal text-[16px] lg:w-6/9 lg:mt-5.5" onClick={() => setEditMain(true)}>
+                <Button variant="outline" className="w-full font-normal text-[16px] lg:w-5/10" onClick={() => handleEditToggle("main")}>
                   Редагувати
                 </Button>
               ) : (
@@ -174,7 +190,7 @@ const handleCancelMain = () => {
         </Card>
 
           {isDesktop ? (
-            <div className="flex flex-col pt-25 gap-4.5 pl-5">
+            <div className="flex flex-col pt-18 gap-4.5">
                   <Label className="opacity-70">Прізвище</Label>
                     <Input
                       name="lastName"
@@ -192,10 +208,10 @@ const handleCancelMain = () => {
 
         <Card className="flex-1 min-w-[350px] bg-main/10 leading-[130%]">
           <CardContent className="flex flex-col justify-between h-full p-4">
-            <div className="flex flex-col pt-4">
+            <div className="flex flex-col pt-4 md:gap-8">
               <h4 className="text-black font-normal text-[20px]">Додаткові дані</h4>
 
-              <div className="flex flex-col gap-6 md:gap-8 pt-4 text-[16px]">
+              <div className="flex flex-col gap-6 md:gap-8 pt-4 md:pt-0 text-[16px]">
                 <div className="flex flex-col gap-4 pl-3 md:pl-0">
                   <Label className="opacity-70 ">Стать</Label>
                   {!editAdditional ? (
@@ -238,9 +254,9 @@ const handleCancelMain = () => {
                     />
                   )}
                 </div>
-                <div className="hidden md:hidden lg:pt-30 lg:block">
+                <div className="hidden md:hidden lg:pt-23.5 lg:block">
                 {!editAdditional ? (
-                  <Button variant="outline" className="w-full text-[16px] font-medium lg:w-6/9" onClick={() => setEditAdditional(true)}>
+                  <Button variant="outline" className="w-full text-[16px] font-medium lg:w-5/10" onClick={() => handleEditToggle("additional")}>
                     Редагувати
                   </Button>
                     ) : (
@@ -260,22 +276,41 @@ const handleCancelMain = () => {
         </Card>
       </div>
 
-      <div className="flex mt-4 pb-16 container lg:hidden">
-              {!editAdditional ? (
-                <Button variant="outline" className="w-full md:w-2/5 text-[16px] font-medium" onClick={() => setEditAdditional(true)}>
-                  Редагувати
-                </Button>
-              ) : (
-                <>
-                  <Button variant="ghost" className="flex-1" onClick={() => setEditAdditional(false)}>
-                    Скасувати
-                  </Button>
-                  <Button className="flex-1" onClick={handleSave} disabled={isLoading}>
-                    {isLoading ? 'Збереження...' : 'Зберегти'}
-                  </Button>
-                </>
-              )}
+      <div className="flex mt-4 md:mt-21 pb-16 md:pb-0 container lg:hidden">
+        {!(isTablet ? (editMain || editAdditional) : editAdditional) ? (
+          <Button
+            variant="outline"
+            className="w-full md:w-3/5 text-[16px] font-medium"
+            onClick={() => handleEditToggle(isTablet ? "all" : "additional")}
+          >
+            Редагувати
+          </Button>
+          ) : (
+        <div className="flex gap-4 w-full md:w-2/5">
+          <Button 
+            variant="ghost" 
+            className="flex-1" 
+            onClick={() => {
+              if (isTablet) {
+                handleCancelMain(); 
+                setEditAdditional(false);
+              } else {
+                setEditAdditional(false);
+              }
+            }}
+          >
+            Скасувати
+          </Button>
+          <Button 
+            className="flex-1" 
+            onClick={handleSave} 
+            disabled={isLoading}
+          >
+          {isLoading ? 'Збереження...' : 'Зберегти'}
+          </Button>
+        </div>
+      )}
       </div>
-     </>
+    </>
   );
-};
+}

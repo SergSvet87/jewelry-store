@@ -98,4 +98,5 @@ export const useCatalogStore = create<CatalogState>((set, get) => ({
   setSelectedMaterials: (materials) => set({ selectedMaterials: materials, page: 1 }),
   setPriceRange: (range) => set({ priceRange: range, page: 1 }),
   setLoading: (value) => set({ loading: value }),
+  
 }));
