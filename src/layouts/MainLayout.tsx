@@ -1,5 +1,5 @@
 import { useEffect, useCallback } from 'react';
-import { Outlet, useSearchParams } from 'react-router-dom';
+import { Outlet, useSearchParams, useLocation} from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 import { LocalStorage } from '@/enums';
@@ -25,12 +25,15 @@ import { Notification } from '@/components/Notification';
 import { PopUpCart } from '@/features/cart/PopUpCart';
 import { PopUpDeleteFromCart } from '@/features/cart/PopUpDeleteFromCart';
 import { PopUpConfirmationPhone } from '@/features/auth/ConfirmationPhone';
+import type { IUserItem } from '../types/user';
 
 export const Layout = () => {
 
   const accessToken = useAuthStore((state) => state.accessToken);
   const logout = useAuthStore((state) => state.logout);
   const setUser = useUserStore((state) => state.setUser);
+  const location = useLocation();
+  const isAdminPage = location.pathname.startsWith("/admin");
   
   const { setProducts, setLoading, setIsNew } = useProductStore();
   const {
@@ -48,46 +51,6 @@ export const Layout = () => {
 
   const [searchParams] = useSearchParams();
   const isNewFromUrl = searchParams.get('isNew') === 'true';
-
-  const initUser = async () => {
-    if (!accessToken) return null;
-    try {
-      const user = await getUserProfile(); 
-      setUser(user);
-      return user;
-    } catch (err) {
-      console.error('Сесія застаріла або невірна:', err);
-      logout(); 
-      return null;
-    }
-  };
-
-  const initCart = async (currentUser: any) => {
-    try {
-      if (currentUser) {
-        await useCartStore.getState().fetchCart();
-      } else {
-        const guestCartId = localStorage.getItem(LocalStorage.GUEST_CART_ID);
-        if (!guestCartId) {
-          await useGuestCartStore.getState().createGuestCart();
-        } else {
-          await useGuestCartStore.getState().fetchGuestCart();
-        }
-      }
-    } catch (error) {
-      console.error('Помилка при ініціалізації кошика:', error);
-    }
-  };
-
-  const initFavorites = useCallback(() => {
-    const storedFavorites = localStorageService.getItem<number[]>(LocalStorage.FAVORITE_PRODUCTS);
-    if (!storedFavorites) {
-      localStorageService.setItem(LocalStorage.FAVORITE_PRODUCTS, []);
-      useProductStore.setState({ favorites: [] });
-    } else {
-      useProductStore.setState({ favorites: storedFavorites });
-    }
-  }, []);
 
   useEffect(() => {
 
@@ -142,6 +105,7 @@ export const Layout = () => {
         setTotalPages(products.page.totalPages);
       } catch (err) {
         console.error('Критична помилка ініціалізації:', err);
+        logout(); 
       } finally {
         setLoading(false);
       }
@@ -150,6 +114,49 @@ export const Layout = () => {
     initializeApp();
 
   }, [accessToken]); 
+
+  const initUser = async () => {
+    if (!accessToken) return null;
+    try {
+      const user = await getUserProfile(); 
+      setUser(user);
+      console.log("наш юзер : ",user)
+      return user;
+      
+    } catch (err) {
+      console.error('Сесія застаріла або невірна:', err);
+      logout(); 
+      return null;
+    }
+  };
+
+ const initCart = async (currentUser: IUserItem | null) => {
+  try {
+    if (currentUser && currentUser.role !== "ADMIN") {
+      await useCartStore.getState().fetchCart();
+    } 
+    else if (!currentUser) {
+      const guestCartId = localStorage.getItem(LocalStorage.GUEST_CART_ID);
+      if (!guestCartId) {
+        await useGuestCartStore.getState().createGuestCart();
+      } else {
+        await useGuestCartStore.getState().fetchGuestCart();
+      }
+    }
+  } catch (error) {
+    console.error('Помилка при ініціалізації кошика:', error);
+  }
+};
+
+  const initFavorites = useCallback(() => {
+    const storedFavorites = localStorageService.getItem<number[]>(LocalStorage.FAVORITE_PRODUCTS);
+    if (!storedFavorites) {
+      localStorageService.setItem(LocalStorage.FAVORITE_PRODUCTS, []);
+      useProductStore.setState({ favorites: [] });
+    } else {
+      useProductStore.setState({ favorites: storedFavorites });
+    }
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen overflow-hidden">
@@ -162,7 +169,7 @@ export const Layout = () => {
       <PopUpCart />
       <Notification />
       <ToastContainer />
-      <Footer/>
+      {isAdminPage ? null : <Footer/>}
     </div>
   );
 };

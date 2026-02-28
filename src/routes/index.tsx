@@ -29,7 +29,11 @@ import {
 } from '@/features/dashboard';
 import { SingleCertificate } from '@/pages/SingleCertificate';
 import { OrderCreatedSuccess } from '@/pages/OrderCreatedSuccess';
-import AdminPage from '@/pages/AdminPage';
+import AdminPage from '@/pages/adminPages/AdminPage';
+import { DashboardPage } from '@/pages/adminPages/DashboardPage';
+import { ProductsPage } from '@/pages/adminPages/ProductsPage';
+import { OrdersPage } from '@/pages/adminPages/OrdersPage';
+import { UsersPage } from '@/pages/adminPages/UsersPage';
 
 export const routes = createBrowserRouter([
   {
@@ -45,7 +49,28 @@ export const routes = createBrowserRouter([
       { path: AppRoute.PRIVACY, element: <PrivacyPolicy /> },
       { path: AppRoute.USER_AGREEMENT, element: <UserAgreement /> },
       { path: AppRoute.SUCCESS, element: <SuccessfulRegister /> },
-      { path: AppRoute.ADMIN, element : <AdminPage />},
+      { path: AppRoute.ADMIN,
+        element : <AdminPage />,
+        children : [
+          {
+            index : true,
+            path : "dashboard",
+            element : <DashboardPage/>
+          },
+          {
+            path : "products",
+            element : <ProductsPage/>
+          },
+          {
+            path : "orders",
+            element : <OrdersPage/>
+          },
+          {
+            path : "users",
+            element : <UsersPage/>
+          }
+        ]
+      },
       {
         path: AppRoute.SIGN_IN,
         element: <AuthLogin />,
@@ -108,10 +133,6 @@ export const routes = createBrowserRouter([
             path : AppRoute.ORDER_SUCCESS,
             element : <OrderCreatedSuccess/>
       },
-      // {
-      //   path: AppRoute.ADMIN,
-      //   element: <AdminPage />,
-      // },
       {
         path: '*',
         element: <NotFound />,
