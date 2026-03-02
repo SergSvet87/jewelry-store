@@ -129,7 +129,7 @@ const Header = () => {
               }
               if(item.title === "admin") {
                 return (
-                  <Link to={AppRoute.ADMIN}>
+                  <Link to={AppRoute.ADMIN_DASHBOARD}>
                     <button className='text-white btn'>
                       <Icon classname={`text-${iconColor} w-6 h-6` } />
                     </button>
