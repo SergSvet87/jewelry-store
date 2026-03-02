@@ -5,6 +5,7 @@ import { useProductStore } from '@/store';
 import { Pagination } from '@/features/products/Pagination';
 import { ProductCard } from './ProductCard';
 import { CardSkeleton } from './CardSkeleton';
+import { handleAuthError } from '@/services';
 
 interface ICatalogProps {
   data: IProductItem[];
@@ -32,7 +33,11 @@ export const Catalog: FC<ICatalogProps> = ({ data }) => {
             ))}
       </div>
 
-      <Pagination />
+      <Pagination 
+        totalPages={0}
+        currentPage={0}
+        onChange={() => handleAuthError()}
+        />
     </>
   );
 };

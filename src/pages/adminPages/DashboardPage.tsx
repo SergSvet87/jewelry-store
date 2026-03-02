@@ -13,7 +13,7 @@
         useEffect(() => {
             const fetchData = async () => {
                 try {
-                const result = await getOrdersByPeriodService(period, 1, 5);
+                const result = await getOrdersByPeriodService(period, 0 ,6);
                 console.log("Отримані дані з бекенду:", result); 
                 setOrders(result.content);
                 } catch (error) {
