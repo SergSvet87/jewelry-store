@@ -34,6 +34,9 @@ import { DashboardPage } from '@/pages/adminPages/DashboardPage';
 import { ProductsPage } from '@/pages/adminPages/ProductsPage';
 import { OrdersPage } from '@/pages/adminPages/OrdersPage';
 import { UsersPage } from '@/pages/adminPages/UsersPage';
+import { OrderInfo } from '@/pages/adminPages/OrderInfo';
+import { AddNewProduct } from '@/admin-panel/features/products/AddNewProduct';
+import { UserInfoPage } from '@/pages/adminPages/UserInfoPage';
 
 export const routes = createBrowserRouter([
   {
@@ -54,20 +57,32 @@ export const routes = createBrowserRouter([
         children : [
           {
             index : true,
-            path : "dashboard",
+            path : AppRoute.ADMIN_DASHBOARD,
             element : <DashboardPage/>
           },
           {
-            path : "products",
+            path : AppRoute.ADMIN_PRODUCTS,
             element : <ProductsPage/>
           },
           {
-            path : "orders",
-            element : <OrdersPage/>
+            path : AppRoute.ADMIN_ADD_NEW_PRODUCT,
+            element : <AddNewProduct disabled={false}/>
           },
           {
-            path : "users",
+            path : AppRoute.ADMIN_ORDERS,
+            element : <OrdersPage/>,
+          },
+          {
+            path : AppRoute.ADMIN_ORDERS_ORDER_INFO,
+            element : <OrderInfo />
+          },
+          {
+            path : AppRoute.ADMIN_USERS,
             element : <UsersPage/>
+          },
+          {
+            path : AppRoute.ADMIN_USERINFO_PAGE,
+            element : <UserInfoPage/>
           }
         ]
       },

@@ -3,6 +3,7 @@ const ApiEndpoint = {
   PRODUCTS_SORTED: '/api/products/sorted',
   PRODUCTS_SEARCH: '/api/products/search',
   ORDERS: '/api/orders',
+  ORDER_BY_ID: (id: string) => `/api/orders/id/${id}`,
   FORGOT_PASSWORD: '/api/resetPassword',
   CHANGE_PASSWORD: '/api/changePassword',
   USERS: '/api/users',

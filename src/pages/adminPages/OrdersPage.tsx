@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
 
-import { OrderTable } from "@/admin-panel/components/Orders/OrderTable";
-import { PeriodSelectDropdown } from "@/admin-panel/components/PeriodSelectDropdown"
+import { AdminTable } from "@/admin-panel/components/AdminTable";
+import { SelectDropdown } from "@/admin-panel/components/SelectDropdown"
 import { getOrdersByPeriodService } from "@/admin-panel/services/getOrdersByPeriodService"
 import { Pagination } from "@/features/products/Pagination"
 import { getQueryParams, setQueryParams } from '@/utils/urlParams';
 import { useSearchParams } from "react-router-dom";
+import { ordersHeaders } from "@/admin-panel/constants/tableHeaders";
+import { Icons } from "@/admin-panel/icons"
+import { FILTER_BY_DATA } from "@/admin-panel/constants/filterByDate";
+import { OrderRow } from "@/admin-panel/features/orders/components/OrderRow";
+import { IFullOrderDetails } from "@/types/orderDetails";
 
 interface PaginationData {
   number: number;
@@ -15,8 +20,6 @@ interface PaginationData {
 }
 
 export const OrdersPage = () => {
-    
-
     const [period, setPeriod] = useState("MONTH");
     const [pagination, setPagination] = useState<PaginationData>({
         number: 0,
@@ -25,7 +28,7 @@ export const OrdersPage = () => {
         totalPages: 0
     });
     const [currentPage, setCurrentPage] = useState(0)
-    const [orders, setOrders] = useState([]);
+    const [orders, setOrders] = useState<IFullOrderDetails[]>([]);
     const [searchParams, setSearchParams] = useSearchParams();
 
 
@@ -57,20 +60,30 @@ export const OrdersPage = () => {
         }, [period, currentPage]);
 
     return (
-        <div className="mt-20">
-            <div className="flex items-center justify-between pl-5 pr-15">
-                <div>bread crumble</div>
-                <PeriodSelectDropdown
+        <div className="mt-20 pl-5 pr-15 ">
+            <div className="flex items-center justify-between pb-10">
+                <h2 className="text-[24px]">Історія замовлень</h2>
+                <SelectDropdown
+                    options={FILTER_BY_DATA}
+                    icon={<Icons.calendar/>}
                     value={period}
                     onChange={setPeriod}
                 />
             </div>
-            <div className="pl-2.5 pr-12.5 pt-12.5">
-                <OrderTable
-                    tableTitle="Історія замовлень"
-                    orders={orders}
-                />
-            </div>
+            <AdminTable 
+                tableHeaders={ordersHeaders} 
+                tableColor="bg-white"
+            >
+                {orders.map((order, index) => (
+                    <OrderRow 
+                        key={order.id} 
+                        order={order} 
+                        index={index} 
+                        total={orders.length}
+                        showUserColumn={true}
+                    />
+                ))}
+            </AdminTable>
             <Pagination 
                 totalPages={pagination.totalPages}
                 currentPage={currentPage + 1}

@@ -4,7 +4,12 @@ import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import { cn } from '@/lib/utils';
 import { CheckboxCheckedIcon } from '@/assets';
 
-function Checkbox({ className, ...props }: React.ComponentProps<typeof CheckboxPrimitive.Root>) {
+function Checkbox({ 
+  className, 
+  checked, 
+  onCheckedChange,
+  ...props
+}: React.ComponentProps<typeof CheckboxPrimitive.Root>) {
   return (
     <CheckboxPrimitive.Root
       data-slot="checkbox"
@@ -13,6 +18,9 @@ function Checkbox({ className, ...props }: React.ComponentProps<typeof CheckboxP
         className,
       )}
       {...props}
+
+      checked={checked}
+      onCheckedChange={onCheckedChange}
     >
       <CheckboxPrimitive.Indicator
         data-slot="checkbox-indicator"

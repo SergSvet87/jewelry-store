@@ -1,41 +1,37 @@
 import { request } from "@/api";
 import { ApiEndpoint, HttpMethod } from "@/enums";
-import {  
-  IGuestOrderRequest,
-} from "../types/";
-
 import { IFullOrderDetails } from "@/types/orderDetails";
-
-import { IAuthOrderRequest } from "@/types/order";
+import { IOrderCreationDTO, IUserCart } from "@/types/order";
 
 const createOrderService = async (
-  orderData: IAuthOrderRequest, 
+  userCart: IUserCart, 
+  orderInfo: IOrderCreationDTO, 
   paymentMethod: string, 
   deliveryMethod: string,
-  isGiftMethod : boolean,
-) => {
+)  => {
   return await request<IFullOrderDetails>({
     url: `${ApiEndpoint.ORDERS}/create`,
     method: HttpMethod.POST,
     params: {
       paymentMethod: paymentMethod.toUpperCase(),
       deliveryMethod: deliveryMethod.toUpperCase(),
-      isGift : isGiftMethod,
     },
     data: {
-      id: orderData.userId,
-      userId: orderData.userId,
-      items: orderData.items,
-}
+      userCart: {
+        id: userCart.id, 
+        userId: userCart.userId,
+        items: userCart.items
+      },
+      orderCreationDTO: orderInfo
+    }
   });
 };
 
 const createOrderGuestService = async (
-  orderData: IGuestOrderRequest,
+  orderData: { userCart: IUserCart; orderCreationDTO: IOrderCreationDTO },
   sessionId: string,
   paymentMethod: string,
   deliveryMethod: string,
-  isGift : boolean,
 ) => {
   return await request<IFullOrderDetails>({
     url: `${ApiEndpoint.ORDERS}/guest/create`,
@@ -44,21 +40,20 @@ const createOrderGuestService = async (
       sessionId,
       paymentMethod: paymentMethod.toUpperCase(),
       deliveryMethod: deliveryMethod.toUpperCase(),
-      isGift : isGift,
     },
     data: orderData
   });
 };
 
-const getUserOrderService = async (page :number = 0, pageSize: 10) => {
-  return await request<{content : IFullOrderDetails[]; page: number}>({
-    url : `${ApiEndpoint.ORDERS}/user`,
-    method : HttpMethod.GET,
-    params : {
+const getUserOrderService = async (page: number = 0, pageSize: number = 10) => {
+  return await request<{ content: IFullOrderDetails[]; page: number }>({
+    url: `${ApiEndpoint.ORDERS}/user`,
+    method: HttpMethod.GET,
+    params: {
       page,
       pageSize,
     }
-  })
-}
+  });
+};
 
-export { createOrderService, createOrderGuestService, getUserOrderService};
+export { createOrderService, createOrderGuestService, getUserOrderService };

@@ -8,5 +8,6 @@ export const getOrdersByPeriodService = async (period : string, page : number, p
             pageSize,
         },
     })
+    console.log("ordersList : ", response.data)
     return response.data;
 }
