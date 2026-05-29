@@ -1,8 +1,9 @@
 import { useState } from "react"
+import axiosInstance from "@/api/axiosInstance"
 import { useProductForm } from "@/admin-panel/hooks/useProductForm"
 import { AddNewProductStart } from "./AddNewProductStart"
 import { SelectDropdown } from "@/admin-panel/components/SelectDropdown"
-import { FILTER_BY_CATEGORY, FILTER_BY_COLLECTION,  } from "@/admin-panel/constants/filterByDate"
+import { FILTER_BY_CATEGORY, FILTER_BY_COLLECTION } from "@/admin-panel/constants/filterByDate"
 import { AddPhoto } from "./AddPhoto"
 import { Checkbox } from "@/components/ui"
 import { AddNewProductRing } from "./AddNewProductRing"
@@ -18,7 +19,9 @@ interface AddNewProductProps {
 export const AddNewProduct = ({disabled} : AddNewProductProps) => {
     const formData = useProductForm((state) => state.formData);
     const updateField = useProductForm((state) => state.updateField);
-    const id = useProductForm((state) => state.formData.id)
+    const id = useProductForm((state) => state.formData.id);
+    const resetForm = useProductForm((state) => state.resetForm); // 👈 Витягуємо функцію очищення
+    
     const [isLoading, setIsLoading] = useState(false);
 
     const category = formData.categoryName;
@@ -29,10 +32,29 @@ export const AddNewProduct = ({disabled} : AddNewProductProps) => {
         setIsLoading(true);
         try {
             const payload = prepareProductPayload(formData, "PUBLISHED", id);
-            await createProductService(payload);
+            const createdProduct = await createProductService(payload);
+            const newProductId = createdProduct.id;
+            
+            console.log("Створено товар з ID:", newProductId);
 
-            console.log("Відправляємо на сервер:", payload);
+            for (const image of formData.images) {
+                if (!image.file) continue; 
+
+                const imageForm = new FormData();
+                imageForm.append("file", image.file); 
+                imageForm.append("productId", String(newProductId));
+                imageForm.append("isMain", String(image.isMainImage));
+
+                await axiosInstance.post("/api/images/upload", imageForm, {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
+                });
+            }
+            console.log("Товар та фото успішно відправлені на сервер");
             alert("✅ Товар успішно додано!");
+            resetForm();
+
         } catch (error) {
             console.error(error);
             alert("❌ Сталася помилка. Перевір консоль.");
@@ -43,10 +65,9 @@ export const AddNewProduct = ({disabled} : AddNewProductProps) => {
 
     const handleSaveDraft = async () => {
         try {
-            const payload =  prepareProductPayload(formData, "DRAFT", id);
+            const payload = prepareProductPayload(formData, "DRAFT", id);
             const result = await saveAsDraftService(id, payload);
             return result;
-            
         } catch (error) {
             console.error(error)
         }
@@ -182,4 +203,3 @@ export const AddNewProduct = ({disabled} : AddNewProductProps) => {
         </div>
     )
 }
-

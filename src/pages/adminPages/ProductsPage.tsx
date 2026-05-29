@@ -61,7 +61,7 @@ export const ProductsPage = () => {
         const data = await searchQueryService(
             searchQuery,
             12,
-            currentPage,
+            currentPage > 0 ? currentPage -1 : 0,
             category ? [category] : [],     
             collection ? [collection] : []  
         );
