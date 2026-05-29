@@ -22,6 +22,21 @@ export const PhotoSquare = ({ title, subTitle, img, disable, id, isMain, hasPhot
     };
 
     const removeImage = useProductForm((state) => state.removeImage);
+    const addImage = useProductForm((state) => state.addImage)
+
+    const handleFileChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+
+        if (file) {
+            const previewUrl = URL.createObjectURL(file);
+            addImage({
+                url : previewUrl,
+                isMainImage : isMain,
+                file : file,
+            })
+        e.target.value = '';
+        }
+    }
 
     return (
         <label
@@ -39,7 +54,13 @@ export const PhotoSquare = ({ title, subTitle, img, disable, id, isMain, hasPhot
                         <span className={`${disable ? "text-[#727272]" : ""} text-sm`}>{subTitle}</span>
                     </>
                 )}
-                <input type="file" id={id} className="hidden" disabled={disable} />
+                <input 
+                    type="file" 
+                    id={id} 
+                    className="hidden" 
+                    disabled={disable}
+                    onChange={handleFileChange}
+                />
                 {hasPhoto && (
                     <div 
                         className='absolute top-5 right-5 z-10' 

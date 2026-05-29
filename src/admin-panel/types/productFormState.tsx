@@ -6,6 +6,7 @@ export interface ProductStore {
     setFormData: (data: ProductFormState) => void;
     resetForm: () => void;
     removeImage : (urlToRemove : string) => void
+    addImage: (newImage: { url: string; isMainImage: boolean; file: File }) => void;
 }
 
 export interface ProductFormState {
@@ -24,6 +25,7 @@ export interface ProductFormState {
   images : {
       url : string;
       isMainImage : boolean;
+      file? : File;
   }[];
   description: {
     defaultReturnText: string;

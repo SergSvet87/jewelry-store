@@ -77,6 +77,13 @@ export const useProductForm = create<ProductStore>((set) => ({
     }
   })),
 
+  addImage : (newImage : {url : string; isMainImage : boolean; file : File}) => set((state) => ({
+    formData : {
+      ...state.formData,
+      images : [...state.formData.images, newImage]
+    }
+  })),
+
   updateField: (path, value) =>
     set((state) => {
       const pathKeys = path.split('.');
