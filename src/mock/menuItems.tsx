@@ -21,7 +21,8 @@ export const menuItems = [
   {
     icon: <ReviewsIcon/>,
     text: 'Відгуки',
-    href: AppRoute.USER_REVIEWS,
+    href: AppRoute.USER_REVIEWS_PUBLISHED,
+    basePath: '/dashboard/reviews',
   },
   {
     icon: <FavoriteIcon/>,

@@ -60,35 +60,45 @@ export const OrdersPage = () => {
         }, [period, currentPage]);
 
     return (
-        <div className="mt-20 pl-5 pr-15 ">
+        <div className="flex flex-col mt-20 pl-5 pr-15">
             <div className="flex items-center justify-between pb-10">
                 <h2 className="text-[24px]">Історія замовлень</h2>
-                <SelectDropdown
-                    options={FILTER_BY_DATA}
-                    icon={<Icons.calendar/>}
-                    value={period}
-                    onChange={setPeriod}
-                />
-            </div>
-            <AdminTable 
-                tableHeaders={ordersHeaders} 
-                tableColor="bg-white"
-            >
-                {orders.map((order, index) => (
-                    <OrderRow 
-                        key={order.id} 
-                        order={order} 
-                        index={index} 
-                        total={orders.length}
-                        showUserColumn={true}
+                <div className="w-1/5">
+                    <SelectDropdown
+                        options={FILTER_BY_DATA}
+                        icon={<Icons.calendar/>}
+                        value={period}
+                        onChange={setPeriod}
                     />
-                ))}
-            </AdminTable>
-            <Pagination 
-                totalPages={pagination.totalPages}
-                currentPage={currentPage + 1}
-                onChange={(p: number) => handlePageChange(p)}
-            />
+                </div>  
+            </div>
+            {orders.length <=0 ? (
+                <span className="text-center text-2xl">За обраний період замовлень не було</span>
+            )
+            :
+            (
+                <div>
+                    <AdminTable 
+                    tableHeaders={ordersHeaders} 
+                    tableColor="bg-white"
+                    >
+                    {orders.map((order, index) => (
+                        <OrderRow 
+                            key={order.id} 
+                            order={order} 
+                            index={index} 
+                            total={orders.length}
+                            showUserColumn={true}
+                        />
+                    ))}
+                    </AdminTable>
+                    <Pagination 
+                        totalPages={pagination.totalPages}
+                        currentPage={currentPage + 1}
+                        onChange={(p: number) => handlePageChange(p)}
+                    />
+                </div>
+            )}
         </div>
     )
 }

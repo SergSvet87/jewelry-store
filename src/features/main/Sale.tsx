@@ -23,10 +23,11 @@ export const Sale = ({
   const setFavorites = useProductStore((state) => state.setFavorites);
   const favorites = useProductStore((state) => state.favorites);
   const visibleProducts = discountCol.slice(0, 3);
-
   const lastProduct = visibleProducts[2];
   const isInFavoriteLast = favorites.includes(lastProduct?.id);
   const isInCartLast = isInCart(lastProduct?.id);
+  
+  console.log(discountCol)
 
   if (loading) return <Loader />;
 

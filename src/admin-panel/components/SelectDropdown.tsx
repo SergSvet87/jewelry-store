@@ -19,10 +19,9 @@ export const SelectDropdown = ({ value, onChange, icon:Icon, options, placeholde
   return (
     <Select.Root disabled={disable} value={value} onValueChange={onChange} >
       <Select.Trigger 
-        className={`${disable ? "text-[#727272] cursor-default" : "text-black cursor-pointer" } 
-        "group text-[16px] flex items-center justify-between gap-15 bg-white pl-2 
-        pr-3 py-3 outline-none hover:border-gray-400 transition-colors 
-        data-[state=open]:border-b-2 data-[state=open]:border-[#5B242A]"`}
+          className={`w-full group text-[16px] flex items-center justify-between bg-white pl-2 pr-3 py-3 outline-none
+             hover:border-gray-400 transition-colors data-[state=open]:border-b-2 data-[state=open]:border-[#5B242A] 
+             ${disable ? "text-[#727272] cursor-default" : "text-black cursor-pointer"}`}
       >
         <div className="flex items-center gap-3">
           {Icon}  

@@ -10,13 +10,17 @@ interface ProductListProps {
     searchQuery : string;
     category : string
     collection : string
+    modalIsOpen : boolean;
+    onDeleteRequest : (product: IProductItem) => void;
 }
 
-export const ProductList = ({filteredProducts, searchQuery, category, collection} : ProductListProps) => {
+export const ProductList = ({filteredProducts, searchQuery, category, collection, modalIsOpen, onDeleteRequest} : ProductListProps) => {
 
     const {products, loading} = useProductStore()
     const currentPage = useCatalogStore((state) => state.page);
-    const setPage = useCatalogStore((state) => state.setPage);  
+    const setPage = useCatalogStore((state) => state.setPage);
+
+    console.log(products)
 
     useEffect(() => {
         const controller = new AbortController();
@@ -26,7 +30,9 @@ export const ProductList = ({filteredProducts, searchQuery, category, collection
 
     if (loading) return <div>Завантажання... 🔄</div>
 
-    const productToDisplay = searchQuery.trim().length >= 1 || category || collection ? filteredProducts : products.content;
+    const productToDisplay = searchQuery.trim().length >= 1 || category || collection 
+    ? filteredProducts 
+    : products.content;
 
     if(productToDisplay.length === 0) {
         return (
@@ -41,7 +47,8 @@ export const ProductList = ({filteredProducts, searchQuery, category, collection
             <div className="grid grid-cols-3 gap-15">
                 {productToDisplay.map((item) => (
                     <AdminProductCard
-                        onDeleteCard={() => console.log("test")}
+                        modalIsOpen={modalIsOpen}
+                        onDeleteCard={() => onDeleteRequest(item)}
                         onEditCard={() => console.log("test")}
                         key={item.id} 
                         product={item}

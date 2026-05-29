@@ -3,6 +3,7 @@ import { devtools } from 'zustand/middleware';
 import { IFullOrderDetails, IOrderItem } from '@/types/orderDetails';
 import { getUserOrderService } from '@/services/orderService';
 import { useProductStore } from './useProductStore';
+import { IProductItem } from "@/types/product";
 
 interface OrderState {
   orders: IFullOrderDetails[];
@@ -31,7 +32,12 @@ export const useOrderStore = create<OrderState>()(
           }))
         );
         if (allProductsFromOrders.length > 0) {
-          addProductsToAll(allProductsFromOrders);
+            const validProducts = allProductsFromOrders.map((product) => ({
+                ...product,
+                status: "PUBLISHED" 
+            })) as IProductItem[]; 
+
+            addProductsToAll(validProducts);
         }
 
         set({ orders: fetchedOrders, loading: false });

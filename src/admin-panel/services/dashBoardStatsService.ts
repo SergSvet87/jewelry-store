@@ -40,6 +40,16 @@ export const getTotalProducts = async () => {
     }
 }
 
+export const getProductById = async (id : string) => {
+    try {
+        const response = await axiosInstance.get(`/api/products/id/${id}`)
+        return response.data
+    } catch (error) {
+        console.error(error)
+        throw error
+    }
+}
+
 export const getTotalUsers = async () => {
     try {
         const response = await axiosInstance.get("/api/users")
@@ -47,5 +57,15 @@ export const getTotalUsers = async () => {
     } catch (error) {
         console.log(error)
         return "Помилка . Не вдалось завантажити кількість користувачів"
+    }
+}
+
+export const availableQuantityProducts = async (id : string | number) => {
+    try {
+       const response = await axiosInstance.get(`/api/products/id/${id}`);
+       return response.data;
+    } catch (error) {
+        console.error("Не вдалося отримати залишки по товару", error);
+        throw error;
     }
 }

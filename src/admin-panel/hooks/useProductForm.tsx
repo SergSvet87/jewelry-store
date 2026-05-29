@@ -16,7 +16,7 @@ const numericFields = [
 const updateNested = <T extends Record<string, unknown>>(
   obj: T,
   pathKeys: string[],
-  value: FormValue
+  value: FormValue,
 ): T => {
   const [currentKey, ...restKeys] = pathKeys;
 
@@ -32,9 +32,9 @@ const updateNested = <T extends Record<string, unknown>>(
   } as T;
 };
 
-export const useProductForm = create<ProductStore>((set) => ({
-  formData: {
-    name: "",
+const initialFormData = {
+  id : 0,
+  name: "",
     price: {
       normalPrice: null,
       discountPercentage: null,
@@ -44,6 +44,8 @@ export const useProductForm = create<ProductStore>((set) => ({
     isNew: false,
     categoryName: "",
     collectionName: "",
+    images : [],
+    status : "",
     description: {
       defaultReturnText: "",
       defaultDeliveryText: "",
@@ -59,7 +61,21 @@ export const useProductForm = create<ProductStore>((set) => ({
         }
       }
     }
-  },
+}
+
+export const useProductForm = create<ProductStore>((set) => ({
+
+  formData : initialFormData,
+  setFormData: (data) => set({ formData: data }),
+
+  resetForm: () => set({ formData: initialFormData }),
+
+  removeImage: (urlToRemove: string) => set((state) => ({
+    formData: {
+        ...state.formData,
+        images: state.formData.images.filter((img) => img.url !== urlToRemove)
+    }
+  })),
 
   updateField: (path, value) =>
     set((state) => {

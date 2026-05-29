@@ -1,27 +1,31 @@
 interface ConfirmationModalProps {
   isOpen: boolean;
+  title: string;
+  confirmText : string;
+  cancelText : string;
   onClose: () => void;
   onConfirm: () => void;
-  title: string;
 }
 
-export const ConfirmationModal = ({onClose, onConfirm, title} : ConfirmationModalProps) => {
+export const ConfirmationModal = ({onClose, onConfirm, title, cancelText, confirmText} : ConfirmationModalProps) => {
     return (
-        <div className="flex flex-col justify-center text-center border-1 w-1/5 py-5">
-            <h3 className="text-[16px]">{title}</h3>
-            <div className="flex gap-7 m-auto px-5 mt-5">
-                <button 
-                    className="p-2 rounded-[5px] bg-[#5B242A] text-white"
+       <div className="flex flex-col fixed inset-0 z-50  items-center justify-center bg-black/50 backdrop-blur-sm px-4 ">
+            <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md flex flex-col text-center border border-gray-100">
+                <h3 className="text-[16px]">{title}</h3>
+                <div className="flex gap-10 m-auto items-baseline">
+                    <button 
+                    className=" mt-5 p-2 rounded-[5px] bg-[#5B242A] text-white cursor-pointer hover:opacity-75"
                     onClick={onConfirm}
                 >
-                    Видалити
+                    {confirmText}
                 </button>
                 <button
-                    className="border-1 p-2 rounded-[5px]"
+                    className="border-1 p-2 rounded-[5px] cursor-pointer hover:opacity-75 "
                     onClick={onClose}
                 >
-                    Відмінити
+                    {cancelText}
                 </button>
+                </div>
             </div>
         </div>
     )

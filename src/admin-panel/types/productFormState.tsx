@@ -3,9 +3,13 @@ export type FormValue = string | number | boolean | Record<string, number> | num
 export interface ProductStore {
     formData: ProductFormState;
     updateField: (path: string, value: FormValue) => void;
+    setFormData: (data: ProductFormState) => void;
+    resetForm: () => void;
+    removeImage : (urlToRemove : string) => void
 }
 
 export interface ProductFormState {
+  id : number;
   name: string;
   price: {
     normalPrice: number | null;
@@ -16,6 +20,11 @@ export interface ProductFormState {
   isNew: boolean;
   categoryName: string;
   collectionName: string;
+  status : string;
+  images : {
+      url : string;
+      isMainImage : boolean;
+  }[];
   description: {
     defaultReturnText: string;
     defaultDeliveryText: string;

@@ -4,9 +4,9 @@ import { useProductForm } from "@/admin-panel/hooks/useProductForm"
 export const AddNewProductStart = ({disabled} : {disabled : boolean}) => {
 
     const name = useProductForm((state) => state.formData.name)
-    // const sku = useProductForm((state) => state.formData.quantity);
-    // const price = useProductForm((state) => state.formData.price.normalPrice)
-    // const discount = useProductForm((state) => state.formData.price.discountPercentage)
+    const sku = useProductForm((state) => state.formData.quantity);
+    const price = useProductForm((state) => state.formData.price.normalPrice)
+    const discount = useProductForm((state) => state.formData.price.discountPercentage)
     
     const updateField = useProductForm((state) => state.updateField);
 
@@ -29,7 +29,7 @@ export const AddNewProductStart = ({disabled} : {disabled : boolean}) => {
                 <input 
                     type="text" 
                     disabled={disabled}
-                    // value={sku ?? ""}
+                    value={sku ?? ""}
                     onChange={(e) => updateField('sku', e.target.value)}
                     placeholder={`${disabled ? "" : "Наприклад, 0025148"}`}
                     className={`${disabled ? "text-[#727272] py-4 text-[12px] border-b-2 focus:outline-none " : "py-4 text-[12px] border-b-2 focus:outline-none"}`}
@@ -40,8 +40,8 @@ export const AddNewProductStart = ({disabled} : {disabled : boolean}) => {
                 <input 
                     type="text"
                     disabled={disabled}
-                    // value={price ?? ""}
-                    onChange={(e) => updateField('price', e.target.value)}
+                    value={price ?? ""}
+                    onChange={(e) => updateField('price.normalPrice', e.target.value)}
                     className={`${disabled ? "text-[#727272] py-4 text-[12px] border-b-2 focus:outline-none " : "py-4 text-[12px] border-b-2 focus:outline-none"}`}
 
                 />
@@ -51,8 +51,8 @@ export const AddNewProductStart = ({disabled} : {disabled : boolean}) => {
                 <input 
                     type="text"
                     disabled={disabled}
-                    // value={discount ?? ""}
-                    onChange={(e) => updateField('discount', e.target.value)}
+                    value={discount ?? ""}
+                    onChange={(e) => updateField('price.discountPercentage', e.target.value)}
                     className={`${disabled ? "text-[#727272] py-4 text-[12px] border-b-2 focus:outline-none " : "py-4 text-[12px] border-b-2 focus:outline-none"}`}
                 />
             </section>
