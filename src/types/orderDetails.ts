@@ -31,11 +31,17 @@ export interface IFullOrderDetails {
     orderDetails: {
         firstName: string;
         lastName: string;
-        email: string;
+        fatherName?: string;  
         phone: string;
+        email: string;
+        city : string;
         deliveryMethod: string;
         paymentMethod: string;
-        fatherName?: string;  
+    };
+    cardData : {
+        curdNumber : string;
+        expiryData : string;
     };
     isGift: boolean | null;
+    length : string;
 }

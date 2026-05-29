@@ -26,6 +26,7 @@ import { PopUpCart } from '@/features/cart/PopUpCart';
 import { PopUpDeleteFromCart } from '@/features/cart/PopUpDeleteFromCart';
 import { PopUpConfirmationPhone } from '@/features/auth/ConfirmationPhone';
 import type { IUserItem } from '../types/user';
+import { ScrollToTop } from '@/utils/scrollToTop';
 
 export const Layout = () => {
 
@@ -99,7 +100,11 @@ export const Layout = () => {
         ]);
 
         setIsNew(isNewFromUrl);
-        setProducts(products);
+
+        if(!isAdminPage) {
+          setProducts(products);
+        }
+
         setCategories(categories);
         setCollections(collections);
         setTotalPages(products.page.totalPages);
@@ -119,8 +124,7 @@ export const Layout = () => {
     if (!accessToken) return null;
     try {
       const user = await getUserProfile(); 
-      setUser(user);
-      console.log("наш юзер : ",user)
+      setUser(user)
       return user;
       
     } catch (err) {
@@ -160,6 +164,9 @@ export const Layout = () => {
 
   return (
     <div className="flex flex-col min-h-screen overflow-hidden">
+      <div className='scroll-smooth'>
+        <ScrollToTop />
+      </div>
       <Header />
       <main className="flex-grow w-full h-full">
         <Outlet />

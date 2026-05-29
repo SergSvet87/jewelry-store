@@ -1,53 +1,166 @@
-    import { StatCard } from "@/admin-panel/components/StatCard"
-    import { PeriodSelectDropdown } from "@/admin-panel/components/PeriodSelectDropdown"
-    import { useState, useEffect } from "react"
-    import { dashboardCardStats } from "@/admin-panel/constants/dashboardCartStats"
-    import { getOrdersByPeriodService } from "@/admin-panel/services/getOrdersByPeriodService"
-    import { OrderTable } from "@/admin-panel/components/Orders/OrderTable"
+import { StatCard } from "@/admin-panel/components/StatCard"
+import { SelectDropdown } from "@/admin-panel/components/SelectDropdown"
+import { useState, useEffect } from "react"
+import { getOrdersByPeriodService } from "@/admin-panel/services/getOrdersByPeriodService"
+import { AdminTable } from "@/admin-panel/components/AdminTable"
+import { ordersHeaders } from "@/admin-panel/constants/tableHeaders"
+import { Icons } from "@/admin-panel/icons"
+import { FILTER_BY_DATA } from "@/admin-panel/constants/filterByDate"
+import { formatCurrency } from "@/utils/formattersUAH"
+import { getTotalRevenue, getTotalOrders, getTotalProducts, getTotalUsers} from "@/admin-panel/services/dashBoardStatsService"
+import { OrderRow } from "@/admin-panel/features/orders/components/OrderRow"
+import { IFullOrderDetails } from "@/types/orderDetails"
+import { updateDiscountService } from '@/services/updateDiscountService';
+import { useProductStore } from "@/store"
 
-    export const DashboardPage = () => {
+export const DashboardPage = () => {
 
-        const [period, setPeriod] = useState("MONTH");
-        const [orders, setOrders] = useState([]);
+    const [period, setPeriod] = useState("MONTH");
+    const [orders, setOrders] = useState<IFullOrderDetails[]>([]);
+    const [revenue, setRevenue] = useState<number | string>(0)
+    const [totalOrdersCount, setTotalOrdersCount] = useState <number | string>(0)
+    const [totalPages, setTotalPages] = useState<number | string>(0)
+    const [totalUsers, setTotalUsers] = useState<number | string>(0)
+    const {products, fetchProducts} = useProductStore()
 
-        useEffect(() => {
-            const fetchData = async () => {
-                try {
-                const result = await getOrdersByPeriodService(period, 0 ,6);
-                console.log("Отримані дані з бекенду:", result); 
-                setOrders(result.content);
-                } catch (error) {
+    const productsToDiscount = products.content.filter((product) => product.id === 13 || product.id === 14 || product.id === 15);
+
+    const applyTestDiscount = async () => {
+        for (const item of productsToDiscount) {
+            console.log("Відправляю знижку для товару ID:", item.id);
+            await updateDiscountService(item.id, 10);
+        }
+        console.log("Всі запити на знижку відправлені та завершені.");
+    }
+
+    useEffect(() => {
+        const controller = new AbortController();
+        fetchProducts(controller.signal);
+        return () => {
+            controller.abort();
+        };
+    }, []);
+
+    useEffect(() => {
+        console.log("Ефект оновлення знижки спрацював. Масив товарів:", products.content);
+        if (productsToDiscount.length > 0) {
+            applyTestDiscount();
+        }
+    }, [products.content]);
+
+  
+
+    useEffect(() => {
+       const fetchTotalOrdersCount = async () => {
+        const data = await getTotalOrders(period, 0, 1)
+        setTotalOrdersCount(data.page.totalElements) 
+        console.log("Інформація про сторінки:", data.page)
+       } 
+       fetchTotalOrdersCount()
+    },[period])
+
+    useEffect(() => {
+        const fetchTotalProducts = async () => {
+            const data = await getTotalProducts()
+            setTotalPages(data.page.totalElements)
+        }
+        fetchTotalProducts()
+    },[period])
+
+    useEffect(() => {
+        const fetchTotalUsers = async () => {
+            const data = await getTotalUsers()
+            setTotalUsers(data.length)
+        }
+        fetchTotalUsers()
+    },[period])
+
+    useEffect(() => {
+        const fetchRevenue = async () => {
+            const data = await getTotalRevenue(period)
+            setRevenue(data);
+        }
+        fetchRevenue()
+    },[period])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+            const result = await getOrdersByPeriodService(period, 0 ,6);
+            console.log("Отримані дані з бекенду:", result); 
+            setOrders(result.content);
+            } catch (error) {
                 console.error("Помилка запиту:", error);
-                }
-            };
-            fetchData();
-        }, [period]);
+            }
+        };
+        fetchData();
+    }, [period]);
 
-        return (
-            <div className="pt-20 flex flex-col pb-22">
-                <div className="flex justify-end pr-15">
-                    <PeriodSelectDropdown 
+    const dashboardCardStats = [
+        {
+            title: "Загальний дохід",
+            percentage: "+9%",
+            totalValue: formatCurrency(revenue)
+        },
+        {
+            title: "Замовлення",
+            percentage: "+7%",
+            totalValue: totalOrdersCount
+        },
+        {
+            title: "Товари",
+            percentage: "+4",
+            totalValue: totalPages
+        },
+        {
+            title: "Користувачі",
+            percentage: "+5%",
+            totalValue: totalUsers
+        },
+    ];
+
+    return (
+        <div className="pt-20 flex flex-col pb-22">
+            <div className="flex flex-row justify-end pr-15 ">
+                <div className="w-1/6">
+                    <SelectDropdown
+                        options={FILTER_BY_DATA}
                         value={period}
                         onChange={setPeriod}
-                    />
-                </div>
-                <div className="flex flex-row pl-5 pr-15 pt-9 pb-17.5 gap-11.5">
-                    {dashboardCardStats.map((item) => {
-                        return (
-                            <StatCard 
-                                title={item.title}
-                                percentage={item.percentage}
-                                totalValue={item.totalValue}
-                            />
-                        )
-                    })}
-                </div>
-                <div className="pl-2.5 pr-12.5">
-                    <OrderTable
-                        tableTitle="Останні замовлення"
-                        orders={orders}
+                        icon={<Icons.calendar/>}
                     />
                 </div>
             </div>
-        )
-    }
+            <div className="flex flex-row pl-5 pr-15 pt-9 pb-17.5 gap-11.5">
+                {dashboardCardStats.map((item) => {
+                    return (
+                        <StatCard 
+                            title={item.title}
+                            percentage={item.percentage}
+                            totalValue={item.totalValue}
+                        />
+                    )
+                })}
+            </div>
+            {orders.length <=0 ? (
+                <span className="text-center text-2xl">За обраний період замовлень не було</span>
+            ) : 
+             <div className="pl-2.5 pr-12.5">
+               <AdminTable 
+                    tableHeaders={ordersHeaders} 
+                    tableColor="bg-white"
+                >
+                {orders.map((order, index) => (
+                    <OrderRow 
+                        key={order.id} 
+                        order={order} 
+                        index={index} 
+                        total={orders.length}
+                        showUserColumn={true}
+                    />
+                ))}
+                </AdminTable>
+            </div>}
+        </div>
+    )
+}

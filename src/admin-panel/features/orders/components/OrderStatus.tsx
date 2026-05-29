@@ -10,8 +10,8 @@ export const OrderStatus = ({status} : OrderStatusProps) => {
     if(!config) return <span className="bg-red-400">{config}</span>
 
     return (
-        <span className={` ${config.bgColor} p-1`}>
-            {config.title} 
+        <span className={`${config.bgColor} p-1`}>
+            {config.title}
         </span>
     )
 }

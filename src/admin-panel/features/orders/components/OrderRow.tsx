@@ -1,17 +1,21 @@
 import { IFullOrderDetails } from "@/types/orderDetails"
 import { OrderStatus } from "./OrderStatus";
-import { Icons } from '../../icons';
+import { Icons } from '../../../icons';
 import { useState , useRef, useEffect} from "react";
 import { STATUS_CONFIG } from "@/admin-panel/constants/statusConfig";
 import { OrderStatusType } from "@/admin-panel/constants/statusConfig";
+import { useNavigate } from "react-router-dom";
+import { AppRoute } from "@/enums";
+import { formatDate, formatPrice } from "@/admin-panel/utils/data&priceTranslator";
 
 interface OrderRowProps {
     order : IFullOrderDetails;
     index : number;
     total : number;
+    showUserColumn? : boolean;
 }
 
-export const OrderRow = ({order, index, total} : OrderRowProps) => {
+export const OrderRow = ({order, index, total, showUserColumn} : OrderRowProps) => {
 
     const [isActive, setIsActive] = useState(false);
     const [orderStatus, setOrderStatus] = useState<OrderStatusType>(order.status as OrderStatusType);
@@ -40,11 +44,6 @@ export const OrderRow = ({order, index, total} : OrderRowProps) => {
         const productsName = allNamesString.length > 25 
         ? allNamesString.slice(0, 25) + "..." 
         : allNamesString;
-        
-    const orderData = order.createdAt.slice(0 , 10).replaceAll("-", ".")
-    const totalPrice = order.totalPrice.toLocaleString("uk-UA", {
-        maximumFractionDigits : 0,
-    });
 
     useEffect(() => {
         const handleClickOutside = (event : MouseEvent) => {
@@ -57,15 +56,30 @@ export const OrderRow = ({order, index, total} : OrderRowProps) => {
             document.removeEventListener("mousedown", handleClickOutside)
         }
     },[isActive])
+
+    const navigate = useNavigate()
+    const handleRowClick = (event: React.MouseEvent) => {
+        if (menuRef.current && menuRef.current.contains(event.target as Node)) {
+        return;
+    }
+        const path = AppRoute.ADMIN_ORDERS_ORDER_INFO.replace(':id', order.id.toString());
+        navigate(path);
+    }
     
     return (
-        <tr className="transition-colors hover:bg-gray-300 cursor-pointer">
+        <tr 
+            onClick={(e) => handleRowClick(e)}
+            className="transition-colors hover:bg-gray-300 cursor-pointer
+        ">
 
             <td className="pl-8 py-4 ">{order.orderNumber}</td>
-            <td className="py-4 w-60 hover:bg-opacity-90">{productsName}</td>
-            <td className="py-4 hover:bg-opacity-90 ">{fullName}</td>
-            <td className="pl-5 py-4  hover:bg-opacity-90">₴ {totalPrice}</td>
-            <td ref={menuRef} className="w-35 py-4 relative text-sm flex items-center justify-between gap-5 hover:bg-opacity-90">
+            <td className="pl-3 py-4 hover:bg-opacity-90">{productsName}</td>
+            {showUserColumn ? (<td className="py-3 hover:bg-opacity-90">{fullName}</td>) : null}
+            <td className="pl-8 py-4 hover:bg-opacity-90">₴ {formatPrice(order.totalPrice)}</td>
+            <td 
+                ref={menuRef} 
+                className="w-35 pl-2 pt-4 relative text-sm flex items-center justify-between gap-5 hover:bg-opacity-90"
+            >
                 <OrderStatus
                     status={orderStatus}
                 />
@@ -98,7 +112,7 @@ export const OrderRow = ({order, index, total} : OrderRowProps) => {
                 )}   
             </td>
             <td className="pr-8 py-4 hover:bg-opacity-90">
-                {orderData}
+                {formatDate(order.createdAt)}
             </td>
         </tr>
     );

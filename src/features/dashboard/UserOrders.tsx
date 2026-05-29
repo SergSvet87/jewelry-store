@@ -134,11 +134,11 @@ export const UserOrders = () => {
         ))
       )}
 
-      <ReviewModal 
+     <ReviewModal 
         isOpen={isModalOpen} 
-        onOpenChange={setIsModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
         items={currentOrderItems} 
-      />
+    />
     </div>
   )
 };

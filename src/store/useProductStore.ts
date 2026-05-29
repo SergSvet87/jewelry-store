@@ -57,7 +57,8 @@ export const useProductStore = create<ProductState>()(devtools((set, get) => ({
 
   setIsNew: (value) => set({ isNew: value }),
   setHasFetched: (value) => set({ hasFetched: value }),
-  setProducts: (products) => set({ products }),
+  setProducts: (products) => {set({ products });
+},
   setCollectionProducts: (collectionProducts) => set({ collectionProducts }),
   setAllProducts: (allProducts) => set({ allProducts }),
   setSelectedProduct: (selectedProduct) => set({ selectedProduct }),
@@ -111,6 +112,11 @@ export const useProductStore = create<ProductState>()(devtools((set, get) => ({
 
     try {
       set({ loading: true, error: null });
+      
+      if (priceRange[0] === 0 && priceRange[1] === 0) {
+        console.warn("Запит скасовано: ціни ще не завантажені");
+        return;
+      }
 
       const filters: IFilterParams = {
         page: page - 1, 
@@ -124,7 +130,7 @@ export const useProductStore = create<ProductState>()(devtools((set, get) => ({
       };
 
       const res = await getAllProducts(filters, signal); 
-
+      
       set((state) => {
         const mergedMap = new Map([
           ...state.allProducts.content.map(p => [p.id, p] as [number, IProductItem]),

@@ -7,6 +7,7 @@ export interface IProductItem {
   price: IPriceItem;
   isNew?: boolean;
   quantity: number;
+  status : string;
   sku: string;
   images: {
     url: string;

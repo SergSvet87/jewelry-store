@@ -50,7 +50,7 @@ axiosInstance.interceptors.response.use(
       } catch (err) {
         console.error("Помилка автоматичного оновлення сесії", err);
       }
-      useAuthStore.getState().logout();
+      // useAuthStore.getState().logout();
     }
     return Promise.reject(error);
   }

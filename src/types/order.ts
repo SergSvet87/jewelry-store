@@ -1,33 +1,30 @@
-interface IOrderItemRequest {
+export interface ICartItem {
+  id: number;
+  cartId: number;
   productId: number;
   quantity: number;
 }
 
-interface IAuthOrderItemRequest {
-  id: number;        
-  cartId: number;    
-  productId: number;
-  quantity: number;
-}
-
-interface IAuthOrderRequest {
-  id? : number;
+export interface IUserCart {
+  id: number;
   userId: number;
-  items: IAuthOrderItemRequest[];
+  items: ICartItem[];
 }
 
-interface IGuestOrderRequest {
-  firstName: string;
-  lastName: string;
-  fatherName: string;
-  phone: string;
-  email: string;
-  items: IOrderItemRequest[];
+export interface IOrderCreationDTO {
+    firstName: string;
+    lastName: string;
+    fatherName: string;
+    phone: string;
+    email: string;
+    city: string;
+    isGift: boolean;  
+    cardNumber: string;
+    expiryDate: string;
+    cvv: string;
 }
 
-export type { 
-  IGuestOrderRequest, 
-  IOrderItemRequest, 
-  IAuthOrderRequest,
-  IAuthOrderItemRequest 
-};
+export interface IOrderRequest {
+  userCart: IUserCart;
+  orderCreationDTO: IOrderCreationDTO;
+}

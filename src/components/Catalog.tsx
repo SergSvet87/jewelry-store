@@ -5,14 +5,27 @@ import { useProductStore } from '@/store';
 import { Pagination } from '@/features/products/Pagination';
 import { ProductCard } from './ProductCard';
 import { CardSkeleton } from './CardSkeleton';
-import { handleAuthError } from '@/services';
+import { useCatalogStore } from '@/store';
+import { useSearchParams } from 'react-router-dom';
 
 interface ICatalogProps {
   data: IProductItem[];
 }
 
 export const Catalog: FC<ICatalogProps> = ({ data }) => {
-  const { loading } = useProductStore((state) => state);
+  const { loading, products} = useProductStore((state) => state);
+  const {page, setPage} = useCatalogStore()
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const handlePageChange = (clickedPage: number) => {
+      setPage(clickedPage);
+      const params = new URLSearchParams(searchParams);
+      params.set('page', clickedPage.toString());
+      setSearchParams(params);
+  };
+
+  console.log("Поточна сторінка з бекенду:", products.page.number);
+console.log("Поточна сторінка з CatalogStore:", page);
 
   return (
     <>
@@ -34,10 +47,10 @@ export const Catalog: FC<ICatalogProps> = ({ data }) => {
       </div>
 
       <Pagination 
-        totalPages={0}
-        currentPage={0}
-        onChange={() => handleAuthError()}
-        />
+        totalPages={products.page.totalPages}
+        currentPage={products.page.number + 1}
+        onChange={handlePageChange}
+      />
     </>
   );
 };

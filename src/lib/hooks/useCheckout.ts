@@ -4,10 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '@/store';
 import { localStorageService } from '@/api';
 import { createOrderGuestService, createOrderService } from '@/services';
-import { IPersonalInfo, IPaymentInfo, IDeliveryInfo, IGuestOrderRequest } from '@/types/';
+import { 
+  IPersonalInfo, 
+  IPaymentInfo, 
+  IDeliveryInfo, 
+} from '@/types/';
+import { IOrderRequest, IOrderCreationDTO } from '@/types/order';
 import { AppRoute, DeliveryMethod, LocalStorage, OrderAction, OrderStage, PaymentMethod } from '@/enums';
 import { useSmartCart } from './useSmartCart';
-import { IAuthOrderRequest } from '@/types/order';
 
 type Return = {
   orderProcessStage: OrderStage;
@@ -28,37 +32,17 @@ type State = {
   paymentFormValue: IPaymentInfo;
   orderProcessStage: OrderStage;
   isOrderReady: boolean;
+  orderId?: number;
 };
 
 type ReducerAction =
-  | {
-    type: OrderAction.SUBMIT_CONTACT_FORM;
-    payload: IPersonalInfo;
-  }
-  | {
-    type: OrderAction.SUBMIT_DELIVERY_FORM;
-    payload: IDeliveryInfo;
-  }
-  | {
-    type: OrderAction.SUBMIT_PAYMENT_FORM;
-    payload: IPaymentInfo;
-  }
-  | {
-    type: OrderAction.RESET_ORDER_PROCESS;
-  }
-  | {
-    type: OrderAction.TOGGLE_RULES;
-  }
-  | {
-    type: OrderAction.ORDER_READY;
-  }
-  | {
-    type: OrderAction.CONFIRM_ORDER;
-    payload: { orderId: number };
-  } | {
-    type: OrderAction.EDIT_FORM;
-    payload: OrderStage;
-  };
+  | { type: OrderAction.SUBMIT_CONTACT_FORM; payload: IPersonalInfo }
+  | { type: OrderAction.SUBMIT_DELIVERY_FORM; payload: IDeliveryInfo }
+  | { type: OrderAction.SUBMIT_PAYMENT_FORM; payload: IPaymentInfo }
+  | { type: OrderAction.RESET_ORDER_PROCESS }
+  | { type: OrderAction.ORDER_READY }
+  | { type: OrderAction.CONFIRM_ORDER; payload: { orderId: number } }
+  | { type: OrderAction.EDIT_FORM; payload: OrderStage };
 
 const CONTACTS_INITIAL_VALUE = {
   firstName: '',
@@ -81,7 +65,7 @@ const PAYMENT_INITIAL_VALUE = {
     expiry: '',
     cvv: '',
   },
-}
+};
 
 const INITIAL_STATE: State = {
   contactsFormValue: CONTACTS_INITIAL_VALUE,
@@ -94,47 +78,16 @@ const INITIAL_STATE: State = {
 const reducer: Reducer<State, ReducerAction> = (state, action) => {
   switch (action.type) {
     case OrderAction.SUBMIT_CONTACT_FORM:
-      return {
-        ...state,
-        contactsFormValue: action.payload,
-        orderProcessStage: OrderStage.DELIVERY,
-      };
-
+      return { ...state, contactsFormValue: action.payload, orderProcessStage: OrderStage.DELIVERY };
     case OrderAction.SUBMIT_DELIVERY_FORM:
-      return {
-        ...state,
-        deliveryFormValue: action.payload,
-        orderProcessStage: OrderStage.PAYMENT,
-      };
-
+      return { ...state, deliveryFormValue: action.payload, orderProcessStage: OrderStage.PAYMENT };
     case OrderAction.SUBMIT_PAYMENT_FORM:
-      return {
-        ...state,
-        paymentFormValue: action.payload,
-        orderProcessStage: OrderStage.DONE,
-        isOrderReady: true,
-        isEditing: false,
-      };
-
+      return { ...state, paymentFormValue: action.payload, orderProcessStage: OrderStage.DONE, isOrderReady: true };
     case OrderAction.RESET_ORDER_PROCESS:
       return INITIAL_STATE;
-
     case OrderAction.CONFIRM_ORDER:
-      return {
-        ...state,
-        orderId: action.payload.orderId,
-        acceptWithRules: true,
-        isSuccessOpen: true,
-      };
-
-    case OrderAction.ORDER_READY:
-      return {
-        ...state,
-        isOrderReady: true,
-      };
-
+      return { ...state, orderId: action.payload.orderId };
     default:
-      console.error('Unknown action type');
       return state;
   }
 };
@@ -142,31 +95,23 @@ const reducer: Reducer<State, ReducerAction> = (state, action) => {
 const useCheckout = (): Return => {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
   const navigate = useNavigate();
-  const { cartItems } = useSmartCart();
-  const currentUser = useUserStore.getState().currentUser;
+  const { cartItems, clearCart } = useSmartCart(); // Додав clearCart для очищення після успіху
+  const currentUser = useUserStore((state) => state.currentUser);
   const sessionId = localStorageService.getItem(LocalStorage.SESSION_ID);
 
   const onContactsFormSubmit = (contactsFormValue: IPersonalInfo) =>
-    dispatch({
-      type: OrderAction.SUBMIT_CONTACT_FORM,
-      payload: contactsFormValue,
-    });
+    dispatch({ type: OrderAction.SUBMIT_CONTACT_FORM, payload: contactsFormValue });
 
   const onDeliveryFormSubmit = (deliveryFormValue: IDeliveryInfo) =>
-    dispatch({
-      type: OrderAction.SUBMIT_DELIVERY_FORM,
-      payload: deliveryFormValue,
-    });
+    dispatch({ type: OrderAction.SUBMIT_DELIVERY_FORM, payload: deliveryFormValue });
 
   const onPaymentFormSubmit = (paymentFormValue: IPaymentInfo) =>
-    dispatch({
-      type: OrderAction.SUBMIT_PAYMENT_FORM,
-      payload: paymentFormValue,
-    });
+    dispatch({ type: OrderAction.SUBMIT_PAYMENT_FORM, payload: paymentFormValue });
 
   const onOrderConfirmed = async () => {
     const { contactsFormValue, deliveryFormValue, paymentFormValue } = state;
 
+    // Створюємо масив товарів за новою структурою
     const items = cartItems.map((item) => ({
       id: 0,
       cartId: 0,
@@ -174,62 +119,69 @@ const useCheckout = (): Return => {
       quantity: item.quantity,
     }));
 
-    const userOrderFields = {
-      items,
-    };
-
-    const guestOrderFields = {
+    // Формуємо об'єкт з даними замовника та оплати (orderCreationDTO)
+    const orderCreationDTO: IOrderCreationDTO = {
       firstName: contactsFormValue.firstName,
       lastName: contactsFormValue.lastName,
       fatherName: contactsFormValue.fatherName,
       phone: contactsFormValue.phone,
       email: contactsFormValue.email,
+      city: deliveryFormValue.city,
+      isGift: contactsFormValue.isGift,
+      cardNumber: paymentFormValue.cardData.number,
+      expiryDate: paymentFormValue.cardData.expiry,
+      cvv: paymentFormValue.cardData.cvv,
     };
 
-    if (currentUser?.id) {
-      const orderData: IAuthOrderRequest = {
-        id : currentUser.id,
-        userId: currentUser.id,
-        ...userOrderFields,
-    };
+    try {
+      let result;
 
-      try {
-        const result = await createOrderService(orderData, paymentFormValue.method, deliveryFormValue.method, contactsFormValue.isGift );
-        dispatch({ type: OrderAction.CONFIRM_ORDER, payload: { orderId: result.id } });
-        navigate(AppRoute.PRODUCTS);
-      } catch (err) {
-        console.error('Error creating user order:', err);
-      }
-    }
-
-    else if (sessionId) {
-      const guestOrderData: IGuestOrderRequest = {
+      if (currentUser?.id) {
+        // Авторизований користувач
+        const userCart = {
+          id: currentUser.id, // ID кошика (якщо бекенд чекає саме ID кошика, переконайся, що він тут)
+          userId: currentUser.id,
+          items,
+        };
         
-        ...guestOrderFields,
-        items,
-      };
+        result = await createOrderService(
+          userCart,
+          orderCreationDTO,
+          paymentFormValue.method,
+          deliveryFormValue.method
+        );
+      } else if (sessionId) {
+        // Гість
+        const guestOrderRequest: IOrderRequest = {
+          userCart: {
+            id: 0, 
+            userId: 0,
+            items,
+          },
+          orderCreationDTO,
+        };
 
-      try {
-        const result = await createOrderGuestService(guestOrderData, sessionId, paymentFormValue.method, deliveryFormValue.method, contactsFormValue.isGift );
-        dispatch({ type: OrderAction.CONFIRM_ORDER, payload: { orderId: result.id } });
-        navigate(AppRoute.PRODUCTS);
-      } catch (err) {
-        console.error('Error creating guest order:', err);
+        result = await createOrderGuestService(
+          guestOrderRequest,
+          sessionId,
+          paymentFormValue.method,
+          deliveryFormValue.method
+        );
       }
-    }
 
-    else {
-      console.error('No user or session ID — cannot create order.');
+      if (result) {
+        dispatch({ type: OrderAction.CONFIRM_ORDER, payload: { orderId: result.id } });
+        clearCart(); // Очищуємо кошик після успішного замовлення
+        navigate(AppRoute.PRODUCTS);
+      }
+    } catch (err) {
+      console.error('Помилка при створенні замовлення:', err);
     }
 
     dispatch({ type: OrderAction.RESET_ORDER_PROCESS });
   };
 
-  const onResetOrderProcess = () => {
-    dispatch({
-      type: OrderAction.RESET_ORDER_PROCESS,
-    });
-  };
+  const onResetOrderProcess = () => dispatch({ type: OrderAction.RESET_ORDER_PROCESS });
 
   return {
     onResetOrderProcess,

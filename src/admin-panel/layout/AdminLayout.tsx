@@ -1,14 +1,26 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { useEffect, useRef} from "react";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { sidebarMenu } from "../constants/sidebar"
+import { useCatalogStore } from "@/store";
 
 export const AdminLayout = () => {
+
+    const { pathname } = useLocation();
+    const contentRef = useRef<HTMLDivElement>(null);
+    const currentPage = useCatalogStore((state) => state.page);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        console.log("🚀 Скролимо все вікно браузера");
+    }, [pathname, currentPage]);
+
     return (
-        <div className="grid grid-cols-[0.3fr_1fr]">
-            <aside className="pt-24 pl-15 pr-10 flex flex-col gap-8 bg-[#F6F6F6] h-screen">
+        <div className="grid grid-cols-[0.2fr_1fr] min-h-screen ">
+            <aside className="pt-24 pl-15 pr-10 flex flex-col gap-8 bg-[#F6F6F6]">
                 {sidebarMenu.map((item) => {
                     const Icon = item.icon;
                     return (
-                        <NavLink 
+                        <NavLink
                             to={item.path } 
                             key={item.path} 
                             className={({isActive}) => 
@@ -21,7 +33,7 @@ export const AdminLayout = () => {
                     )
                 })}
             </aside>
-            <div>
+            <div ref={contentRef}>
                 <Outlet/>
             </div>
         </div>

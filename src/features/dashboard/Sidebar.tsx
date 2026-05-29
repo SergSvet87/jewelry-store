@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 
 import { AppRoute } from '@/enums';
 import { menuItems } from '@/mock/menuItems';
@@ -11,8 +11,10 @@ export const Sidebar = () => {
   const navigate = useNavigate();
   const {isMobile} = useWindowWidth();
   const logout = useAuthStore((state) => state.logout);
+  const {pathname} = useLocation();
 
   const linkClass = 'flex gap-5 md:gap-2 p-0 w-full items-center transition-all duration-200';
+
 
 
   const handleLogout = () => {
@@ -30,39 +32,40 @@ export const Sidebar = () => {
       </>
     )}
       <nav className="pl-2.5 md:pl-0 py-4 md:py-0 md:mb-[150px]">
-        <ul className="flex gap-8 md:gap-6 flex-col p-0 w-fit">
-          {menuItems.map((item, index) => {
-            return (
-              <li key={index} className="w-full font-normal text-[20px] md:text-[16px]">
-                <NavLink
-                  to={item.href}
-                  end
-                  className={({ isActive }) =>
-                    `${linkClass} ${isActive ? 'md:text-brown-dark font-normal' : 'md:text-grey'}`
-                  }
-                >
-                  {({ isActive }) => (
+      <ul className="flex gap-8 md:gap-6 flex-col p-0 w-fit">
+        {menuItems.map((item, index) => {
+          return (
+            <li key={index} className="w-full font-normal text-[20px] md:text-[16px]">
+              <NavLink
+                to={item.href}
+                end={!item.basePath} 
+                className={({ isActive }) => {
+                  const isMatch = item.basePath ? pathname.includes(item.basePath) : isActive;
+                  return `${linkClass} ${isMatch ? 'md:text-brown-dark font-normal' : 'md:text-grey'}`;
+                }}
+              >
+                {({ isActive }) => {
+                  const isMatch = item.basePath ? pathname.includes(item.basePath) : isActive;
+                  return (
                     <>
                       <item.icon.type
                         {...item.icon.props}
-                        fill={isActive ? 'var(--brown-dark)' : 'var(--grey)'}
-                        stroke={isActive ? 'var(--brown-dark)' : 'var(--grey)'}
+                        fill={isMatch ? 'var(--brown-dark)' : 'var(--grey)'}
+                        stroke={isMatch ? 'var(--brown-dark)' : 'var(--grey)'}
                       />
                       {item.text}
                     </>
-                  )}
-                </NavLink>
-              </li>
-            );
-          })}
-        </ul>
-
-        
-      </nav>
+                  );
+                }}
+              </NavLink>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
      <button
-        className="mt-auto self-start pl-6 mb-4 text-[16px] text-[#5B242A] md:pl-0"
+        className="mt-auto self-start pl-6 mb-4 text-[16px] text-[#5B242A] md:pl-0 cursor-pointer"
         onClick={handleLogout}
-        // className="btn mt-auto md:mt-0 pl-6 mb-4 text-[16px] text-[#5B242A] md:pl-0 md:pb-16"
       >
         Вийти
       </button>

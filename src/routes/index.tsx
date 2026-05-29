@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 
 import { AppRoute } from '@/enums';
 import { Layout } from '@/layouts';
@@ -34,6 +34,13 @@ import { DashboardPage } from '@/pages/adminPages/DashboardPage';
 import { ProductsPage } from '@/pages/adminPages/ProductsPage';
 import { OrdersPage } from '@/pages/adminPages/OrdersPage';
 import { UsersPage } from '@/pages/adminPages/UsersPage';
+import { OrderInfo } from '@/pages/adminPages/OrderInfo';
+import { AddNewProduct } from '@/admin-panel/features/products/AddNewProduct';
+import { UserInfoPage } from '@/pages/adminPages/UserInfoPage';
+import { UserReviewsPublished } from '@/features/dashboard/UserRiviewsPublished';
+import { UserReviewsPending } from '@/features/dashboard/UserReviewsPending';
+import { DraftsPage } from '@/pages/adminPages/DraftsPage';
+import { EditProductPage } from '@/admin-panel/features/products/EditProductPage';
 
 export const routes = createBrowserRouter([
   {
@@ -54,20 +61,40 @@ export const routes = createBrowserRouter([
         children : [
           {
             index : true,
-            path : "dashboard",
+            path : AppRoute.ADMIN_DASHBOARD,
             element : <DashboardPage/>
           },
           {
-            path : "products",
+            path : AppRoute.ADMIN_PRODUCTS,
             element : <ProductsPage/>
           },
           {
-            path : "orders",
-            element : <OrdersPage/>
+            path : AppRoute.ADMIN_DRAFTS,
+            element : <DraftsPage/>
           },
           {
-            path : "users",
+            path : AppRoute.ADMIN_PRODUCTS_EDIT,
+            element : <EditProductPage/>
+          },
+          {
+            path : AppRoute.ADMIN_ADD_NEW_PRODUCT,
+            element : <AddNewProduct disabled={false}/>
+          },
+          {
+            path : AppRoute.ADMIN_ORDERS,
+            element : <OrdersPage/>,
+          },
+          {
+            path : AppRoute.ADMIN_ORDERS_ORDER_INFO,
+            element : <OrderInfo />
+          },
+          {
+            path : AppRoute.ADMIN_USERS,
             element : <UsersPage/>
+          },
+          {
+            path : AppRoute.ADMIN_USERINFO_PAGE,
+            element : <UserInfoPage/>
           }
         ]
       },
@@ -114,6 +141,20 @@ export const routes = createBrowserRouter([
           {
             path: AppRoute.USER_REVIEWS,
             element: <UserReviews />,
+            children : [
+              {
+                index : true,
+                element : <Navigate to={AppRoute.USER_REVIEWS_PUBLISHED} replace />
+              },
+              {
+                path : AppRoute.USER_REVIEWS_PUBLISHED,
+                element : <UserReviewsPublished/>,
+              },
+               {
+                path : AppRoute.USER_REVIEWS_PENDING,
+                element : <UserReviewsPending/>
+              },
+            ]
           },
           {
             path: AppRoute.USER_SCALES,
