@@ -74,10 +74,9 @@ export const AddNewProduct = ({disabled} : AddNewProductProps) => {
     };
 
     return (
-        <div className="pl-5 pt-[62px] grid grid-cols-[1fr_1fr] gap-x-[100px] gap-y-12">
+        <div className="pl-5 grid grid-cols-[1fr_1fr] gap-x-[100px] gap-y-12">
             <div>
-                <span>breads crumble</span>
-                <h3 className="pl-[9px] mt-5">Новий товар</h3>
+                <h3 className="pl-2 mt-5">Новий товар</h3>
                 <p className="mt-12 mb-7 text-[20px]">Основна інформація</p>
                 <div>
                     <div className="flex flex-row pt-2 gap-15 w-full">

@@ -43,14 +43,11 @@ export const UserInfoPage = () => {
     };
 
     return (
-        <div>
-            <ul className="pt-15.5 pl-5">
-                <li>bread crumbles</li>
-            </ul>
+        <div className="mt-[-30px]">
             {userDataIsLoading ? (
                 "Дані завантажуються"
             ) : (
-                <div className="flex flex-col pl-5 pr-15 w-full pt-12">
+                <div className="flex flex-col pl-5 pr-15 w-full pt-17 ">
                     <div className="bg-white rounded">
                         <div className="flex py-2.5 px-6 gap-135">
                             <h3 className="leading-[130%] text-[24px]">Основні дані</h3>

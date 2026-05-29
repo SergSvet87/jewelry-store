@@ -13,7 +13,7 @@ export const AlsoBuy = ({ id }: { id: number }) => {
 
       <div className="flex items-center gap-5 w-full">
         {products.map((product) => {
-          const firstImage = product.images[0];
+          const firstImage = product.images?.[0];
 
           return (
             <Card key={product.id} className="w-[276px] border-none shadow-none">
@@ -21,7 +21,7 @@ export const AlsoBuy = ({ id }: { id: number }) => {
                 <img
                   className="absolute w-full h-full top-0 left-0 object-cover"
                   alt={`${product.name}`}
-                  src={firstImage.url}
+                  src={firstImage?.url || "/placeholder-image.jpg"}
                 />
               </div>
 

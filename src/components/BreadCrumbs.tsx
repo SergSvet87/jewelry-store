@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import { ChevronRight } from "@/assets";
 
@@ -14,9 +14,17 @@ export const BreadCrumbs = ({items}: {items: BreadcrumbItem[]}) => {
         <div key={i} className="flex items-center gap-3">
           {i > 0 && <ChevronRight classname="opacity-40"/>}
           {item.href ? (
-            <Link to={item.href} className="text-greyhover:text-brown-dark transition-colors duration-800">
-              <div className="opacity-70">{item.label}</div>
-            </Link>
+          <NavLink 
+              to={item.href} 
+              end
+              className={({ isActive }) => 
+                `cursor-pointer transition-colors duration-300 hover:text-black ${
+                  isActive ? "text-black" : "text-[#727272] opacity-80"
+                }`
+              }
+            >
+                <div>{item.label}</div>
+            </NavLink>
           ) : (
             <span className="text-brown-dark">{item.label}</span>
           )}

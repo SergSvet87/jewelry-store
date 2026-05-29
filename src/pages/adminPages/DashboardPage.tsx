@@ -120,8 +120,10 @@ export const DashboardPage = () => {
     ];
 
     return (
-        <div className="pt-20 flex flex-col pb-22">
-            <div className="flex flex-row justify-end pr-15 ">
+        // <div className="pt-20 flex flex-col pb-22">
+        <div className="flex flex-col">
+            <div className="flex flex-row justify-between pr-15 pl-5 items-baseline">
+                <h2 className="text-[24px]">Дашборд</h2>
                 <div className="w-1/6">
                     <SelectDropdown
                         options={FILTER_BY_DATA}

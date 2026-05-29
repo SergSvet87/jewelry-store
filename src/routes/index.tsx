@@ -61,8 +61,11 @@ export const routes = createBrowserRouter([
         children : [
           {
             index : true,
-            path : AppRoute.ADMIN_DASHBOARD,
             element : <DashboardPage/>
+          },
+          {
+            path: AppRoute.ADMIN_DASHBOARD,
+            element: <DashboardPage/>
           },
           {
             path : AppRoute.ADMIN_PRODUCTS,

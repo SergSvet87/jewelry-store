@@ -73,7 +73,7 @@ export const ProductsPage = () => {
 }, [searchQuery, category, collection]);
 
     return (
-    <div className="mt-25 pl-5 pr-15">
+    <div className="pl-5 pr-15">
         <div className="flex justify-between ">
             <div className="flex gap-2">
                 <NavLink 

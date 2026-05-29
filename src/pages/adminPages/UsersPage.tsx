@@ -57,7 +57,7 @@ export const UsersPage = () => {
     }, [debouncedValue]);
 
     return (
-        <div className="mt-20 pl-[30px] pr-15">
+        <div className="pl-[30px] pr-15">
             <h3 className="text-[24px]">Користувачі</h3>
             <div className="relative flex-3 my-12">
                 <div className="absolute top-1/2 -translate-y-1/2 left-3">

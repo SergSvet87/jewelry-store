@@ -89,11 +89,8 @@ export const OrderInfo = () => {
 return (
     <div 
         onClick={(e) => handleRowClick(e)}
-        className="pt-15 pb-9 pl-5 pr-15"
+        className="pt-5 pb-9 pl-5 pr-15"
     >
-        <ol>
-            <li>bread crumbs</li>
-        </ol>
         <h2 className='text-[24px] font-medium pt-5 pb-12'>Замовлення {order.orderNumber}</h2> 
         <div className='flex justify-between'>
             <div className='bg-white w-50 h-11 flex items-center pl-[10.5px] gap-[14.5px]'>

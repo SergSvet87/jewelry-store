@@ -60,7 +60,7 @@ export const OrdersPage = () => {
         }, [period, currentPage]);
 
     return (
-        <div className="flex flex-col mt-20 pl-5 pr-15">
+        <div className="flex flex-col pl-5 pr-15">
             <div className="flex items-center justify-between pb-10">
                 <h2 className="text-[24px]">Історія замовлень</h2>
                 <div className="w-1/5">
